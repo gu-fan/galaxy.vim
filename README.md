@@ -18,10 +18,11 @@ then put this line in your .vimrc:
 
     colorscheme galaxy
 
-the first scheme in galaxy by default.
+the first scheme in galaxy will be autoloaded by default.
 
-you can choose your own theme.
-    <leader>glx :open galaxy window to choose a theme.
+Also you can choose your own theme.
+
+    <leader>glx  open galaxy window to choose a theme.
 
 
 ##Examples:##
