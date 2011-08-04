@@ -8,18 +8,20 @@ if version > 580
     endif
 endif
 
+"" TODO: pcterm/xterm/cygwin... support
 if !has("gui_running")
     " if &term == "xterm"
         let s:galaxy_t_co=256
         set t_Co=256
     " endif
 endif
+" XXX: there is no g:ColorV while colorscheme this
 " if !exists("g:ColorV")
 "     echoe "Galaxy depends on ColorV.vim. Please install it first"
 "     finish
 " endif
 
-" VARIABLE INIT "{{{1
+" VARIABLE PREDEF "{{{1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:galaxy_cache_File = expand('$HOME') . '/.vim_galaxy_cache'
 if has("win32") || has("win64")
@@ -30,17 +32,8 @@ endif
 let g:galaxy={}
 let g:galaxy.name="[GALAXY]"
 let g:galaxy.win_pos="bot"
-" dif_v=bg_v+v_step
-" syn_v=fg_v
-" ech_v=fg_v+v_step
-" name            bg       fg       dif      syn      ech
-" DONE: 110804  change the sequence of  the colors
-"               fg syn ech bg dif
-" galaxy
 " TODO: 2! color => 5 color
-" DONE: 110804  color name with dict
 " bg / fg
-" 
 let s:default_list=[
             \{"name":"Paper_And_Pen",
             \"colors":["3B3C40","3D5566","7F1C1C","CACCC2","CC9085"],
@@ -58,7 +51,7 @@ let s:default_list=[
             \{"name":"Butterscream",
             \"colors":["3D4E66","547799","992222","FFFFD9","D9C8B8"]},
             \{"name":"Village",
-            \"colors":["402020","2E4873","234006","A1E58A","F2D530"],
+            \"colors":["402020","2E4873","78CC29","A1E58A","F2D530"],
             \"theme":"coloring"},
             \{"name":"SkyBlue",
             \"colors":["333317","7F4654","990808","B6F2F2","E58ADE"],
@@ -101,51 +94,12 @@ let s:scheme_theme_list=
         \["ErrorMsg",       "echclr0",  "bgdclr4",  "br"    ],
         \["Error",          "echclr0",  "bgdclr4",  "br"    ],
         \["Todo",           "echclr2",  "nocolor",  "br"    ],
-        \["Title",          "difclr1",  "nocolor",  "b"     ],
+        \["Title",          "echclr2",  "nocolor",  "b"     ],
         \]  
     \}
 \] 
  
-"}}}
-
-" DONE: 110803  " Quick switch style key mapping.
-" TEXT FORMTATOR "{{{1
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let s:gui             = "gui"
-let s:term            = "term"
-let s:cterm           = "cterm"
-let s:nocolor         = "NONE"
-let s:nulldef         = ""
-let s:n               = "NONE"
-let s:c               = ",undercurl"
-let s:r               = ",reverse"
-let s:s               = ",standout"
-let s:b               = ",bold"
-let s:u               = ",underline"
-let s:i               = ",italic"
-"}}}
-" UI HIGHLIGHTING "{{{1
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"input [["Normal","fg","bg","fmt"],...]
-"" TODO: pcterm/xterm/cygwin... support
-if has("gui_running")
-    let s:mode=s:gui
-else
-    let s:mode=s:cterm
-endif
-" DONE: 110803  " one function with link and highlight
-" function! s:link_list(list) "{{{
-"     let list=a:list
-"     for [hl_from,hl_to] in list
-"     	exec "hi! link ".hl_from." ".hl_to
-"     endfor
-" endfunction "}}}
-
 "{{{ clr_list
-" TODO:
-" hl Themes
-" shadow and light
-" colored grid
 
 let s:clr_list=[
             \["Normal",         "fgdclr0",  "bgdclr0",  "n"     ],
@@ -239,12 +193,28 @@ let s:lnk_list=[
             \["SpellLocal",     "WarningMsg"    ],
             \["SpellRare",      "WarningMsg"    ],
             \] "}}}
-" call s:high_list(s:clr_list)
-" call s:link_list(s:lnk_list)
-" theme light statusline
-" 
 "}}}
-" VARIOUS SYNTAX "{{{1
+" FORMTATOR PREDEF "{{{1
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let s:gui             = "gui"
+let s:term            = "term"
+let s:cterm           = "cterm"
+let s:nocolor         = "NONE"
+let s:nulldef         = ""
+let s:n               = "NONE"
+let s:c               = ",undercurl"
+let s:r               = ",reverse"
+let s:s               = ",standout"
+let s:b               = ",bold"
+let s:u               = ",underline"
+let s:i               = ",italic"
+if has("gui_running")
+    let s:mode=s:gui
+else
+    let s:mode=s:cterm
+endif
+"}}}
+" SYNTAX PREDEF"{{{1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let s:synlink_dict={}
 "{{{SYNTAX
@@ -404,16 +374,9 @@ let s:synlink_dict.xml=[
 "}}}
 "}}}
 
-" settings
+"LOADING "{{{
 "======================================================================
-
-
-" COLOR GENERATOR "{{{1
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"INCLUDE COLORV.vim
-" DONE: 110728  cterm support with colormath python 
 " TODO: blue color brighteness compensate +
-"}}}
 function! s:generate_colors() "{{{
 
 let s:fgdclr_list=ColorV#gen_list(s:scheme_dict.colors[0],"Value",9,(-s:v_step*8))
@@ -469,10 +432,7 @@ function! s:high_list(list) "{{{
     for item in list
         if len(item) == 4 
             let [hl_grp,hl_fg,hl_bg,hl_fm]=item
-        " for [hl_grp,hl_fg,hl_bg,hl_fm] in list
 
-            "let fm_txt  = hl_fm=~'n' ? "NONE" : ""
-            
             if empty(hl_fm)
                 let fm_txt=""
             else
@@ -485,11 +445,8 @@ function! s:high_list(list) "{{{
             let fm_txt .= hl_fm=~'i' ? ",italic"      : ""
             let fm_txt .= hl_fm=~'s' ? ",standout"    : ""
 
-            " let fg_txt = exists("s:{hl_fg}") ? s:{hl_fg} : s:fgdclr0
             let fg_txt = hl_fg =~ '\x\{6}' || empty(hl_fg) ? hl_fg :
                         \ exists("s:{hl_fg}") ? s:{hl_fg} : s:fgdclr0
-            " echom hl_fg fg_txt
-            " let bg_txt = exists("s:{hl_bg}") ? s:{hl_bg} : s:bgdclr0
             let bg_txt = hl_bg =~ '\x\{6}' || empty(hl_bg) ? hl_bg :
                         \ exists("s:{hl_bg}") ? s:{hl_bg} : s:bgdclr0
 
@@ -498,10 +455,8 @@ function! s:high_list(list) "{{{
                 let fg_txt = fg_txt =~ '^\x\{6}$' ? "#".fg_txt : fg_txt
                 let bg_txt = bg_txt =~ '^\x\{6}$' ? "#".bg_txt : bg_txt
             else
-                " DONE: 110728   calculate fg/bg_txt for terminal
                 let fg_txt= fg_txt =~ '\x\{6}$' ? ColorV#hex2term(fg_txt) : fg_txt
                 let bg_txt= bg_txt =~ '\x\{6}$' ? ColorV#hex2term(bg_txt) : bg_txt
-        " echom hl_fg fg_txt
             endif
 
             let fg_txt = empty(fg_txt) ? "" : s:mode."fg=".fg_txt." "
@@ -509,25 +464,18 @@ function! s:high_list(list) "{{{
             let fm_txt = empty(fm_txt) ? "" : s:mode."=".fm_txt
             if !empty(fg_txt) || !empty(bg_txt) || !empty(fm_txt)
                 exec "hi! ".hl_grp." ".fg_txt.bg_txt.fm_txt
-                " echom hl_grp fg_txt fm_txt
             endif
 
-        " endfor
         elseif len(item) == 2 
             let [hl_from,hl_to]=item
             exec "hi! link ".hl_from." ".hl_to
         endif
     endfor
 endfunction "}}} 
-
-" STATUSLINE BLINK "{{{1
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"}}}
 " TODO: color changing with time
 " TODO: random color scheme generator
 function! s:statusline_aug() "{{{
 if version >= 700 "{{{
-        " DONE: 110804  let the insert mode with themes
     if s:theme_name=="coloring"
         let s:list_insert_enter=[
             \["Cursor",         "difclr0",  "bgdclr0",  "r"     ],
@@ -557,20 +505,6 @@ if version >= 700 "{{{
             \["User9",          "echclr8",  "synclr0",  "b"     ],
             \]
     endif
-        " let s:list_insert_leave=[
-        "     \["Cursor",         "fgdclr0",  "bgdclr0",  "r"     ],
-        "     \["StatusLine",     "fgdclr0",  "bgdclr3",  "b"     ],
-        "     \["User1",          "echclr0",  "bgdclr3",  "b"     ],
-        "     \["User2",          "echclr1",  "bgdclr3",  "b"     ],
-        "     \["User3",          "echclr2",  "bgdclr3",  "b"     ],
-        "     \["User4",          "echclr3",  "bgdclr3",  "b"     ],
-        "     \["User5",          "echclr4",  "bgdclr3",  "b"     ],
-        "     \["User6",          "echclr5",  "bgdclr3",  "b"     ],
-        "     \["User7",          "echclr6",  "bgdclr3",  "b"     ],
-        "     \["User8",          "echclr7",  "bgdclr3",  "b"     ],
-        "     \["User9",          "echclr8",  "bgdclr3",  "b"     ],
-        "     \]
-        " DONE: 110804  let s:list_insert_leave auto copy the current scheme
         let s:list_insert_leave =[]
         let hl_grp = ["Cursor","StatusLine","User1","User2","User3",
                     \"User4","User5","User6","User7","User8","User9",]
@@ -586,8 +520,6 @@ if version >= 700 "{{{
         au!
         au InsertEnter * call s:high_list(s:list_insert_enter)
         au InsertLeave * call s:high_list(s:list_insert_leave)
-        " au InsertEnter <buffer> call s:hl_list(s:list_insert_enter)
-        " au InsertLeave <buffer> call s:hl_list(s:list_insert_leave)
     aug END
     " TODO: terminal cursor color changing
     "terminal cursor is another thing
@@ -601,35 +533,23 @@ if version >= 700 "{{{
     " endif
 endif "}}}
 endfunction "}}}
-
-" DONE: 110731  statusline color define in one place
-" guifg=NONE and 'null' define of guifg(that will suceed previous value )
 " TODO: change theme with specified name
 function! s:set_miscs() "{{{
-" set background after highlight Normal group
 
     if s:v<=50
-    	"FIXED: 110803  reload error E127
-    "seems set background will reload the colorscheme.
-    	" unlet it or colorscheme will be reloaded.
     	if exists("g:colors_name")
             unlet g:colors_name 
         endif
         set background=dark
-        " echoe "dark"
         let s:v_step=1
     else
     	if exists("g:colors_name")
             unlet g:colors_name 
         endif
         set background=light
-        " echoe "light"
         let s:v_step=-1
     endif
-" echo "theme of galaxy:".g:galaxy_name
-    " set background
 endfunction "}}}
-" DONE: 110804  theme could use schemes 
 function! s:get_theme_hl_list(theme) "{{{
     let s:hl_scheme=deepcopy(s:clr_list)
     for scheme in s:scheme_theme_list
@@ -638,15 +558,10 @@ function! s:get_theme_hl_list(theme) "{{{
         endif
     endfor
 endfunction "}}}
-   
-" DONE: 110731  switch with usr list
 " TODO: set with presistence file
 function! s:set_scheme_list() "{{{
-    "FIXED: 110803  next theme loading error repeating in the global list
-    " hardcopy it 
     let s:scheme_list=deepcopy(s:default_list)
 
-" DONE: 110804  add the g:galaxy_usr_dict and execute it
 " " TODO: deprecate using g:. using serialzd file instead.
     if exists("g:galaxy_scheme_list") && !empty(g:galaxy_scheme_list)
 
@@ -655,19 +570,11 @@ function! s:set_scheme_list() "{{{
                         \ && exists("g:galaxy_scheme_list[".i."].colors")
                         \ && len(g:galaxy_scheme_list[i].colors)==5
                 
-            " if !empty(g:galaxy_scheme_list[i].name)
-            "             \ && len(g:galaxy_scheme_list[i].colors)==5
                 call add(s:scheme_list, g:galaxy_scheme_list[i])
             else
                 continue
             endif
         endfor
-" DONE: 110803  presisitence of the s:num which will load it last time
-" let s:num = exists("g:GALAXY_THEME_NUM") ? g:GALAXY_THEME_NUM : 0
-" it's not defined when colorscheme loaded!
-" use cache instead?
-        " DONE: 110803  store it in cache or it would not load when starting
-        " Don't let it be mixed with g:
     elseif exists("s:cached_theme_list") &&  !empty(s:cached_theme_list)
 
         for i in range(len(s:cached_theme_list))
@@ -696,15 +603,15 @@ function! s:set_scheme_list() "{{{
             endfor
         endif
     endif
-    " DONE: 110731  switch with keymapping
     " TODO: internet color/scheme server 
     " upload/download
     " random
     " rating/comment
     " Kuler access?
 endfunction "}}}
-
-" DONE: 110804  load cache and g: highlights and themes
+"}}}
+"MAIN "{{{
+"======================================================================
 " TODO: load by name here
 function! galaxy#load_scheme(num,...) "{{{
     let s:num=a:num
@@ -712,12 +619,8 @@ function! galaxy#load_scheme(num,...) "{{{
     if s:num >= len(s:scheme_list)
         let s:num=0
     endif
-    " let g:GALAXY_THEME_NUM=s:num
     let s:scheme_dict=s:scheme_list[s:num]
     let [s:h,s:s,s:v]=ColorV#hex2hsv(s:scheme_dict.colors[4])
-    " echoe h s v
-        " set background
-    " let colors_name = "galaxy".s:scheme_dict.name
     let g:colors_name = "galaxy"
     let g:galaxy_name = s:scheme_dict.name
     call s:set_miscs()
@@ -746,15 +649,13 @@ function! galaxy#load_scheme(num,...) "{{{
 
     call s:statusline_aug()
 
-    if !exists("a:1") || a:1!="NOWRITE"
+    if !exists("a:1") || a:1!="START"
         call galaxy#write_cache()
         redraw
-        " WORKAROUND: will show mes box when vim start.
         if !empty(s:theme_name)
-            echom "galaxy scheme:\"".g:galaxy_name."\" loaded with theme:"
-                        \.s:theme_name."."
+            echom "Galaxy Scheme:\"".g:galaxy_name."\" loaded. With theme:" .s:theme_name."."
         else
-            echom "galaxy scheme:\"".g:galaxy_name."\" loaded."
+            echom "Galaxy Scheme:\"".g:galaxy_name."\" loaded."
         endif
     endif
 endfunction "}}}
@@ -765,9 +666,6 @@ function! galaxy#next_scheme(...) "{{{
         let s:num+=1
     endif
 
-    " for x in range(len(s:scheme_list))
-
-    " endfor
     if s:num >= len(s:scheme_list)
     	let s:num=0
     elseif s:num < 0
@@ -778,30 +676,11 @@ function! galaxy#next_scheme(...) "{{{
     call galaxy#load_scheme(num)
     " colorscheme galaxy
 endfunction "}}}
-" DONE: 110804  presistence file load
-" TODO: the file sequence maybe different
-nmap <leader>gll :call <SID>load_stored()<cr>
-function! s:load_stored() "{{{
-    let folder =  expand(g:galaxy_store_Folder)
-    let s:file_list=split(globpath(folder, '*.galaxy'), '\n')
-    " echoe folder isdirectory(folder) string(s:file_list)
-    let s:stored_theme_list= []
-    if isdirectory(folder)
-        for file in s:file_list
-            " echoe file
-            " call galaxy#load_cache(file)
-            " let tmp =
-            let s:stored_theme_list +=  galaxy#load_cache(file)
-            " call add(s:stored_theme_list,s:cached_theme_list)
-            " echoe string(s:cached_theme_list)
-        endfor
-    endif
-    " echoe string(s:stored_theme_list)
-endfunction "}}}
-
-" TODO: show scheme list
-nmap <leader>glw :call <SID>scheme_window()<cr>
-function! s:scheme_window()
+"}}}
+" WINDOW "{{{
+"======================================================================
+" DONE: 110805  show scheme list
+function! s:scheme_window() "{{{
     " window check "{{{
     if bufexists(g:galaxy.name) 
     	let nr=bufnr('\[GALAXY\]')
@@ -887,17 +766,15 @@ function! s:scheme_window()
     map <silent><buffer> <2-leftmouse> :call <SID>win_load_scheme()<cr>
     "}}}
     let StringList = []
-    " echoe string(s:scheme_list)
     let m = "NAME"
     let m = s:line_sub(m,"FORE",20)
-    let m = s:line_sub(m,"SYNTAX",27)
+    let m = s:line_sub(m,"SYN",27)
     let m = s:line_sub(m,"MSG",34)
     let m = s:line_sub(m,"BACK",41)
     let m = s:line_sub(m,"DIFF",48)
     let m = s:line_sub(m,"THEME",60)
     call add(StringList,m)
     for scheme in s:scheme_list
-        " echoe string(scheme.colors)
         let colors=""
         for color in scheme.colors
             let colors .= color." "
@@ -909,7 +786,6 @@ function! s:scheme_window()
         let m = s:line_sub(m,theme,60)
         call add(StringList,m)
     endfor
-    " echoe StringList
     let l:win_h = len(StringList)
     if winnr('$') != 1
         execute 'resize' l:win_h
@@ -922,28 +798,10 @@ function! s:scheme_window()
     endif
     call ColorV#preview("noname")
     setl noma
-endfunction
+endfunction "}}}
 function! s:on_cursor_moved()  "{{{
     execute 'match' (line('.') > 1 ? "ErrorMsg".' /\%'.line('.').'l\%<17c/' : 
                 \ 'Title /\%'.line('.').'l/' )
-endfunction "}}}
-function! s:line(text,pos) "{{{
-    let suf_len= s:line_width-a:pos-len(a:text)+1
-    let suf_len= suf_len <= 0 ? 1 : suf_len
-    return repeat(' ',a:pos-1).a:text.repeat(' ',suf_len)
-endfunction "}}}
-function! s:line_sub(line,text,pos) "{{{
-    let [line,text,pos]=[a:line,a:text,a:pos]
-    if len(line) < len(text)+pos
-    	let line = line.repeat(' ',len(text)+pos-len(line))
-    endif
-    if pos!=1
-        let pat='^\(.\{'.(pos-1).'}\)\%(.\{'.len(text).'}\)'
-        return substitute(line,pat,'\1'.text,'')
-    else
-    	let pat='^\%(.\{'.len(text).'}\)'
-        return substitute(line,pat,text,'')
-    endif
 endfunction "}}}
 function! s:win_load_scheme() "{{{
     let linenum=line('.')
@@ -951,7 +809,7 @@ function! s:win_load_scheme() "{{{
     	echo "Please move down your mouse."
     	return
     else
-        call galaxy#load_scheme(linenum-2,"NOWRITE")
+        call galaxy#load_scheme(linenum-2)
     endif
 
 endfunction "}}}
@@ -975,6 +833,9 @@ function! galaxy#exit_win() "{{{
     endif
     redraw
 endfunction "}}}
+"}}}
+"HELPER "{{{
+"======================================================================
 function! s:echo(msg) "{{{
     if g:ColorV_silent_set==0
         exe "echom \"[Note] ".escape(a:msg,'"')."\""
@@ -982,75 +843,31 @@ function! s:echo(msg) "{{{
     	echom ""
     endif
 endfunction "}}}
-function! galaxy#load_cache(...) "{{{
-    if exists("a:1") && !empty(a:1)
-    	let file = a:1
-    else
-        let s:num = 0
-    	let file = g:galaxy_cache_File
+function! s:line(text,pos) "{{{
+    let suf_len= s:line_width-a:pos-len(a:text)+1
+    let suf_len= suf_len <= 0 ? 1 : suf_len
+    return repeat(' ',a:pos-1).a:text.repeat(' ',suf_len)
+endfunction "}}}
+function! s:line_sub(line,text,pos) "{{{
+    let [line,text,pos]=[a:line,a:text,a:pos]
+    if len(line) < len(text)+pos
+    	let line = line.repeat(' ',len(text)+pos-len(line))
     endif
-    if filereadable(file)
-        let CacheStringsList = readfile(file)
-        " if !exists("s:cached_theme_list") 
-            let l:cached_theme_list=[]
-        " endif
-        " let l:color_exists=0
-        for i in CacheStringsList
-            if i =~ 'CACHE_NUM' 
-            	let num = matchstr(i,'CACHE_NUM\s*\zs.*\ze\s*')
-                let s:num = num
-            endif
-
-            "the color cache
-            if !exists("l:tmp_dict") 
-                let l:tmp_dict={}
-            endif
-            if i =~ 'GALAXY_NAME'
-                let l:tmp_dict.name = 
-                            \matchstr(i,'GALAXY_NAME\s*\zs.*\ze\s*')
-            endif
-            if i =~ 'GALAXY_COLORS'
-            	let colors=matchstr(i,'GALAXY_COLORS\s*\zs.*\ze\s*')
-                let l:tmp_dict.colors = split(colors,'\s')
-                if len(l:tmp_dict.colors)==5
-                " echoe "colors:" len(l:tmp_dict.colors)
-                    let l:color_exists=1
-                else
-                    let l:color_exists=0
-                endif
-                " echom c string(s:cached_theme_list[c].colors)
-            endif
-            if i =~ 'GALAXY_THEME'
-                let l:tmp_dict.theme = 
-                            \matchstr(i,'GALAXY_THEME\s*\zs.*\ze\s*')
-                            
-                " echom c string(s:cached_theme_list[c].colors)
-            endif
-            if i =~ 'GALAXY_HIGH' 
-            	let highlights = matchstr(i,'GALAXY_HIGH\s*\zs.*\ze\s*')
-            	let l:tmp_dict.highlights = []
-            	call add(l:tmp_dict.highlights,split(highlights,'\s'))
-            endif
-            " TODO: it's loop in each line. need a stop for a galaxy structure
-            if i =~ 'GALAXY_END' 
-            	if exists("l:color_exists") && l:color_exists==1
-            	    " echoe "!!!! tmp:" string(l:tmp_dict)
-                    call add(l:cached_theme_list,deepcopy(l:tmp_dict))
-                endif
-            " echoe string(l:tmp_dict)
-            " else
-            	unlet l:tmp_dict
-            endif
-        endfor
-        return l:cached_theme_list
+    if pos!=1
+        let pat='^\(.\{'.(pos-1).'}\)\%(.\{'.len(text).'}\)'
+        return substitute(line,pat,'\1'.text,'')
     else
-    	return 0
+    	let pat='^\%(.\{'.len(text).'}\)'
+        return substitute(line,pat,text,'')
     endif
 endfunction "}}}
-" 
+"}}}
+"STORE "{{{
+"======================================================================
 " TODO: presistence files write with command
+" TODO: the file sequence maybe different
 " and should remove the cache
-function! s:write_store()
+function! s:write_store() "{{{
     
     let CacheStringsList = []
     if !isdirectory(expand(g:galaxy_store_Folder))
@@ -1100,42 +917,100 @@ function! s:write_store()
             endif
         endfor
     endif
-endfunction
-function! galaxy#write_cache(...) "{{{
-
-    let CacheStringsList = []
-    if exists("a:1") && a:1 =="galaxy"
-        if !isdirectory(expand(g:galaxy_store_Folder))
-            call mkdir(expand(g:galaxy_store_Folder))
-        endif
-    	" if exists("g:galaxy_scheme_list") && !empty(g:galaxy_scheme_list)
-            " let file = g:galaxy_store_Folder . g:galaxy_scheme_list[0].name
-        " endif
-        " TODO: each name with one file
-    else
-        call add(CacheStringsList,"CACHE_NUM\t".s:num)
-        call add(CacheStringsList,"CACHE_NAME\t".s:scheme_dict.name)
-        call add(CacheStringsList,"")
-    endif
-    " add g:galaxy_scheme_list to cache
-    if !exists("a:1") || a:1 !="galaxy"
-        let file = g:galaxy_cache_File
-        call writefile(CacheStringsList, file)
+endfunction "}}}
+function! s:load_store() "{{{
+    let folder =  expand(g:galaxy_store_Folder)
+    let s:file_list=split(globpath(folder, '*.galaxy'), '\n')
+    " echoe folder isdirectory(folder) string(s:file_list)
+    let s:stored_theme_list= []
+    if isdirectory(folder)
+        for file in s:file_list
+            let s:stored_theme_list +=  galaxy#load_cache(file)
+        endfor
     endif
 endfunction "}}}
 
+function! galaxy#write_cache(...) "{{{
+    let CacheStringsList = []
+    let file = g:galaxy_cache_File
+    call add(CacheStringsList,"CACHE_NAME\t".s:scheme_dict.name)
+    call add(CacheStringsList,"CACHE_NUM\t".s:num)
+    call add(CacheStringsList,"")
+    call writefile(CacheStringsList, file)
+endfunction "}}}
+function! galaxy#load_cache(...) "{{{
+    if exists("a:1") && !empty(a:1)
+    	let file = a:1
+    else
+        let s:num = 0
+    	let file = g:galaxy_cache_File
+    endif
+    if filereadable(file)
+        let CacheStringsList = readfile(file)
+        " if !exists("s:cached_theme_list") 
+            let l:cached_theme_list=[]
+        " endif
+        " let l:color_exists=0
+        for i in CacheStringsList
+            if i =~ 'CACHE_NUM' 
+            	let num = matchstr(i,'CACHE_NUM\s*\zs.*\ze\s*')
+                let s:num = num
+            endif
+
+            "the color cache
+            if !exists("l:tmp_dict") 
+                let l:tmp_dict={}
+            endif
+            if i =~ 'GALAXY_NAME'
+                let l:tmp_dict.name = 
+                            \matchstr(i,'GALAXY_NAME\s*\zs.*\ze\s*')
+            endif
+            if i =~ 'GALAXY_COLORS'
+            	let colors=matchstr(i,'GALAXY_COLORS\s*\zs.*\ze\s*')
+                let l:tmp_dict.colors = split(colors,'\s')
+                if len(l:tmp_dict.colors)==5
+                    let l:color_exists=1
+                else
+                    let l:color_exists=0
+                endif
+            endif
+            if i =~ 'GALAXY_THEME'
+                let l:tmp_dict.theme = 
+                            \matchstr(i,'GALAXY_THEME\s*\zs.*\ze\s*')
+                            
+            endif
+            if i =~ 'GALAXY_HIGH' 
+            	let highlights = matchstr(i,'GALAXY_HIGH\s*\zs.*\ze\s*')
+            	let l:tmp_dict.highlights = []
+            	call add(l:tmp_dict.highlights,split(highlights,'\s'))
+            endif
+            if i =~ 'GALAXY_END' 
+            	if exists("l:color_exists") && l:color_exists==1
+                    call add(l:cached_theme_list,deepcopy(l:tmp_dict))
+                endif
+            	unlet l:tmp_dict
+            endif
+        endfor
+        return l:cached_theme_list
+    else
+    	return 0
+    endif
+endfunction "}}}
+"}}}
 
 
 let s:cached_theme_list=galaxy#load_cache()
-call galaxy#load_scheme(s:num,"NOWRITE")
+call galaxy#load_scheme(s:num,"START")
 nmap <leader>gln :call galaxy#next_scheme()<cr>
 nmap <leader>glp :call galaxy#next_scheme("-")<cr>
-nmap <leader>glx :call galaxy#write_cache("galaxy")<cr>
+nmap <leader>glx :call galaxy#write_cache()<cr>
+nmap <leader>gls :call <SID>write_store()<cr>
+nmap <leader>glw :call <SID>scheme_window()<cr>
+nmap <leader>gll :call <SID>load_store()<cr>
 "
 aug galaxy_vim_leave "{{{
     au!
     au VIMLEAVEPre * call galaxy#write_cache()
-    " au VIMLEAVEPre * echoe "eee"
 
 aug END "}}}
 
