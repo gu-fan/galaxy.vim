@@ -15,6 +15,7 @@ Galaxy, is a color generator.
 put galaxy.vim in your colors folder (.vim/colors)
 
 then put this line in your .vimrc:
+
     colorscheme galaxy
 
 the first scheme in galaxy by default.
