@@ -7,27 +7,32 @@
                                                __/ |    
                                               |___/     
                                                         
-Galaxy, is a color generator.
+Galaxy, is a vim colorscheme generator.
 
 
 ##Use:##
-put galaxy.vim in your colors folder (.vim/colors)
+Put galaxy.vim in your colors folder (.vim/colors)
 
-then put this line in your .vimrc:
+Then put this line in your .vimrc:
 
     colorscheme galaxy
 
-the first scheme in galaxy will be autoloaded by default.
+The first scheme in galaxy will be autoloaded by default.
 
 Also you can choose your own theme.
 
     <leader>glx  open galaxy window to choose a theme.
 
+##Features##
+    
+    * easily generate colorscheme with 5 colors
+    * terminal support
+    * insert-mode statusline highlight
 
 ##Examples:##
 
 ##Install:##
-    Install ColorV.vim first. of which is depending on.
+    Install ColorV.vim first. of which galaxy.vim is depending on.
 
    * Using Vundle:
 
