@@ -25,9 +25,9 @@ Also you can choose your own theme.
 
 ##Features##
     
-    * easily generate colorscheme with 5 colors
-    * terminal support
-    * insert-mode statusline highlight
+* easily generate colorscheme with 5 colors
+* terminal support
+* insert-mode statusline highlight
 
 ##Examples:##
 
