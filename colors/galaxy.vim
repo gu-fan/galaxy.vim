@@ -1,6 +1,9 @@
 " Description:	Galaxy, A colour scheme generate system
 " Author:	Rykka.Krin <Rykka.krin@gmail.com>
+"=============================================================
 
+"  GALAXY PRECHECKING "{{{
+"=============================================================
 if version > 580
     hi clear
     if exists("syntax_on")
@@ -20,7 +23,27 @@ endif
 "     echoe "Galaxy depends on ColorV.vim. Please install it first"
 "     finish
 " endif
-
+"}}}
+" FORMTATOR PREDEF "{{{1
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let s:gui             = "gui"
+let s:term            = "term"
+let s:cterm           = "cterm"
+let s:nocolor         = "NONE"
+let s:nulldef         = ""
+let s:n               = "NONE"
+let s:c               = ",undercurl"
+let s:r               = ",reverse"
+let s:s               = ",standout"
+let s:b               = ",bold"
+let s:u               = ",underline"
+let s:i               = ",italic"
+if has("gui_running")
+    let s:mode=s:gui
+else
+    let s:mode=s:cterm
+endif
+"}}}
 " VARIABLE PREDEF "{{{1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:galaxy_cache_File = expand('$HOME') . '/.vim_galaxy_cache'
@@ -51,7 +74,7 @@ let s:default_list=[
             \{"name":"Butterscream",
             \"colors":["3D4E66","547799","992222","FFFFD9","D9C8B8"]},
             \{"name":"Village",
-            \"colors":["402020","2E4873","78CC29","A1E58A","F2D530"],
+            \"colors":["402020","2E4873","69B324","A1E58A","F2D530"],
             \"theme":"coloring"},
             \{"name":"SkyBlue",
             \"colors":["333317","7F4654","990808","B6F2F2","E58ADE"],
@@ -193,26 +216,6 @@ let s:lnk_list=[
             \["SpellLocal",     "WarningMsg"    ],
             \["SpellRare",      "WarningMsg"    ],
             \] "}}}
-"}}}
-" FORMTATOR PREDEF "{{{1
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let s:gui             = "gui"
-let s:term            = "term"
-let s:cterm           = "cterm"
-let s:nocolor         = "NONE"
-let s:nulldef         = ""
-let s:n               = "NONE"
-let s:c               = ",undercurl"
-let s:r               = ",reverse"
-let s:s               = ",standout"
-let s:b               = ",bold"
-let s:u               = ",underline"
-let s:i               = ",italic"
-if has("gui_running")
-    let s:mode=s:gui
-else
-    let s:mode=s:cterm
-endif
 "}}}
 " SYNTAX PREDEF"{{{1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -373,7 +376,6 @@ let s:synlink_dict.xml=[
             \] 
 "}}}
 "}}}
-
 "LOADING "{{{
 "======================================================================
 " TODO: blue color brighteness compensate +
@@ -562,119 +564,53 @@ endfunction "}}}
 function! s:set_scheme_list() "{{{
     let s:scheme_list=deepcopy(s:default_list)
 
-" " TODO: deprecate using g:. using serialzd file instead.
-    if exists("g:galaxy_scheme_list") && !empty(g:galaxy_scheme_list)
+" " DONE: 110805  deprecating using g:. using serialzd file instead.
+    " if exists("g:galaxy_scheme_list") && !empty(g:galaxy_scheme_list)
 
-        for i in range(len(g:galaxy_scheme_list))
-            if exists("g:galaxy_scheme_list[".i."].name") 
-                        \ && exists("g:galaxy_scheme_list[".i."].colors")
-                        \ && len(g:galaxy_scheme_list[i].colors)==5
-                
-                call add(s:scheme_list, g:galaxy_scheme_list[i])
-            else
-                continue
-            endif
-        endfor
-    elseif exists("s:cached_theme_list") &&  !empty(s:cached_theme_list)
+    "     for i in range(len(g:galaxy_scheme_list))
+    "         if exists("g:galaxy_scheme_list[".i."].name") 
+    "                     \ && exists("g:galaxy_scheme_list[".i."].colors")
+    "                     \ && len(g:galaxy_scheme_list[i].colors)==5
+    "             
+    "             call add(s:scheme_list, g:galaxy_scheme_list[i])
+    "         else
+    "             continue
+    "         endif
+    "     endfor
+    " elseif exists("s:cached_theme_list") &&  !empty(s:cached_theme_list)
 
-        for i in range(len(s:cached_theme_list))
-            if exists("s:cached_theme_list[".i."].name") 
-                        \ && exists("s:cached_theme_list[".i."].colors")
-                        \ && len(s:cached_theme_list[i].colors)==5
+    "     for i in range(len(s:cached_theme_list))
+    "         if exists("s:cached_theme_list[".i."].name") 
+    "                     \ && exists("s:cached_theme_list[".i."].colors")
+    "                     \ && len(s:cached_theme_list[i].colors)==5
+    "             
+    "             call add(s:scheme_list, s:cached_theme_list[i])
+    "         else
+    "             continue
+    "         endif
+    "     endfor
+    " endif
+    " if exists("g:galaxy_load_store") && g:galaxy_load_store ==1
+    let s:stored_theme_list = s:load_store()
+    if !empty(s:stored_theme_list)
+        let s:scheme_list=deepcopy(s:default_list)
+        for i in range(len(s:stored_theme_list))
+            if exists("s:stored_theme_list[".i."].name") 
+                        \ && exists("s:stored_theme_list[".i."].colors")
+                        \ && len(s:stored_theme_list[i].colors)==5
                 
-                call add(s:scheme_list, s:cached_theme_list[i])
+                call add(s:scheme_list, s:stored_theme_list[i])
             else
                 continue
             endif
         endfor
     endif
-    if exists("g:galaxy_load_store") && g:galaxy_load_store ==1
-    	if exists("s:stored_theme_list") &&  !empty(s:stored_theme_list)
-    	    let s:scheme_list=deepcopy(s:default_list)
-            for i in range(len(s:stored_theme_list))
-                if exists("s:stored_theme_list[".i."].name") 
-                            \ && exists("s:stored_theme_list[".i."].colors")
-                            \ && len(s:stored_theme_list[i].colors)==5
-                    
-                    call add(s:scheme_list, s:stored_theme_list[i])
-                else
-                    continue
-                endif
-            endfor
-        endif
-    endif
+    " endif
     " TODO: internet color/scheme server 
     " upload/download
     " random
     " rating/comment
     " Kuler access?
-endfunction "}}}
-"}}}
-"MAIN "{{{
-"======================================================================
-" TODO: load by name here
-function! galaxy#load_scheme(num,...) "{{{
-    let s:num=a:num
-    call s:set_scheme_list()
-    if s:num >= len(s:scheme_list)
-        let s:num=0
-    endif
-    let s:scheme_dict=s:scheme_list[s:num]
-    let [s:h,s:s,s:v]=ColorV#hex2hsv(s:scheme_dict.colors[4])
-    let g:colors_name = "galaxy"
-    let g:galaxy_name = s:scheme_dict.name
-    call s:set_miscs()
-    call s:generate_colors()
-
-    if exists("s:scheme_dict.theme") && !empty(s:scheme_dict.theme)
-        let s:theme_name=s:scheme_dict.theme
-    else
-    	let s:theme_name=""
-    endif
-
-    
-    " predefined highlights + scheme theme highlights
-    call s:get_theme_hl_list(s:theme_name)
-    call s:high_list(s:hl_scheme)
-    " predefined highlights
-    call s:high_list(s:lnk_list)
-    " predefined syntax highlights
-    for list in values(s:synlink_dict)
-        call s:high_list(list)
-    endfor
-    " the scheme defined highlights
-    if exists("s:scheme_dict.highlights")
-        call s:high_list(s:scheme_dict.highlights)
-    endif
-
-    call s:statusline_aug()
-
-    if !exists("a:1") || a:1!="START"
-        call galaxy#write_cache()
-        redraw
-        if !empty(s:theme_name)
-            echom "Galaxy Scheme:\"".g:galaxy_name."\" loaded. With theme:" .s:theme_name."."
-        else
-            echom "Galaxy Scheme:\"".g:galaxy_name."\" loaded."
-        endif
-    endif
-endfunction "}}}
-function! galaxy#next_scheme(...) "{{{
-    if exists("a:1") && a:1 == "-"
-    	let s:num-=1
-    else
-        let s:num+=1
-    endif
-
-    if s:num >= len(s:scheme_list)
-    	let s:num=0
-    elseif s:num < 0
-    	let s:num  = len(s:scheme_list)-1
-    endif
-    let num=s:num
-    " let g:GALAXY_THEME_NUM=s:num
-    call galaxy#load_scheme(num)
-    " colorscheme galaxy
 endfunction "}}}
 "}}}
 " WINDOW "{{{
@@ -813,6 +749,12 @@ function! s:win_load_scheme() "{{{
     endif
 
 endfunction "}}}
+function! s:win_scheme_new()
+    
+endfunction
+function! s:win_scheme_edit()
+    
+endfunction
 function! galaxy#exit_win() "{{{
     if bufexists(g:galaxy.name) 
     	let nr=bufnr('\[GALAXY\]')
@@ -867,15 +809,17 @@ endfunction "}}}
 " TODO: presistence files write with command
 " TODO: the file sequence maybe different
 " and should remove the cache
-function! s:write_store() "{{{
+function! s:write_store(scheme_list) "{{{
     
     let CacheStringsList = []
     if !isdirectory(expand(g:galaxy_store_Folder))
         call mkdir(expand(g:galaxy_store_Folder))
     endif
-    if exists("g:galaxy_scheme_list") && !empty(g:galaxy_scheme_list)
-        for scheme in g:galaxy_scheme_list
-            if len(scheme.colors)==5
+
+    " TODO: let scheme_list_list became the editing variable
+    if !empty(a:scheme_list)
+        for scheme in a:scheme_list
+            if exists("scheme.colors") && len(scheme.colors)==5
                 call add(CacheStringsList,"GALAXY_NAME\t".scheme.name)
                 call add(CacheStringsList,
                             \"GALAXY_COLORS\t" 
@@ -922,12 +866,13 @@ function! s:load_store() "{{{
     let folder =  expand(g:galaxy_store_Folder)
     let s:file_list=split(globpath(folder, '*.galaxy'), '\n')
     " echoe folder isdirectory(folder) string(s:file_list)
-    let s:stored_theme_list= []
+    let l:stored_theme_list= []
     if isdirectory(folder)
         for file in s:file_list
-            let s:stored_theme_list +=  galaxy#load_cache(file)
+            let l:stored_theme_list +=  galaxy#load_file(file)
         endfor
     endif
+    return l:stored_theme_list
 endfunction "}}}
 
 function! galaxy#write_cache(...) "{{{
@@ -938,7 +883,7 @@ function! galaxy#write_cache(...) "{{{
     call add(CacheStringsList,"")
     call writefile(CacheStringsList, file)
 endfunction "}}}
-function! galaxy#load_cache(...) "{{{
+function! galaxy#load_file(...) "{{{
     if exists("a:1") && !empty(a:1)
     	let file = a:1
     else
@@ -952,6 +897,10 @@ function! galaxy#load_cache(...) "{{{
         " endif
         " let l:color_exists=0
         for i in CacheStringsList
+            if i =~ 'CACHE_NAME' 
+            	let name = matchstr(i,'CACHE_NAME\s*\zs.*\ze\s*')
+                let s:cache_name = name
+            endif
             if i =~ 'CACHE_NUM' 
             	let num = matchstr(i,'CACHE_NUM\s*\zs.*\ze\s*')
                 let s:num = num
@@ -997,20 +946,87 @@ function! galaxy#load_cache(...) "{{{
     endif
 endfunction "}}}
 "}}}
+"MAIN "{{{
+"======================================================================
+" TODO: load by name here
+function! galaxy#load_scheme(num,...) "{{{
+    let s:num=a:num
+    call s:set_scheme_list()
+    if s:num >= len(s:scheme_list)
+        let s:num=0
+    endif
+    let s:scheme_dict=s:scheme_list[s:num]
+    let [s:h,s:s,s:v]=ColorV#hex2hsv(s:scheme_dict.colors[4])
+    let g:colors_name = "galaxy"
+    let g:galaxy_name = s:scheme_dict.name
+    call s:set_miscs()
+    call s:generate_colors()
 
+    if exists("s:scheme_dict.theme") && !empty(s:scheme_dict.theme)
+        let s:theme_name=s:scheme_dict.theme
+    else
+    	let s:theme_name=""
+    endif
 
-let s:cached_theme_list=galaxy#load_cache()
+    
+    " predefined highlights + scheme theme highlights
+    call s:get_theme_hl_list(s:theme_name)
+    call s:high_list(s:hl_scheme)
+    " predefined highlights
+    call s:high_list(s:lnk_list)
+    " predefined syntax highlights
+    for list in values(s:synlink_dict)
+        call s:high_list(list)
+    endfor
+    " the scheme defined highlights
+    if exists("s:scheme_dict.highlights")
+        call s:high_list(s:scheme_dict.highlights)
+    endif
+
+    call s:statusline_aug()
+
+    if !exists("a:1") || a:1!="START"
+        call galaxy#write_cache()
+        redraw
+        if !empty(s:theme_name)
+            echom "Galaxy Scheme:\"".g:galaxy_name."\" loaded. With theme:" .s:theme_name."."
+        else
+            echom "Galaxy Scheme:\"".g:galaxy_name."\" loaded."
+        endif
+    endif
+endfunction "}}}
+function! galaxy#next_scheme(...) "{{{
+    if exists("a:1") && a:1 == "-"
+    	let s:num-=1
+    else
+        let s:num+=1
+    endif
+
+    if s:num >= len(s:scheme_list)
+    	let s:num=0
+    elseif s:num < 0
+    	let s:num  = len(s:scheme_list)-1
+    endif
+    let num=s:num
+    " let g:GALAXY_THEME_NUM=s:num
+    call galaxy#load_scheme(num)
+    " colorscheme galaxy
+endfunction "}}}
+"}}}
+"INIT "{{{
+"======================================================================
+let s:cached_theme_list=galaxy#load_file()
 call galaxy#load_scheme(s:num,"START")
 nmap <leader>gln :call galaxy#next_scheme()<cr>
 nmap <leader>glp :call galaxy#next_scheme("-")<cr>
-nmap <leader>glx :call galaxy#write_cache()<cr>
+" nmap <leader>glw :call galaxy#write_cache()<cr>
+" nmap <leader>gll :call <SID>load_store()<cr>
 nmap <leader>gls :call <SID>write_store()<cr>
-nmap <leader>glw :call <SID>scheme_window()<cr>
-nmap <leader>gll :call <SID>load_store()<cr>
+nmap <leader>glx :call <SID>scheme_window()<cr>
 "
 aug galaxy_vim_leave "{{{
     au!
     au VIMLEAVEPre * call galaxy#write_cache()
 
 aug END "}}}
-
+"}}}
