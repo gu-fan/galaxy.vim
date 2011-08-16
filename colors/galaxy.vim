@@ -86,22 +86,15 @@ let s:built_in_schemes=[
             \},
             \{"name":"Ubuntu",
             \"colors":["99918A","A6573A","BF2A2A","2E1722","384766"]},
-            \{"name":"Bsm_simple",
-            \"colors":["979799","637EA6","A62424","2D2D2D","263B40"]},
             \{"name":"Spring",
             \"colors":["575759","31568C","7F1C1C","CBE5A1","66CCC2"]},
-            \{"name":"SlateGray",
-            \"colors":["8F8FA6","5BA65E","A62424","475059","57D9CA"]},
             \{"name":"Darker",
             \"colors":["7E7E7F","4268A6","A62424","191919","1E444D"]},
             \{"name":"Butterscream",
-            \"colors":["3D4E66","547799","992222","FFFFD9","D9C8B8"]},
+            \"colors":["264366","547799","992222","F2F2CE","D9C8B8"]},
             \{"name":"Village",
-            \"colors":["402020","2E4873","437317","BAE5AC","F2D530"],
+            \"colors":["402020","2E4873","15458C","BAE5AC","F2D530"],
             \"style":"COLOUR"},
-            \{"name":"SkyBlue",
-            \"colors":["333317","7F4654","990808","B6F2F2","E58ADE"],
-            \},
             \]
 "}}}
 "{{{s:style_hllist
@@ -113,15 +106,15 @@ let s:style_hllist=
     \},
     \{"name":"COLOUR",
     \"highlights":[
-        \["Wildmenu",       "bgrhue2",  "fgdclr2",  "b"     ],
+        \["Wildmenu",       "bgrhue0",  "fgdclr2",  "rb"     ],
         \["Pmenu",          "bgdclr0",  "fgdclr2",  "n"     ],
-        \["PmenuSel",       "fgdclr2",  "bgrhue0",  "rb"    ],
+        \["PmenuSel",       "bgrhue0",  "fgdclr2",  "rb"    ],
         \["PmenuSbar",      "bgdclr1",  "fgdclr0",  "n"     ],
         \["PmenuThumb",     "bgdclr2",  "fgdclr0",  "n"     ],
         \["Folded",         "bgdclr0",  "bgdclr3",  "n"     ],
-        \["tabline",        "bgdclr2",  "bgdclr6",  "n"     ],
-        \["tablinesel",     'difclr0',  "fgdclr2",  "b"     ],
-        \["tablinefill",    "fgdclr2",  "bgdclr3",  "n"     ],
+        \["tabline",        "bgdclr2",  "fgdclr1",  "n"     ],
+        \["tablinesel",     'fgdclr2',  "bgrhue0",  "b"     ],
+        \["tablinefill",    "fgdclr2",  "fgdclr2",  "n"     ],
         \["StatusLine",     "bgrhue0",  "fgdclr2",  "b"     ],
         \["StatusLineNC",   "bgdclr2",  "fgdclr2",  "n"     ],
         \["User1",          "bgrhue1",  "fgdclr2",  "b"     ],
@@ -1019,66 +1012,33 @@ endfunction "}}}
 " WINDOW "{{{
 "======================================================================
 " DONE: 110805  show scheme list
+let g:WinSize = 5
+let g:WinPos = "right"
 function! galaxy#scheme_window() "{{{
-    " window check "{{{
-    if bufexists(g:galaxy.name) 
-    	let nr=bufnr('\[GALAXY\]')
-    	let winnr=bufwinnr(nr)
-        if winnr>0 && bufname(nr)==g:galaxy.name
-            if bufwinnr('%') ==winnr
-            	" if g:galaxy.win_pos=~'bo\%[tright]'
-                "     exec winnr."wincmd J"
-                " elseif g:galaxy.win_pos=~'to\%[pleft]'
-                "     exec winnr."wincmd K"
-                " endif
-                if expand('%') !=g:galaxy.name
-                    call s:warning("Not [galaxy] buffer")
-                    return
-                else
-                    call s:echo("All ready in [galaxy] window.")
-                endif
-            else
-            	"Becareful
-                exec winnr."wincmd w"
-                "Always get the max bottom or top
-            	if g:galaxy.win_pos=~'bo\%[tright]'
-                    exec winnr."wincmd J"
-                elseif g:galaxy.win_pos=~'to\%[pleft]'
-                    exec winnr."wincmd K"
-                endif
-                if expand('%') !=g:galaxy.name
-                    call s:warning("Not [galaxy] buffer")
-                    return
-                else
-                    call s:echo("[galaxy] all ready exists.")
-                endif
-            endif
-        else
-            " call s:echo("Open a new [galaxy]")
-            " execute "botright" 'new' 
-            if g:galaxy.win_pos =~ 'vert\%[ical]\|lefta\%[bove]\|abo\%[veleft]
-                \\|rightb\%[elow]\|bel\%[owright]\|to\%[pleft]\|bo\%[tright]'
-                execute  g:galaxy.win_pos 'new' 
-            else
-                execute  'bo' 'new' 
-            endif
-            silent! file [GALAXY]
-        endif
+    let splitLocation = g:WinPos == "left" ? "topleft " : "botright "
+    let splitSize = g:WinSize
+
+    if !exists('t:BufName')
+        let t:BufName = g:galaxy.name
+        silent! exec splitLocation . ' ' . splitSize . ' new'
+        silent! exec "edit " . t:BufName
+        echo "new win"
     else
-        " call s:echo("Open a new [galaxy]")
-        " execute  "botright" 'new' 
-        if g:galaxy.win_pos =~ 'vert\%[ical]\|lefta\%[bove]\|abo\%[veleft]
-             \\|rightb\%[elow]\|bel\%[owright]\|to\%[pleft]\|bo\%[tright]'
-            execute  g:galaxy.win_pos 'new' 
+    	if s:isOpen()
+            call s:exec(s:getWinNum() . " wincmd w")
+            echo "exists win"
         else
-            execute  'bo' 'new' 
+            silent! exec splitLocation . ' ' . splitSize . ' split'
+            silent! exec "buffer " . t:BufName
+            echo "buffer win"
         endif
-        silent! file [GALAXY]
-    endif 
-    "}}}
+    endif
+
     "{{{local setting 
     " 
     setl ma
+    setlocal winfixwidth
+    setlocal nospell
     setl nocursorline nocursorcolumn
     setl tw=0
     setl buftype=nofile
@@ -1097,6 +1057,7 @@ function! galaxy#scheme_window() "{{{
     if v:version >= 703
         setl cc=
     endif
+    iabc <buffer>
 
     augroup plugin-galaxy
         autocmd CursorMoved,CursorMovedI <buffer>  call s:on_cursor_moved()
@@ -1115,8 +1076,15 @@ function! galaxy#scheme_window() "{{{
     map <silent><buffer> <space> :call <SID>win_load_scheme()<cr>
     map <silent><buffer> <2-leftmouse> :call <SID>win_load_scheme()<cr>
     "}}}
+
+
+    let Title_ptn='\%1l\%<15c'
+    call matchadd("Title",Title_ptn)
+    let Type_ptn='\%2l'
+    call matchadd("ModeMsg",Type_ptn)
+
     let StringList = []
-    let m = "Galaxy Manager v".g:galaxy.version."  [<F1>:help q:quit n:new e:edit dd:delete]"
+    let m = "Galaxy Manager "."  (<F1>:help q:quit n:new e:edit dd:delete) v".g:galaxy.version
     call add(StringList,m)
     let m = "NAME"
     let m = s:line_sub(m,"FG",20)
@@ -1152,9 +1120,48 @@ function! galaxy#scheme_window() "{{{
     call ColorV#preview("noname")
     setl noma
 endfunction "}}}
+function! s:exec(cmd)
+    let old_ei = &ei
+    set ei=all
+    exec a:cmd
+    let &ei = old_ei
+endfunction
+function! s:isOpen()
+    return s:getWinNum() != -1
+endfunction
+function! s:getWinNum()
+    if exists("t:BufName")
+        return bufwinnr(t:BufName)
+    else
+        return -1
+    endif
+endfunction
 function! s:on_cursor_moved()  "{{{
-    execute 'match' (line('.') > 2 ? "ErrorMsg".' /\%'.line('.').'l\%<17c/' : 
-                \ 'Title /\%'.line('.').'l/' )
+    if line('.') > 2
+    " execute 'match' (line('.') > 2 ? "ErrorMsg".' /\%'.line('.').'l\%<17c/' : 
+                " \ 'Normal /\%2l/' )
+
+        execute 'match' "ErrorMsg".' /\%'.line('.').'l\%<17c/'
+        let c=col('.')
+        if c >19 && c<26
+            execute '2match' "ErrorMsg".' /\%2l\%>19c\%<26c/'
+        elseif c >26 && c<33
+            execute '2match' "ErrorMsg".' /\%2l\%>26c\%<33c/'
+        elseif c >33 && c<40
+            execute '2match' "ErrorMsg".' /\%2l\%>33c\%<40c/'
+        elseif c >40 && c<47
+            execute '2match' "ErrorMsg".' /\%2l\%>40c\%<47c/'
+        elseif c >47 && c<54
+            execute '2match' "ErrorMsg".' /\%2l\%>47c\%<54c/'
+        elseif c >59 && c<66
+            execute '2match' "ErrorMsg".' /\%2l\%>59c\%<66c/'
+        else
+            execute '2match ' "none"
+        endif
+        
+    else
+        execute 'match' "none"
+    endif
 endfunction "}}}
 function! s:win_load_scheme() "{{{
     let linenum=line('.')
@@ -1276,7 +1283,7 @@ function! s:win_scheme_edit() "{{{
     elseif col >= 60
     	let scheme.style = input("Please Input your scheme's style ('SHADOW(default)|COLOUR'):\n",scheme.style)
     else
-    	call s:echo("Pleae put cursor on the colors or styles.")
+    	call s:echo("Please put cursor on the colors or styles.")
     endif
     call s:write_store(scheme)
     call galaxy#scheme_window()
@@ -1307,7 +1314,7 @@ function! s:win_scheme_edit_colorv() "{{{
     	call s:echo("Please move down to choose a scheme.")
     	return
     endif
-    if linenum <= s:win_builtin_line
+    if linenum <= s:win_txtline + s:win_builtin_line
     	call s:echo("You Could not modify the built-in Schemes.")
     	return
     endif
@@ -1341,7 +1348,7 @@ function! s:win_scheme_edit_colorv() "{{{
         call galaxy#scheme_window()
     	let s:edit_clr=-1
     else
-    	call s:echo("Pleae put cursor on the colors or styles.")
+    	call s:echo("Please put cursor on the colors or styles.")
     	let s:edit_clr=-1
     endif
 endfunction "}}}
@@ -1378,7 +1385,7 @@ function! s:win_scheme_del() "{{{
     	call s:echo("Please move down to choose a scheme.")
     	return
     endif
-    if linenum <= s:win_builtin_line
+    if linenum <= s:win_txtline + s:win_builtin_line
     	call s:echo("You could NOT delete built-in Schemes.")
     	return
     endif
@@ -1406,24 +1413,17 @@ function! s:win_scheme_del() "{{{
     call galaxy#scheme_window()
 endfunction "}}}
 function! galaxy#exit_win() "{{{
-    if bufexists(g:galaxy.name) 
-    	let nr=bufnr('\[GALAXY\]')
-    	let winnr=bufwinnr(nr)
-        if winnr>0 && bufname(nr)==g:galaxy.name
-            if bufwinnr('%') == winnr && expand('%') ==g:galaxy.name
-                " call s:echo("Close [GALAXY].")
-                bd
-            else
-            	"Becareful
-                exec winnr."wincmd w"
-                if expand('%') ==g:galaxy.name
-                    " call s:echo("Close existing [GALAXY].")
-                    bd
-                endif
-            endif
-        endif    
+    if !s:isOpen()
+        throw "Galaxy.NoWinError: no Galaxy is open"
     endif
-    redraw
+
+    if winnr("$") != 1
+        call s:exec(s:getWinNum() . " wincmd w")
+        close
+        call s:exec("wincmd p")
+    else
+        close
+    endif
 endfunction "}}}
 "}}}
 "HELPER "{{{

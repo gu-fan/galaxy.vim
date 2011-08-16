@@ -34,6 +34,14 @@ Also you can choose your own theme.
 ##Install:##
     Install ColorV.vim first. of which galaxy.vim is depending on.
 
-   * Using Vundle:
+* Using Vundle.vim:
 
-   * Using Git:
+        Bundle 'Rykka/vim-galaxy'
+        Bundle 'Rykka/ColorV'
+    
+Then type `:BundleInstall`
+
+* Using Git:
+* Using vim.org:
+    Download and extract to your '$VIMRUNTIME' folder.
+        
