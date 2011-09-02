@@ -1,47 +1,69 @@
-                     _____       _                           
-                    |  __ \     | |                     
-                    | |  \/ __ _| | __ ___  ___   _     
-                    | | __ / _` | |/ _` \ \/ / | | |    
-                    | |_\ \ (_| | | (_| |>  <| |_| |    
-                     \____/\__,_|_|\__,_/_/\_\\__, |    
-                                               __/ |    
-                                              |___/     
-                                                        
-Galaxy, is a vim colorscheme generator.
-
+##INTRO##
+    **galaxy** is a colorscheme with infinite schemes.
+    With this you got:
+        5 built-in schemes.
+        Generate schemes by 1 color.
+        Edit schemes by 5 color.
+        Generate 100++ schemes with color-list.
+        Terminal (8/16/256) support with all schemes.
+        StatusLine highlight with insert-enter.
+        ...
 
 ##Use:##
-Put galaxy.vim in your colors folder (.vim/colors)
+    Load galaxy~
+        :colorscheme galaxy
 
-Then put this line in your .vimrc:
+    Open galaxy manager window~
+        <leader>gll or :Galaxy
 
-    colorscheme galaxy
+        Then you can choose/edit/generate/delete schemes in it.
 
-The first scheme in galaxy will be autoloaded by default.
+    Generate new schemes~
+        'gn'
+        Input your scheme's name.
+        Then choose a color as the schemes background. then press 'q'
+        To quit the choosing window. The schemes auto generated.
+        And you will got your scheme loaded immediately.
 
-Also you can choose your own theme.
+    Edit your schemes~
+        Move cursor on the color you want to edit. 
+        Then press 'e'
+        Then choose your desired color for it.
+        Press 'q' to quit the window. 
+        And you will got the changed scheme loaded immediately.
 
-    <leader>glx  open galaxy window to choose a theme.
+    Generate schemes with colorlist~
+        <leader>cl or :ColorVlist
+        You will got a colorlist window opened with W3C standard colorname.
+        Put cursor in it. Then press '<leader>gla'
+        All the colorlist in it will be generated to schemes.
+        Colorlist like 'COLORNAME #ffffff' will be processed.
 
-##Features##
+    Delete schemes~
+        move cursor in the galaxy window. 
+        press 'dd'.
+        The scheme will be deleted.
     
-* easily generate colorscheme with 5 colors
-* terminal support
-* insert-mode statusline highlight
+    With Terminal~
+        If it does not work correctly.
+        You should check your '&t_Co' option.
+        And set 'g:galaxy_term_color' to the number it support.
 
-##Examples:##
 
 ##Install:##
-    Install ColorV.vim first. of which galaxy.vim is depending on.
-
-* Using Vundle.vim:
-
-        Bundle 'Rykka/vim-galaxy'
-        Bundle 'Rykka/ColorV'
-    
-Then type `:BundleInstall`
-
-* Using Git:
-* Using vim.org:
-    Download and extract to your '$VIMRUNTIME' folder.
+1.Using [Vundle.vim](Recommend):~
+    https://github.com/gmarik/vundle
+    After install. Add this line to your vimrc  `Bundle 'Rykka/vim-galaxy'` 
+    Run `:BundleInstall` to install.
+    And update ColorV easily by `:BundleInstall!`
+ 
+2.Using [Galaxy on Vim.org]~
+ 
+    Download the latest version of tar.gz file, 
+    Extract to $VIMFILE folder. 
+    ("~/.vim" for linux. "$HOME/vimfiles" for windows)
+    Generate helptags. `:helptags ~/.vim/doc
+ 
+     NOTE   If you got any bugs or suggestions.
+            Please post it at https://github.com/Rykka/vim-galaxy . 
         
