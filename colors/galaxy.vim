@@ -1055,6 +1055,8 @@ function! galaxy#win() "{{{
     map <silent><buffer> <Kenter> :call <SID>win_load_scheme()<cr>
     map <silent><buffer> <2-leftmouse> :call <SID>win_load_scheme()<cr>
     map <silent><buffer>  ? :call <SID>seq_echo()<cr>
+    map <silent><buffer>  <F1> :h galaxy<cr>
+    map <silent><buffer> H :h galaxy<cr>
     "}}}
 
     "hi "{{{

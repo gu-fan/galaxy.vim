@@ -101,7 +101,7 @@ After installed vundle and git. Add this line to your vimrc
 
 Run `:BundleInstall` to install.
 
-And update ColorV easily by `:BundleInstall!`
+And update them easily by `:BundleInstall!`
  
 2.Using [Galaxy on Vim.org](http://www.vim.org/scripts/script.php?script_id=3597)~
  
