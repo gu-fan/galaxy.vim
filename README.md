@@ -96,10 +96,10 @@ And update ColorV easily by `:BundleInstall!`
  
 2.Using [Galaxy on Vim.org](http://www.vim.org/scripts/script.php?script_id=3597)~
  
-You should download latest [ColorV on Vim.org](http://www.vim.org/scripts/script.php?script_id=3597) at first.
+You should download latest [ColorV on Vim.org](http://www.vim.org/scripts/script.php?script_id=3597) first.
 
 
-Download the latest version of tar.gz file, 
+Download the latest version of [Galaxy on Vim.org](http://www.vim.org/scripts/script.php?script_id=3597)  
 
 Extract to $VIMFILE folder. 
 
