@@ -7,7 +7,7 @@
                   / /_/ / /_/ / / /_/ />  </ /_/ /                     ~
                   \____/\__,_/_/\__,_/_/|_|\__, /                      ~
                                           /____/                       ~
-                             ver:0.9                                   ~
+                             ver:1.0                                   ~
 
 ------------------------------------------------------------------------------
 CONTENTS                                         *galaxy-contents*
@@ -19,6 +19,10 @@ CONTENTS                                         *galaxy-contents*
 INTRO                                               *galaxy-intro*
 
     *galaxy* is a vim plugin that generate schemes with colors.
+
+    With this you can:
+        Simply get your desired colorscheme. 
+
     With this you get:
         5 built-in schemes.
         Generate scheme with only one color.
@@ -26,6 +30,7 @@ INTRO                                               *galaxy-intro*
         Simply generate 100+ schemes with colorname-list.
         Terminal (256/16/8) support with all schemes.
         StatusLine highlight with insert-enter.
+        Clearly diff mode color.
         ...
 
     Take a glance: http://i54.tinypic.com/2vi5h04.png
@@ -133,7 +138,7 @@ DEVELOPER                                             *galaxy-developer*
    
 ------------------------------------------------------------------------------
 HISTORY                                               *galaxy-history*
-"0.9.0
+"1.0.0
 " DONE: 110902  error of background lightness output 
 " DONE: 110901  add guisp for undercurl
 " DONE: 110829  use yiq_list_gen to define syntax/msg/dif colors

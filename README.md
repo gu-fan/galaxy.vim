@@ -1,5 +1,8 @@
 ##INTRO##
 **galaxy** is a vim plugin that generate schemes with colors.
+    
+    With this you can:
+        Simply get your desired colorscheme. 
 
     With this you get:
         5 built-in schemes.
@@ -8,6 +11,7 @@
         Simply generate 100+ schemes with colorname-list.
         Terminal (256/16/8) support with all schemes.
         StatusLine highlight with insert-enter.
+        Clearly color for diff mode.
         ...
 
 **Take a glance:** http://i54.tinypic.com/2vi5h04.png
