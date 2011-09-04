@@ -166,7 +166,7 @@ let s:style_hllist=
 "gui "{{{
 let s:default_hl_list=[
             \["Normal",         "fgdclr0",  "bgdclr0",  "n"     ],
-            \["Cursor",         "synclr3",  "difclr2",  "r"     ],
+            \["Cursor",         "synclr2",  "difclr2",  "r"     ],
             \["CursorLine",     "nocolor",  "bgdclr1",  "n"     ],
             \["CursorColumn",   "CursorLine"    ],
             \["Visual",         "nocolor",  "bgdclr4",  "n"     ],
@@ -813,19 +813,24 @@ function! s:high_list(list,...) "{{{
     endfor
 endfunction "}}} 
 function! s:set_miscs() "{{{
-
+    if s:y<=50
+        let s:y_step=1
+    else
+        let s:y_step=-1
+    endif
+endfunction "}}}
+function! s:set_bg() "{{{
+    " XXX: there maybe errors of &background in terminal
     if s:y<=50
     	if exists("g:colors_name")
             unlet g:colors_name 
         endif
         set background=dark
-        let s:y_step=1
     else
     	if exists("g:colors_name")
             unlet g:colors_name 
         endif
         set background=light
-        let s:y_step=-1
     endif
 endfunction "}}}
 function! s:get_style_hl(style) "{{{
@@ -865,7 +870,7 @@ function! s:statusline_aug() "{{{
     if version >= 700 "{{{
         if s:style_name=="COLOUR" "{{{
             let s:list_insert_enter=[
-                \["Cursor",         "difclr0",  "bgdclr0",  "r"     ],
+                \["Cursor",         "echclr0",  "bgdclr0",  "r"     ],
                 \["StatusLine",     "fgdclr3",  "difclr0",  "b"     ],
                 \["User1",          "difclr1",  "difclr0",  "b"     ],
                 \["User2",          "difclr2",  "difclr0",  "b"     ],
@@ -879,7 +884,7 @@ function! s:statusline_aug() "{{{
                 \]
         else
             let s:list_insert_enter=[
-                \["Cursor",         "synclr3",  "difclr2",  "r"     ],
+                \["Cursor",         "echclr0",  "difclr2",  "r"     ],
                 \["StatusLine",     "bgdclr3",  "synclr0",  "b"     ],
                 \["User1",          "echclr0",  "synclr0",  "b"     ],
                 \["User2",          "echclr1",  "synclr0",  "b"     ],
@@ -908,40 +913,7 @@ function! s:statusline_aug() "{{{
             au InsertEnter * call s:high_list(s:list_insert_enter)
             au InsertLeave * call s:high_list(s:list_insert_leave)
         aug END
-        call s:term_cursor()
     endif "}}}
-endfunction "}}}
-function! s:term_cursor() "{{{
-    if s:y>50
-        let color_normal='black'
-        let color_insert='darkred'
-    else
-        let color_normal='lightgray'
-        let color_insert='yellow'
-    endif
-    let color_exit='green'
-        "get it from lilydjwg.
-        if &term =~ 'xterm\|rxvt'
-        exe 'silent !echo -ne "\e]12;"' . shellescape(color_normal, 1) . '"\007"'
-        let &t_SI="\e]12;" . color_insert . "\007"
-        let &t_EI="\e]12;" . color_normal . "\007"
-        exe 'autocmd VimLeave * :!echo -ne "\e]12;"' . shellescape(color_exit, 1) . '"\007"'
-        elseif &term =~ "screen"
-        if !exists('$SUDO_UID')
-            if exists('$TMUX')
-            exe 'silent !echo -ne "\033Ptmux;\033\e]12;"' . shellescape(color_normal, 1) . '"\007\033\\"'
-            let &t_SI="\033Ptmux;\033\e]12;" . color_insert . "\007\033\\"
-            let &t_EI="\033Ptmux;\033\e]12;" . color_normal . "\007\033\\"
-            exe 'autocmd VimLeave * :!echo -ne "\033Ptmux;\033\e]12;"' . shellescape(color_exit, 1) . '"\007\033\\"'
-            else
-            exe 'silent !echo -ne "\033P\e]12;"' . shellescape(color_normal, 1) . '"\007\033\\"'
-            let &t_SI="\033P\e]12;" . color_insert . "\007\033\\"
-            let &t_EI="\033P\e]12;" . color_normal . "\007\033\\"
-            exe 'autocmd VimLeave * :!echo -ne "\033P\e]12;"' . shellescape(color_exit, 1) . '"\007\033\\"'
-            endif
-        endif
-        endif
-
 endfunction "}}}
 function! s:statusline_term16_aug() "{{{
 if version >= 700 "{{{
@@ -991,13 +963,38 @@ if version >= 700 "{{{
         au InsertLeave * call s:high_list(s:list_insert_leave,"NOCHECK")
     aug END
     "for windows CMD.
-    let s:list_vim_leave=[["Cursor","White",  "Black",  "r"]]
+    let s:list_vim_leave=[["Cursor","Lightgray",  "Black",  "r"]]
     aug vimleave
         au!
         autocmd VimLeave * call s:high_list(s:list_vim_leave,"NOCHECK")
     aug END
-    call s:term_cursor()
 endif "}}}
+endfunction "}}}
+function! s:term_cursor() "{{{
+    let color_normal="#".s:synclr_list[3]
+    let color_insert="#".s:echclr_list[0]
+    let color_exit='green'
+    "from lilydjwg
+    if &term =~ 'xterm\|rxvt'
+        exe 'silent !echo -ne "\e]12;' . escape(color_normal, '#'). '\007"'
+        let &t_SI="\e]12;" . color_insert . "\007"
+        let &t_EI="\e]12;" . color_normal . "\007"
+        exe 'autocmd VimLeave * :!echo -ne "\e]12;"' . escape(color_exit, '#') . '"\007"'
+    elseif &term =~ "screen"
+        if !exists('$SUDO_UID')
+            if exists('$TMUX')
+            exe 'silent !echo -ne "\033Ptmux;\033\e]12;"' . escape(color_normal, '#') . '"\007\033\\"'
+            let &t_SI="\033Ptmux;\033\e]12;" . color_insert . "\007\033\\"
+            let &t_EI="\033Ptmux;\033\e]12;" . color_normal . "\007\033\\"
+            exe 'autocmd VimLeave * :!echo -ne "\033Ptmux;\033\e]12;"' . shellescape(color_exit, 1) . '"\007\033\\"'
+            else
+            exe 'silent !echo -ne "\033P\e]12;"' . escape(color_normal, '#') . '"\007\033\\"'
+            let &t_SI="\033P\e]12;" . color_insert . "\007\033\\"
+            let &t_EI="\033P\e]12;" . color_normal . "\007\033\\"
+            exe 'autocmd VimLeave * :!echo -ne "\033P\e]12;"' . escape(color_exit, '#')  . '"\007\033\\"'
+            endif
+        endif
+    endif
 endfunction "}}}
 "}}}
 " WINS "{{{
@@ -2042,6 +2039,7 @@ function! galaxy#load_scheme(name,...) "{{{
     
     " predefined highlights + scheme theme highlights
     call s:get_style_hl(s:style_name)
+    call s:set_bg()
     call s:high_list(s:hl_scheme)
     " predefined highlights
     " call s:high_list(s:lnk_list)
@@ -2055,6 +2053,9 @@ function! galaxy#load_scheme(name,...) "{{{
     endif
 
     call s:statusline_aug()
+    if !has("gui_running")
+        call s:term_cursor()
+    endif
 
     if !exists("a:1") || a:1!="START"
         call galaxy#write_cache()
@@ -2070,11 +2071,7 @@ function! galaxy#load_scheme(name,...) "{{{
 endfunction "}}}
 function! galaxy#load_scheme16(name) "{{{
     let s:cache_name=a:name
-    " let s:cache_num=a:num
     call s:get_scheme_list()
-    " if s:cache_num >= len(s:scheme_list)
-    "     let s:cache_num=0
-    " endif
     for scheme in s:scheme_list
     	if scheme.name == s:cache_name
             let s:scheme=scheme
@@ -2103,6 +2100,7 @@ function! galaxy#load_scheme16(name) "{{{
     call s:high_list(s:hl_scheme,"NOCHECK")
 
     call s:statusline_term16_aug()
+        call s:term_cursor()
 
     for [key,list] in items(s:synlink_dict)
     	if key != "vimwiki2"
