@@ -1,4 +1,4 @@
-*galaxy.txt* *galaxy*          Galaxy            Generate schemes with colors
+*galaxy.txt* *galaxy.vim*         Galaxy       Generate schemes with colors
                                           
   
                      ______      __                                    ~
@@ -101,7 +101,7 @@ INSTALL                                          *galaxy-install*
     `Bundle 'Rykka/vim-galaxy'` 
     `Bundle 'Rykka/ColorV'` 
     Run `:BundleInstall` to install.
-    And update ColorV easily by `:BundleInstall!`
+    And update them easily by `:BundleInstall!`
  
 2.Using [Galaxy on Vim.org]~
     You should download latest 'ColorV' at first.
@@ -138,6 +138,8 @@ OPTIONS                                               *galaxy-options*
 DEVELOPER                                             *galaxy-developer*
 
     |Galaxy| is develped by Rykka Krin |<Rykka.Krin(at)gmail.com>|.
+
+    Thanks to lilydjwg for script to support Terminal cursor(Enter/Leave).
    
 ------------------------------------------------------------------------------
 HISTORY                                               *galaxy-history*
