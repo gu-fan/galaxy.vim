@@ -83,37 +83,41 @@ With Terminal~
 ##Install:##
 1.Using [Vundle.vim](Recommend):~
 
-    https://github.com/gmarik/vundle
+https://github.com/gmarik/vundle
 
-    After installed vundle and git. Add this line to your vimrc  
+After installed vundle and git. Add this line to your vimrc  
 
         `Bundle 'Rykka/vim-galaxy'` 
         `Bundle 'Rykka/ColorV'` 
 
-    Run `:BundleInstall` to install.
+Run `:BundleInstall` to install.
 
-    And update ColorV easily by `:BundleInstall!`
+And update ColorV easily by `:BundleInstall!`
  
 2.Using [Galaxy on Vim.org]~
  
-    You should download latest 'ColorV' at first.
+You should download latest 'ColorV' at first.
 
-    http://www.vim.org/scripts/script.php?script_id=3597
+http://www.vim.org/scripts/script.php?script_id=3597
 
-    http://www.vim.org/scripts/script.php?script_id=3597
+http://www.vim.org/scripts/script.php?script_id=3597
 
-    Download the latest version of tar.gz file, 
+Download the latest version of tar.gz file, 
 
-    Extract to $VIMFILE folder. 
+Extract to $VIMFILE folder. 
 
-    ("~/.vim" for linux. "$HOME/vimfiles" for windows)
+("~/.vim" for linux. "$HOME/vimfiles" for windows)
 
-    Generate helptags. `:helptags ~/.vim/doc
+Generate helptags. `:helptags ~/.vim/doc
  
 
->   NOTE   Remember to install vim plugin 'ColorV' as forementioned.
+>   **NOTE**       
 
-    NOTE   You can always get the latest version at
+           Remember to install vim plugin 'ColorV' as forementioned.
+
+>   **NOTE**       
+
+           You can always get the latest version at
            https://github.com/Rykka/vim-galaxy/
            And you can report bugs and suggestions at
            https://github.com/Rykka/vim-galaxy/issues 
