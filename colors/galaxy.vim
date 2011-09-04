@@ -55,7 +55,7 @@ endif "}}}
 
 let g:galaxy={}
 let g:galaxy.name="_GALAXY_"
-let g:galaxy.version="0.9.0"
+let g:galaxy.version="1.0.0"
 let g:galaxy.winpos = "right"
 
 
@@ -174,10 +174,10 @@ let s:default_hl_list=[
             \["Search",         "nocolor",  "nocolor",  "u"     ],
             \["IncSearch",      "nocolor",  "echclr2",  "b"     ],
             \["Wildmenu",       "echclr1",  "bgdclr2",  "b"     ],
-            \["Pmenu",          "fgdclr1",  "bgdclr1",  "n"     ],
+            \["Pmenu",          "fgdclr1",  "bgdclr2",  "n"     ],
             \["PmenuSel",       "fgdclr0",  "bgdclr0",  "rb"    ],
-            \["PmenuSbar",      "fgdclr1",  "bgdclr1",  "n"     ],
-            \["PmenuThumb",     "bgdclr0",  "bgdclr2",  "n"     ],
+            \["PmenuSbar",      "fgdclr1",  "bgdclr2",  "n"     ],
+            \["PmenuThumb",     "bgdclr0",  "bgdclr4",  "n"     ],
             \["DiffAdd",        "nocolor",  "difclr5",  "n"     ],
             \["DiffChange",     "nocolor",  "difclr2",  "n"     ],
             \["DiffDelete",     "bgdclr4",  "difclr0",  "n"     ],
@@ -383,10 +383,10 @@ let s:term8_hl_list=[
             \["Search",         "nocolor",  "nocolor",  "u"     ],
             \["IncSearch",      "nocolor",  "Yellow",  "b"     ],
             \["Wildmenu",       "Yellow",  "Black",  "r"     ],
-            \["Pmenu",          "Black",  "Gray",  "n"     ],
+            \["Pmenu",          "Black",  "Cyan",  "n"     ],
             \["PmenuSel",       "Black",  "Yellow",  "rb"    ],
-            \["PmenuSbar",      "Black",  "Gray",  "n"     ],
-            \["PmenuThumb",     "Black",  "Gray",  "n"     ],
+            \["PmenuSbar",      "Black",  "Cyan",  "n"     ],
+            \["PmenuThumb",     "Black",  "Cyan",  "n"     ],
             \["DiffAdd",        "nocolor",  "DarkGreen",  "n"     ],
             \["DiffChange",     "nocolor",  "DarkBlue",  "n"     ],
             \["DiffDelete",     "Gray",  "DarkRed",  "n"     ],
@@ -443,10 +443,10 @@ let s:term8_dark_hl_list=[
             \["Search",         "Yellow",  "nocolor",  "b"     ],
             \["IncSearch",      "nocolor",  "Yellow",  "b"     ],
             \["Wildmenu",       "Blue",  "Gray",  "r"     ],
-            \["Pmenu",          "Black",  "Gray",  "n"     ],
+            \["Pmenu",          "Black",  "Cyan",  "n"     ],
             \["PmenuSel",       "Black",  "Yellow",  "rb"    ],
-            \["PmenuSbar",      "Black",  "Gray",  "n"     ],
-            \["PmenuThumb",     "Black",  "Gray",  "n"     ],
+            \["PmenuSbar",      "Black",  "Cyan",  "n"     ],
+            \["PmenuThumb",     "Black",  "Cyan",  "n"     ],
             \["DiffAdd",        "nocolor",  "Green",  "n"     ],
             \["DiffChange",     "nocolor",  "Blue",  "n"     ],
             \["DiffDelete",     "Gray",  "Red",  "n"     ],
@@ -866,6 +866,9 @@ function! s:get_scheme_list() "{{{
     " Kuler access?
 endfunction "}}}
 
+"}}}
+"STAT"{{{
+"======================================================================
 function! s:statusline_aug() "{{{
     if version >= 700 "{{{
         if s:style_name=="COLOUR" "{{{
@@ -971,8 +974,18 @@ if version >= 700 "{{{
 endif "}}}
 endfunction "}}}
 function! s:term_cursor() "{{{
-    let color_normal="#".s:synclr_list[3]
-    let color_insert="#".s:echclr_list[0]
+    if &t_Co <=16
+    	if s:y < 50
+            let color_normal="Cyan"
+            let color_insert="Red"
+        else
+            let color_normal="Darkblue"
+            let color_insert="Darkred"
+        endif
+    else
+        let color_normal="#".s:synclr_list[3]
+        let color_insert="#".s:echclr_list[0]
+    endif
     let color_exit='green'
     "from lilydjwg
     if &term =~ 'xterm\|rxvt'
@@ -1426,73 +1439,6 @@ endfunction "}}}
 "}}}
 "GENS {{{1
 "============================================================================
-"generate with background?
-
-function! s:win_scheme_new() "{{{
-" bg / fg
-    let scheme={}
-    let name=input("Please Input your scheme name ([a-zA-Z0-9_]):\n")
-    if !empty(name) && name =~ '^[a-zA-Z0-9_]*$'
-        let scheme.name= substitute(name,'\s',"_","g")
-    else
-        call s:echo("Not a Valid Name. Stopped.")
-        return
-    endif
-    let colors=[]
-    let clr_txt=s:clr_txt
-    for i in range(5)
-    	let color =s:input_clr("808080",clr_txt[i])
-        call add(colors,color)
-    endfor
-    let scheme.colors=colors
-    let style=input("Input scheme's style ('S[HADOW](default)|C[OLOUR]'):\n","")
-    if style=~? 'c\%[olour]' 
-    	let style="COLOUR"
-    endif
-    let scheme.style = style
-    
-    call s:write_store(scheme)
-    call galaxy#win()
-endfunction "}}}
-function! s:win_scheme_easy_gen() "{{{
-    let scheme={}
-    let name=input("Please Input your Scheme name ([a-zA-Z0-9_]):\n")
-    if !empty(name) && name =~ '^[a-zA-Z0-9_]*$'
-        let scheme.name= substitute(name,'\s',"_","g")
-    else
-        call s:echo("Not a Valid Name. Stopped.")
-        return
-    endif
-    let colors=[]
-    let fg_txt="Foreground"
-    let bg_txt="Background"
-    let fg=s:input_clr("333333",fg_txt)
-    let [synh,syns,synv]=colorv#hex2hsv(fg)
-    let [echh,echs,echv]=colorv#hex2hsv(fg)
-    let bg =s:input_clr("cccccc",bg_txt)
-    let [difh,difs,difv]=colorv#hex2hsv(bg)
-    " let synl=
-    if synv <=50
-        let syn = colorv#hsv2hex([(synh+240.0),(syns+50.0),(synv+30.0)])
-        let ech = colorv#hsv2hex([(echh+20.0),(echs+70.0),(echv+50.0)])
-        let dif = colorv#hsv2hex([(difh+120.0),(difs+50.0),(difv+5.0)])
-    else
-        let syn = colorv#hsv2hex([(synh+240.0),(syns+50.0),(synv+5)])
-        let ech = colorv#hsv2hex([(echh+20.0),(echs+70.0),(echv+5.0)])
-        let dif = colorv#hsv2hex([(difh+120.0),(difs+50.0),(difv+20.0)])
-    endif
-    call add(colors,bg)
-    call add(colors,fg)
-    call add(colors,syn)
-    call add(colors,ech)
-    call add(colors,dif)
-    let scheme.colors=colors
-    let scheme.name=name
-    call s:write_store(scheme)
-    call galaxy#win()
-
-endfunction "}}}
-
 function! s:win_scheme_gen_colorv() "{{{
     let scheme={}
     let name=input("Please Input your Scheme name ([a-zA-Z0-9_]):\n")
@@ -1957,10 +1903,7 @@ function! galaxy#load_file(file) "{{{
     let s:cache_name = exists("s:cache_name") ? s:cache_name : ""
     if filereadable(file)
         let CacheStringList = readfile(file)
-        " if !exists("s:cached_theme_list") 
-            let l:cached_theme_list=[]
-        " endif
-        " let l:color_exists=0
+        let l:cached_theme_list=[]
         for i in CacheStringList
             "the color cache
             if !exists("l:tmp_dict") 
