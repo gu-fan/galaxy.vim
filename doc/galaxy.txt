@@ -143,6 +143,7 @@ DEVELOPER                                             *galaxy-developer*
    
 ------------------------------------------------------------------------------
 HISTORY                                               *galaxy-history*
+" DONE: 110905  set undercurl to reverse_error in terminal mode
 "1.0.0
 " DONE: 110902  error of background lightness output 
 " DONE: 110901  add guisp for undercurl

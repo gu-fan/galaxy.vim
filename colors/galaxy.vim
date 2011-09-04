@@ -782,17 +782,21 @@ function! s:high_list(list,...) "{{{
             endif
 
             
+            if fm_txt=~'c' && has("gui_running")
+            	let sp_txt='#'.s:echclr0
+            elseif fm_txt=~'c' && !has("gui_running")
+            	let sp_txt=""
+            	let fg_txt=s:bgdclr0
+            	let bg_txt=s:echclr0
+            else
+            	let sp_txt=""
+            endif
             if has("gui_running")
                 let fg_txt = fg_txt =~ '^\x\{6}$' ? "#".fg_txt : fg_txt
                 let bg_txt = bg_txt =~ '^\x\{6}$' ? "#".bg_txt : bg_txt
             else
                 let fg_txt= fg_txt =~ '\x\{6}$' ? colorv#hex2term(fg_txt) : fg_txt
                 let bg_txt= bg_txt =~ '\x\{6}$' ? colorv#hex2term(bg_txt) : bg_txt
-            endif
-            if fm_txt=~'c' && has("gui_running")
-            	let sp_txt='#'.s:echclr0
-            else
-            	let sp_txt=""
             endif
             let fg_txt = empty(fg_txt) ? "" : s:mode."fg=".fg_txt." "
             let bg_txt = empty(bg_txt) ? "" : s:mode."bg=".bg_txt." "
