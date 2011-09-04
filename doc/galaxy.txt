@@ -18,7 +18,7 @@ CONTENTS                                         *galaxy-contents*
 ==============================================================================
 INTRO                                               *galaxy-intro*
 
-    *galaxy* is a vim colorscheme that generate schemes with colors.
+    *galaxy* is a colorscheme that generate schemes with colors.
 
     With this you can:
         Simply get your desired colorscheme. 
@@ -34,8 +34,8 @@ INTRO                                               *galaxy-intro*
         ...
 
     Take a glance: 
-        GUI  http://i55.tinypic.com/u0qh2.png
-        TERM http://i56.tinypic.com/2nr234y.png
+        GUI         http://i55.tinypic.com/u0qh2.png
+        TERM(256)   http://i56.tinypic.com/2nr234y.png
 
     Where to start:     
         :colorscheme galaxy
@@ -106,7 +106,7 @@ INSTALL                                          *galaxy-install*
 2.Using [Galaxy on Vim.org]~
     You should download latest 'ColorV' at first.
     http://www.vim.org/scripts/script.php?script_id=3597
-    http://www.vim.org/scripts/script.php?script_id=3597
+    http://www.vim.org/scripts/script.php?script_id=3729
     Download the latest version of tar.gz file, 
     Extract to $VIMFILE folder. 
     ("~/.vim" for linux. "$HOME/vimfiles" for windows)

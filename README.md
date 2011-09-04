@@ -16,9 +16,9 @@
 
 **Take a glance:** 
 
-   GUI  http://i55.tinypic.com/u0qh2.png
+   GUI          http://i55.tinypic.com/u0qh2.png
 
-   TERM http://i56.tinypic.com/2nr234y.png
+   TERM(256)    http://i56.tinypic.com/2nr234y.png
 
 **where to start:**
 
@@ -108,7 +108,7 @@ And update ColorV easily by `:BundleInstall!`
 You should download latest [ColorV on Vim.org](http://www.vim.org/scripts/script.php?script_id=3597) first.
 
 
-Download the latest version of [Galaxy on Vim.org](http://www.vim.org/scripts/script.php?script_id=3597)  
+Download the latest version of [Galaxy on Vim.org](http://www.vim.org/scripts/script.php?script_id=3729)  
 
 Extract to $VIMFILE folder. 
 
