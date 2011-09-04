@@ -56,9 +56,7 @@ endif "}}}
 let g:galaxy={}
 let g:galaxy.name="_GALAXY_"
 let g:galaxy.version="1.0.0"
-let g:galaxy.winpos = "right"
-
-
+let g:galaxy.winpos = "bot"
 
 let s:nocolor         = "NONE"
 let s:n               = "NONE"
@@ -87,21 +85,18 @@ let s:clr_txt=[
             \"Background(Normal Background)",
             \"Diff(DiffAdd,DiffChange,... Background)"]
 " s:built_in_schemes "{{{
-"       h       s       v
-" bgr   72      5       80 
-" fgr   228     8       25
-" syn   205     45      45
-" msg   0       78      50
-" dif   9       35      85
 let s:built_in_schemes=[
             \{"name":"Paper_And_Pen",
-            \"colors":["E6E0DB","313236","2D637C","991818","CC8C81"]},
+            \"colors":["DFD8D3","313236","2D527D","991818","CC8C81"]},
             \{"name":"Ubuntu",
-            \"colors":["0D090B","AD9986","BA6045","F03535","2E3A4F"]},
+            \"colors":["1B1317","AD9986","BA6045","F03535","2E3A4F"]},
             \{"name":"Spring",
             \"colors":["CBE5A1","575759","37629E","B32222","CCB566"]},
             \{"name":"Village",
             \"colors":["BAE5AC","361A1A","2E4873","15458C","F2D530"],
+            \"style":"COLOUR"},
+            \{"name":"Industry",
+            \"colors":["0B0B0F","A6A2A0","81A0CD","54DFB1","222980"],
             \"style":"COLOUR"},
             \]
 "}}}
@@ -122,7 +117,7 @@ let s:style_hllist=
         \["PmenuSel",       "difclr0",  "fgdclr2",  "rb"    ],
         \["PmenuSbar",      "bgdclr1",  "fgdclr0",  "n"     ],
         \["PmenuThumb",     "bgdclr2",  "fgdclr0",  "n"     ],
-        \["Folded",         "bgdclr0",  "bgdclr2",  "n"     ],
+        \["Folded",         "fgdclr2",  "bgdclr2",  "n"     ],
         \["tabline",        "bgdclr0",  "bgdclr4",  "n"     ],
         \["tablinesel",     'fgdclr2',  "difclr0",  "b"     ],
         \["tablinefill",    "fgdclr2",  "bgdclr2",  "n"     ],
@@ -888,7 +883,7 @@ function! s:statusline_aug() "{{{
         else
             let s:list_insert_enter=[
                 \["Cursor",         "echclr0",  "difclr2",  "r"     ],
-                \["StatusLine",     "bgdclr3",  "synclr0",  "b"     ],
+                \["StatusLine",     "bgdclr0",  "synclr0",  "b"     ],
                 \["User1",          "echclr0",  "synclr0",  "b"     ],
                 \["User2",          "echclr1",  "synclr0",  "b"     ],
                 \["User3",          "echclr2",  "synclr0",  "b"     ],
@@ -1118,19 +1113,24 @@ function! galaxy#win() "{{{
     setl noma
 endfunction "}}}
 function! s:getwin() "{{{
-    let splitLocation = g:galaxy.winpos == "left" ? "topleft " : "botright "
-    
-    if !exists('t:galaxyBufName')
-        let t:galaxyBufName = g:galaxy.name
-        silent! exec splitLocation . ' new'
-        silent! exec "edit ~/" . t:galaxyBufName
+    let spLoc= g:galaxy.winpos == "top" ? "topleft " : "botright "
+    let spSize= 20
+    let spDirc= ""
+    let exists_buffer= bufnr(g:galaxy.name)
+    if exists_buffer== -1
+        silent! exec spLoc .' '.spSize.spDirc.'new '.  g:galaxy.name
     else
-    	if s:is_open()
-            call s:exec(s:get_winnr() . " wincmd w")
-        else
-            silent! exec splitLocation . ' split'
-            silent! exec "buffer " . t:galaxyBufName
+        if !s:go_buffer_win(g:galaxy.name)
+            silent! exe spLoc ." ".spSize.spDirc."split +buffer" . exists_buffer
         endif
+    endif
+endfunction "}}}
+function! s:go_buffer_win(name) "{{{
+    if bufwinnr(bufnr(a:name)) != -1
+        exe bufwinnr(bufnr(a:name)) . "wincmd w"
+        return 1
+    else
+        return 0
     endif
 endfunction "}}}
 function! s:win_load_scheme() "{{{
@@ -1424,16 +1424,8 @@ function! s:on_cursor_moved()  "{{{
     endif
 endfunction "}}}
 function! galaxy#exit_win() "{{{
-    if !s:is_open()
-        throw "Galaxy.NoWinError: no Galaxy is open"
-    endif
-
-    if winnr("$") != 1
-        call s:exec(s:get_winnr() . " wincmd w")
-        close!
-        call s:exec("wincmd p")
-    else
-        close!
+    if s:go_buffer_win(g:galaxy.name)
+    	close
     endif
 endfunction "}}}
 "}}}
