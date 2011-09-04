@@ -1,7 +1,7 @@
 "=============================================================
 "  Script: Galaxy 
 "    File: plugin/galaxy.vim
-" Summary: Galaxy, A colour scheme generator.
+" Summary: Galaxy, Generate scheme with color
 "  Author: Rykka.Krin <Rykka.Krin(at)gmail.com>
 "=============================================================
 let s:save_cpo = &cpo
