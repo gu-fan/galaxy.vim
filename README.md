@@ -65,13 +65,19 @@ With Terminal~
         And set 'g:galaxy_term_color' to the number it support.
 
 
->   NOTE    Your previous scheme is cached on your disk.
+>   **NOTE**    
+
+            Your previous scheme is cached on your disk.
             And gui scheme is seperated with terminal.
             So you can set them with different scheme.
 
-    NOTE    Terminal scheme in 8/16 terminal color is predefined.
+>   **NOTE**        
 
-    NOTE    Terminal cursor may have bugs. 
+            Terminal scheme in 8/16 terminal color is predefined.
+
+>   **NOTE**       
+
+            Terminal cursor may have bugs. 
             And only support "xterm\rxvt\screen\TMUX" now.
 
 ##Install:##
