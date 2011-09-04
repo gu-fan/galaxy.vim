@@ -16,9 +16,14 @@
 
 **Take a glance:** 
 
-   GUI          http://i55.tinypic.com/u0qh2.png
+    Built-in Themes:
 
-   TERM(256)    http://i56.tinypic.com/2nr234y.png
+        GUI             http://i55.tinypic.com/u0qh2.png
+
+        TERM(256)       http://i56.tinypic.com/2nr234y.png
+
+    Galaxy window       http://i56.tinypic.com/153rzgp.png
+   
 
 **where to start:**
 
