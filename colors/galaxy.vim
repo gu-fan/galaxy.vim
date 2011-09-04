@@ -1,7 +1,7 @@
 "=============================================================
 "  Script: Galaxy 
 "    File: colors/galaxy.vim
-" Summary: Galaxy, Generate scheme with color
+" Summary: A vim colorscheme that generate schemes with colors.
 "  Author: Rykka.Krin <Rykka.Krin(at)gmail.com>
 "=============================================================
 let s:save_cpo = &cpo

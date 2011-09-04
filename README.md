@@ -1,5 +1,5 @@
 ##INTRO##
-**galaxy** is a vim plugin that generate schemes with colors.
+**galaxy** is a vim colorscheme that generate schemes with colors.
     
     With this you can:
         Simply get your desired colorscheme. 

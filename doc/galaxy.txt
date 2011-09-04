@@ -1,4 +1,4 @@
-*galaxy.txt* *galaxy*          Galaxy            Generate scheme with color
+*galaxy.txt* *galaxy*          Galaxy            Generate schemes with colors
                                           
   
                      ______      __                                    ~
@@ -18,7 +18,7 @@ CONTENTS                                         *galaxy-contents*
 ==============================================================================
 INTRO                                               *galaxy-intro*
 
-    *galaxy* is a vim plugin that generate schemes with colors.
+    *galaxy* is a vim colorscheme that generate schemes with colors.
 
     With this you can:
         Simply get your desired colorscheme. 
