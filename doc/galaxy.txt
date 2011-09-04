@@ -40,7 +40,8 @@ INTRO                                               *galaxy-intro*
     Where to start:     
         :colorscheme galaxy
         :Galaxy
-    
+
+    (NOTE: require vim plugin:ColorV)
 ------------------------------------------------------------------------------
 QUICKSTART                                          *galaxy-quickstart*
 

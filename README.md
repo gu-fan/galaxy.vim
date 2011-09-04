@@ -25,6 +25,8 @@
         :colorscheme galaxy
         :Galaxy
 
+(**NOTE**: require vim plugin:ColorV)
+
 ##Use:##
 Load galaxy~
 
