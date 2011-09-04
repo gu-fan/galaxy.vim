@@ -21,15 +21,17 @@ endif
 "}}}
 " _VAR "{{{1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:galaxy_cache_File = expand('$HOME') . '/.vim_galaxy_cache'
 if has("win32") || has("win64") "{{{
     if exists('$HOME')
-        let g:galaxy_store_Folder = expand('$HOME') . 'vimfiles/colors/galaxy/'
+        let g:galaxy_store_Folder = expand('$HOME').'\vimfiles\colors\galaxy\'
+        let g:galaxy_cache_File = expand('$HOME') . '\.vim_galaxy_cache'
     else
-        let g:galaxy_store_Folder = expand('$VIM') . 'vimfiles/colors/galaxy/'
+        let g:galaxy_store_Folder = expand('$VIM').'\vimfiles\colors\galaxy\'
+        let g:galaxy_cache_File = expand('$VIM') . '\.vim_galaxy_cache'
     endif
 else
     let g:galaxy_store_Folder = expand('$HOME') . '/.vim/colors/galaxy/'
+    let g:galaxy_cache_File = expand('$HOME') . '/.vim_galaxy_cache'
 endif "}}}
 
 if !exists('g:galaxy_term_color')
