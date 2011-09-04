@@ -14,7 +14,11 @@
         Clearly color for diff mode.
         ...
 
-**Take a glance:** http://i54.tinypic.com/2vi5h04.png
+**Take a glance:** 
+
+   GUI  http://i55.tinypic.com/u0qh2.png
+
+   TERM http://i56.tinypic.com/2nr234y.png
 
 **where to start:**
 
@@ -54,6 +58,7 @@ Generate schemes with colorlist~
         You will got a colorlist window opened with W3C standard colorname.
         Put cursor in it. Then press '<leader>gla'
         All the colorlist in it will be generated to schemes.
+        Now you got 100+ schemes.
         Colorlist like 'COLORNAME #ffffff' will be processed.
 
 Delete schemes~

@@ -89,13 +89,13 @@ let s:clr_txt=[
 " s:built_in_schemes "{{{
 let s:built_in_schemes=[
             \{"name":"Paper_And_Pen",
-            \"colors":["DFD8D3","313236","2D527D","991818","CC8C81"]},
+            \"colors":["DDD8D5","313236","2D527D","991818","CC8C81"]},
             \{"name":"Ubuntu",
             \"colors":["1B1317","AD9986","BA6045","F03535","2E3A4F"]},
             \{"name":"Spring",
-            \"colors":["CBE5A1","575759","37629E","B32222","CCB566"]},
+            \"colors":["D5E6A1","575759","37629E","B32222","CCB566"]},
             \{"name":"Village",
-            \"colors":["BAE5AC","361A1A","2E4873","15458C","F2D530"],
+            \"colors":["B1E6AC","361A1A","2E4873","15458C","F2D530"],
             \"style":"COLOUR"},
             \{"name":"Industry",
             \"colors":["0B0B0F","A6A2A0","81A0CD","54DFB1","222980"],
