@@ -118,4 +118,3 @@ Generate helptags. `:helptags ~/.vim/doc
            https://github.com/Rykka/vim-galaxy/
            And you can report bugs and suggestions at
            https://github.com/Rykka/vim-galaxy/issues 
-       3 
