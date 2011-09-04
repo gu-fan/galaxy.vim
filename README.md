@@ -81,9 +81,9 @@ With Terminal~
             And only support "xterm\rxvt\screen\TMUX" now.
 
 ##Install:##
-1.Using [Vundle.vim](Recommend):~
+1.Using [Vundle.vim](https://github.com/gmarik/vundle) (Recommend):~
 
-https://github.com/gmarik/vundle
+
 
 After installed vundle and git. Add this line to your vimrc  
 
@@ -94,13 +94,10 @@ Run `:BundleInstall` to install.
 
 And update ColorV easily by `:BundleInstall!`
  
-2.Using [Galaxy on Vim.org]~
+2.Using [Galaxy on Vim.org](http://www.vim.org/scripts/script.php?script_id=3597)~
  
-You should download latest 'ColorV' at first.
+You should download latest [ColorV on Vim.org](http://www.vim.org/scripts/script.php?script_id=3597) at first.
 
-http://www.vim.org/scripts/script.php?script_id=3597
-
-http://www.vim.org/scripts/script.php?script_id=3597
 
 Download the latest version of tar.gz file, 
 
@@ -121,4 +118,4 @@ Generate helptags. `:helptags ~/.vim/doc
            https://github.com/Rykka/vim-galaxy/
            And you can report bugs and suggestions at
            https://github.com/Rykka/vim-galaxy/issues 
-        
+       3 
