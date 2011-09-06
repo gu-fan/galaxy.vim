@@ -28,7 +28,7 @@
 
     Built-in Themes:
 
-* in GUI          http://i55.tinypic.com/u0qh2.png
+* in GUI          [http://i55.tinypic.com/u0qh2.png](http://i55.tinypic.com/u0qh2.png)
 
 * in TERM(256)    http://i56.tinypic.com/2nr234y.png
 
