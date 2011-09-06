@@ -1016,8 +1016,7 @@ endfunction "}}}
 function! galaxy#win() "{{{
     call s:getwin()
     "{{{local setting 
-    " 
-    setl ma
+     
     setlocal winfixwidth
     setlocal nospell
     setl nocursorline nocursorcolumn
@@ -1106,11 +1105,13 @@ function! galaxy#win() "{{{
     endfor
     let l:win_h = len(StringList)
     let l:win_h = l:win_h > 20 ? 20 : l:win_h
+    setl ma
     if !empty(StringList)
         for i in range(len(StringList))
             call setline(i+1,StringList[i])
         endfor
     endif
+    setl noma
     if winnr('$') != 1
         execute 'resize' l:win_h
         redraw
@@ -1118,7 +1119,6 @@ function! galaxy#win() "{{{
     call s:echo(len(s:scheme_list)." schemes loaded. Now is ["
                 \.s:scheme.name."].")
     call search('\<'.s:scheme.name.'\>')
-    setl noma
 endfunction "}}}
 function! s:getwin() "{{{
     let spLoc= g:galaxy.winpos == "top" ? "topleft " : "botright "
