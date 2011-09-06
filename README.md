@@ -14,6 +14,7 @@
         1-color-to-scheme generator.
         5-color to tune your schemes.
         100+ schemes generate simply with colorname-list.
+        A window to choose schemes easily.
 
         And...
         Terminal (256/16/8) support with all schemes.
