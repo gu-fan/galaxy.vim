@@ -6,7 +6,7 @@
         Get your preferred colorscheme in a simplest way.
             1.Input your scheme name
             2.Choose your preferred color for background.
-        Finished.You got it.
+        You got it.
 
 * With this you get:
 
