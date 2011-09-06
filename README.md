@@ -18,7 +18,7 @@
 
         And...
         Terminal (256/16/8) support with all schemes.
-        StatusLine highlight with insert-enter.
+        Insert-mode statusline hightlight.
         Tab/Fold/Popmenu/Wild Menu/... with comfort balance.
         Synatax colors with distinct contrast.
         Diff colors clearly shows the diff texts.
