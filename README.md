@@ -1,26 +1,35 @@
 ##INTRO##
 **galaxy** is a vim colorscheme that generate schemes with colors.
     
-    With this you can:
-        Simply get your desired colorscheme. 
+* With this you can:
 
-    With this you get:
+        Get your preferred colorscheme in a simplest way.
+            1.Input your scheme name
+            2.Choose your preferred color for background.
+        Finished.
+
+* With this you get:
+
         5 built-in schemes.
-        Generate scheme with only one color.
-        Edit schemes in 5 colors.
-        Simply generate 100+ schemes with colorname-list.
+        1-color-to-scheme generator.
+        5-color to tune your schemes.
+        100+ schemes generate simply with colorname-list.
+
+        And...
         Terminal (256/16/8) support with all schemes.
         StatusLine highlight with insert-enter.
-        Clearly color for diff mode.
+        Tab/Popmenu/Wild Menu/... with same hue.
+        Synatax color with same lumination
+        Diff color clearly shows the diff texts.
         ...
 
 **Take a glance:** 
 
     Built-in Themes:
 
-        GUI             http://i55.tinypic.com/u0qh2.png
+        in GUI          http://i55.tinypic.com/u0qh2.png
 
-        TERM(256)       http://i56.tinypic.com/2nr234y.png
+        in TERM(256)    http://i56.tinypic.com/2nr234y.png
 
     Galaxy window       http://i56.tinypic.com/153rzgp.png
    
