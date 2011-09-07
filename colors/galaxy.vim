@@ -21,6 +21,11 @@ endif
 "}}}
 " _VAR "{{{1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:galaxy={}
+let g:galaxy.name="_GALAXY_"
+let g:galaxy.version="1.0.1"
+let g:galaxy.winpos = "bot"
+
 if has("win32") || has("win64") "{{{
     if exists('$HOME')
         let g:galaxy_store_Folder = expand('$HOME').'\vimfiles\colors\galaxy\'
@@ -56,10 +61,6 @@ elseif !has("gui_running") && g:galaxy_term_check == 1 "{{{
     endif
 endif "}}}
 
-let g:galaxy={}
-let g:galaxy.name="_GALAXY_"
-let g:galaxy.version="1.0.0"
-let g:galaxy.winpos = "bot"
 
 let s:nocolor         = "NONE"
 let s:n               = "NONE"

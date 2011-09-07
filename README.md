@@ -40,8 +40,11 @@
         :colorscheme galaxy
         :Galaxy
 
-(**NOTE**: require vim plugin:ColorV)
+**NOTE**: require vim plugin:ColorV
 
+**NOTE**: If you have built a nice scheme and want to share it.
+
+          Post it at https://github.com/Rykka/vim-galaxy/issues 
 ##Use:##
 Load galaxy~
 
