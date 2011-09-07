@@ -1,4 +1,4 @@
-*galaxy.txt* *galaxy.vim*         Galaxy       Generate schemes with colors
+*galaxy.txt* *galaxy.vim*         Galaxy          Generate scheme with color
                                           
   
                      ______      __                                    ~
