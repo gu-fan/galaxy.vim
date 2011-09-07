@@ -1077,7 +1077,7 @@ function! galaxy#win() "{{{
     "Text
     let StringList = []
     let m = "Galaxy v".g:galaxy.version."  
-                \    F1:help  gn:new e:edit dd:delete q:quit ?"
+                \    H:help  gn:new e:edit dd:delete q:quit  ?"
     call add(StringList,m)
     let m = "NAME"
     let m = s:line_sub(m,"BG",20)
