@@ -22,6 +22,7 @@ INTRO                                               *galaxy-intro*
 
     With this you can:
         Get your preferred colorscheme in a simplest way.
+        Press <leader>glg or :Galaxygen
             1.Input your scheme name
             2.Choose your preferred color for background.
         You got it.
@@ -42,7 +43,7 @@ INTRO                                               *galaxy-intro*
         ...
 
     Take a glance: 
-        Built-in Themes:
+        Built-in schemes:
             in GUI          http://i55.tinypic.com/u0qh2.png
             in TERM(256)    http://i56.tinypic.com/2nr234y.png
         Galaxy window:      http://i56.tinypic.com/153rzgp.png
@@ -51,7 +52,8 @@ INTRO                                               *galaxy-intro*
         :colorscheme galaxy
         :Galaxy
 
-    NOTE: require vim plugin:ColorV
+    NOTE: Require vim plugin:ColorV
+          http://www.vim.org/scripts/script.php?script_id=3597 
     NOTE: If you have built a nice scheme and want to share it.
           Post it at https://github.com/Rykka/vim-galaxy/issues 
     
@@ -67,7 +69,7 @@ QUICKSTART                                          *galaxy-quickstart*
         Then you can choose/edit/generate/delete schemes in it.
 
     Generate new schemes~
-        'gn'
+        <leader>glg or :GalaxyGen
         Input your scheme's name.
         Then choose a color as the schemes background. then press 'q'
         To quit the choosing window. The schemes auto generated.
@@ -81,9 +83,10 @@ QUICKSTART                                          *galaxy-quickstart*
         And you will got the changed scheme loaded immediately.
 
     Generate schemes with colorlist~
+        Open ColorV built-in colorname list.
         <leader>cl or :ColorVlist
         You will see a colorlist window opened with W3C standard colorname.
-        Put cursor in it. Then press '<leader>gla'
+        Put cursor in it. Then press '<leader>gla' 
         All the colorlist in it will be generated to schemes.
         Now you got 100+ schemes.
         Colorlist like 'COLORNAME #ffffff' will be processed.
@@ -140,7 +143,8 @@ COMMANDS                                              *galaxy-commands*
     <leader>gll or :Galaxy              Open galaxy window.
     <leader>gln or :GalaxyNext          Next galaxy scheme.
     <leader>glp or :GalaxyPrev          Prev galaxy scheme.
-    <leader>gla or :GalaxyGen           Generate schemes with color-list in
+    <leader>glg or :GalaxyGen           Generate schemes with choosing color.
+    <leader>gla or :GalaxyAuto          Generate schemes with color-list in
                                         buffer. 'COLORNAME  #ffffff'
 
 OPTIONS                                               *galaxy-options*

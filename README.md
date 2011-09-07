@@ -4,6 +4,7 @@
 * With this you can:
 
         Get your preferred colorscheme in a simplest way.
+        Press <leader>glg or :Galaxygen
             1.Input your scheme name
             2.Choose your preferred color for background.
         You got it.
@@ -26,7 +27,7 @@
 
 **Take a glance:** 
 
-    Built-in Themes:
+    Built-in schemes:
 
 * in GUI          ![http://i55.tinypic.com/u0qh2.png](http://i55.tinypic.com/u0qh2.png)
 
@@ -40,7 +41,9 @@
         :colorscheme galaxy
         :Galaxy
 
-**NOTE**: require vim plugin:ColorV
+**NOTE**: Require vim plugin:ColorV
+            
+          http://www.vim.org/scripts/script.php?script_id=3597 
 
 **NOTE**: If you have built a nice scheme and want to share it.
 
@@ -58,7 +61,7 @@ Open galaxy manager window~
 
 Generate new schemes~
 
-        'gn'
+        <leader>glg or :GalaxyGen
         Input your scheme's name.
         Then choose a color as the schemes background. then press 'q'
         To quit the choosing window. The schemes auto generated.
@@ -74,6 +77,7 @@ Edit your schemes~
 
 Generate schemes with colorlist~
 
+        Open ColorV built-in colorname list.
         <leader>cl or :ColorVlist
         You will got a colorlist window opened with W3C standard colorname.
         Put cursor in it. Then press '<leader>gla'

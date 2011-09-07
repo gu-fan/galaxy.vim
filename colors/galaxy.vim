@@ -1049,7 +1049,7 @@ function! galaxy#win() "{{{
     "{{{ maps
     nmap <silent><buffer> q :call galaxy#exit_win()<cr>
     nmap <silent><buffer> Q :call galaxy#exit_win()<cr>
-    nmap <silent><buffer> gn :call <SID>win_scheme_gen_colorv()<cr>
+    nmap <silent><buffer> gn :call galaxy#win_scheme_gen_colorv()<cr>
     nmap <silent><buffer> e :call <SID>win_scheme_edit_colorv()<cr>
     nmap <silent><buffer> dd :call <SID>win_scheme_del()<cr>
     nmap <silent><buffer> D :call <SID>win_scheme_del()<cr>
@@ -1413,7 +1413,7 @@ endfunction "}}}
 "}}}
 "GENS {{{1
 "============================================================================
-function! s:win_scheme_gen_colorv() "{{{
+function! galaxy#win_scheme_gen_colorv() "{{{
     let scheme={}
     let name=input("Please Input your Scheme name ([a-zA-Z0-9_]):\n")
     if !empty(name) && name =~ '^[a-zA-Z0-9_]*$'
@@ -1638,7 +1638,6 @@ function! galaxy#auto_gen() "{{{
         " echo string(namelist)
         call galaxy#load_scheme(s:scheme.name)
 endfunction "}}}
-
 "}}}
 "HELP "{{{
 "======================================================================
