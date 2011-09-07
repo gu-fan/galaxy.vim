@@ -105,6 +105,10 @@ With Terminal~
 
             Terminal cursor may have bugs. 
             And only support "xterm\rxvt\screen\TMUX" now.
+            If Term color not work properly.
+            Please report your [OS,vim version,&t_Co,&term]
+            at https://github.com/Rykka/vim-galaxy/issues 
+
 
 ##Install:##
 1.Using [Vundle.vim](https://github.com/gmarik/vundle) (Recommend):~
