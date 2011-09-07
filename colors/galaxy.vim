@@ -48,7 +48,8 @@ elseif !has("gui_running") && g:galaxy_term_check == 1 "{{{
         \ || &term =="ansi" 
         \ || &term =="os2ansi" || &term=="vt52"
         set t_Co=16
-    elseif &term=="linux" || &term == "pcterm" 
+    elseif &term=="linux" || &term == "pcterm" || 
+                \ (&term=="xterm-color" && has("gui_mac"))
         set t_Co=8
     else
     	set t_Co=256
@@ -91,7 +92,7 @@ let s:built_in_schemes=[
             \{"name":"Paper_And_Pen",
             \"colors":["DDD8D5","313236","2D527D","991818","CC8C81"]},
             \{"name":"Ubuntu",
-            \"colors":["1B1317","AD9986","BA6045","F03535","2E3A4F"]},
+            \"colors":["250F1C","BABDC0","CC854B","F03535","2E3A4F"]},
             \{"name":"Spring",
             \"colors":["D5E6A1","575759","37629E","B32222","CCB566"]},
             \{"name":"Village",
@@ -1208,32 +1209,22 @@ function! s:win_scheme_edit_colorv() "{{{
             let scheme.style=""
         endif
         call s:write_store(scheme)
-        " call galaxy#win()
-        if !exists('t:galaxyBufName')
-            call s:error("No Galaxy window found.Stopped")
-            return -1
-        else
-            if s:is_open()
-                call s:exec(s:get_winnr() . " wincmd w")
-            else
-                call s:error("No Galaxy window found.Stopped")
-                return -1
-            endif
+        if s:go_buffer_win(g:galaxy.name)
+            setl ma
+                let colors=""
+                for color in scheme.colors
+                    let colors .= color." "
+                endfor
+                let name = scheme.name
+                let style = exists("scheme.style") ? scheme.style : ""
+                let m = strpart(name,0,16)
+                let m = s:line_sub(m,colors,20)
+                let m = s:line_sub(m,style,56)
+                call setline(linenum,m)
+            setl noma
+            call colorv#preview_line("NBC",linenum)
         endif
-        setl ma
-            let colors=""
-            for color in scheme.colors
-                let colors .= color." "
-            endfor
-            let name = scheme.name
-            let style = exists("scheme.style") ? scheme.style : ""
-            let m = strpart(name,0,16)
-            let m = s:line_sub(m,colors,20)
-            let m = s:line_sub(m,style,56)
-            call setline(linenum,m)
-        setl noma
     	let s:edit_clr=-1
-        call colorv#preview_line("NBC",linenum)
         call galaxy#load_scheme(scheme.name)
     else
     	call s:echo("Please put cursor on the colors or styles.")
@@ -1253,17 +1244,8 @@ function! galaxy#e_call(color) "{{{
         let scheme.colors[s:edit_clr]=eval(color)
     endif
     call s:write_store(scheme)
-
-    if !exists('t:galaxyBufName')
-        call s:error("No Galaxy window found.Stopped")
-        return -1
-    else
-    	if s:is_open()
-            call s:exec(s:get_winnr() . " wincmd w")
-        else
-            call s:error("No Galaxy window found.Stopped")
-            return -1
-        endif
+    if !s:go_buffer_win(g:galaxy.name)
+    	return -1
     endif
     setl ma
         let colors=""
@@ -1383,20 +1365,11 @@ function! s:win_scheme_del() "{{{
     if filewritable(file) && input=~? 'y\%[es]'
     	call delete(file)
     	call s:echo("File deleted.")
-        if !exists('t:galaxyBufName')
-            call s:error("No Galaxy window found.Stopped")
-            return -1
-        else
-            if s:is_open()
-                call s:exec(s:get_winnr() . " wincmd w")
-            else
-                call s:error("No Galaxy window found.Stopped")
-                return -1
-            endif
+    	if s:go_buffer_win(g:galaxy.name)
+            setl ma
+            exec linenum."delete"
+            setl noma
         endif
-    	setl ma
-    	exec linenum."delete"
-    	setl noma
     elseif !filewritable(file) 
     	call s:echo("Error:file not writeable.")
     	return
@@ -1673,16 +1646,6 @@ function! s:exec(cmd) "{{{
     set ei=all
     exec a:cmd
     let &ei = old_ei
-endfunction "}}}
-function! s:is_open() "{{{
-    return s:get_winnr() != -1
-endfunction "}}}
-function! s:get_winnr() "{{{
-    if exists("t:galaxyBufName")
-        return bufwinnr(t:galaxyBufName)
-    else
-        return -1
-    endif
 endfunction "}}}
 function! s:echo(msg) "{{{
     exe "echom \"[Note] ".escape(a:msg,'"')."\""
