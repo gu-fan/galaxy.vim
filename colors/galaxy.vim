@@ -1748,7 +1748,7 @@ function! s:write_store(scheme) "{{{
     let scheme=a:scheme
     let CacheStringList = []
     if !isdirectory(expand(g:galaxy_store_Folder))
-    	if has("*mkdir")
+    	if exists("*mkdir")
             call mkdir(expand(g:galaxy_store_Folder),"p")
         else
             call s:error("Could not mkdir on this system. Stopped.")
