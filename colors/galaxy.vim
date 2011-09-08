@@ -1748,7 +1748,12 @@ function! s:write_store(scheme) "{{{
     let scheme=a:scheme
     let CacheStringList = []
     if !isdirectory(expand(g:galaxy_store_Folder))
-        call mkdir(expand(g:galaxy_store_Folder))
+    	if has("*mkdir")
+            call mkdir(expand(g:galaxy_store_Folder),"p")
+        else
+            call s:error("Could not mkdir on this system. Stopped.")
+            return -1
+        endif
     endif
     " XXX: let scheme_list_list became the editing variable
             if exists("scheme.colors") && len(scheme.colors)==5
