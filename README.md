@@ -4,7 +4,7 @@
 * With this you can:
 
         Get your preferred colorscheme in a simplest way.
-        Press <leader>glg or :Galaxygen
+        Press `<leader>glg` or input `:Galaxygen`,then:
             1.Input your scheme name
             2.Choose your preferred color for background.
         You got it.
