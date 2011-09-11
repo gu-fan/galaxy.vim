@@ -102,6 +102,7 @@ QUICKSTART                                          *galaxy-quickstart*
             So you can set them with different scheme.
 
     NOTE    Terminal scheme in 8/16 terminal color is predefined.
+            And the 'cursorline' option is on by default.
 
     NOTE    Terminal cursor may have bugs. 
             And only support "xterm\rxvt\screen\TMUX" now.
