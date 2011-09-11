@@ -3,16 +3,15 @@
 "    File: colors/galaxy.vim
 " Summary: Generate your scheme with your fav color.
 "  Author: Rykka.Krin <Rykka.Krin(at)gmail.com>
-" Last Update: 2011-09-10
+" Last Update: 2011-09-11
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim
 "  CHCK "{{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-if version < 700 || exists("g:galaxy_loaded")
+if version < 700 
     finish
 else
-    let g:galaxy_loaded=1
     hi clear
     if exists("syntax_on")
         syntax reset
@@ -87,9 +86,9 @@ let s:clr_txt=[
 " s:built_in_schemes "{{{
 let s:built_in_schemes=[
             \{"name":"Paper_And_Pen",
-            \"colors":["DDD8D5","313236","2D527D","991818","CC8C81"]},
+            \"colors":["EBE9E8","313236","2D527D","CC2020","CC8C81"]},
             \{"name":"Ubuntu",
-            \"colors":["250F1C","BABDC0","CC854B","F03535","2E3A4F"]},
+            \"colors":["250F1C","BABDC0","CC9160","F03535","2E3A4F"]},
             \{"name":"Spring",
             \"colors":["D5E6A1","575759","37629E","B32222","CCB566"]},
             \{"name":"Village",
@@ -134,8 +133,8 @@ let s:style_hllist=
         \["User7",          "difclr7",  "fgdclr2",  "b"     ],
         \["User8",          "difclr8",  "fgdclr2",  "b"     ],
         \["User9",          "difclr9",  "fgdclr2",  "b"     ],
-        \["MoreMsg",        "bgdclr0",  "echclrC",  "b"     ],
-        \["Question",       "bgdclr0",  "echclrA",  "b"     ],
+        \["MoreMsg",        "bgdclr0",  "echclr12",  "b"     ],
+        \["Question",       "bgdclr0",  "echclr10",  "b"     ],
         \["ModeMsg",        "bgdclr0",  "echclr9",  "b"     ],
         \["MatchParen",     "bgdclr0",  "echclr6",  "b"    ],
         \["WarningMsg",     "bgdclr0",  "echclr3",  "b"    ],
@@ -200,8 +199,8 @@ let s:gui_hl_list=[
             \["User7",          "echclr6",  "bgdclr3",  "b"     ],
             \["User8",          "echclr7",  "bgdclr3",  "b"     ],
             \["User9",          "echclr8",  "bgdclr3",  "b"     ],
-            \["MoreMsg",        "bgdclr0",  "echclrC",  "b"     ],
-            \["Question",       "bgdclr0",  "echclrA",  "b"     ],
+            \["MoreMsg",        "bgdclr0",  "echclr12",  "b"     ],
+            \["Question",       "bgdclr0",  "echclr10",  "b"     ],
             \["ModeMsg",        "bgdclr0",  "echclr9",  "b"     ],
             \["MatchParen",     "bgdclr0",  "echclr6",  "b"    ],
             \["WarningMsg",     "bgdclr0",  "echclr3",  "b"    ],
@@ -544,8 +543,8 @@ let s:synlink_dict.vimwiki2=[
             \["VimwikiHeader2",          "echclr4",  "bgdclr0",  "b"     ],
             \["VimwikiHeader3",          "echclr6",  "bgdclr0",  "b"     ],
             \["VimwikiHeader4",          "echclr8",  "bgdclr0",  "b"     ],
-            \["VimwikiHeader5",          "echclrA",  "bgdclr0",  "b"     ],
-            \["VimwikiHeader6",          "echclrC",  "bgdclr0",  "b"     ],
+            \["VimwikiHeader5",          "echclr10",  "bgdclr0",  "b"     ],
+            \["VimwikiHeader6",          "echclr12",  "bgdclr0",  "b"     ],
             \["Vimwiki_Posit9",          "echclr0",  "bgdclr0",  "b"     ],
             \["Vimwiki_Posit8",          "echclr1",  "bgdclr0",  "b"     ],
             \["Vimwiki_Posit7",          "echclr2",  "bgdclr0",  "b"     ],
@@ -556,14 +555,14 @@ let s:synlink_dict.vimwiki2=[
             \["Vimwiki_Posit2",          "echclr7",  "bgdclr0",  "b"     ],
             \["Vimwiki_Posit1",          "echclr8",  "bgdclr0",  "b"     ],
             \["Vimwiki_minus1",          "echclr9",  "bgdclr0",  "b"     ],
-            \["Vimwiki_minus2",          "echclrA",  "bgdclr0",  "b"     ],
-            \["Vimwiki_minus3",          "echclrB",  "bgdclr0",  "b"     ],
-            \["Vimwiki_minus4",          "echclrC",  "bgdclr0",  "b"     ],
-            \["Vimwiki_minus5",          "echclrD",  "bgdclr0",  "b"     ],
-            \["Vimwiki_minus6",          "echclrE",  "bgdclr0",  "b"     ],
-            \["Vimwiki_minus7",          "echclrF",  "bgdclr0",  "b"     ],
-            \["Vimwiki_minus8",          "echclrG",  "bgdclr0",  "b"     ],
-            \["Vimwiki_minus9",          "echclrH",  "bgdclr0",  "b"     ],
+            \["Vimwiki_minus2",          "echclr10",  "bgdclr0",  "b"     ],
+            \["Vimwiki_minus3",          "echclr11",  "bgdclr0",  "b"     ],
+            \["Vimwiki_minus4",          "echclr12",  "bgdclr0",  "b"     ],
+            \["Vimwiki_minus5",          "echclr13",  "bgdclr0",  "b"     ],
+            \["Vimwiki_minus6",          "echclr14",  "bgdclr0",  "b"     ],
+            \["Vimwiki_minus7",          "echclr15",  "bgdclr0",  "b"     ],
+            \["Vimwiki_minus8",          "echclr16",  "bgdclr0",  "b"     ],
+            \["Vimwiki_minus9",          "echclr17",  "bgdclr0",  "b"     ],
             \["Vimwiki_minus0",          "fgdclr3",  "bgdclr0",  "b"     ],
             \["Vimwiki_Posit0",          "fgdclr4",  "bgdclr0",  "b"     ],
             \]
@@ -609,7 +608,7 @@ let s:fgdclr{i} = s:fgdclr_list[i]
 endfor
 " 
 let s:synclr_list=colorv#yiq_list_gen(s:scheme.colors[2],"Hue",10,35)
-for i in range(9)
+for i in range(10)
     if has("gui_running")
         let s:synclr{i} = s:synclr_list[i]
     else
@@ -617,14 +616,14 @@ for i in range(9)
     endif
 endfor
 
-let char_list="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+" let char_list="0123456789abcdefghijklmnopqrstuvwxyz"
 let s:echclr_list=colorv#yiq_list_gen(s:scheme.colors[3],"Hue",19,19)
 for i in range(18)
-    let char=char_list[i]
+    " let char=char_list[i]
     if has("gui_running")
-        let s:echclr{char} = s:echclr_list[i]
+        let s:echclr{i} = s:echclr_list[i]
     else
-    	let s:echclr{char} = colorv#hex2term(s:echclr_list[i],"CHECK")
+    	let s:echclr{i} = colorv#hex2term(s:echclr_list[i],"CHECK")
     endif
 endfor
 let s:difclr_list=colorv#yiq_list_gen(s:scheme.colors[4],"Hue",12,29)
@@ -703,6 +702,8 @@ function! s:hi_list(list,...) "{{{
             
             let hl_fg=tolower(hl_fg)
             let hl_bg=tolower(hl_bg)
+            " "" or "ffffff" 
+            " s:echclr10 5A3F00
             let fg_txt = hl_fg =~ '\x\{6}' || empty(hl_fg) ? hl_fg :
                         \ exists("s:".hl_fg) ? s:{hl_fg} : s:fgdclr0
             let bg_txt = hl_bg =~ '\x\{6}' || empty(hl_bg) ? hl_bg :
@@ -982,18 +983,17 @@ function! galaxy#win() "{{{
     map <silent><buffer>  <F1> :h galaxy<cr>
     map <silent><buffer> H :h galaxy<cr>
     "}}}
-
     "hi "{{{
     let Title_ptn='\%1l\%<20c'
     let Title_ptn2='\%1l\%>19c'
     let Title_ptnq='\%1l\%60c?'
     call matchadd("SpecialComment",Title_ptn)
     call matchadd("Comment",Title_ptn2)
-    call matchadd("Title",Title_ptnq,25)
+    call matchadd("TODO",Title_ptnq,25)
     let Type_ptn='\%2l'
-    call matchadd("Question",Type_ptn,10) "}}}
+    call matchadd("Question",Type_ptn,4) "}}}
 
-    "Text
+    "Text "{{{
     let StringList = []
     let m = "Galaxy v".g:galaxy.version."  
                 \    H:help  gn:new e:edit dd:delete q:quit  ?"
@@ -1036,7 +1036,7 @@ function! galaxy#win() "{{{
             call setline(i+1,StringList[i])
         endfor
     endif
-    setl noma
+    setl noma "}}}
     if winnr('$') != 1
         execute 'resize' l:win_h
         redraw
@@ -1314,6 +1314,7 @@ function! s:on_cursor_moved()  "{{{
         else
             execute '2match ' "none"
         endif
+        " echoe c
     else
         execute 'match' "none"
         execute '2match ' "none"
@@ -1367,7 +1368,21 @@ function! galaxy#gen_call(color,name,...) "{{{
     " syny 65~75  65~75  60~80  78~88  25~35  30~45  30~45
     " msgy 75~80  75~80  75~95  88~93  35~45  40~55  40~50
     " dify 20~30  30~40  30~50  45~55  50~60  55~75  75~90
-
+    
+    " SATURATIONS:
+    " bgrs 0~100
+    " fgrs 0~25 
+    " syns 40~65
+    " msgs 70~95
+    " difs 35~70
+      
+    " HUE:
+    " bgrh 0~360
+    " fgrh +180
+    " synh +60
+    " msgh +180
+    " difh +85
+    
     "Foreground color
     "set fgr y  !bgry
     if bgry>=80
@@ -1422,7 +1437,7 @@ function! galaxy#gen_call(color,name,...) "{{{
     	let synv = fgrv+20
     endif
 
-    let [synh,syns,synv]=[bgrh+100,fgrs+40,synv]
+    let [synh,syns,synv]=[bgrh+60,fgrs+40,synv]
     let syn0=colorv#hsv2hex([synh,syns,synv])
     
     if fgry>=90
@@ -1446,7 +1461,7 @@ function! galaxy#gen_call(color,name,...) "{{{
     "Msg color
     "msg h:b+180+210 s:75~90 v:15~100
     let msgv=synv+5
-    let [msgh,msgs,msgv]=[bgrh+280,fgrs+70,msgv]
+    let [msgh,msgs,msgv]=[bgrh+180,fgrs+70,msgv]
     let msg0=colorv#hsv2hex([msgh,msgs,msgv])
     
     if syny>=80
@@ -1492,7 +1507,7 @@ function! galaxy#gen_call(color,name,...) "{{{
     else
     	let difv=bgrv-20
     endif
-    let [difh,difs,difv]=[bgrh+60,difs,difv]
+    let [difh,difs,difv]=[bgrh+85,difs,difv]
     let dif0=colorv#hsv2hex([difh,difs,difv])
 
     if bgry>=80
