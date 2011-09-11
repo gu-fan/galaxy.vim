@@ -10,32 +10,19 @@
             2.Choose your preferred color for background.
         You got a scheme! And you can tuning it with it's colors.
 
-* With this you get:
+* With this you got:
 
         5 built-in schemes.
-        1-color-to-scheme generator.
-        5-color to tune your schemes.
-        100+ schemes generate simply with colorname-list.
-        A window to choose schemes easily.
-
-        And...
-        Terminal (256/16/8) support with all schemes.
-        Insert-mode statusline hightlight.
-        Tab/Fold/Popmenu/Wild Menu/... with comfort balance.
-        Synatax colors with distinct contrast.
-        Diff colors clearly shows the diff texts.
-        ...
+        100+ schemes generated simply with colorname-list.
+        Terminal (256/16/8) support for all schemes.
 
 **Take a glance:** 
 
 * Built-in schemes:
 
-* in GUI          ![http://i55.tinypic.com/u0qh2.png](http://i55.tinypic.com/u0qh2.png)
+    - in GUI          ![http://i55.tinypic.com/u0qh2.png](http://i55.tinypic.com/u0qh2.png)
 
     - in TERM(256)    http://i56.tinypic.com/2nr234y.png
-
-    - Galaxy window   http://i56.tinypic.com/153rzgp.png
-   
 
 * Highligs:
   
