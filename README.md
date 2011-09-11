@@ -42,6 +42,7 @@
     - A built-in:     http://imgur.com/s2Osg.png
             
     - A generated:    http://i.imgur.com/OpqR2.png
+      
 **where to start:**
 
         :colorscheme galaxy
