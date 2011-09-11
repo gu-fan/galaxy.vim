@@ -25,7 +25,7 @@
 
     - in TERM(256)    http://i56.tinypic.com/2nr234y.png
 
-* Highligs:
+* Highlights:
   
     - A built-in:     http://imgur.com/s2Osg.png
             
@@ -33,8 +33,7 @@
       
 **where to start:**
 
-        :colorscheme galaxy
-        :Galaxy
+        <leader>gll or :Galaxy
 
 **NOTE**: Require vim plugin:ColorV
             
@@ -43,6 +42,11 @@
 **NOTE**: If you have built a nice scheme and want to share it.
 
           Post it at https://github.com/Rykka/vim-galaxy/issues 
+          
+          I can put it into built-in schemes or help me 
+
+          improving the Auto Generator.
+
 ##Use:##
 Load galaxy~
 
@@ -115,8 +119,6 @@ With Terminal~
 
 ##Install:##
 1.Using [Vundle.vim](https://github.com/gmarik/vundle) (Recommend):~
-
-
 
 After installed vundle and git. Add this line to your vimrc  
 

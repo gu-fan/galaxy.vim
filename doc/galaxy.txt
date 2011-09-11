@@ -38,18 +38,19 @@ INTRO                                               *galaxy-intro*
         Built-in schemes:
             in GUI          http://i55.tinypic.com/u0qh2.png
             in TERM(256)    http://i56.tinypic.com/2nr234y.png
-        Highligs:
+        Highlights:
             A built-in:     http://imgur.com/s2Osg.png
             A generated:    http://i.imgur.com/OpqR2.png
 
     Where to start:     
-        :colorscheme galaxy
-        :Galaxy
+        <leader>gll or :Galaxy
 
     NOTE: Require vim plugin:ColorV
           http://www.vim.org/scripts/script.php?script_id=3597 
     NOTE: If you have built a nice scheme and want to share it.
           Post it at https://github.com/Rykka/vim-galaxy/issues 
+          I can put it into built-in schemes or help me 
+          improving the Auto Generator.
     
 ------------------------------------------------------------------------------
 QUICKSTART                                          *galaxy-quickstart*
@@ -123,8 +124,8 @@ INSTALL                                          *galaxy-install*
 2.Using [Galaxy on Vim.org]~
     You should download latest 'ColorV' at first.
     http://www.vim.org/scripts/script.php?script_id=3597
-    http://www.vim.org/scripts/script.php?script_id=3729
     Download the latest version of tar.gz file, 
+    http://www.vim.org/scripts/script.php?script_id=3729
     Extract to $VIMFILE folder. 
     ("~/.vim" for linux. "$HOME/vimfiles" for windows)
     Generate helptags. `:helptags ~/.vim/doc
