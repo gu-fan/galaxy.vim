@@ -1,5 +1,4 @@
 *galaxy.txt* *galaxy.vim*         Galaxy          Generate scheme with color
-                                          
   
                      ______      __                                    ~
                     / ____/___ _/ /___ __  ____  __                    ~
@@ -8,7 +7,7 @@
                   \____/\__,_/_/\__,_/_/|_|\__, /                      ~
                                           /____/                       ~
                              ver:1.0                                   ~
-
+                             
 ------------------------------------------------------------------------------
 CONTENTS                                         *galaxy-contents*
 1. Intro                                         |galaxy-intro|
@@ -22,10 +21,11 @@ INTRO                                               *galaxy-intro*
 
     With this you can:
         Get your preferred colorscheme in a simplest way.
-        Press <leader>glg or :Galaxygen
+        
+        Press `<leader>glg` or input `:GalaxyGen`,then:
             1.Input your scheme name
             2.Choose your preferred color for background.
-        You got it.
+        You got a scheme! And you can tuning it with it's colors.
 
     With this you get:
         5 built-in schemes.
@@ -47,6 +47,9 @@ INTRO                                               *galaxy-intro*
             in GUI          http://i55.tinypic.com/u0qh2.png
             in TERM(256)    http://i56.tinypic.com/2nr234y.png
         Galaxy window:      http://i56.tinypic.com/153rzgp.png
+        Highligs:
+            A built-in:     http://imgur.com/s2Osg.png
+            A generated:    http://i.imgur.com/OpqR2.png
 
     Where to start:     
         :colorscheme galaxy
@@ -62,6 +65,7 @@ QUICKSTART                                          *galaxy-quickstart*
 
     Load galaxy~
         :colorscheme galaxy
+        To use it persistently. Put it in your vimrc.
 
     Open galaxy manager window~
         <leader>gll or :Galaxy
@@ -89,7 +93,8 @@ QUICKSTART                                          *galaxy-quickstart*
         Put cursor in it. Then press '<leader>gla' 
         All the colorlist in it will be generated to schemes.
         Now you got 100+ schemes.
-        Colorlist like 'COLORNAME #ffffff' will be processed.
+        color-list like 'COLORNAME #ffffff' will be processed.
+        You can use ColorV to generate many more color-list.
 
     Delete schemes~
         move cursor in the galaxy window. 
@@ -164,56 +169,68 @@ DEVELOPER                                             *galaxy-developer*
    
 ------------------------------------------------------------------------------
 HISTORY                                               *galaxy-history*
-" DONE: 110905  set undercurl to reverse_error in terminal mode
+"1.1.0
+"  DONE: 110911  tuning built-in colors and auto-gen method
+"  DONE: 110911  update intro and intro pics.
+" FIXED: 110911  fix galaxy window color group
+"  DONE: 110910  term_color rewrite
+" FIXED: 110910  the fold line is confused with linenum.
+"  DONE: 110910  move color/. to autoload/. support call without load scheme.
+" FIXED: 110910  cache_num is useless.rmved
+"  DONE: 110910  input fg/bg/NONE with nocheck 
+"  DONE: 110905  set undercurl to reverse_error in terminal mode
+
 "1.0.0
-" DONE: 110902  error of background lightness output 
-" DONE: 110901  add guisp for undercurl
-" DONE: 110829  use yiq_list_gen to define syntax/msg/dif colors
-" DONE: 110820  1! color => 5 color
-" DONE: 110819  add more hue in difclr
-" DONE: 110815  use ColorV picker
-" DONE: 110809  presistence files write with command
-" DONE: 110809  the file sequence maybe different
-" DONE: 110809  load by s:cache_name 
-" DONE: 110809  load theme with specified name
-" DONE: 110809  the background-colored color is too little. add bgrhue
-                it's hue to background
-" DONE: 110808  pcterm/xterm/cygwin... support
-" DONE: 110808  set with presistence file
-" DONE: 110805  deprecating using g:. using serialzd file instead.
-" DONE: 110805  show scheme list
-"FIXED: 110803  reload error E127 "seems set background will reload the
-                colorscheme.  " unlet it or colorscheme will be reloaded.
-" DONE: 110803  presisitence of the s:num which will load it last time " let
-                s:num = exists("g:GALAXY_THEME_NUM") ? g:GALAXY_THEME_NUM
-                : 0 " it's not defined when colorscheme loaded!  " use cache
-                instead?
-" DONE: 110804  let the insert mode with themes
-" DONE: 110804  let s:list_insert_leave auto copy the current scheme
-" DONE: 110804  theme could use schemes 
-" DONE: 110804  add the g:galaxy_usr_dict and execute it
-" DONE: 110804  load cache and g: highlights and themes
-"WKRND: 110804  echom will show mes box when vim start.
-" DONE: 110804  presistence file load
-" DONE: 110804  change the sequence of  the colors to  fg syn ech
-                bg dif
-" DONE: 110804  color name with dict
-" DONE: 110804  hl Themes  [shadowing,  coloring]
-" DONE: 110803  store it in cache or it would not load when starting " Don't
-                let it be mixed with g:
-" DONE: 110803  " Quick switch style key mapping.
-" DONE: 110803  " one function with link and highlight
-" DONE: 110803  store it in cache or it would not load when starting " Don't
-                let it be mixed with g:
-" DONE: 110803  " Quick switch style key mapping.
-" DONE: 110803  " one function with link and highlight
-" DONE: 110731  statusline color define in one place " guifg=NONE and 'null'
-                define of guifg(that will suceed previous value )
-" DONE: 110731  set background will reload the colorscheme.  switch with usr's
-                theme list
-" DONE: 110731  switch with keymapping
-" DONE: 110728  cterm support with colormath python 
-" DONE: 110728  calculate fg/bg_txt for terminal
+"  DONE: 110902  error of background lightness output 
+"  DONE: 110901  add guisp for undercurl
+"  DONE: 110829  use yiq_list_gen to define syntax/msg/dif colors
+"  DONE: 110828  blue color brighteness compensate +
+"                by using the 'yiq' space
+"  DONE: 110820  1! color => 5 color
+"  DONE: 110819  add more hue in difclr
+"  DONE: 110815  use ColorV picker
+"  DONE: 110809  presistence files write with command
+"  DONE: 110809  the file sequence maybe different
+"  DONE: 110809  load by s:cache_name 
+"  DONE: 110809  load theme with specified name
+"  DONE: 110809  the background-colored color is too little. add bgrhue
+                 it's hue to background
+"  DONE: 110808  pcterm/xterm/cygwin... support
+"  DONE: 110808  set with presistence file
+"  DONE: 110805  deprecating using g:. using serialzd file instead.
+"  DONE: 110805  show scheme list
+" FIXED: 110803  reload error E127 "seems set background will reload the
+                 colorscheme.  " unlet it or colorscheme will be reloaded.
+"  DONE: 110803  presisitence of the s:num which will load it last time " let
+                 s:num = exists("g:GALAXY_THEME_NUM") ? g:GALAXY_THEME_NUM
+                 : 0 " it's not defined when colorscheme loaded!  " use cache
+                 instead?
+"  DONE: 110804  let the insert mode with themes
+"  DONE: 110804  let s:list_insert_leave auto copy the current scheme
+"  DONE: 110804  theme could use schemes 
+"  DONE: 110804  add the g:galaxy_usr_dict and execute it
+"  DONE: 110804  load cache and g: highlights and themes
+" WKRND: 110804  echom will show mes box when vim start.
+"  DONE: 110804  presistence file load
+"  DONE: 110804  change the sequence of  the colors to  fg syn ech
+                 bg dif
+"  DONE: 110804  color name with dict
+"  DONE: 110804  hl Themes  [shadowing,  coloring]
+"  DONE: 110803  store it in cache or it would not load when starting " Don't
+                 let it be mixed with g:
+"  DONE: 110803  " Quick switch style key mapping.
+"  DONE: 110803  " one function with link and highlight
+"  DONE: 110803  store it in cache or it would not load when starting " Don't
+                 let it be mixed with g:
+"  DONE: 110803  " Quick switch style key mapping.
+"  DONE: 110803  " one function with link and highlight
+"  DONE: 110731  statusline color define in one place " guifg=NONE and 'null'
+                 define of guifg(that will suceed previous value )
+"  DONE: 110731  set background will reload the colorscheme.  switch with usr's
+                 theme list
+"  DONE: 110731  switch with keymapping
+"  DONE: 110728  cterm support with colormath python 
+"  DONE: 110728  calculate fg/bg_txt for terminal
 ------------------------------------------------------------------------------
 LICENSE                                               *galaxy-license*
 

@@ -4,10 +4,11 @@
 * With this you can:
 
         Get your preferred colorscheme in a simplest way.
-        Press `<leader>glg` or input `:Galaxygen`,then:
+        
+        Press `<leader>glg` or input `:GalaxyGen`,then:
             1.Input your scheme name
             2.Choose your preferred color for background.
-        You got it.
+        You got a scheme! And you can tuning it with it's colors.
 
 * With this you get:
 
@@ -27,15 +28,20 @@
 
 **Take a glance:** 
 
-    Built-in schemes:
+* Built-in schemes:
 
 * in GUI          ![http://i55.tinypic.com/u0qh2.png](http://i55.tinypic.com/u0qh2.png)
 
-* in TERM(256)    http://i56.tinypic.com/2nr234y.png
+    - in TERM(256)    http://i56.tinypic.com/2nr234y.png
 
-* Galaxy window   http://i56.tinypic.com/153rzgp.png
+    - Galaxy window   http://i56.tinypic.com/153rzgp.png
    
 
+* Highligs:
+  
+    - A built-in:     http://imgur.com/s2Osg.png
+            
+    - A generated:    http://i.imgur.com/OpqR2.png
 **where to start:**
 
         :colorscheme galaxy
@@ -52,6 +58,7 @@
 Load galaxy~
 
         :colorscheme galaxy
+        To use it persistently. Put it in your vimrc.
 
 Open galaxy manager window~
 
