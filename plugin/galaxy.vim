@@ -3,6 +3,7 @@
 "    File: plugin/galaxy.vim
 " Summary: Generate your scheme with your fav color.
 "  Author: Rykka.Krin <Rykka.Krin(at)gmail.com>
+" Last Update: 2011-09-11
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim
