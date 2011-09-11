@@ -8,7 +8,8 @@
         Press `<leader>glg` or input `:GalaxyGen`,then:
             1.Input your scheme name
             2.Choose your preferred color for background.
-        You got a scheme! And you can tuning it with it's colors.
+        You got a scheme!
+        And the manager is opened for further tuning.
 
 * With this you got:
 
