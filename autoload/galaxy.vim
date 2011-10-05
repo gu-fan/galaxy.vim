@@ -3,7 +3,7 @@
 "    File: colors/galaxy.vim
 " Summary: Generate your scheme with your fav color.
 "  Author: Rykka.Krin <Rykka.Krin(at)gmail.com>
-" Last Update: 2011-09-11
+" Last Update: 2011-10-05
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim
@@ -143,7 +143,6 @@ let s:style_hllist=
         \["SpellBad",       "echclr0",  "nocolor",  "br"    ],
         \["Todo",           "echclr2",  "difclr0",  "b"    ],
         \["Title",          "echclr0",  "nocolor",  "b"     ],
-        \["Underlined",     "synclr8",  "nocolor",  "u"     ],
         \["Keyword",        "synclr8",  "nocolor",  "b"     ],
         \["Statement",      "synclr8",  "nocolor",  "n"     ],
         \["Exception",      "synclr6",  "nocolor",  "bi"    ],
@@ -168,7 +167,7 @@ let s:gui_hl_list=[
             \["CursorColumn",   "CursorLine"    ],
             \["Visual",         "nocolor",  "bgdclr4",  "n"     ],
             \["VisualNOS",      "nocolor",  "bgdclr6",  "n"     ],
-            \["Search",         "nocolor",  "nocolor",  "u"     ],
+            \["Search",         "nocolor",  "echclr2",  "n"     ],
             \["IncSearch",      "nocolor",  "echclr2",  "b"     ],
             \["Wildmenu",       "echclr1",  "bgdclr2",  "b"     ],
             \["Pmenu",          "fgdclr1",  "bgdclr2",  "n"     ],
@@ -217,7 +216,7 @@ let s:gui_hl_list=[
             \["NonText",        "Comment"       ],
             \["Ignore",         "Comment"       ],
             \["SpecialComment", "bgdclr4",  "nocolor",  "b"     ],
-            \["Underlined",     "synclr0",  "nocolor",  "u"     ],
+            \["Underlined",     "nocolor",  "nocolor",  "u"     ],
             \["Keyword",        "synclr0",  "nocolor",  "b"     ],
             \["Statement",      "synclr0",  "nocolor",  "n"     ],
             \["Conditional",    "Statement"     ],
