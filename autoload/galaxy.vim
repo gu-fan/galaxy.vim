@@ -3,7 +3,7 @@
 "    File: colors/galaxy.vim
 " Summary: Generate your scheme with your fav color.
 "  Author: Rykka.Krin <Rykka.Krin(at)gmail.com>
-" Last Update: 2011-10-05
+" Last Update: 2011-10-06
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim
@@ -167,8 +167,8 @@ let s:gui_hl_list=[
             \["CursorColumn",   "CursorLine"    ],
             \["Visual",         "nocolor",  "bgdclr4",  "n"     ],
             \["VisualNOS",      "nocolor",  "bgdclr6",  "n"     ],
-            \["Search",         "nocolor",  "echclr2",  "n"     ],
-            \["IncSearch",      "nocolor",  "echclr2",  "b"     ],
+            \["Search",         "fgdclr0",  "difclr8",  "n"     ],
+            \["IncSearch",      "bgdclr0",  "echclr2",  "b"     ],
             \["Wildmenu",       "echclr1",  "bgdclr2",  "b"     ],
             \["Pmenu",          "fgdclr1",  "bgdclr2",  "n"     ],
             \["PmenuSel",       "fgdclr0",  "difclr3",  "rb"    ],
