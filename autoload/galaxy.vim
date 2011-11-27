@@ -3,7 +3,7 @@
 "    File: colors/galaxy.vim
 " Summary: Generate your scheme with your fav color.
 "  Author: Rykka.Krin <Rykka.Krin(at)gmail.com>
-" Last Update: 2011-10-06
+" Last Update: 2011-11-27
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim
@@ -119,9 +119,6 @@ let s:style_hllist=
         \["FoldColumn",     "fgdclr5",  "bgdclr2",  "n"     ],
         \["LineNr",         "fgdclr2",  "bgdclr2",  "n"     ],
         \["SignColumn",     "echclr2",  "bgdclr2",  "n"     ],
-        \["tabline",        "bgdclr0",  "bgdclr4",  "n"     ],
-        \["tablinesel",     'fgdclr2',  "difclr0",  "b"     ],
-        \["tablinefill",    "fgdclr2",  "bgdclr2",  "n"     ],
         \["StatusLine",     "difclr0",  "fgdclr2",  "b"     ],
         \["StatusLineNC",   "bgdclr2",  "fgdclr2",  "n"     ],
         \["User1",          "difclr1",  "fgdclr2",  "b"     ],
@@ -183,9 +180,9 @@ let s:gui_hl_list=[
             \["LineNr",         "fgdclr1",  "bgdclr1",  "n"     ],
             \["SignColumn",     "echclr2",  "bgdclr1",  "n"     ],
             \["ColorColumn",    "Folded"        ],
-            \["tabline",        "bgdclr0",  "bgdclr3",  "n"     ],
-            \["tablinesel",     'synclr0',  "bgdclr0",  "b"     ],
-            \["tablinefill",    "bgdclr0",  "bgdclr2",  "n"     ],
+            \["tabline",        "bgdclr0",  "bgdclr5",  "n"     ],
+            \["tablinesel",     'fgdclr1',  "bgdclr0",  "b"     ],
+            \["tablinefill",    "bgdclr0",  "bgdclr4",  "n"     ],
             \["StatusLine",     "synclr0",  "bgdclr3",  "b"     ],
             \["StatusLineNC",   "bgdclr0",  "bgdclr3",  "n"     ],
             \["VertSplit",      "StatusLineNC"  ],
@@ -538,32 +535,32 @@ let s:synlink_term_dict.vimwiki2=[
             \["VimwikiHeader6",          "Yellow",  "bg",  "b"     ],
             \]
 let s:synlink_dict.vimwiki2=[
-            \["VimwikiHeader1",          "echclr2",  "bgdclr0",  "b"     ],
-            \["VimwikiHeader2",          "echclr4",  "bgdclr0",  "b"     ],
-            \["VimwikiHeader3",          "echclr6",  "bgdclr0",  "b"     ],
-            \["VimwikiHeader4",          "echclr8",  "bgdclr0",  "b"     ],
-            \["VimwikiHeader5",          "echclr10",  "bgdclr0",  "b"     ],
-            \["VimwikiHeader6",          "echclr12",  "bgdclr0",  "b"     ],
-            \["Vimwiki_Posit9",          "echclr0",  "bgdclr0",  "b"     ],
-            \["Vimwiki_Posit8",          "echclr1",  "bgdclr0",  "b"     ],
-            \["Vimwiki_Posit7",          "echclr2",  "bgdclr0",  "b"     ],
-            \["Vimwiki_Posit6",          "echclr3",  "bgdclr0",  "b"     ],
-            \["Vimwiki_Posit5",          "echclr4",  "bgdclr0",  "b"     ],
-            \["Vimwiki_Posit4",          "echclr5",  "bgdclr0",  "b"     ],
-            \["Vimwiki_Posit3",          "echclr6",  "bgdclr0",  "b"     ],
-            \["Vimwiki_Posit2",          "echclr7",  "bgdclr0",  "b"     ],
-            \["Vimwiki_Posit1",          "echclr8",  "bgdclr0",  "b"     ],
-            \["Vimwiki_minus1",          "echclr9",  "bgdclr0",  "b"     ],
-            \["Vimwiki_minus2",          "echclr10",  "bgdclr0",  "b"     ],
-            \["Vimwiki_minus3",          "echclr11",  "bgdclr0",  "b"     ],
-            \["Vimwiki_minus4",          "echclr12",  "bgdclr0",  "b"     ],
-            \["Vimwiki_minus5",          "echclr13",  "bgdclr0",  "b"     ],
-            \["Vimwiki_minus6",          "echclr14",  "bgdclr0",  "b"     ],
-            \["Vimwiki_minus7",          "echclr15",  "bgdclr0",  "b"     ],
-            \["Vimwiki_minus8",          "echclr16",  "bgdclr0",  "b"     ],
-            \["Vimwiki_minus9",          "echclr17",  "bgdclr0",  "b"     ],
-            \["Vimwiki_minus0",          "fgdclr3",  "bgdclr0",  "b"     ],
-            \["Vimwiki_Posit0",          "fgdclr4",  "bgdclr0",  "b"     ],
+            \["VimwikiHeader1",          "echclr2",  "nocolor",  "b"     ],
+            \["VimwikiHeader2",          "echclr4",  "nocolor",  "b"     ],
+            \["VimwikiHeader3",          "echclr6",  "nocolor",  "b"     ],
+            \["VimwikiHeader4",          "echclr8",  "nocolor",  "b"     ],
+            \["VimwikiHeader5",          "echclr10",  "nocolor",  "b"     ],
+            \["VimwikiHeader6",          "echclr12",  "nocolor",  "b"     ],
+            \["Vimwiki_Posit9",          "echclr0",  "nocolor",  "b"     ],
+            \["Vimwiki_Posit8",          "echclr1",  "nocolor",  "b"     ],
+            \["Vimwiki_Posit7",          "echclr2",  "nocolor",  "b"     ],
+            \["Vimwiki_Posit6",          "echclr3",  "nocolor",  "b"     ],
+            \["Vimwiki_Posit5",          "echclr4",  "nocolor",  "b"     ],
+            \["Vimwiki_Posit4",          "echclr5",  "nocolor",  "b"     ],
+            \["Vimwiki_Posit3",          "echclr6",  "nocolor",  "b"     ],
+            \["Vimwiki_Posit2",          "echclr7",  "nocolor",  "b"     ],
+            \["Vimwiki_Posit1",          "echclr8",  "nocolor",  "b"     ],
+            \["Vimwiki_minus1",          "echclr9",  "nocolor",  "b"     ],
+            \["Vimwiki_minus2",          "echclr10",  "nocolor",  "b"     ],
+            \["Vimwiki_minus3",          "echclr11",  "nocolor",  "b"     ],
+            \["Vimwiki_minus4",          "echclr12",  "nocolor",  "b"     ],
+            \["Vimwiki_minus5",          "echclr13",  "nocolor",  "b"     ],
+            \["Vimwiki_minus6",          "echclr14",  "nocolor",  "b"     ],
+            \["Vimwiki_minus7",          "echclr15",  "nocolor",  "b"     ],
+            \["Vimwiki_minus8",          "echclr16",  "nocolor",  "b"     ],
+            \["Vimwiki_minus9",          "echclr17",  "nocolor",  "b"     ],
+            \["Vimwiki_minus0",          "fgdclr3",  "nocolor",  "b"     ],
+            \["Vimwiki_Posit0",          "fgdclr4",  "nocolor",  "b"     ],
             \]
 let s:synlink_dict.vimwiki=[
             \["VimwikiLIst",   "Keyword     "    ],
@@ -587,7 +584,6 @@ let s:synlink_dict.xml=[
 "}}}
 "CLRS"{{{
 "======================================================================
-
 function! s:generate_colors() "{{{
 let s:bgdclr_list=colorv#list_gen(s:scheme.colors[0],"Value",7,s:y_step*7,0)
 for i in range(7)
@@ -636,7 +632,6 @@ endfor
 
 
 endfunction "}}}
-
 function! s:hi_t_list(list,...) "{{{ 
     let list=a:list
     for item in list
@@ -794,7 +789,6 @@ function! s:get_scheme_list() "{{{
     " rating/comment
     " Kuler access?
 endfunction "}}}
-
 "}}}
 "STAT"{{{
 "======================================================================
@@ -1735,7 +1729,6 @@ function! s:load_store() "{{{
     endif
     return l:stored_theme_list
 endfunction "}}}
-
 function! galaxy#write_cache() "{{{
     let CacheStringList = []
     let file = g:galaxy_cache_File
