@@ -3,7 +3,7 @@
 "    File: colors/galaxy.vim
 " Summary: Generate your scheme with your fav color.
 "  Author: Rykka.Krin <Rykka.Krin(at)gmail.com>
-" Last Update: 2011-11-27
+" Last Update: 2011-12-01
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim
@@ -117,7 +117,7 @@ let s:style_hllist=
         \["PmenuThumb",     "bgdclr2",  "fgdclr0",  "n"     ],
         \["Folded",         "fgdclr2",  "bgdclr2",  "n"     ],
         \["FoldColumn",     "fgdclr5",  "bgdclr2",  "n"     ],
-        \["LineNr",         "fgdclr2",  "bgdclr2",  "n"     ],
+        \["LineNr",         "fgdclr2",  "bgdclr1",  "n"     ],
         \["SignColumn",     "echclr2",  "bgdclr2",  "n"     ],
         \["StatusLine",     "difclr0",  "fgdclr2",  "b"     ],
         \["StatusLineNC",   "bgdclr2",  "fgdclr2",  "n"     ],
@@ -175,10 +175,10 @@ let s:gui_hl_list=[
             \["DiffChange",     "nocolor",  "difclr6",  "n"     ],
             \["DiffDelete",     "bgdclr4",  "difclr0",  "n"     ],
             \["DiffText",       "nocolor",  "difclr8",  "n"     ],
-            \["Folded",         "fgdclr1",  "bgdclr1",  "n"     ],
-            \["FoldColumn",     "fgdclr4",  "bgdclr1",  "n"     ],
+            \["Folded",         "fgdclr1",  "bgdclr2",  "n"     ],
+            \["FoldColumn",     "fgdclr4",  "bgdclr2",  "n"     ],
             \["LineNr",         "fgdclr1",  "bgdclr1",  "n"     ],
-            \["SignColumn",     "echclr2",  "bgdclr1",  "n"     ],
+            \["SignColumn",     "echclr2",  "bgdclr2",  "n"     ],
             \["ColorColumn",    "Folded"        ],
             \["tabline",        "bgdclr0",  "bgdclr5",  "n"     ],
             \["tablinesel",     'fgdclr1',  "bgdclr0",  "b"     ],
@@ -896,7 +896,7 @@ function! s:term_cursor() "{{{
         let color_normal="#".s:synclr_list[3]
         let color_insert="#".s:echclr_list[0]
     endif
-    let color_exit='green'
+    let color_exit='darkgray'
     "from lilydjwg
     let au_cmd=""
     if &term =~ 'xterm\|rxvt'
