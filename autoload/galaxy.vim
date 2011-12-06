@@ -3,7 +3,7 @@
 "    File: colors/galaxy.vim
 " Summary: Generate your scheme with your fav color.
 "  Author: Rykka.Krin <Rykka.Krin(at)gmail.com>
-" Last Update: 2011-12-01
+" Last Update: 2011-12-06
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim
@@ -133,12 +133,11 @@ let s:style_hllist=
         \["MoreMsg",        "bgdclr0",  "echclr12",  "b"     ],
         \["Question",       "bgdclr0",  "echclr10",  "b"     ],
         \["ModeMsg",        "bgdclr0",  "echclr9",  "b"     ],
-        \["MatchParen",     "bgdclr0",  "echclr6",  "b"    ],
         \["WarningMsg",     "bgdclr0",  "echclr3",  "b"    ],
         \["ErrorMsg",       "bgdclr0",  "echclr0",  "b"    ],
         \["Error",          "difclr1",  "echclr0",  "b"    ],
-        \["SpellBad",       "echclr0",  "nocolor",  "br"    ],
         \["Todo",           "echclr2",  "difclr0",  "b"    ],
+        \["MatchParen",     "bgdclr0",  "bgdclr4",  "b"    ],
         \["Title",          "echclr0",  "nocolor",  "b"     ],
         \["Keyword",        "synclr8",  "nocolor",  "b"     ],
         \["Statement",      "synclr8",  "nocolor",  "n"     ],
@@ -198,14 +197,14 @@ let s:gui_hl_list=[
             \["MoreMsg",        "bgdclr0",  "echclr12",  "b"     ],
             \["Question",       "bgdclr0",  "echclr10",  "b"     ],
             \["ModeMsg",        "bgdclr0",  "echclr9",  "b"     ],
-            \["MatchParen",     "bgdclr0",  "echclr6",  "b"    ],
             \["WarningMsg",     "bgdclr0",  "echclr3",  "b"    ],
             \["SpellLocal",     "WarningMsg"    ],
             \["SpellRare",      "WarningMsg"    ],
             \["ErrorMsg",       "bgdclr0",  "echclr0",  "b"    ],
             \["Error",          "echclr0",  "difclr1",  "br"    ],
-            \["SpellBad",       "echclr0",  "nocolor",  "br"    ],
+            \["SpellBad",       "bgdclr2",  "nocolor",  "br"    ],
             \["SpellCap",       "SpellBad"      ],
+            \["MatchParen",     "bgdclr0",  "bgdclr4",  "b"    ],
             \["Todo",           "echclr2",  "difclr0",  "b"    ],
             \["Title",          "echclr0",  "nocolor",  "b"     ],
             \["Conceal",        "fgdclr1",  "nocolor",  "n"     ],
