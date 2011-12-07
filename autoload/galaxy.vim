@@ -3,7 +3,7 @@
 "    File: colors/galaxy.vim
 " Summary: Generate your scheme with your fav color.
 "  Author: Rykka.Krin <Rykka.Krin(at)gmail.com>
-" Last Update: 2011-12-06
+" Last Update: 2011-12-08
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim
@@ -525,6 +525,16 @@ let s:synlink_dict.vim=[
             \["vimSynType           ",   "Special       "    ],
             \["vimUserAttrb         ",   "Special       "    ],
             \]
+let s:synlink_dict.indentHL=[
+            \["cTab1",                  "bgdclr2",  "bgdclr2",  "n"     ],
+            \["cTab2",                  "bgdclr3",  "bgdclr3",  "n"     ],
+            \["cTab3",                  "bgdclr4",  "bgdclr4",  "n"     ],
+            \["cTab4",                  "bgdclr5",  "bgdclr5",  "n"     ],
+            \["cTab5",                  "bgdclr6",  "bgdclr6",  "n"     ],
+            \["cTab6",                  "fgdclr3",  "fgdclr3",  "n"     ],
+            \["cTab7",                  "fgdclr2",  "fgdclr2",  "n"     ],
+            \["cTab8",                  "fgdclr1",  "fgdclr1",  "n"     ],
+            \]
 let s:synlink_term_dict.vimwiki2=[
             \["VimwikiHeader1",          "Red",  "bg",  "b"     ],
             \["VimwikiHeader2",          "Magenta",  "bg",  "b"     ],
@@ -533,6 +543,7 @@ let s:synlink_term_dict.vimwiki2=[
             \["VimwikiHeader5",          "Green",  "bg",  "b"     ],
             \["VimwikiHeader6",          "Yellow",  "bg",  "b"     ],
             \]
+
 let s:synlink_dict.vimwiki2=[
             \["VimwikiHeader1",          "echclr2",  "nocolor",  "b"     ],
             \["VimwikiHeader2",          "echclr4",  "nocolor",  "b"     ],
