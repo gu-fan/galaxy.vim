@@ -3,7 +3,7 @@
 "    File: colors/galaxy.vim
 " Summary: Generate your scheme with your fav color.
 "  Author: Rykka.Krin <Rykka.Krin(at)gmail.com>
-" Last Update: 2011-12-08
+" Last Update: 2011-12-10
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim
@@ -202,7 +202,7 @@ let s:gui_hl_list=[
             \["SpellRare",      "WarningMsg"    ],
             \["ErrorMsg",       "bgdclr0",  "echclr0",  "b"    ],
             \["Error",          "echclr0",  "difclr1",  "br"    ],
-            \["SpellBad",       "bgdclr2",  "nocolor",  "br"    ],
+            \["SpellBad",       "nocolor",  "bgdclr2",  "b"    ],
             \["SpellCap",       "SpellBad"      ],
             \["MatchParen",     "bgdclr0",  "bgdclr4",  "b"    ],
             \["Todo",           "echclr2",  "difclr0",  "b"    ],
