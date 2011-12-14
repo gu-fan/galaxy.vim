@@ -3,7 +3,7 @@
 "    File: colors/galaxy.vim
 " Summary: Generate your scheme with your fav color.
 "  Author: Rykka.Krin <Rykka.Krin(at)gmail.com>
-" Last Update: 2011-12-10
+" Last Update: 2011-12-14
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim
@@ -143,13 +143,13 @@ let s:style_hllist=
         \["Statement",      "synclr8",  "nocolor",  "n"     ],
         \["Exception",      "synclr6",  "nocolor",  "bi"    ],
         \["SpecialChar",    "synclr6",  "nocolor",  "b"     ],
-        \["PreProc",        "synclr6",  "nocolor",  "b"     ],
         \["Special",        "synclr6",  "nocolor",  "n"     ],
         \["Type",           "synclr4",  "nocolor",  "n"     ],
         \["Identifier",     "synclr4",  "nocolor",  "b"     ],
         \["Constant",       "synclr4",  "nocolor",  "n"     ],
-        \["Function",       "synclr1",  "nocolor",  "b"     ],
+        \["Include",        "synclr3",  "nocolor",  "i"     ],
         \["String",         "synclr2",  "nocolor",  "n"     ],
+        \["Function",       "synclr1",  "nocolor",  "b"     ],
         \["Label",          "synclr0",  "nocolor",  "b"     ],
         \]  
     \}
@@ -202,7 +202,7 @@ let s:gui_hl_list=[
             \["SpellRare",      "WarningMsg"    ],
             \["ErrorMsg",       "bgdclr0",  "echclr0",  "b"    ],
             \["Error",          "echclr0",  "difclr1",  "br"    ],
-            \["SpellBad",       "nocolor",  "bgdclr2",  "b"    ],
+            \["SpellBad",       "nocolor",  "difclr2",  "b"    ],
             \["SpellCap",       "SpellBad"      ],
             \["MatchParen",     "bgdclr0",  "bgdclr4",  "b"    ],
             \["Todo",           "echclr2",  "difclr0",  "b"    ],
@@ -219,15 +219,15 @@ let s:gui_hl_list=[
             \["Operator",       "Statement"     ],
             \["Repeat",         "Statement"     ],
             \["Exception",      "synclr2",  "nocolor",  "bi"    ],
-            \["PreCondit",      "Exception"     ],
             \["Debug",          "Exception"     ],
             \["SpecialChar",    "synclr2",  "nocolor",  "b"     ],
             \["SpecialKey",     "SpecialChar"   ],
             \["Tag",            "SpecialChar"   ],
-            \["PreProc",        "synclr2",  "nocolor",  "b"     ],
-            \["Define",         "PreProc"       ],
-            \["Macro",          "PreProc"       ],
-            \["Include",        "PreProc"       ],
+            \["PreProc",        "bgdclr3",  "nocolor",  "i"     ],
+            \["Include",        "synclr3",  "nocolor",  "i"     ],
+            \["Define",         "Include"       ],
+            \["Macro",          "Include"       ],
+            \["PreCondit",       "Include"       ],
             \["Special",        "synclr2",  "nocolor",  "n"     ],
             \["Delimiter",      "Special"       ],
             \["Type",           "synclr4",  "nocolor",  "n"     ],
@@ -329,13 +329,12 @@ let s:link_list=[
             \["Conditional",    "Statement"     ],
             \["Operator",       "Statement"     ],
             \["Repeat",         "Statement"     ],
-            \["PreCondit",      "Exception"     ],
             \["Debug",          "Exception"     ],
             \["SpecialKey",     "SpecialChar"   ],
             \["Tag",            "SpecialChar"   ],
-            \["Define",         "PreProc"       ],
-            \["Macro",          "PreProc"       ],
-            \["Include",        "PreProc"       ],
+            \["Define",         "Include"       ],
+            \["Macro",          "Include"       ],
+            \["PreCondit",      "Include"       ],
             \["Delimiter",      "Special"       ],
             \["Directory",      "Type"          ],
             \["Structure",      "Type"          ],
