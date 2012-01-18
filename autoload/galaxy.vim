@@ -39,8 +39,8 @@ else
 endif "}}}
 
 let s:nocolor         = "NONE"
-let s:fg               = "fg"
-let s:bg               = "bg"
+let s:fg              = "fg"
+let s:bg              = "bg"
 let s:n               = "NONE"
 let s:c               = ",undercurl"
 let s:r               = ",reverse"
@@ -77,7 +77,7 @@ let s:tips_list=[
             \'Select:Click      Edit: e',
             \'Help: F1          Quit: q/Q',
             \]
-let s:clr_txt=[
+let s:clr_helptxt=[
             \"Foreground Color(Normal Foreground)",
             \"Syntax Color(Vars,Functions,...)",
             \"Echo Color(ErrorMsg,ModeMsg,...)",
@@ -98,14 +98,22 @@ let s:built_in_schemes=[
             \"colors":["0B0B0F","A6A2A0","81A0CD","54DFB1","222980"],
             \"style":"COLOUR"},
             \]
+
+let s:win_txtline = 2
+let s:win_builtin_line=len(s:built_in_schemes)
+
 "}}}
 "{{{style
 let s:style_hllist=
 \[
-    \{"name":"SHADOW",
+    \{"name":"SIMPLE",
     \"highlights":[
         \]
     \},
+    \{"name":"SHADOW",
+    \"highlights":[
+        \]
+        \},
     \{"name":"COLOUR",
     \"highlights":[
         \["Visual",         "nocolor",  "difclr0",  "n"     ],
@@ -142,7 +150,7 @@ let s:style_hllist=
         \["Keyword",        "synclr8",  "nocolor",  "b"     ],
         \["Statement",      "synclr8",  "nocolor",  "n"     ],
         \["Exception",      "synclr6",  "nocolor",  "bi"    ],
-        \["SpecialChar",    "synclr6",  "nocolor",  "b"     ],
+        \["SpecialChar",    "synclr6",  "nocolor",  "n"     ],
         \["Special",        "synclr6",  "nocolor",  "n"     ],
         \["Type",           "synclr4",  "nocolor",  "n"     ],
         \["Identifier",     "synclr4",  "nocolor",  "b"     ],
@@ -220,7 +228,7 @@ let s:gui_hl_list=[
             \["Repeat",         "Statement"     ],
             \["Exception",      "synclr2",  "nocolor",  "bi"    ],
             \["Debug",          "Exception"     ],
-            \["SpecialChar",    "synclr2",  "nocolor",  "b"     ],
+            \["SpecialChar",    "synclr2",  "nocolor",  "n"     ],
             \["SpecialKey",     "SpecialChar"   ],
             \["Tag",            "SpecialChar"   ],
             \["PreProc",        "bgdclr3",  "nocolor",  "i"     ],
@@ -799,8 +807,29 @@ function! s:get_scheme_list() "{{{
     " Kuler access?
 endfunction "}}}
 "}}}
+"INHL{{{
+"======================================================================
+"g:galaxy_indent_highlight=1
+function! s:indent_hl()
+    """ indent Highlight with style
+
+    if (&et)
+        let in = repeat(' ', &sw)
+    else
+        let in = '\t'
+    endif
+
+    exe 'syn match galaxyTab0'.' #^'.in.'#hs=e' 
+
+    for i in range(1,7)
+        exe 'syn match galaxyTab'.i.' #\%(^\1\{'.i.'}\)\@<=\('.in.'\)#hs=e' 
+    endfor
+
+endfunction
+"}}}
 "STAT"{{{
 "======================================================================
+"g:galaxy_statusline_blink=1
 function! s:statusline_aug() "{{{
     if version >= 700 "{{{
         if s:style=="COLOUR" "{{{
@@ -1063,6 +1092,8 @@ function! s:getwin() "{{{
     endif
 endfunction "}}}
 function! s:go_buffer_win(name) "{{{
+    """ if buffer exists , go to buffer and return 1
+    """ else return 0
     if bufwinnr(bufnr(a:name)) != -1
         exe bufwinnr(bufnr(a:name)) . "wincmd w"
         return 1
@@ -1093,52 +1124,41 @@ function! s:win_load_scheme() "{{{
 
 endfunction "}}}
 function! s:win_scheme_edit_colorv() "{{{
-    let linenum=line('.')
-    let col = col('.')
-    let s:win_txtline=2
-    let s:win_builtin_line=len(s:built_in_schemes)
-    if linenum<=s:win_txtline
+    let [line, col] = getpos('.')[1:2]
+    if line <= s:win_txtline
     	call s:echo("Please move down to choose a scheme.")
     	return
-    endif
-    if linenum <= s:win_txtline + s:win_builtin_line
+    elseif line <= s:win_txtline + s:win_builtin_line
     	call s:echo("You Could not modify the built-in Schemes.")
     	return
     endif
-    let line = getline(linenum)
-    let line_lst=split(line,'\s\+')
-    let scheme={}
-    let scheme.name=line_lst[0]
-    let scheme.colors=line_lst[1:5]
-    let scheme.style=exists("line_lst[6]") ? line_lst[6] : ""
-    let clr_txt=s:clr_txt
-    let s:edit_scheme =deepcopy(scheme)
-    let s:edit_linenum=linenum
-    if col >= 20 && col <=25
-    	call s:input_cv_call(scheme.colors[0],clr_txt[0],"galaxy#e_call",['g:ColorV.HEX'])
-    	let s:edit_clr=0
-    elseif col >= 27 && col <=32
-    	call s:input_cv_call(scheme.colors[1],clr_txt[1],"galaxy#e_call",['g:ColorV.HEX'])
-    	let s:edit_clr=1
-    elseif col >= 34 && col <=39
-    	call s:input_cv_call(scheme.colors[2],clr_txt[2],"galaxy#e_call",['g:ColorV.HEX'])
-    	let s:edit_clr=2
-    elseif col >= 41 && col <=46
-    	call s:input_cv_call(scheme.colors[3],clr_txt[3],"galaxy#e_call",['g:ColorV.HEX'])
-    	let s:edit_clr=3
-    elseif col >= 48 && col <=53
-    	call s:input_cv_call(scheme.colors[4],clr_txt[4],"galaxy#e_call",['g:ColorV.HEX'])
-    	let s:edit_clr=4
-    elseif col >= 56 && col <=62
-        let style=input("Input scheme's style ('S[HADOW](default)|C[OLOUR]'):\n","")
-        if style=~? 'c\%[olour]' 
-            let scheme.style="COLOUR"
-        else
-            let scheme.style=""
-        endif
-        call s:write_store(scheme)
-        if s:go_buffer_win(g:galaxy.name)
-            setl ma
+
+    " get scheme color and style from line.
+    let line_lst = split(getline(line),'\s\+')
+    let scheme = {}
+    let scheme.name = line_lst[0]
+    let scheme.colors = line_lst[1:5]
+    let scheme.style= exists("line_lst[6]") ? line_lst[6] : ""
+    let clr_helptxt = s:clr_helptxt
+    let s:edit_scheme = deepcopy(scheme)
+    let s:edit_linenum = line
+    
+    for i in range(6)
+        if col >= 20+i*7 && col <= 25+i*7 && i <= 4
+            call s:input_cv_call(scheme.colors[i],clr_helptxt[i],"galaxy#e_call",['g:ColorV.HEX'])
+            let s:edit_clr = i
+            return 
+        elseif col >=56 && col <= 62 
+            let style=input("Input scheme's style ('S[HADOW](default)|C[OLOUR]'):\n","")
+            if style =~? 'c\%[olour]' 
+                let scheme.style="COLOUR"
+            else
+                let scheme.style=""
+            endif
+            call s:write_store(scheme)
+
+            " if exists galaxy buffer. go and change the scheme style name.
+            if s:go_buffer_win(g:galaxy.name)
                 let colors=""
                 for color in scheme.colors
                     let colors .= color." "
@@ -1148,16 +1168,21 @@ function! s:win_scheme_edit_colorv() "{{{
                 let m = strpart(name,0,16)
                 let m = s:line_sub(m,colors,20)
                 let m = s:line_sub(m,style,56)
-                call setline(linenum,m)
-            setl noma
-            call colorv#preview_line("NBC",linenum)
+                setl ma
+                call setline(line,m)
+                setl noma
+                call colorv#preview_line("NBC",line)
+            endif
+
+            let s:edit_clr=-1
+            call galaxy#load_scheme(scheme.name)
+            return
         endif
-    	let s:edit_clr=-1
-        call galaxy#load_scheme(scheme.name)
-    else
-    	call s:echo("Please put cursor on the colors or styles.")
-    	let s:edit_clr=-1
-    endif
+    endfor
+
+    call s:echo("Please put cursor on the colors or styles.")
+    let s:edit_clr=-1
+
 endfunction "}}}
 function! galaxy#e_call(color) "{{{
     let color=a:color
@@ -1196,50 +1221,6 @@ function! s:input_cv_call(color,txt,callfunc,callarg) "{{{
     call s:echo("Choose your color for ".a:txt)
 endfunction "}}}
 
-function! s:win_scheme_edit() "{{{
-    let linenum=line('.')
-    let col = col('.')
-    let s:win_txtline=2
-    let s:win_builtin_line=len(s:built_in_schemes)
-    if linenum<=s:win_txtline
-    	call s:echo("Please move down to choose a scheme.")
-    	return
-    endif
-    if linenum <= s:win_txtline + s:win_builtin_line
-    	call s:echo("You Could not modify the built-in Schemes.")
-    	return
-    endif
-    let line = getline(linenum)
-    let line_lst=split(line,'\s\+')
-    " echoe string(line_lst)
-    let scheme={}
-    let scheme.name=line_lst[0]
-    let scheme.colors=line_lst[1:5]
-    let scheme.style=exists("line_lst[6]") ? line_lst[6] : ""
-
-    let clr_txt=s:clr_txt
-    if col >= 20 && col <=25
-    	let scheme.colors[0]  = s:input_clr(scheme.colors[0],clr_txt[0])
-    elseif col >= 27 && col <=32
-    	let scheme.colors[1]  = s:input_clr(scheme.colors[1],clr_txt[1])
-    elseif col >= 34 && col <=39
-    	let scheme.colors[2]  = s:input_clr(scheme.colors[2],clr_txt[2])
-    elseif col >= 41 && col <=46
-    	let scheme.colors[3]  = s:input_clr(scheme.colors[3],clr_txt[3])
-    elseif col >= 48 && col <=53
-    	let scheme.colors[4]  = s:input_clr(scheme.colors[4],clr_txt[4])
-    elseif col >= 56 && col <=62
-        let style=input("Input scheme's style ('S[HADOW](default)|C[OLOUR]'):\n","")
-        if style=~? 'c\%[olour]' 
-            let scheme.style="COLOUR"
-        endif
-    else
-    	call s:echo("Please put cursor on the colors or styles.")
-    endif
-    call s:write_store(scheme)
-    call colorv#preview_line("NBC")
-
-endfunction "}}}
 function! s:input_clr(color,txt) "{{{
     let txt=a:txt
     let color = input("Please Input scheme ".txt.
