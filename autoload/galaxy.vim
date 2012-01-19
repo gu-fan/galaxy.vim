@@ -596,53 +596,24 @@ let s:synlink_dict.xml=[
 "CLRS"{{{
 "======================================================================
 function! s:generate_colors() "{{{
-    " TODO: the bgdclr and fgdclr may exceed and became white/black
 
-let s:bgdclr_list=colorv#list_gen(s:scheme.colors[0],"Value",7,s:y_step*7,0)
-for i in range(7)
-    if has("gui_running")
-        let s:bgdclr{i} = s:bgdclr_list[i]
-    else
-        let s:bgdclr{i} = colorv#hex2term(s:bgdclr_list[i],"CHECK")
-    endif
-endfor
-let s:fgdclr_list=colorv#list_gen(s:scheme.colors[1],"Value",7,(-s:y_step*7),0)
-for i in range(7)
-    if has("gui_running")
-let s:fgdclr{i} = s:fgdclr_list[i]
-    else
-    let s:fgdclr{i} = colorv#hex2term(s:fgdclr_list[i],"CHECK")
-    endif
-endfor
-"
-let s:synclr_list=colorv#yiq_list_gen(s:scheme.colors[2],"Hue",10,35)
-for i in range(10)
-    if has("gui_running")
-        let s:synclr{i} = s:synclr_list[i]
-    else
-    let s:synclr{i} = colorv#hex2term(s:synclr_list[i],"CHECK")
-    endif
-endfor
+    let NOCYCLE = 0
+    let [bgd, fgd, syn, ech, dif] = s:scheme.colors
+    let s:bgdclr_list=colorv#list_gen(bgd,"Value",10,s:y_step*6,NOCYCLE)
+    let s:fgdclr_list=colorv#list_gen(fgd,"Value",10,(-s:y_step*6),NOCYCLE)
+    let s:synclr_list=colorv#yiq_list_gen(syn,"Hue",10,35)
+    let s:echclr_list=colorv#yiq_list_gen(ech,"Hue",19,19)
+    let s:difclr_list=colorv#yiq_list_gen(dif,"Hue",12,29)
 
-" let char_list="0123456789abcdefghijklmnopqrstuvwxyz"
-let s:echclr_list=colorv#yiq_list_gen(s:scheme.colors[3],"Hue",19,19)
-for i in range(18)
-    " let char=char_list[i]
-    if has("gui_running")
-        let s:echclr{i} = s:echclr_list[i]
-    else
-    let s:echclr{i} = colorv#hex2term(s:echclr_list[i],"CHECK")
-    endif
-endfor
-let s:difclr_list=colorv#yiq_list_gen(s:scheme.colors[4],"Hue",12,29)
-for i in range(10)
-    if has("gui_running")
-        let s:difclr{i} = s:difclr_list[i]
-    else
-    let s:difclr{i} = colorv#hex2term(s:difclr_list[i],"CHECK")
-    endif
-endfor
-
+    for c in ["bgd","fgd","syn","ech","dif"]
+        for i in range(len(s:{c}clr_list))
+            if has("gui_running")
+                let s:{c}clr{i} = s:{c}clr_list[i]
+            else
+                let s:{c}clr{i} = colorv#hex2term(s:{c}clr_list[i],"CHECK")
+            endif
+        endfor
+    endfor
 
 endfunction "}}}
 function! s:hi_t_list(list,...) "{{{
@@ -872,8 +843,8 @@ function! s:indent_hl()
             \["galaxyTab3", "bgdclr5",  "bgdclr5",  "n"     ],
             \["galaxyTab4", "bgdclr6",  "bgdclr6",  "n"     ],
             \["galaxyTab5", "bgdclr7",  "bgdclr7",  "n"     ],
-            \["galaxyTab6", "fgdclr2",  "fgdclr2",  "n"     ],
-            \["galaxyTab7", "fgdclr1",  "fgdclr1",  "n"     ],
+            \["galaxyTab6", "bgdclr8",  "bgdclr8",  "n"     ],
+            \["galaxyTab7", "bgdclr9",  "bgdclr9",  "n"     ],
             \]
     endif
 
@@ -1226,7 +1197,7 @@ function! s:win_scheme_edit_colorv() "{{{
                 setl ma
                 call setline(line,m)
                 setl noma
-                call colorv#preview_line("NBC",line)
+                call colorv#preview_line("Nbc",line)
             endif
 
             let s:edit_clr=-1
@@ -1242,7 +1213,7 @@ endfunction "}}}
 function! galaxy#e_call(color) "{{{
     let color=a:color
     let scheme=s:edit_scheme
-    let linenum=s:edit_linenum
+    let line=s:edit_linenum
     if !exists("s:edit_clr") || s:edit_clr == -1
     return
     endif
@@ -1265,9 +1236,9 @@ function! galaxy#e_call(color) "{{{
         let m = strpart(name,0,16)
         let m = s:line_sub(m,colors,20)
         let m = s:line_sub(m,style,56)
-        call setline(linenum,m)
+        call setline(line,m)
     setl noma
-    call colorv#preview_line("NBC",linenum)
+    call colorv#preview_line("Nbc",line)
     call galaxy#load_scheme(scheme.name)
 endfunction "}}}
 function! s:input_cv_call(color,txt,callfunc,callarg) "{{{
