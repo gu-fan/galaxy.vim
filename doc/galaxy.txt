@@ -1,4 +1,4 @@
-*galaxy.txt* *galaxy.vim*         Galaxy          Generate scheme with color
+*galaxy.txt*         Galaxy       A Colorscheme that thousands schemes within
   
                      ______      __                                    ~
                     / ____/___ _/ /___ __  ____  __                    ~
@@ -6,7 +6,7 @@
                   / /_/ / /_/ / / /_/ />  </ /_/ /                     ~
                   \____/\__,_/_/\__,_/_/|_|\__, /                      ~
                                           /____/                       ~
-                             ver:1.0                                   ~
+                             ver:1.2                                   ~
                              
 ------------------------------------------------------------------------------
 CONTENTS                                         *galaxy-contents*
@@ -17,99 +17,138 @@ CONTENTS                                         *galaxy-contents*
 ==============================================================================
 INTRO                                               *galaxy-intro*
 
-    *galaxy* is a colorscheme that generate schemes with colors.
-
-    With this you can:
-        Get your preferred colorscheme in a simplest way.
+    *galaxy* is a colorscheme that thousands shemes within.
+    
+    There are several built-in schemes.
+    You can get 100+ by ':GalaxyAuto' in a colorlist ':ColorVlist'.
+    Also you can define yours in simply by ':GalaxyNew'.
         
-        Press `<leader>glg` or input `:GalaxyGen`,then:
-            1.Input your scheme name
-            2.Choose your preferred color for background.
-        You got a scheme! 
-        And the manager is opened for further tuning.
+    There are |galaxy-terminal| support for all schemes .
 
-    With this you got:
-        5 built-in schemes.
-        100+ schemes generate simply with colorname-list.
-        Terminal (256/16/8) support with all schemes.
-        ...
+    Other features include: 
+        |galaxy-edit|, |galaxy-style|,
+        |galaxy-statusline-blink|, |galaxy-indent-highlight| ...
 
-    Take a glance: 
-        Built-in schemes:
-            in GUI          http://i55.tinypic.com/u0qh2.png
-            in TERM(256)    http://i56.tinypic.com/2nr234y.png
-        Highlights:
-            A built-in:     http://imgur.com/s2Osg.png
-            A generated:    http://i.imgur.com/OpqR2.png
+    To start:     
+        :Galaxy 
 
-    Where to start:     
-        <leader>gll or :Galaxy
+    To keep using it:
+        put this in your vimrc.
+        colorscheme galaxy
 
-    NOTE: Require vim plugin:ColorV
-          http://www.vim.org/scripts/script.php?script_id=3597 
-    NOTE: If you have built a nice scheme and want to share it.
-          Post it at https://github.com/Rykka/vim-galaxy/issues 
-          I can put it into built-in schemes or help me 
-          improving the Auto Generator.
+    If you have any issues or Suggestions:
+          Post it at https://github.com/Rykka/vim-galaxy
+
+    NOTE: ColorV required if download from github.
+          https://github.com/Rykka/ColorV
     
 ------------------------------------------------------------------------------
 QUICKSTART                                          *galaxy-quickstart*
 
     Load galaxy~
         :colorscheme galaxy
-        To use it persistently. Put it in your vimrc.
 
+    NOTE    Your current scheme is cached on your disk.
+            set |g:galaxy_cache_File| if errors occurs.
+        
     Open galaxy manager window~
-        <leader>gll or :Galaxy
+        :Galaxy
+        Default mapping is <leader>gll
 
         Then you can choose/edit/generate/delete schemes in it.
-
+        
+                                                        *galaxy-new*
     Generate new schemes~
-        <leader>glg or :GalaxyGen
+        :GalaxyNew
+        Default mapping is <leader>gln
+
         Input your scheme's name.
-        Then choose a color as the schemes background. then press 'q'
-        To quit the choosing window. The schemes auto generated.
-        And you will got your scheme loaded immediately.
+        Then a ColorV windows is opended for choosing background color.
+        Choose one and then press 'q' to quit the window. 
+        Your scheme is auto generated.
+                                                        *galaxy-edit*
+                                                        *galaxy-color*
+    Edit your scheme Color~
+        To edit, Move cursor to the color, Then press 'e'
+        A ColorV window is opened for choosing your color.
+        Press 'q' to quit the window and make the change. 
 
-    Edit your schemes~
-        Move cursor on the color you want to edit. 
-        Then press 'e'
-        Then choose your desired color for it.
-        Press 'q' to quit the window. 
-        And you will got the changed scheme loaded immediately.
+        There are 5 basic colors for generating all highlight colors.
 
+        They are 'bgd' 'fgd' 'syn' 'msg' 'dif'
+            'bgd' for background colors and line/column/... colors.
+            'fgd' for foreground colors and line/column/... colors.
+            'syn' for syntax colors. 
+            'msg' for Mode/Warning/Error/... messages colors.
+            'dif' for diff mode colors.
+
+    NOTE     'bgd' and 'fgd' colors are used with
+             colorv#list_gen(hex,"Value")
+             'syn' 'msg' 'dif' colors are used with
+             colorv#yiq_list_gen(hex,"Hue")
+             see |colorv-generate| for more info.
+                                                        
+                                                        *galaxy-style*
+    Styles of schemes~
+        While editing scheme, you can change the scheme style.
+        There are currently 3 styles:
+            GALAXY: The default style.
+            SHADOW: Less Colorful.
+            COLOUR: More Colorful.
+            ABOUND: More Colorful in another way.
+
+                                                        *galaxy-generate*
     Generate schemes with colorlist~
-        Open ColorV built-in colorname list.
-        <leader>cl or :ColorVlist
-        You will see a colorlist window opened with W3C standard colorname.
-        Put cursor in it. Then press '<leader>gla' 
-        All the colorlist in it will be generated to schemes.
-        Now you got 100+ schemes.
-        color-list like 'COLORNAME #ffffff' will be processed.
-        You can use ColorV to generate many more color-list.
+        First open ColorV colorname list by :ColorVlist (<leader>cl)
+        Make sure cursor is inside this window. 
+        Then press ':GalaxyAuto' (<leader>gla)
+        All colorname inside (100+) will be generated to schemes.
+
+    NOTE    You can use ColorV to generate more colorlist.
+            For example:  
+            '<leader>cg1' on '#ff0000' will generate a Monochromatic list
+            see |colorv-mapping-generate| for more details.
+
+    NOTE    Generated schemes are stored to disk. 
+            set |g:galaxy_store_Folder| if errors occured.
 
     Delete schemes~
         move cursor in the galaxy window. 
         press 'dd'.
         The scheme will be deleted.
-    
+                                                        *galaxy-terminal*
     With Terminal~
-        If it does not work correctly.
-        You should check your '&t_Co' option.
-        And set 'g:galaxy_term_color' to the number it support.
-
-    NOTE    Your previous_scheme is cached on your disk.
-            And gui scheme is seperated with terminal.
-            So you can set them with different scheme.
+        Works fine with 256 Terminal and use predefined scheme in 16 and 8 .
+        You should check if your '&t_Co' option if not working properly.
 
     NOTE    Terminal scheme in 8/16 terminal color is predefined.
-            And the 'cursorline' option is on by default.
 
-    NOTE    Terminal cursor may have bugs. 
-            And only support "xterm\rxvt\screen\TMUX" now.
-            If Term color not work properly.
-            Please report your [OS,vim version,&t_Co,&term]
+    NOTE    Terminal cursor is not fully tested in all OS.
+            And only support "xterm\rxvt\screen\TMUX" till now.
+            Please report issues with "OS,vim version,&t_Co,&term"
             at https://github.com/Rykka/vim-galaxy/issues 
+
+
+                                                *galaxy-indent-highlight*
+    Highlight Indent~
+        To highlight the indents of current file.
+        :GalaxyHigh (<leader>glh)
+
+        with |g:galaxy_indent_highlight| |g:galaxy_indent_hl_file| 
+        you can set the to auto highlight indent in these filetype.
+
+        The mixed white space and tab will be showing as Error. 
+        e.g.: '^\t  \t'
+
+        |g:galaxy_show_trailing_ws| will showing the trailing white space as 
+        errors. 
+
+                                                *galaxy-statusline-blink*
+    Highlight Stautsline in Insert-Mode.~
+        This will reverse the statusline color when enter insert mode.
+        set |g:galaxy_statusline_blink| to 0 to disable it.
+        
+
 ==============================================================================
 INSTALL                                          *galaxy-install*
 
@@ -122,47 +161,88 @@ INSTALL                                          *galaxy-install*
     And update them easily by `:BundleInstall!`
  
 2.Using [Galaxy on Vim.org]~
-    You should download latest 'ColorV' at first.
-    http://www.vim.org/scripts/script.php?script_id=3597
-    Download the latest version of tar.gz file, 
+    Download the latest version of tar.gz file, which contains ColorV
     http://www.vim.org/scripts/script.php?script_id=3729
     Extract to $VIMFILE folder. 
     ("~/.vim" for linux. "$HOME/vimfiles" for windows)
     Generate helptags. `:helptags ~/.vim/doc
     
-    NOTE   Remember to install vim plugin 'ColorV' as forementioned.
-
     NOTE   You can always get the latest version at
            https://github.com/Rykka/vim-galaxy/
-           And you can report bugs and suggestions at
-           https://github.com/Rykka/vim-galaxy/issues 
 ==============================================================================
 COMMANDS                                              *galaxy-commands*
-    <leader>gll or :Galaxy              Open galaxy window.
-    <leader>gln or :GalaxyNext          Next galaxy scheme.
-    <leader>glp or :GalaxyPrev          Prev galaxy scheme.
-    <leader>glg or :GalaxyGen           Generate schemes with choosing color.
-    <leader>gla or :GalaxyAuto          Generate schemes with color-list in
-                                        buffer. 'COLORNAME  #ffffff'
+    
+    :Galaxy     (default: <leader>gll)      Open Galaxy window.
+    :GalaxyHigh (default: <leader>glh)      Highlight Indent in buffer.
+    :GalaxyNext (default: <leader>glt)      Next Galaxy scheme.
+    :GalaxyPrev (default: <leader>glp)      Prev Galaxy scheme.
+    :GalaxyNew  (default: <leader>gln)      Create new scheme.
+    :GalaxyAuto (default: <leader>gla)      Generate schemes with color-list in
+                                            buffer. see |galaxy-generate|
 
 OPTIONS                                               *galaxy-options*
-                                        
-    g:galaxy_term_color                 default:0
-                                        Set the '&t_Co' to the number.
 
-    g:galaxy_term_check                 default:1
-                                        Check and guess '&t_Co' option
-                                        automaticlly.
+                                                *g:galaxy_indent_highlight*
+    'g:galaxy_indent_highlight'                 (default:1)
+    Enable indent_highlight.
+
+                                                *g:galaxy_show_trailing_ws*
+    'g:galaxy_show_trailing_ws'                 (default:1)
+    Enable showing trailing white space as indentError 
+    if indent_highlight is ON.   
+
+                                                *g:galaxy_indent_hl_file*
+    'g:galaxy_indent_hl_file'                   ("python,c,javascript")
+    Enable auto indent highlight with filetype.
+
+                                                *g:galaxy_statusline_blink*
+    'g:galaxy_statusline_blink'                 (default:1)
+    Enable statusline blink while InsertEnter and InsertLeave.
+    
+    NOTE    The User1 ~ User9 color is auto generated.
+            You can use them to have different color in statusline.
+    e.g.:
+    set statusline=%2*%n.%*[%03l,%02c,%P]%<%F%1*%m%r%*\%=[%W%Y,%{&enc},%{&ff}]
+    see |'statusline'| for details.
+
+                                                *g:galaxy_load_syn_dict*
+    Load predefined syntax link.~
+    'g:galaxy_load_syn_dict'                    (default:1)
+    Enable loading galaxy predefined syntax link of several filetypes.
+
+                                                *g:galaxy_store_Folder*
+    'g:galaxy_store_Folder'     (default:
+                                for Win: "$HOME\vimfiles\colors\galaxy\"
+                                or "$VIM\vimfiles\colors\galaxy\"
+                                for Unix: "$HOME/vimfiles/colors/galaxy/")
+    The Folder for store galaxy generated schemes.
+
+                                                *g:galaxy_cache_File*
+
+    'g:galaxy_cache_File'       (default:
+                                for Win: "$HOME\.vim_galaxy_cache"
+                                or "$VIM\.vim_galaxy_cache"
+                                for Unix: "$HOME/.vim_galaxy_cache")
+    The File for caching current schemes.
+
 ==============================================================================
 DEVELOPER                                             *galaxy-developer*
 
-    |Galaxy| is develped by Rykka Krin |<Rykka.Krin(at)gmail.com>|.
+    |Galaxy| is develped by Rykka |<Rykka10(at)gmail.com>|.
 
     Thanks to lilydjwg for script to support Terminal cursor(Enter/Leave).
    
 ------------------------------------------------------------------------------
 HISTORY                                               *galaxy-history*
-"1.1.0
+
+"1.2.0 Spring Festival~
+"  DONE: 120121  tuned built-in schemes and term schemes.
+"  DONE: 120120  fix and add scheme styles.
+"  DONE: 120120  rewrite help doc.
+"  DONE: 120120  add options g:galaxy_...
+"  DONE: 120119  add indent highlight.
+
+"1.1.0~
 "  DONE: 110911  tuning built-in colors and auto-gen method
 "  DONE: 110911  update intro and intro pics.
 " FIXED: 110911  fix galaxy window color group
