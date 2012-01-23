@@ -54,7 +54,7 @@ if !exists("g:galaxy_indent_highlight")
 endif
 if !exists("g:galaxy_indent_hl_pos")
     "end/start
-    let g:galaxy_indent_hl_pos="end"
+    let g:galaxy_indent_hl_pos="start"
 endif
 if !exists("g:galaxy_statusline_blink")
     let g:galaxy_statusline_blink=1

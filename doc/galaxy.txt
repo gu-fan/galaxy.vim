@@ -188,9 +188,9 @@ OPTIONS                                               *galaxy-options*
     Enable indent_highlight.
 
                                                 *g:galaxy_indent_hl_pos*
-    'g:galaxy_indent_hl_pos'                    (default:"end")
+    'g:galaxy_indent_hl_pos'                    (default:"start")
     the highlight position in indent highlight.
-    if not set to "end", will highlight at each indent start.
+    if set to "end", will highlight at each indent end.
     NOTE    the tab '\t' will be always highlighted entirely.
     
 
@@ -244,7 +244,7 @@ DEVELOPER                                             *galaxy-developer*
 HISTORY                                               *galaxy-history*
 
 "1.2.0 Spring Festival~
-"  DONE: 120123  add g:galaxy_indent_hl_pos
+"  DONE: 120123  add g:galaxy_indent_hl_pos , set default to "satrt"
 "  DONE: 120121  tuned built-in schemes and term schemes.
 "  DONE: 120120  fix and add scheme styles.
 "  DONE: 120120  rewrite help doc.
