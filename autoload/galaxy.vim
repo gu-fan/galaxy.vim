@@ -791,8 +791,8 @@ function! s:hi_list(list,...) "{{{
                 let fg_txt = fg_txt =~ '^\x\{6}$' ? "#".fg_txt : fg_txt
                 let bg_txt = bg_txt =~ '^\x\{6}$' ? "#".bg_txt : bg_txt
             else
-                let fg_txt= fg_txt =~ '\x\{6}$' ? colorv#hex2term(fg_txt) : fg_txt
-                let bg_txt= bg_txt =~ '\x\{6}$' ? colorv#hex2term(bg_txt) : bg_txt
+                let fg_txt= fg_txt =~ '\x\{6}$' ? colorv#hex2term(fg_txt,"CHECK") : fg_txt
+                let bg_txt= bg_txt =~ '\x\{6}$' ? colorv#hex2term(bg_txt,"CHECK") : bg_txt
             endif
 
             " set sp_txt:undercurl color in gui
