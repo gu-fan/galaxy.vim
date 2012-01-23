@@ -133,7 +133,8 @@ QUICKSTART                                          *galaxy-quickstart*
     Highlight Indent~
         To highlight the indents of current file.
         :GalaxyHigh (<leader>glh)
-
+        
+        set |g:galaxy_indent_hl_pos| to show highlight in end or start.
         with |g:galaxy_indent_highlight| |g:galaxy_indent_hl_file| 
         you can set the to auto highlight indent in these filetype.
 
@@ -186,6 +187,13 @@ OPTIONS                                               *galaxy-options*
     'g:galaxy_indent_highlight'                 (default:1)
     Enable indent_highlight.
 
+                                                *g:galaxy_indent_hl_pos*
+    'g:galaxy_indent_hl_pos'                    (default:"end")
+    the highlight position in indent highlight.
+    if not set to "end", will highlight at each indent start.
+    NOTE    the tab '\t' will be always highlighted entirely.
+    
+
                                                 *g:galaxy_show_trailing_ws*
     'g:galaxy_show_trailing_ws'                 (default:1)
     Enable showing trailing white space as indentError 
@@ -236,6 +244,7 @@ DEVELOPER                                             *galaxy-developer*
 HISTORY                                               *galaxy-history*
 
 "1.2.0 Spring Festival~
+"  DONE: 120123  add g:galaxy_indent_hl_pos
 "  DONE: 120121  tuned built-in schemes and term schemes.
 "  DONE: 120120  fix and add scheme styles.
 "  DONE: 120120  rewrite help doc.

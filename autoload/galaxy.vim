@@ -3,7 +3,7 @@
 "    File: colors/galaxy.vim
 " Summary: A colorscheme that thousands shemes within.
 "  Author: Rykka <Rykka10(at)gmail.com>
-" Last Update: 2012-01-22
+" Last Update: 2012-01-23
 " Version: 1.2.0
 "=============================================================
 let s:save_cpo = &cpo
@@ -51,6 +51,10 @@ endif "}}}
 
 if !exists("g:galaxy_indent_highlight")
     let g:galaxy_indent_highlight=1
+endif
+if !exists("g:galaxy_indent_hl_pos")
+    "end/start
+    let g:galaxy_indent_hl_pos="end"
 endif
 if !exists("g:galaxy_statusline_blink")
     let g:galaxy_statusline_blink=1
@@ -877,13 +881,19 @@ function! s:load_indent_hl_syn() "{{{
     " clear indent syntax match  or it will be multi loaded
     silent! call s:clear_indent_syn()
 
+    if  g:galaxy_indent_hl_pos=="end"
+        let p_txt = "#ms=e"
+    else
+        let p_txt = "#me=s+1"
+    endif
+
     " indent Highlight with style
     for in_str in [repeat(' ', &sw), '\t']
-        exe 'syn match galaxyIndent0'.' #^\@<='.in_str.'#hs=e'
+        exe 'syn match galaxyIndent0'.' #^\@<='.in_str.p_txt
                     \.' containedin=ALL'
 
         for i in range(1,7)
-            exe 'syn match galaxyIndent'.i.' #\%(^\1\{'.i.'}\)\@<=\('.in_str.'\)#hs=e'
+            exe 'syn match galaxyIndent'.i.' #\%(^\1\{'.i.'}\)\@<=\('.in_str.'\)'.p_txt
                     \.' containedin=ALL'
         endfor
     endfor
