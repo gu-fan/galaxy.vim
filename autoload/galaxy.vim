@@ -3,7 +3,7 @@
 "    File: colors/galaxy.vim
 " Summary: A colorscheme that thousands shemes within.
 "  Author: Rykka <Rykka10(at)gmail.com>
-" Last Update: 2012-01-23
+" Last Update: 2012-01-26
 " Version: 1.2.0
 "=============================================================
 let s:save_cpo = &cpo
@@ -266,7 +266,7 @@ let s:style_hl_list=
 "gui "{{{ 
 let s:gui_hl_list=[
             \["Normal",         "fgdclr0",  "bgdclr0",  "n"     ],
-            \["Cursor",         "nocolor",  "fgdclr4",  "n"     ],
+            \["Cursor",         "nocolor",  "msgclr8",  "n"     ],
             \["CursorIM",       "nocolor",  "synclr4",  "n"     ],
             \["CursorLine",     "nocolor",  "bgdclr1",  "n"     ],
             \["CursorColumn",   "CursorLine"    ],
@@ -918,8 +918,7 @@ function! s:load_indent_hl_syn() "{{{
 endfunction "}}}
 " this function should be called everytime when toggle indent hl
 function! s:indent_hl() "{{{
-
-    if exists("s:scheme.style") && s:scheme.style !=? "COLOUR"
+    if exists("s:scheme.style") && s:scheme.style =~? 'COLOUR\|ABOUND'
         let s:indent_hl_list=[
                     \["galaxyIndent0", "difclr2",  "difclr0",  "n"     ],
                     \["galaxyIndent1", "difclr3",  "difclr1",  "n"     ],
@@ -942,7 +941,6 @@ function! s:indent_hl() "{{{
                     \["galaxyIndent7", "bgdclr9",  "bgdclr9",  "n"     ],
                     \]
     endif
-
     call s:hi_list(s:indent_hl_list)
     hi link galaxyIndentErr ErrorMsg
 endfunction "}}}
@@ -952,6 +950,19 @@ function! s:indent_hl_aug() "{{{
             exe "au! FileType" file "call galaxy#toggle_indent_hl('ON')"
         endfor
     aug END
+endfunction "}}}
+function! galaxy#toggle_indent_hl(...) "{{{
+    if !exists("b:galaxy_indent_hl")
+                \ || b:galaxy_indent_hl == 0 
+                \ || (exists("a:1") && a:1 == "ON")
+        call s:load_indent_hl_syn()
+        call s:indent_hl()
+        let b:galaxy_indent_hl = 1
+    elseif b:galaxy_indent_hl == 1 || (exists("a:1") && a:1 == "OFF")
+        silent! call s:clear_indent_syn()
+        silent! call s:clear_indent_hl()
+        let b:galaxy_indent_hl = 0
+    endif
 endfunction "}}}
 function! s:clear_indent_syn() "{{{
     " use silent! to call it
@@ -968,19 +979,6 @@ function! s:clear_indent_hl() "{{{
     endfor
     hi galaxyIndentErr NONE
 endfunction "}}}
-function! galaxy#toggle_indent_hl(...) "{{{
-    if !exists("b:galaxy_indent_hl")
-                \ || b:galaxy_indent_hl == 0 
-                \ || (exists("a:1") && a:1 == "ON")
-        call s:load_indent_hl_syn()
-        call s:indent_hl()
-        let b:galaxy_indent_hl = 1
-    elseif b:galaxy_indent_hl == 1 || (exists("a:1") && a:1 == "OFF")
-        silent! call s:clear_indent_syn()
-        silent! call s:clear_indent_hl()
-        let b:galaxy_indent_hl = 0
-    endif
-endfunction "}}}
 "}}}
 "STAT"{{{
 "======================================================================
@@ -988,7 +986,7 @@ function! s:statusline_aug() "{{{
     if version >= 700 "{{{
         let s:list_insert_enter = []
         let s:list_insert_leave = []
-        let hl_grp = ["Cursor","StatusLine","User1","User2","User3",
+        let hl_grp = ["StatusLine","User1","User2","User3",
                     \"User4","User5","User6","User7","User8","User9",]
         let hl_list = (s:scheme_style_list + s:gui_hl_list)
         for grp in hl_grp
@@ -997,9 +995,6 @@ function! s:statusline_aug() "{{{
                     call add(s:list_insert_leave,item)
 
                     let _item = copy(item)
-                    if grp =~? "Cursor"
-                        let _item[1] = "msgclr5"
-                    endif
                     if grp =~? "Statusline"
                         let status_bgd = item[1]
                         let [_item[2],_item[1]] = _item[1:2]
