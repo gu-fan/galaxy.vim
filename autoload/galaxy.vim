@@ -945,6 +945,7 @@ function! s:indent_hl() "{{{
     hi link galaxyIndentErr ErrorMsg
 endfunction "}}}
 function! s:indent_hl_aug() "{{{
+    call galaxy#toggle_indent_hl('ON')
     aug galaxy#indent_hl
         for file in split(g:galaxy_indent_hl_file,",")
             exe "au! FileType" file "call galaxy#toggle_indent_hl('ON')"
