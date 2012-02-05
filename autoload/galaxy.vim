@@ -3,7 +3,7 @@
 "    File: colors/galaxy.vim
 " Summary: A colorscheme that thousands shemes within.
 "  Author: Rykka <Rykka10(at)gmail.com>
-" Last Update: 2012-01-26
+" Last Update: 2012-02-06
 " Version: 1.2.0
 "=============================================================
 let s:save_cpo = &cpo
@@ -735,19 +735,20 @@ function! s:hi_t_list(list,...) "{{{
                         \ exists("s:".hl_fg) ? s:{hl_fg} : s:fg_t
             let bg_txt = empty(hl_bg) ? hl_bg :
                         \ exists("s:".hl_bg) ? s:{hl_bg} : s:bg_t
-            if s:t_Co==8 "{{{
+
+            " term 8 need to set bold.
+            if exists("s:t_Co") && s:t_Co==8 "{{{
                 for i in range(8)
                     if fg_txt =~? '\<'.s:b8_name[i].'\>'
                         let fg_txt=s:n8_num[i]
                         let fm_txt.=",bold"
-                        " echo "fg" s:b8_name[i] fg_txt hl_grp
                     endif
                     if bg_txt =~? '\<'.s:b8_name[i].'\>'
                         let bg_txt=s:n8_num[i]
-                        " echo "bg" s:n8_num[i] bg_txt hl_grp
                     endif
                 endfor
             endif "}}}
+
             let bg_txt = empty(bg_txt) ? "" : s:mode."bg=".bg_txt." "
             let fg_txt = empty(fg_txt) ? "" : s:mode."fg=".fg_txt." "
             let fm_txt = empty(fm_txt) ? "" : s:mode."=".fm_txt
