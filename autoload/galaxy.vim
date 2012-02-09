@@ -3,7 +3,7 @@
 "    File: colors/galaxy.vim
 " Summary: A colorscheme that thousands shemes within.
 "  Author: Rykka <Rykka10(at)gmail.com>
-" Last Update: 2012-02-06
+" Last Update: 2012-02-10
 " Version: 1.2.0
 "=============================================================
 let s:save_cpo = &cpo
@@ -651,31 +651,6 @@ let s:syn_hi_gui_dict.vimwiki2=[
             \["VimwikiHeader4",          "msgclr8",  "nocolor",  "b"     ],
             \["VimwikiHeader5",          "msgclr10",  "nocolor",  "b"     ],
             \["VimwikiHeader6",          "msgclr12",  "nocolor",  "b"     ],
-            \["Vimwiki_Posit9",          "msgclr0",  "nocolor",  "b"     ],
-            \["Vimwiki_Posit8",          "msgclr1",  "nocolor",  "b"     ],
-            \["Vimwiki_Posit7",          "msgclr2",  "nocolor",  "b"     ],
-            \["Vimwiki_Posit6",          "msgclr3",  "nocolor",  "b"     ],
-            \["Vimwiki_Posit5",          "msgclr4",  "nocolor",  "b"     ],
-            \["Vimwiki_Posit4",          "msgclr5",  "nocolor",  "b"     ],
-            \["Vimwiki_Posit3",          "msgclr6",  "nocolor",  "b"     ],
-            \["Vimwiki_Posit2",          "msgclr7",  "nocolor",  "b"     ],
-            \["Vimwiki_Posit1",          "msgclr8",  "nocolor",  "b"     ],
-            \["Vimwiki_minus1",          "msgclr9",  "nocolor",  "b"     ],
-            \["Vimwiki_minus2",          "msgclr10",  "nocolor",  "b"     ],
-            \["Vimwiki_minus3",          "msgclr11",  "nocolor",  "b"     ],
-            \["Vimwiki_minus4",          "msgclr12",  "nocolor",  "b"     ],
-            \["Vimwiki_minus5",          "msgclr13",  "nocolor",  "b"     ],
-            \["Vimwiki_minus6",          "msgclr14",  "nocolor",  "b"     ],
-            \["Vimwiki_minus7",          "msgclr15",  "nocolor",  "b"     ],
-            \["Vimwiki_minus8",          "msgclr16",  "nocolor",  "b"     ],
-            \["Vimwiki_minus9",          "msgclr17",  "nocolor",  "b"     ],
-            \["Vimwiki_minus0",          "fgdclr3",  "nocolor",  "b"     ],
-            \["Vimwiki_Posit0",          "fgdclr4",  "nocolor",  "b"     ],
-            \]
-let s:synlink_dict.vimwiki=[
-            \["VimwikiLIst",   "Keyword     "    ],
-            \["vimwikibold",   "Title     "    ],
-            \["VimwikiTimeStamp",   "SpecialComment"    ],
             \]
 let s:synlink_dict.xml=[
             \["xmlAttrib            ",   "Special       "    ],
