@@ -8,7 +8,7 @@
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim
-"  CHCK "{{{
+"  CHCK "{{{1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if version < 700
     finish
@@ -18,14 +18,13 @@ else
         syntax reset
     endif
 endif
-"}}}
-" _VAR "{{{
+" VARS "{{{1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:galaxy={}
 let g:galaxy.name="_GALAXY_"
 let g:galaxy.version="1.2.0"
 let g:galaxy.winpos = "bot"
-"{{{ g: optioins
+"{{{2 g:Optioins
 if !exists("g:galaxy_cache_File") "{{{
     if has("win32") || has("win64") 
         if exists('$HOME')
@@ -68,8 +67,7 @@ endif
 if !exists("g:galaxy_load_syn_dict")
     let g:galaxy_load_syn_dict=1
 endif
-"}}}
-"{{{ s: misc vars
+"{{{2 s:Misc vars
 let s:nocolor         = "NONE"
 let s:fg              = "fg"
 let s:bg              = "bg"
@@ -115,155 +113,7 @@ let s:clr_helptxt=[
             \"Message Color(ErrorMsg,ModeMsg,...)",
             \"Background(Normal Background)",
             \"Diff(DiffAdd,DiffChange,... Background)"]
-"}}}
-" s:built_in_schemes "{{{
-" bgd fgd syn msg dif
-let s:built_in_schemes=[
-            \{"name":"Paper_And_Pen",
-            \"colors":["EBE9E8","313236","2D527D","CC2020","D9A79E"]},
-            \{"name":"Wine",
-            \"colors":["0D0609","94979C","9C795F","F03535","252B36"]},
-            \{"name":"Spring",
-            \"colors":["D5E6A1","4B4B4D","496791","B32222","CCBE8F"],
-            \"style":"SHADOW"},
-            \{"name":"Village",
-            \"colors":["B1E6AC","361A1A","2E4873","15458C","CCBD66"],
-            \"style":"COLOUR"},
-            \{"name":"Slates",
-            \"colors":["F2EFE4","232733","386599","FF2828","D9948B"],
-            \"style":"COLOUR"},
-            \{"name":"Factory",
-            \"colors":["050505","A6A6A6","8296B3","54DEB0","404259"],
-            \"style":"SHADOW"},
-            \{"name":"InkGreen",
-            \"colors":["0A0D07","A9BA93","7F7BC7","FF2828","363E4D"],
-            \"style":"ABOUND"},
-            \{"name":"RosyBlue",
-            \"colors":["0A0A0F","ABA995","7991B3","54DFB1","2C2E4D"],
-            \"style":"ABOUND"},
-            \{"name":"MoonNight",
-            \"colors":["081524","B4B6B8","AC8CCC","FFDC42","406643"],
-            \"style":"SHADOW"},
-            \]
-
-let s:win_txtline = 2
-let s:win_builtin_line=len(s:built_in_schemes)
-
-"}}}
-"{{{style
-let s:style_hl_list=
-\[
-    \{"name":"GALAXY",
-    \"highlights":[
-        \]
-    \},
-    \{"name":"SHADOW",
-    \"highlights":[
-            \["CursorLine",     "nocolor",  "bgdclr2",  "n"     ],
-            \["Visual",         "nocolor",  "bgdclr6",  "n"     ],
-            \["VisualNOS",      "nocolor",  "bgdclr7",  "n"     ],
-            \["Search",         "fgdclr2",  "bgdclr2",  "n"     ],
-            \["IncSearch",      "bgdclr0",  "fgdclr2",  "b"     ],
-            \["Wildmenu",       "fgdclr1",  "bgdclr2",  "rb"    ],
-            \["Pmenu",          "bgdclr6",  "bgdclr1",  "n"     ],
-            \["PmenuSel",       "fgdclr1",  "bgdclr1",  "rb"    ],
-            \["PmenuSbar",      "bgdclr6",  "bgdclr1",  "n"     ],
-            \["PmenuThumb",     "bgdclr0",  "bgdclr4",  "n"     ],
-            \["Folded",         "bgdclr5",  "bgdclr2",  "n"     ],
-            \["FoldColumn",     "bgdclr0",  "bgdclr2",  "n"     ],
-            \["LineNr",         "bgdclr3",  "bgdclr1",  "n"     ],
-            \["SignColumn",     "msgclr2",  "bgdclr1",  "n"     ],
-            \["TabLine",        "bgdclr0",  "bgdclr3",  "n"     ],
-            \["TabLineSel",     "bgdclr4",  "bgdclr0",  "b"     ],
-            \["TabLineFill",    "bgdclr0",  "bgdclr2",  "n"     ],
-            \["StatusLine",     "bgdclr8",  "bgdclr3",  "b"     ],
-            \["StatusLineNC",   "bgdclr1",  "bgdclr3",  "n"     ],
-            \["User1",          "msgclr0",  "bgdclr3",  "b"     ],
-            \["User2",          "msgclr1",  "bgdclr3",  "b"     ],
-            \["User3",          "msgclr2",  "bgdclr3",  "b"     ],
-            \["User4",          "msgclr3",  "bgdclr3",  "b"     ],
-            \["User5",          "msgclr4",  "bgdclr3",  "b"     ],
-            \["User6",          "msgclr5",  "bgdclr3",  "b"     ],
-            \["User7",          "msgclr6",  "bgdclr3",  "b"     ],
-            \["User8",          "msgclr7",  "bgdclr3",  "b"     ],
-            \["User9",          "msgclr8",  "bgdclr3",  "b"     ],
-            \["Todo",           "msgclr1",  "bgdclr3",  "b"     ],
-            \["Conceal",        "bgdclr2",  "nocolor",  "n"     ],
-        \]
-    \},
-    \{"name":"ABOUND",
-    \"highlights":[
-        \["Visual",         "nocolor",  "difclr0",  "n"     ],
-        \["VisualNOS",      "nocolor",  "difclr1",  "n"     ],
-        \["Search",         "fgdclr2",  "difclr5",  "n"     ],
-        \["IncSearch",      "fgdclr9",  "msgclr2",  "b"     ],
-        \["Wildmenu",       "difclr0",  "fgdclr2",  "rb"    ],
-        \["Pmenu",          "fgdclr0",  "fgdclr9",  "n"     ],
-        \["PmenuSel",       "bgdclr8",  "bgdclr0",  "rb"    ],
-        \["PmenuSbar",      "fgdclr1",  "fgdclr5",  "n"     ],
-        \["PmenuThumb",     "bgdclr2",  "fgdclr2",  "n"     ],
-        \["Folded",         "fgdclr3",  "fgdclr8",  "n"     ],
-        \["FoldColumn",     "fgdclr6",  "fgdclr8",  "n"     ],
-        \["LineNr",         "fgdclr4",  "fgdclr9",  "n"     ],
-        \["SignColumn",     "msgclr2",  "fgdclr4",  "n"     ],
-        \["TabLine",        "fgdclr8",  "fgdclr3",  "n"     ],
-        \["TabLineSel",     "fgdclr1",  "bgdclr0",  "b"     ],
-        \["TabLineFill",    "bgdclr0",  "fgdclr4",  "n"     ],
-        \["StatusLine",     "bgdclr9",  "fgdclr6",  "b"     ],
-        \["StatusLineNC",   "fgdclr1",  "fgdclr6",  "n"     ],
-        \["User1",          "msgclr1",  "fgdclr6",  "b"     ],
-        \["User2",          "msgclr2",  "fgdclr6",  "b"     ],
-        \["User3",          "msgclr3",  "fgdclr6",  "b"     ],
-        \["User4",          "msgclr4",  "fgdclr6",  "b"     ],
-        \["User5",          "msgclr5",  "fgdclr6",  "b"     ],
-        \["User6",          "msgclr6",  "fgdclr6",  "b"     ],
-        \["User7",          "msgclr7",  "fgdclr6",  "b"     ],
-        \["User8",          "msgclr8",  "fgdclr6",  "b"     ],
-        \["User9",          "msgclr9",  "fgdclr6",  "b"     ],
-        \["MatchParen",     "bgdclr0",  "synclr7",  "b"     ],
-        \["Identifier",     "synclr5",  "nocolor",  "b"     ],
-        \["Structure",      "synclr5",  "nocolor",  "b"     ],
-        \["Operator",       "synclr1",  "nocolor",  "n"     ],
-        \["Delimiter",      "synclr3",  "nocolor",  "n"     ],
-        \]
-    \},
-    \{"name":"COLOUR",
-    \"highlights":[
-        \["Visual",         "nocolor",  "difclr2",  "n"     ],
-        \["VisualNOS",      "nocolor",  "difclr0",  "n"     ],
-        \["Wildmenu",       "difclr0",  "fgdclr2",  "rb"    ],
-        \["Pmenu",          "bgdclr0",  "fgdclr2",  "n"     ],
-        \["PmenuSel",       "difclr1",  "fgdclr2",  "rb"    ],
-        \["PmenuSbar",      "bgdclr1",  "fgdclr0",  "n"     ],
-        \["PmenuThumb",     "bgdclr2",  "difclr1",  "n"     ],
-        \["Folded",         "bgdclr8",  "bgdclr2",  "n"     ],
-        \["FoldColumn",     "bgdclr4",  "bgdclr2",  "n"     ],
-        \["LineNr",         "bgdclr6",  "bgdclr1",  "n"     ],
-        \["SignColumn",     "msgclr2",  "bgdclr2",  "n"     ],
-        \["TabLine",        "bgdclr0",  "fgdclr1",  "n"     ],
-        \["TabLineSel",     "fgdclr2",  "bgdclr0",  "b"     ],
-        \["TabLineFill",    "bgdclr0",  "fgdclr2",  "n"     ],
-        \["StatusLine",     "difclr0",  "fgdclr2",  "b"     ],
-        \["StatusLineNC",   "bgdclr2",  "fgdclr2",  "n"     ],
-        \["User1",          "difclr1",  "fgdclr2",  "b"     ],
-        \["User2",          "difclr2",  "fgdclr2",  "b"     ],
-        \["User3",          "difclr3",  "fgdclr2",  "b"     ],
-        \["User4",          "difclr4",  "fgdclr2",  "b"     ],
-        \["User5",          "difclr5",  "fgdclr2",  "b"     ],
-        \["User6",          "difclr6",  "fgdclr2",  "b"     ],
-        \["User7",          "difclr7",  "fgdclr2",  "b"     ],
-        \["User8",          "difclr8",  "fgdclr2",  "b"     ],
-        \["User9",          "difclr9",  "fgdclr2",  "b"     ],
-        \["MatchParen",     "bgdclr0",  "synclr7",  "b"     ],
-        \["Identifier",     "synclr5",  "nocolor",  "b"     ],
-        \["Structure",      "synclr5",  "nocolor",  "b"     ],
-        \["Operator",       "synclr1",  "nocolor",  "n"     ],
-        \["Delimiter",      "synclr3",  "nocolor",  "n"     ],
-        \]
-    \}
-\]
-"}}}
-"gui "{{{ 
+" s:Gui "{{{2 
 let s:gui_hl_list=[
             \["Normal",         "fgdclr0",  "bgdclr0",  "n"     ],
             \["Cursor",         "nocolor",  "msgclr8",  "n"     ],
@@ -353,7 +203,119 @@ let s:gui_hl_list=[
             \["Macro",          "PreProc"       ],
             \["PreCondit",      "PreProc"       ],
             \]
-"}}}
+"{{{2 s:Styles
+let s:style_hl_list=
+\[
+    \{"name":"GALAXY",
+    \"highlights":[
+        \]
+    \},
+    \{"name":"SHADOW",
+    \"highlights":[
+            \["CursorLine",     "nocolor",  "bgdclr2",  "n"     ],
+            \["Visual",         "nocolor",  "bgdclr6",  "n"     ],
+            \["VisualNOS",      "nocolor",  "bgdclr7",  "n"     ],
+            \["Search",         "fgdclr2",  "bgdclr2",  "n"     ],
+            \["IncSearch",      "bgdclr0",  "fgdclr2",  "b"     ],
+            \["Wildmenu",       "fgdclr1",  "bgdclr2",  "rb"    ],
+            \["Pmenu",          "bgdclr6",  "bgdclr1",  "n"     ],
+            \["PmenuSel",       "fgdclr1",  "bgdclr1",  "rb"    ],
+            \["PmenuSbar",      "bgdclr6",  "bgdclr1",  "n"     ],
+            \["PmenuThumb",     "bgdclr0",  "bgdclr4",  "n"     ],
+            \["Folded",         "bgdclr5",  "bgdclr2",  "n"     ],
+            \["FoldColumn",     "bgdclr0",  "bgdclr2",  "n"     ],
+            \["LineNr",         "bgdclr4",  "bgdclr1",  "n"     ],
+            \["SignColumn",     "msgclr2",  "bgdclr1",  "n"     ],
+            \["TabLine",        "bgdclr0",  "bgdclr3",  "n"     ],
+            \["TabLineSel",     "bgdclr4",  "bgdclr0",  "b"     ],
+            \["TabLineFill",    "bgdclr0",  "bgdclr2",  "n"     ],
+            \["StatusLine",     "bgdclr8",  "bgdclr3",  "b"     ],
+            \["StatusLineNC",   "bgdclr1",  "bgdclr3",  "n"     ],
+            \["User1",          "msgclr0",  "bgdclr3",  "b"     ],
+            \["User2",          "msgclr1",  "bgdclr3",  "b"     ],
+            \["User3",          "msgclr2",  "bgdclr3",  "b"     ],
+            \["User4",          "msgclr3",  "bgdclr3",  "b"     ],
+            \["User5",          "msgclr4",  "bgdclr3",  "b"     ],
+            \["User6",          "msgclr5",  "bgdclr3",  "b"     ],
+            \["User7",          "msgclr6",  "bgdclr3",  "b"     ],
+            \["User8",          "msgclr7",  "bgdclr3",  "b"     ],
+            \["User9",          "msgclr8",  "bgdclr3",  "b"     ],
+            \["Todo",           "msgclr1",  "bgdclr3",  "b"     ],
+            \["Conceal",        "bgdclr2",  "nocolor",  "n"     ],
+        \]
+    \},
+    \{"name":"ABOUND",
+    \"highlights":[
+        \["Visual",         "nocolor",  "difclr0",  "n"     ],
+        \["VisualNOS",      "nocolor",  "difclr1",  "n"     ],
+        \["Search",         "fgdclr2",  "difclr5",  "n"     ],
+        \["IncSearch",      "fgdclr9",  "msgclr2",  "b"     ],
+        \["Wildmenu",       "difclr0",  "fgdclr2",  "rb"    ],
+        \["Pmenu",          "fgdclr0",  "fgdclr9",  "n"     ],
+        \["PmenuSel",       "bgdclr8",  "bgdclr0",  "rb"    ],
+        \["PmenuSbar",      "fgdclr1",  "fgdclr5",  "n"     ],
+        \["PmenuThumb",     "bgdclr2",  "fgdclr2",  "n"     ],
+        \["Folded",         "fgdclr3",  "fgdclr8",  "n"     ],
+        \["FoldColumn",     "fgdclr6",  "fgdclr8",  "n"     ],
+        \["LineNr",         "fgdclr4",  "fgdclr9",  "n"     ],
+        \["SignColumn",     "msgclr2",  "fgdclr4",  "n"     ],
+        \["TabLine",        "fgdclr8",  "fgdclr3",  "n"     ],
+        \["TabLineSel",     "fgdclr1",  "bgdclr0",  "b"     ],
+        \["TabLineFill",    "bgdclr0",  "fgdclr4",  "n"     ],
+        \["StatusLine",     "bgdclr9",  "fgdclr6",  "b"     ],
+        \["StatusLineNC",   "fgdclr1",  "fgdclr6",  "n"     ],
+        \["User1",          "msgclr1",  "fgdclr6",  "b"     ],
+        \["User2",          "msgclr2",  "fgdclr6",  "b"     ],
+        \["User3",          "msgclr3",  "fgdclr6",  "b"     ],
+        \["User4",          "msgclr4",  "fgdclr6",  "b"     ],
+        \["User5",          "msgclr5",  "fgdclr6",  "b"     ],
+        \["User6",          "msgclr6",  "fgdclr6",  "b"     ],
+        \["User7",          "msgclr7",  "fgdclr6",  "b"     ],
+        \["User8",          "msgclr8",  "fgdclr6",  "b"     ],
+        \["User9",          "msgclr9",  "fgdclr6",  "b"     ],
+        \["MatchParen",     "bgdclr0",  "synclr7",  "b"     ],
+        \["Identifier",     "synclr5",  "nocolor",  "b"     ],
+        \["Structure",      "synclr5",  "nocolor",  "b"     ],
+        \["Operator",       "synclr1",  "nocolor",  "n"     ],
+        \["Delimiter",      "synclr3",  "nocolor",  "n"     ],
+        \]
+    \},
+    \{"name":"COLOUR",
+    \"highlights":[
+        \["Cursor",         "bgdclr1",  "msgclr4",  "n"     ],
+        \["Visual",         "nocolor",  "difclr2",  "n"     ],
+        \["VisualNOS",      "nocolor",  "difclr0",  "n"     ],
+        \["Wildmenu",       "difclr0",  "fgdclr2",  "rb"    ],
+        \["Pmenu",          "bgdclr0",  "fgdclr2",  "n"     ],
+        \["PmenuSel",       "difclr1",  "fgdclr2",  "rb"    ],
+        \["PmenuSbar",      "bgdclr1",  "fgdclr0",  "n"     ],
+        \["PmenuThumb",     "bgdclr2",  "difclr1",  "n"     ],
+        \["Folded",         "bgdclr8",  "bgdclr2",  "n"     ],
+        \["FoldColumn",     "bgdclr4",  "bgdclr2",  "n"     ],
+        \["LineNr",         "bgdclr6",  "bgdclr1",  "n"     ],
+        \["SignColumn",     "msgclr2",  "bgdclr2",  "n"     ],
+        \["TabLine",        "bgdclr0",  "fgdclr1",  "n"     ],
+        \["TabLineSel",     "fgdclr2",  "bgdclr0",  "b"     ],
+        \["TabLineFill",    "bgdclr0",  "fgdclr2",  "n"     ],
+        \["StatusLine",     "difclr0",  "fgdclr2",  "b"     ],
+        \["StatusLineNC",   "bgdclr2",  "fgdclr2",  "n"     ],
+        \["User1",          "difclr1",  "fgdclr2",  "b"     ],
+        \["User2",          "difclr2",  "fgdclr2",  "b"     ],
+        \["User3",          "difclr3",  "fgdclr2",  "b"     ],
+        \["User4",          "difclr4",  "fgdclr2",  "b"     ],
+        \["User5",          "difclr5",  "fgdclr2",  "b"     ],
+        \["User6",          "difclr6",  "fgdclr2",  "b"     ],
+        \["User7",          "difclr7",  "fgdclr2",  "b"     ],
+        \["User8",          "difclr8",  "fgdclr2",  "b"     ],
+        \["User9",          "difclr9",  "fgdclr2",  "b"     ],
+        \["MatchParen",     "bgdclr0",  "synclr4",  "b"     ],
+        \["Identifier",     "synclr5",  "nocolor",  "b"     ],
+        \["Structure",      "synclr5",  "nocolor",  "b"     ],
+        \["Operator",       "synclr1",  "nocolor",  "n"     ],
+        \["Delimiter",      "synclr3",  "nocolor",  "n"     ],
+        \]
+    \}
+\]
 "{{{term_list
 let s:term_hl_list=[
             \["Normal",         "fg_t",  "bg_t",  "n"     ],
@@ -524,8 +486,39 @@ function! s:set_dark8_var() "{{{
     let s:dif1_t="darkcyan"
     let s:dif2_t="darkmagenta"
 endfunction "}}}
-"}}}
-" SYNX"{{{1
+" s:Schemes "{{{2
+" bgd fgd syn msg dif
+let s:built_in_schemes=[
+            \{"name":"Paper_And_Pen",
+            \"colors":["EBE9E8","313236","2D527D","CC2020","D9A79E"]},
+            \{"name":"Wine",
+            \"colors":["0D0609","94979C","9C795F","F03535","252B36"]},
+            \{"name":"Spring",
+            \"colors":["D5E6A1","4B4B4D","496791","B32222","CCBE8F"],
+            \"style":"SHADOW"},
+            \{"name":"Village",
+            \"colors":["B1E6AC","361A1A","2E4873","15458C","CCBD66"],
+            \"style":"COLOUR"},
+            \{"name":"Slates",
+            \"colors":["F2EFE4","232733","386599","FF2828","D9948B"],
+            \"style":"COLOUR"},
+            \{"name":"Factory",
+            \"colors":["050505","A6A6A6","8296B3","54DEB0","404259"],
+            \"style":"SHADOW"},
+            \{"name":"InkGreen",
+            \"colors":["0A0D07","A9BA93","7F7BC7","FF2828","363E4D"],
+            \"style":"ABOUND"},
+            \{"name":"RosyBlue",
+            \"colors":["0A0A0F","ABA995","7991B3","54DFB1","2C2E4D"],
+            \"style":"ABOUND"},
+            \{"name":"MoonNight",
+            \"colors":["081524","B4B6B8","AC8CCC","FFDC42","406643"],
+            \"style":"SHADOW"},
+            \]
+let s:win_txtline = 2
+let s:win_builtin_line=len(s:built_in_schemes)
+
+" SYNX "{{{1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let s:synlink_dict={}
 let s:syn_hi_gui_dict={}
@@ -666,7 +659,6 @@ let s:synlink_dict.xml=[
             \["xmlNamespace         ",   "PreProc       "    ],
             \["xmlTagName           ",   "Statement     "    ],
             \]
-"}}}
 "CLRS"{{{
 "======================================================================
 function! s:generate_colors(colors, y_step,...) "{{{
@@ -1406,7 +1398,7 @@ function! galaxy#exit_win() "{{{
     endif
 endfunction "}}}
 "}}}
-"GENS {{{1
+" GENS {{{1
 "============================================================================
 function! galaxy#win_scheme_gen_colorv() "{{{
     let scheme={}
@@ -1644,8 +1636,7 @@ function! galaxy#auto_gen() "{{{
     " echo string(namelist)
     call galaxy#load_scheme()
 endfunction "}}}
-"}}}
-"HELP "{{{
+"HELP "{{{1
 "======================================================================
 function! s:exec(cmd) "{{{
     let old_ei = &ei
@@ -1746,8 +1737,7 @@ function! s:float(x) "{{{
         return x
     endif
 endfunction "}}}
-"}}}
-"LOAD "{{{
+"LOAD "{{{1
 "======================================================================
 function! s:write_store(scheme) "{{{
     " and should remove the cache
@@ -1915,8 +1905,7 @@ function! galaxy#write_cache() "{{{
         return -1
     endtry
 endfunction "}}}
-"}}}
-"MAIN "{{{
+"MAIN "{{{1
 "======================================================================
 function! galaxy#init() "{{{
     if !has("gui_running") && &t_Co<=16
@@ -2091,7 +2080,7 @@ function! galaxy#next_scheme(...) "{{{
         call galaxy#load_scheme(name)
     endif
 endfunction "}}}
-"}}}
+"}}}1
 let &cpo = s:save_cpo
 unlet s:save_cpo
 " vim:tw=78:fdm=marker:
