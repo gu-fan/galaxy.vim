@@ -904,7 +904,6 @@ function! s:indent_hl() "{{{
     hi link galaxyIndentErr ErrorMsg
 endfunction "}}}
 function! s:indent_hl_aug() "{{{
-    call galaxy#toggle_indent_hl('ON')
     aug galaxy#indent_hl
         for file in split(g:galaxy_indent_hl_file,",")
             exe "au! FileType" file "call galaxy#toggle_indent_hl('ON')"
@@ -953,20 +952,20 @@ function! s:statusline_aug() "{{{
                     call add(s:list_insert_leave,item)
 
                     let _item = copy(item)
-                    if grp =~? "Statusline"
+                    if grp =~? '^StatusLine$'
                         let status_bgd = item[1]
                         let [_item[2],_item[1]] = _item[1:2]
-                    endif
-                    if grp =~? 'User'
+                    elseif grp =~? '^User\d$'
                         let _item[2] = status_bgd
                     endif
                     call add(s:list_insert_enter,_item)
+
                     break
                 endif
             endfor
         endfor
 
-        aug insertenter_color
+        aug galaxy#insertenter
             au!
             au InsertEnter * call s:hi_list(s:list_insert_enter)
             au InsertLeave * call s:hi_list(s:list_insert_leave)
@@ -1007,7 +1006,7 @@ if version >= 700 "{{{
             endfor
         endfor
 
-    aug insertenter_color
+    aug galaxy#insertenter
         au!
         au InsertEnter * call s:hi_list(s:list_insert_enter)
         au InsertLeave * call s:hi_list(s:list_insert_leave)
@@ -1051,7 +1050,7 @@ function! s:term_cursor() "{{{
             endif
         endif
     endif
-    aug galaxy_term_cursor
+    aug galaxy#term_cursor
         au!
         exec au_cmd
     aug END
@@ -1083,7 +1082,7 @@ function! galaxy#win() "{{{
     endif
     iabc <buffer>
 
-    augroup plugin-galaxy
+    aug galaxy#cursor_move
         au! CursorMoved,CursorMovedI <buffer>  call s:on_cursor_moved()
     aug END
     "}}}
