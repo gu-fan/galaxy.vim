@@ -520,24 +520,24 @@ let s:win_builtin_line=len(s:built_in_schemes)
 
 " SYNX "{{{1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let s:synlink_dict={}
-let s:syn_hi_gui_dict={}
-let s:syn_hi_term_dict={}
-let s:synlink_dict.ada=[
+let s:synlink_dict     = {}
+let s:syn_hi_gui_dict  = {}
+let s:syn_hi_term_dict = {}
+let s:synlink_dict.ada = [
             \["adaBegin",   "Type"    ],
             \["adaEnd",     "Type"        ],
             \["adaKeyword",         "Keyword"        ],
             \]
-let s:synlink_dict.cpp=[
+let s:synlink_dict.cpp = [
             \["cppAccess",   "Type"    ],
             \["cppStatement",   "Special"    ],
             \]
-let s:synlink_dict.hs=[
+let s:synlink_dict.hs = [
             \["ConId                ",   "Type          "    ],
             \["hsPragma             ",   "PreProc       "    ],
             \["hsConSym             ",   "Operator      "    ],
             \]
-let s:synlink_dict.html=[
+let s:synlink_dict.html = [
             \["htmlArg              ",   "Statement     "    ],
             \["htmlEndTag           ",   "Special       "    ],
             \["htmlItalic           ",   "Underlined    "    ],
@@ -546,7 +546,7 @@ let s:synlink_dict.html=[
             \["htmlTag              ",   "Special       "    ],
             \["htmlTagName          ",   "Type          "    ],
             \]
-let s:synlink_dict.lisp=[
+let s:synlink_dict.lisp = [
             \["lispAtom             ",   "Type          "    ],
             \["lispAtomMark         ",   "Type          "    ],
             \["lispConcat           ",   "Type          "    ],
@@ -554,12 +554,12 @@ let s:synlink_dict.lisp=[
             \["lispFunc             ",   "Special       "    ],
             \["lispKey              ",   "PreProc       "    ],
             \]
-let s:synlink_dict.netrw=[
+let s:synlink_dict.netrw = [
             \["netrwDir             ",   "Special       "    ],
             \["netrwExe             ",   "Wildmenu      "    ],
             \["netrwSymLink         ",   "Statement     "    ],
             \]
-let s:synlink_dict.pascal=[
+let s:synlink_dict.pascal = [
             \["pascalAsmKey         ",   "Statement     "    ],
             \["pascalDirective      ",   "PreProc       "    ],
             \["pascalModifier       ",   "PreProc       "    ],
@@ -567,7 +567,7 @@ let s:synlink_dict.pascal=[
             \["pascalStatement      ",   "Type          "    ],
             \["pascalStruct         ",   "Type          "    ],
             \]
-let s:synlink_dict.php=[
+let s:synlink_dict.php = [
             \["phpComparison        ",   "Special       "    ],
             \["phpDefine            ",   "Type          "    ],
             \["phpIdentifier        ",   "Normal        "    ],
@@ -575,18 +575,18 @@ let s:synlink_dict.php=[
             \["phpRegion            ",   "Special       "    ],
             \["phpVarSelector       ",   "Special       "    ],
             \]
-let s:synlink_dict.python=[
+let s:synlink_dict.python = [
             \["pythonStatement      ",   "Type          "    ],
             \]
-let s:synlink_dict.ruby=[
+let s:synlink_dict.ruby = [
             \["rubyConstant         ",   "Special       "    ],
             \["rubyDefine           ",   "Type          "    ],
             \["rubyRegexp           ",   "Special       "    ],
             \]
-let s:synlink_dict.scm=[
+let s:synlink_dict.scm = [
             \["schemeSyntax         ",   "Special       "    ],
             \]
-let s:synlink_dict.sh=[
+let s:synlink_dict.sh = [
             \["shArithRegion        ",   "Normal        "    ],
             \["shDerefSimple        ",   "Normal        "    ],
             \["shDerefVar           ",   "Normal        "    ],
@@ -595,10 +595,10 @@ let s:synlink_dict.sh=[
             \["shStatement          ",   "Special       "    ],
             \["shVariable           ",   "Normal        "    ],
             \]
-let s:synlink_dict.sql=[
+let s:synlink_dict.sql = [
             \["sqlKeyword           ",   "Statement     "    ],
             \]
-let s:synlink_dict.tex=[
+let s:synlink_dict.tex = [
             \["texDocType           ",   "PreProc       "    ],
             \["texLigature          ",   "Constant      "    ],
             \["texMatcher           ",   "Normal        "    ],
@@ -611,7 +611,7 @@ let s:synlink_dict.tex=[
             \["texTypeSize          ",   "Special       "    ],
             \["texTypeStyle         ",   "Special       "    ],
             \]
-let s:synlink_dict.vim=[
+let s:synlink_dict.vim = [
             \["vimFuncKey           ",   "Function      "    ],
             \["vimOption            ",   "Keyword       "    ],
             \["vimCommand           ",   "Statement     "    ],
@@ -628,7 +628,7 @@ let s:synlink_dict.vim=[
             \["vimSynType           ",   "Special       "    ],
             \["vimUserAttrb         ",   "Special       "    ],
             \]
-let s:syn_hi_term_dict.vimwiki2=[
+let s:syn_hi_term_dict.vimwiki2 = [
             \["VimwikiHeader1",          "Red",  "bg",  "b"     ],
             \["VimwikiHeader2",          "Magenta",  "bg",  "b"     ],
             \["VimwikiHeader3",          "Blue",  "bg",  "b"     ],
@@ -637,7 +637,7 @@ let s:syn_hi_term_dict.vimwiki2=[
             \["VimwikiHeader6",          "Yellow",  "bg",  "b"     ],
             \]
 
-let s:syn_hi_gui_dict.vimwiki2=[
+let s:syn_hi_gui_dict.vimwiki2 = [
             \["VimwikiHeader1",          "msgclr2",  "nocolor",  "b"     ],
             \["VimwikiHeader2",          "msgclr4",  "nocolor",  "b"     ],
             \["VimwikiHeader3",          "msgclr6",  "nocolor",  "b"     ],
@@ -645,7 +645,7 @@ let s:syn_hi_gui_dict.vimwiki2=[
             \["VimwikiHeader5",          "msgclr10",  "nocolor",  "b"     ],
             \["VimwikiHeader6",          "msgclr12",  "nocolor",  "b"     ],
             \]
-let s:synlink_dict.xml=[
+let s:synlink_dict.xml = [
             \["xmlAttrib            ",   "Special       "    ],
             \["xmlCdata             ",   "Normal        "    ],
             \["xmlCdataCdata        ",   "Statement     "    ],
@@ -659,7 +659,7 @@ let s:synlink_dict.xml=[
             \["xmlNamespace         ",   "PreProc       "    ],
             \["xmlTagName           ",   "Statement     "    ],
             \]
-"CLRS"{{{
+"CLRS"{{{1
 "======================================================================
 function! s:generate_colors(colors, y_step,...) "{{{
 
@@ -841,72 +841,63 @@ function! s:get_scheme_list() "{{{
     endif
     return scheme_list
 endfunction "}}}
-"}}}
-"INHL{{{
+"INHL{{{1
 "======================================================================
 function! s:load_indent_hl_syn() "{{{
-    
     " clear indent syntax match  or it will be multi loaded
     silent! call s:clear_indent_syn()
 
-    if  g:galaxy_indent_hl_pos=="end"
-        let p_txt = "#ms=e"
-    else
-        let p_txt = "#me=s+1"
+    if  g:galaxy_indent_hl_pos=="end" | let p_txt = "#ms=e"
+    else                              | let p_txt = "#me=s+1"
     endif
 
     " indent Highlight with style
+    " WorkRound: without contains
+    "            the vimLineComment will display as vimString
+    "            if there are '"' in line .
+    "            But with contains, Indent0 did not shown.
     for in_str in [repeat(' ', &sw), '\t']
-        exe 'syn match galaxyIndent0'.' #^\@<='.in_str.p_txt
-                    \.' containedin=ALL'
+        exe 'syn match galaxyIndent0'.' #^'.in_str.p_txt
+                    \.' contains=vimLineComment containedin=ALL'
 
         for i in range(1,7)
             exe 'syn match galaxyIndent'.i.' #\%(^\1\{'.i.'}\)\@<=\('.in_str.'\)'.p_txt
-                    \.' containedin=ALL'
+                    \.' contains=vimLineComment containedin=ALL'
         endfor
     endfor
 
-    syn match galaxyIndentErr #^ \+\t#
-                \ containedin=ALL
-    syn match galaxyIndentErr #^\t\+ #
-                \ containedin=ALL
+    syn match galaxyIndentErr #^ \+\t#  containedin=ALL
+    syn match galaxyIndentErr #^\t\+ #  containedin=ALL
 
     if g:galaxy_show_trailing_ws == 1
-        syn match galaxyIndentErr #\t\+$#
-                    \ containedin=ALL
-        syn match galaxyIndentErr # \+$#
-                    \ containedin=ALL
+        syn match galaxyIndentErr #\t\+$# containedin=ALL
+        syn match galaxyIndentErr # \+$#  containedin=ALL
     endif
 
-    for i in range(8)
-        exe "syn cluster galaxyIndentGroup add=galaxyIndent".i
-    endfor
-    syn cluster galaxyIndentGroup add=galaxyIndentErr
-
 endfunction "}}}
-" this function should be called everytime when toggle indent hl
 function! s:indent_hl() "{{{
+" this function should be called everytime when toggle indent hl
     if exists("s:scheme.style") && s:scheme.style =~? 'COLOUR\|ABOUND'
         let s:indent_hl_list=[
-                    \["galaxyIndent0", "difclr2",  "difclr0",  "n"     ],
-                    \["galaxyIndent1", "difclr3",  "difclr1",  "n"     ],
-                    \["galaxyIndent2", "difclr4",  "difclr2",  "n"     ],
-                    \["galaxyIndent3", "difclr5",  "difclr3",  "n"     ],
-                    \["galaxyIndent4", "difclr6",  "difclr4",  "n"     ],
-                    \["galaxyIndent5", "difclr7",  "difclr5",  "n"     ],
-                    \["galaxyIndent6", "difclr8",  "difclr6",  "n"     ],
-                    \["galaxyIndent7", "difclr9",  "difclr7",  "n"     ],
+                    \["galaxyIndent0", "nocolor",  "difclr2",  "n"     ],
+                    \["galaxyIndent1", "nocolor",  "difclr3",  "n"     ],
+                    \["galaxyIndent2", "nocolor",  "difclr4",  "n"     ],
+                    \["galaxyIndent3", "nocolor",  "difclr5",  "n"     ],
+                    \["galaxyIndent4", "nocolor",  "difclr6",  "n"     ],
+                    \["galaxyIndent5", "nocolor",  "difclr7",  "n"     ],
+                    \["galaxyIndent6", "nocolor",  "difclr8",  "n"     ],
+                    \["galaxyIndent7", "nocolor",  "difclr9",  "n"     ],
                     \]
     else
         let s:indent_hl_list=[
-                    \["galaxyIndent0", "bgdclr2",  "bgdclr2",  "n"     ],
-                    \["galaxyIndent1", "bgdclr3",  "bgdclr3",  "n"     ],
-                    \["galaxyIndent2", "bgdclr4",  "bgdclr4",  "n"     ],
-                    \["galaxyIndent3", "bgdclr5",  "bgdclr5",  "n"     ],
-                    \["galaxyIndent4", "bgdclr6",  "bgdclr6",  "n"     ],
-                    \["galaxyIndent5", "bgdclr7",  "bgdclr7",  "n"     ],
-                    \["galaxyIndent6", "bgdclr8",  "bgdclr8",  "n"     ],
-                    \["galaxyIndent7", "bgdclr9",  "bgdclr9",  "n"     ],
+                    \["galaxyIndent0", "nocolor",  "bgdclr1",  "n"     ],
+                    \["galaxyIndent1", "nocolor",  "bgdclr2",  "n"     ],
+                    \["galaxyIndent2", "nocolor",  "bgdclr3",  "n"     ],
+                    \["galaxyIndent3", "nocolor",  "bgdclr4",  "n"     ],
+                    \["galaxyIndent4", "nocolor",  "bgdclr5",  "n"     ],
+                    \["galaxyIndent5", "nocolor",  "bgdclr6",  "n"     ],
+                    \["galaxyIndent6", "nocolor",  "bgdclr7",  "n"     ],
+                    \["galaxyIndent7", "nocolor",  "bgdclr8",  "n"     ],
                     \]
     endif
     call s:hi_list(s:indent_hl_list)
@@ -935,7 +926,6 @@ function! galaxy#toggle_indent_hl(...) "{{{
 endfunction "}}}
 function! s:clear_indent_syn() "{{{
     " use silent! to call it
-    exe "syn clear @galaxyIndentGroup"
     for i in range(8)
         exe "syn clear galaxyIndent".i
     endfor
@@ -948,8 +938,7 @@ function! s:clear_indent_hl() "{{{
     endfor
     hi galaxyIndentErr NONE
 endfunction "}}}
-"}}}
-"STAT"{{{
+"STAT"{{{1
 "======================================================================
 function! s:statusline_aug() "{{{
     if version >= 700 "{{{
@@ -1067,8 +1056,7 @@ function! s:term_cursor() "{{{
         exec au_cmd
     aug END
 endfunction "}}}
-"}}}
-" WINS "{{{
+" WINS "{{{1
 "======================================================================
 function! galaxy#win() "{{{
     call s:getwin()
@@ -1125,7 +1113,6 @@ function! galaxy#win() "{{{
     call matchadd("TODO",Title_ptnq,25)
     let Type_ptn='\%2l'
     call matchadd("Question",Type_ptn,4) "}}}
-
     "Text "{{{
     let StringList = []
     let m = "Galaxy v".g:galaxy.version."
@@ -1397,7 +1384,6 @@ function! galaxy#exit_win() "{{{
     close
     endif
 endfunction "}}}
-"}}}
 " GENS {{{1
 "============================================================================
 function! galaxy#win_scheme_gen_colorv() "{{{
@@ -1609,8 +1595,8 @@ function! galaxy#gen_call(color,name,...) "{{{
     endif
 
 endfunction "}}}
-"auto gen with colorv list
 function! galaxy#auto_gen() "{{{
+"auto gen with colorv list
     let CacheStringList = getline(0,'$')
     let namelist=[]
     for i in CacheStringList
@@ -1745,7 +1731,7 @@ function! s:write_store(scheme) "{{{
     let scheme=a:scheme
     let CacheStringList = []
     let folder=expand(g:galaxy_store_Folder)
-    if !isdirectory(folder)
+    if !isdirectory(folder) "{{{
         if exists("*mkdir")
             try
                 call mkdir(folder,"p")
@@ -1760,17 +1746,14 @@ function! s:write_store(scheme) "{{{
     elseif filewritable(folder) != 2
         call s:error("The galaxy store Folder is not writeable.")
         return -1
-    endif
+    endif "}}}
     " XXX: let scheme_list_list became the editing variable
     if exists("scheme.colors") && len(scheme.colors)==5
-        call add(CacheStringList,"GALAXY_NAME\t".scheme.name)
+        call add(CacheStringList,"GALAXY_NAME\t\t".scheme.name)
         call add(CacheStringList,
-                    \"GALAXY_COLORS\t"
-                    \.scheme.colors[0]." "
-                    \.scheme.colors[1]." "
-                    \.scheme.colors[2]." "
-                    \.scheme.colors[3]." "
-                    \.scheme.colors[4])
+                    \"GALAXY_COLORS\t" .scheme.colors[0]." "
+                    \.scheme.colors[1]." " .scheme.colors[2]." "
+                    \.scheme.colors[3]." " .scheme.colors[4])
 
         if exists("scheme.style")
             call add(CacheStringList,"GALAXY_STYLE\t".scheme.style)
@@ -1780,21 +1763,21 @@ function! s:write_store(scheme) "{{{
             for i in range(len(scheme.highlights))
                 if len(scheme.highlights[i]) == 4
                     call add(CacheStringList,
-                                \"GALAXY_HIGH\t"
+                                \"GALAXY_HIGH\t\t"
                                 \.scheme.highlights[i][0]." "
                                 \.scheme.highlights[i][1]." "
                                 \.scheme.highlights[i][2]." "
                                 \.scheme.highlights[i][3])
                 elseif len(scheme.highlights[i]) == 2
                     call add(CacheStringList,
-                                \"GALAXY_HIGH\t"
+                                \"GALAXY_HIGH\t\t"
                                 \.scheme.highlights[i][0]." "
                                 \.scheme.highlights[i][1])
                 endif
             endfor
         endif
 
-        call add(CacheStringList,"GALAXY_END")
+        " call add(CacheStringList,"GALAXY_END")
         call add(CacheStringList,"")
 
         let file = folder . scheme.name. ".galaxy"
@@ -1843,10 +1826,8 @@ endfunction "}}}
 function! galaxy#load_file(file) "{{{
     let file = a:file
     if filereadable(file)
-        let CacheStringList = readfile(file)
         let l:cached_theme_list=[]
-        for i in CacheStringList
-            "the color cache
+        for i in readfile(file) + ["GALAXY_END"]
             if !exists("l:tmp_dict")
                 let l:tmp_dict={}
             endif
@@ -1855,12 +1836,12 @@ function! galaxy#load_file(file) "{{{
                             \matchstr(i,'GALAXY_NAME\s*\zs.*\ze\s*')
             endif
             if i =~ 'GALAXY_COLORS'
-    let colors=matchstr(i,'GALAXY_COLORS\s*\zs.*\ze$')
+                let colors=matchstr(i,'GALAXY_COLORS\s*\zs.*\ze$')
                 let l:tmp_dict.colors = split(colors,'\s')
                 if len(l:tmp_dict.colors)==5
-                    let l:color_exists=1
+                    let l:color_is_5=1
                 else
-                    let l:color_exists=0
+                    let l:color_is_5=0
                 endif
             endif
             if i =~ 'GALAXY_STYLE'
@@ -1869,20 +1850,20 @@ function! galaxy#load_file(file) "{{{
 
             endif
             if i =~ 'GALAXY_HIGH'
-    let highlights = matchstr(i,'GALAXY_HIGH\s*\zs.*\ze$')
-    let l:tmp_dict.highlights = []
-    call add(l:tmp_dict.highlights,split(highlights,'\s'))
+                let highlights = matchstr(i,'GALAXY_HIGH\s*\zs.*\ze$')
+                let l:tmp_dict.highlights = []
+                call add(l:tmp_dict.highlights,split(highlights,'\s'))
             endif
             if i =~ 'GALAXY_END'
-    if exists("l:color_exists") && l:color_exists==1
+                if exists("l:color_is_5") && l:color_is_5==1
                     call add(l:cached_theme_list,deepcopy(l:tmp_dict))
                 endif
-    unlet l:tmp_dict
+                unlet l:tmp_dict
             endif
         endfor
         return l:cached_theme_list
     else
-    return 0
+        return 0
     endif
 endfunction "}}}
 function! galaxy#write_cache() "{{{
