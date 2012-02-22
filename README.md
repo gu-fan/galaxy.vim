@@ -8,10 +8,6 @@
         
     There are |galaxy-terminal| support for all schemes .
 
-    Other features include: 
-        |galaxy-edit|, |galaxy-style|,
-        |galaxy-statusline-blink|, |galaxy-indent-highlight| ...
-
     To start:     
         :Galaxy 
 
