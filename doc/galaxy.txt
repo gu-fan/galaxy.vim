@@ -25,10 +25,6 @@ INTRO                                               *galaxy-intro*
         
     There are |galaxy-terminal| support for all schemes .
 
-    Other features include: 
-        |galaxy-edit|, |galaxy-style|,
-        |galaxy-statusline-blink|, |galaxy-indent-highlight| ...
-
     To start:     
         :Galaxy 
 
@@ -36,6 +32,10 @@ INTRO                                               *galaxy-intro*
         put this in your vimrc.
         colorscheme galaxy
 
+    Other features include: 
+        |galaxy-edit|, |galaxy-style|,
+        |galaxy-statusline-blink|, |galaxy-indent-highlight| ...
+        
     If you have any issues or Suggestions:
           Post it at https://github.com/Rykka/vim-galaxy
 
