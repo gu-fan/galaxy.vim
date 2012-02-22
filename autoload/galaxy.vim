@@ -3,7 +3,7 @@
 "    File: colors/galaxy.vim
 " Summary: A colorscheme that thousands shemes within.
 "  Author: Rykka <Rykka10(at)gmail.com>
-" Last Update: 2012-02-10
+" Last Update: 2012-02-22
 " Version: 1.2.0
 "=============================================================
 let s:save_cpo = &cpo
@@ -1117,7 +1117,7 @@ function! galaxy#win() "{{{
     let m = "Galaxy v".g:galaxy.version."
                 \    H:help  gn:new e:edit dd:delete q:quit  ?"
     call add(StringList,m)
-    let m = "NAME"
+    let m = "SCHEME"
     let m = s:line_sub(m,"BGD",20)
     let m = s:line_sub(m,"FGD",27)
     let m = s:line_sub(m,"SYN",34)
