@@ -68,6 +68,12 @@ QUICKSTART                                          *galaxy-quickstart*
         Then a ColorV windows is opended for choosing background color.
         Choose one and then press 'q' to quit the window. 
         Your scheme is auto generated.
+                                                        *galaxy-load*
+    Load schemes~
+        :GalaxyLoad {scheme}
+
+        Load designate scheme with scheme name.
+
                                                         *galaxy-edit*
                                                         *galaxy-color*
     Edit your scheme Color~
