@@ -35,7 +35,7 @@ INTRO                                               *galaxy-intro*
 ------------------------------------------------------------------------------
 QUICKSTART                                          *galaxy-quickstart*
 
-    Load galaxy~
+    Start galaxy~
         :colorscheme galaxy
 
     NOTE    Your current scheme is cached on your disk.
