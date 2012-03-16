@@ -50,6 +50,8 @@ QUICKSTART                                          *galaxy-quickstart*
 
     NOTE    Your current scheme is cached on your disk.
             set |g:galaxy_cache_File| if errors occurs.
+            If you can not write/read cache.
+            use ':GalaxyLoad {scheme}' to load designate scheme.
         
     Open galaxy manager window~
         :Galaxy
@@ -176,6 +178,7 @@ COMMANDS                                              *galaxy-commands*
     :Galaxy     (default: <leader>gll)      Open Galaxy window.
     :GalaxyHigh (default: <leader>glh)      Highlight Indent in buffer.
     :GalaxyNext (default: <leader>glt)      Next Galaxy scheme.
+    :GalaxyLoad {scheme}                    Load Galaxy scheme {scheme}.
     :GalaxyPrev (default: <leader>glp)      Prev Galaxy scheme.
     :GalaxyNew  (default: <leader>gln)      Create new scheme.
     :GalaxyAuto (default: <leader>gla)      Generate schemes with color-list in

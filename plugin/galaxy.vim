@@ -3,7 +3,7 @@
 "    File: plugin/galaxy.vim
 " Summary: A colorscheme that thousands shemes within.
 "  Author: Rykka <Rykka10(at)gmail.com>
-" Last Update: 2012-01-22
+" Last Update: 2012-03-16
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim
@@ -14,6 +14,7 @@ endif
 
 command! -nargs=0  GalaxyNext call galaxy#next_scheme()
 command! -nargs=0  GalaxyPrev call galaxy#next_scheme("-")
+command! -nargs=1  GalaxyLoad call galaxy#load(<q-args>)
 command! -nargs=0  Galaxy call galaxy#win()
 command! -nargs=0  GalaxyAuto call galaxy#auto_gen()
 command! -nargs=0  GalaxyNew call galaxy#win_scheme_gen_colorv()

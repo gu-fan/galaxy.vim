@@ -1801,11 +1801,12 @@ function! s:load_store() "{{{
 endfunction "}}}
 function! galaxy#load_cache() "{{{
     let file = expand(g:galaxy_cache_File)
-    let s:_gui_name = exists("s:_gui_name") ? s:_gui_name : ""
-    let s:_term_name = exists("s:_term_name") ? s:_term_name : ""
     if !filereadable(file)
+        call s:warning("Could NOT read cache. default scheme loaded.")
         return ""
     endif
+    let s:_gui_name = exists("s:_gui_name") ? s:_gui_name : ""
+    let s:_term_name = exists("s:_term_name") ? s:_term_name : ""
     let CacheStringList = readfile(file)
     for i in CacheStringList
         if i =~ '_GUI_NAME'
@@ -1865,7 +1866,8 @@ endfunction "}}}
 function! galaxy#write_cache() "{{{
     let CacheStringList = []
     let file = expand(g:galaxy_cache_File)
-    if !filewriteable(file)
+    if !filewritable(file)
+        call s:warning("Could NOT write cache. No scheme-cache support.")
         return ""
     endif
     if !has("gui_running")
@@ -1892,6 +1894,13 @@ function! galaxy#init() "{{{
         call galaxy#load_scheme16("","START")
     else
         call galaxy#load_scheme("","START")
+    endif
+endfunction "}}}
+function! galaxy#load(name) "{{{
+    if !has("gui_running") && (&t_Co==8 || &t_Co==16)
+        call galaxy#load_scheme16(a:name)
+    else
+        call galaxy#load_scheme(a:name)
     endif
 endfunction "}}}
 function! galaxy#load_scheme(...) "{{{
