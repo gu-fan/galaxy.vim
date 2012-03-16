@@ -1,6 +1,6 @@
 ##INTRO##
 
-**galaxy** is a colorscheme that also can easily make shemes with.
+**galaxy** is a colorscheme that makes scheming colors easy.
     
     To start:     
         :Galaxy 

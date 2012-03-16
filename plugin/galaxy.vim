@@ -1,7 +1,7 @@
 "=============================================================
 "  Script: Galaxy 
 "    File: plugin/galaxy.vim
-" Summary: A colorscheme that thousands shemes within.
+" Summary: A colorscheme that makes scheming colors easy.
 "  Author: Rykka <Rykka10(at)gmail.com>
 " Last Update: 2012-03-16
 "=============================================================
