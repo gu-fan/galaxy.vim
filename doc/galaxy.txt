@@ -49,7 +49,7 @@ QUICKSTART                                          *galaxy-quickstart*
         :colorscheme galaxy
 
     NOTE    Your current scheme is cached on your disk.
-            set |g:galaxy_cache_File| if errors occurs.
+            set |g:galaxy_cache_File| with proper place if errors occurs.
             If you can not write/read cache.
             use ':GalaxyLoad {scheme}' to load designate scheme.
         
