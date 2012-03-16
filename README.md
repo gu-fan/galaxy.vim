@@ -1,13 +1,7 @@
 ##INTRO##
 
-**galaxy** is a colorscheme that thousands shemes within.
+**galaxy** is a colorscheme that also can easily make shemes with.
     
-    There are several built-in schemes.
-    You can get 100+ by ':GalaxyAuto' in a colorlist ':ColorVlist'.
-    Also you can define yours simply by ':GalaxyNew'.
-        
-    There are |galaxy-terminal| support for all schemes .
-
     To start:     
         :Galaxy 
 
