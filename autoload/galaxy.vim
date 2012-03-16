@@ -1847,7 +1847,6 @@ function! galaxy#load_file(file) "{{{
         if i =~ 'GALAXY_STYLE'
             let l:tmp_dict.style =
                         \matchstr(i,'GALAXY_STYLE\s*\zs.*\ze\s*')
-
         endif
         if i =~ 'GALAXY_HIGH'
             let highlights = matchstr(i,'GALAXY_HIGH\s*\zs.*\ze$')
