@@ -3,12 +3,12 @@
 "    File: colors/galaxy.vim
 " Summary: A colorscheme that thousands shemes within.
 "  Author: Rykka <Rykka10(at)gmail.com>
-" Last Update: 2012-02-22
+" Last Update: 2012-03-16
 " Version: 1.2.0
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim
-"  CHCK "{{{1
+" CHCK "{{{1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if version < 700
     finish
@@ -24,7 +24,7 @@ let g:galaxy={}
 let g:galaxy.name="_GALAXY_"
 let g:galaxy.version="1.2.0"
 let g:galaxy.winpos = "bot"
-"{{{2 g:Optioins
+" g:Optioins "{{{2
 if !exists("g:galaxy_cache_File") "{{{
     if has("win32") || has("win64") 
         if exists('$HOME')
@@ -67,7 +67,7 @@ endif
 if !exists("g:galaxy_load_syn_dict")
     let g:galaxy_load_syn_dict=1
 endif
-"{{{2 s:Misc vars
+" s:Misc vars "{{{2 
 let s:nocolor         = "NONE"
 let s:fg              = "fg"
 let s:bg              = "bg"
@@ -203,7 +203,7 @@ let s:gui_hl_list=[
             \["Macro",          "PreProc"       ],
             \["PreCondit",      "PreProc"       ],
             \]
-"{{{2 s:Styles
+" s:Styles "{{{2 
 let s:style_hl_list=
 \[
     \{"name":"GALAXY",
@@ -659,7 +659,7 @@ let s:synlink_dict.xml = [
             \["xmlNamespace         ",   "PreProc       "    ],
             \["xmlTagName           ",   "Statement     "    ],
             \]
-"CLRS"{{{1
+" CLRS"{{{1
 "======================================================================
 function! s:generate_colors(colors, y_step,...) "{{{
 
@@ -841,7 +841,7 @@ function! s:get_scheme_list() "{{{
     endif
     return scheme_list
 endfunction "}}}
-"INHL{{{1
+" INHL{{{1
 "======================================================================
 function! s:load_indent_hl_syn() "{{{
     " clear indent syntax match  or it will be multi loaded
@@ -937,7 +937,7 @@ function! s:clear_indent_hl() "{{{
     endfor
     hi galaxyIndentErr NONE
 endfunction "}}}
-"STAT"{{{1
+" STAT"{{{1
 "======================================================================
 function! s:statusline_aug() "{{{
     if version >= 700 "{{{
@@ -1621,7 +1621,7 @@ function! galaxy#auto_gen() "{{{
     " echo string(namelist)
     call galaxy#load_scheme()
 endfunction "}}}
-"HELP "{{{1
+" HELP "{{{1
 "======================================================================
 function! s:exec(cmd) "{{{
     let old_ei = &ei
@@ -1630,22 +1630,22 @@ function! s:exec(cmd) "{{{
     let &ei = old_ei
 endfunction "}}}
 function! s:echo(msg) "{{{
-    exe "echom \"[Note] ".escape(a:msg,'"')."\""
+    exe "echom \"[Galaxy Note] ".escape(a:msg,'"')."\""
 endfunction "}}}
 function! s:caution(msg) "{{{
     echohl Modemsg
-    exe "echom \"[Caution] ".escape(a:msg,'"')."\""
+    exe "echom \"[Galaxy Caution] ".escape(a:msg,'"')."\""
     echohl Normal
 endfunction "}}}
 function! s:warning(msg) "{{{
     echohl Warningmsg
-    exe "echom \"[Warning] ".escape(a:msg,'"')."\""
+    exe "echom \"[Galaxy Warning] ".escape(a:msg,'"')."\""
     echohl Normal
 endfunction "}}}
 function! s:error(msg) "{{{
     echohl Errormsg
     redraw
-    echom "[Error] ".escape(a:msg,'"')." "
+    echom "[Galaxy Error] ".escape(a:msg,'"')." "
     echohl Normal
 endfunction "}}}
 function! s:line(text,pos) "{{{
@@ -1722,7 +1722,7 @@ function! s:float(x) "{{{
         return x
     endif
 endfunction "}}}
-"LOAD "{{{1
+" LOAD "{{{1
 "======================================================================
 function! s:write_store(scheme) "{{{
     " and should remove the cache
@@ -1803,71 +1803,72 @@ function! galaxy#load_cache() "{{{
     let file = expand(g:galaxy_cache_File)
     let s:_gui_name = exists("s:_gui_name") ? s:_gui_name : ""
     let s:_term_name = exists("s:_term_name") ? s:_term_name : ""
-    if filereadable(file)
-        let CacheStringList = readfile(file)
-        for i in CacheStringList
-            if i =~ '_GUI_NAME'
-                let s:_gui_name = matchstr(i,'_GUI_NAME\s*\zs.*\ze\s*')
-            endif
-            if i =~ 'TERM_NAME'
-                let s:_term_name = matchstr(i,'TERM_NAME\s*\zs.*\ze\s*')
-            endif
-        endfor
-        if !has("gui_running")
-            return s:_term_name
-        else
-            return s:_gui_name
+    if !filereadable(file)
+        return ""
+    endif
+    let CacheStringList = readfile(file)
+    for i in CacheStringList
+        if i =~ '_GUI_NAME'
+            let s:_gui_name = matchstr(i,'_GUI_NAME\s*\zs.*\ze\s*')
         endif
+        if i =~ 'TERM_NAME'
+            let s:_term_name = matchstr(i,'TERM_NAME\s*\zs.*\ze\s*')
+        endif
+    endfor
+    if !has("gui_running")
+        return s:_term_name
     else
-    return ""
+        return s:_gui_name
     endif
 endfunction "}}}
 function! galaxy#load_file(file) "{{{
     let file = a:file
-    if filereadable(file)
-        let l:cached_theme_list=[]
-        for i in readfile(file) + ["GALAXY_END"]
-            if !exists("l:tmp_dict")
-                let l:tmp_dict={}
-            endif
-            if i =~ 'GALAXY_NAME'
-                let l:tmp_dict.name =
-                            \matchstr(i,'GALAXY_NAME\s*\zs.*\ze\s*')
-            endif
-            if i =~ 'GALAXY_COLORS'
-                let colors=matchstr(i,'GALAXY_COLORS\s*\zs.*\ze$')
-                let l:tmp_dict.colors = split(colors,'\s')
-                if len(l:tmp_dict.colors)==5
-                    let l:color_is_5=1
-                else
-                    let l:color_is_5=0
-                endif
-            endif
-            if i =~ 'GALAXY_STYLE'
-                let l:tmp_dict.style =
-                            \matchstr(i,'GALAXY_STYLE\s*\zs.*\ze\s*')
-
-            endif
-            if i =~ 'GALAXY_HIGH'
-                let highlights = matchstr(i,'GALAXY_HIGH\s*\zs.*\ze$')
-                let l:tmp_dict.highlights = []
-                call add(l:tmp_dict.highlights,split(highlights,'\s'))
-            endif
-            if i =~ 'GALAXY_END'
-                if exists("l:color_is_5") && l:color_is_5==1
-                    call add(l:cached_theme_list,deepcopy(l:tmp_dict))
-                endif
-                unlet l:tmp_dict
-            endif
-        endfor
-        return l:cached_theme_list
-    else
+    if !filereadable(file)
         return 0
     endif
+    let l:cached_theme_list=[]
+    for i in readfile(file) + ["GALAXY_END"]
+        if !exists("l:tmp_dict")
+            let l:tmp_dict={}
+        endif
+        if i =~ 'GALAXY_NAME'
+            let l:tmp_dict.name =
+                        \matchstr(i,'GALAXY_NAME\s*\zs.*\ze\s*')
+        endif
+        if i =~ 'GALAXY_COLORS'
+            let colors=matchstr(i,'GALAXY_COLORS\s*\zs.*\ze$')
+            let l:tmp_dict.colors = split(colors,'\s')
+            if len(l:tmp_dict.colors)==5
+                let l:color_is_5=1
+            else
+                let l:color_is_5=0
+            endif
+        endif
+        if i =~ 'GALAXY_STYLE'
+            let l:tmp_dict.style =
+                        \matchstr(i,'GALAXY_STYLE\s*\zs.*\ze\s*')
+
+        endif
+        if i =~ 'GALAXY_HIGH'
+            let highlights = matchstr(i,'GALAXY_HIGH\s*\zs.*\ze$')
+            let l:tmp_dict.highlights = []
+            call add(l:tmp_dict.highlights,split(highlights,'\s'))
+        endif
+        if i =~ 'GALAXY_END'
+            if exists("l:color_is_5") && l:color_is_5==1
+                call add(l:cached_theme_list,deepcopy(l:tmp_dict))
+            endif
+            unlet l:tmp_dict
+        endif
+    endfor
+    return l:cached_theme_list
 endfunction "}}}
 function! galaxy#write_cache() "{{{
     let CacheStringList = []
     let file = expand(g:galaxy_cache_File)
+    if !filewriteable(file)
+        return ""
+    endif
     if !has("gui_running")
         let term_name=s:scheme.name
         let gui_name=s:_gui_name
@@ -1881,11 +1882,11 @@ function! galaxy#write_cache() "{{{
     try
         call writefile(CacheStringList, file)
     catch /^Vim\%((\a\+)\)\=:E/
-        call s:error("Could not write cache. Stopped. ")
+        call s:error("Could not write cache. Stop scheme-caching . ")
         return -1
     endtry
 endfunction "}}}
-"MAIN "{{{1
+" MAIN "{{{1
 "======================================================================
 function! galaxy#init() "{{{
     if !has("gui_running") && &t_Co<=16
