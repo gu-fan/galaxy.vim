@@ -19,13 +19,13 @@ else
 endif
 " VARS "{{{1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:galaxy={}
-let g:galaxy.name="_GALAXY_"
-let g:galaxy.version="1.3.0"
-let g:galaxy.winpos = "bot"
-" g:Optioins "{{{2
+let g:galaxy         = {}
+let g:galaxy.name    = "_GALAXY_"
+let g:galaxy.version = "1.3.0"
+let g:galaxy.winpos  = "bot"
+" g:options "{{{2
 if !exists("g:galaxy_cache_File") "{{{
-    if has("win32") || has("win64") 
+    if has("win32") || has("win64")
         if exists('$HOME')
             let g:galaxy_cache_File = expand('$HOME') . '\.vim_galaxy_cache'
         else
@@ -33,7 +33,7 @@ if !exists("g:galaxy_cache_File") "{{{
         endif
     else
         let g:galaxy_cache_File = expand('$HOME') . '/.vim_galaxy_cache'
-    endif 
+    endif
 endif "}}}
 if !exists("g:galaxy_store_Folder") "{{{
     if has("win32") || has("win64")
@@ -66,27 +66,28 @@ endif
 if !exists("g:galaxy_load_syn_dict")
     let g:galaxy_load_syn_dict=1
 endif
-" s:Misc vars "{{{2 
-let s:nocolor         = "NONE"
-let s:fg              = "fg"
-let s:bg              = "bg"
-let s:n               = "NONE"
-let s:c               = ",undercurl"
-let s:r               = ",reverse"
-let s:s               = ",standout"
-let s:b               = ",bold"
-let s:u               = ",underline"
-let s:i               = ",italic"
+" s:misc_var "{{{2
+let s:nocolor = "NONE"
+let s:fg      = "fg"
+let s:bg      = "bg"
+let s:n       = "NONE"
+let s:c       = ",undercurl"
+let s:r       = ",reverse"
+let s:s       = ",standout"
+let s:b       = ",bold"
+let s:u       = ",underline"
+let s:i       = ",italic"
+
 let s:pre_name_list=[
-            \"Red",     "LightRed",	"DarkRed",
-            \"Green",	"LightGreen",	"DarkGreen",	"SeaGreen",
-            \"Blue",	"LightBlue",	"DarkBlue",	"SlateBlue",
-            \"Cyan",	"LightCyan",	"DarkCyan",
-            \"Magenta",	"LightMagenta",	"DarkMagenta",
-            \"Yellow",	"LightYellow",	"Brown",        "DarkYellow",
-            \"Gray",	"LightGray",	"DarkGray",
-            \"Black",	"White",
-            \"Orange",	"Purple",       "Violet",
+            \ "Red"     , "LightRed"     , "DarkRed"     ,
+            \ "Green"   , "LightGreen"   , "DarkGreen"   , "SeaGreen"   ,
+            \ "Blue"    , "LightBlue"    , "DarkBlue"    , "SlateBlue"  ,
+            \ "Cyan"    , "LightCyan"    , "DarkCyan"    ,
+            \ "Magenta" , "LightMagenta" , "DarkMagenta" ,
+            \ "Yellow"  , "LightYellow"  , "Brown"       , "DarkYellow" ,
+            \ "Gray"    , "LightGray"    , "DarkGray"    ,
+            \ "Black"   , "White"        ,
+            \ "Orange"  , "Purple"       , "Violet"      ,
             \]
 for i in s:pre_name_list
     let i=tolower(i)
@@ -112,7 +113,7 @@ let s:clr_helptxt=[
             \"Message Color(ErrorMsg,ModeMsg,...)",
             \"Background(Normal Background)",
             \"Diff(DiffAdd,DiffChange,... Background)"]
-" s:Gui "{{{2 
+" s:gui "{{{2
 let s:gui_hl_list=[
             \["Normal",         "fgdclr0",  "bgdclr0",  "n"     ],
             \["Cursor",         "nocolor",  "msgclr8",  "n"     ],
@@ -132,9 +133,9 @@ let s:gui_hl_list=[
             \["DiffChange",     "nocolor",  "difclr4",  "n"     ],
             \["DiffDelete",     "synclr2",  "bgdclr1",  "b"     ],
             \["DiffText",       "nocolor",  "difclr8",  "n"     ],
-            \["Folded",         "fgdclr4",  "bgdclr2",  "n"     ],
+            \["Folded",         "bgdclr5",  "bgdclr2",  "n"     ],
             \["ColorColumn",    "Folded"        ],
-            \["FoldColumn",     "fgdclr4",  "bgdclr2",  "n"     ],
+            \["FoldColumn",     "bgdclr5",  "bgdclr2",  "n"     ],
             \["LineNr",         "bgdclr4",  "bgdclr1",  "n"     ],
             \["SignColumn",     "msgclr2",  "bgdclr2",  "n"     ],
             \["TabLine",        "bgdclr0",  "bgdclr4",  "n"     ],
@@ -202,7 +203,7 @@ let s:gui_hl_list=[
             \["Macro",          "PreProc"       ],
             \["PreCondit",      "PreProc"       ],
             \]
-" s:Styles "{{{2 
+" s:styles "{{{2
 let s:style_hl_list=
 \[
     \{"name":"GALAXY",
@@ -485,13 +486,13 @@ function! s:set_dark8_var() "{{{
     let s:dif1_t="darkcyan"
     let s:dif2_t="darkmagenta"
 endfunction "}}}
-" s:Schemes "{{{2
+" s:schemes "{{{2
 " bgd fgd syn msg dif
 let s:built_in_schemes=[
             \{"name":"Paper_And_Pen",
-            \"colors":["EBE9E8","313236","2D527D","CC2020","D9A79E"]},
+            \"colors":["EBE9E8","2B2C33","345B85","CC2020","D9A79E"]},
             \{"name":"Wine",
-            \"colors":["0D0609","94979C","9C795F","F03535","252B36"]},
+            \"colors":["0D0609","9C9B94","A37B5F","F03535","2D374A"]},
             \{"name":"Spring",
             \"colors":["D5E6A1","4B4B4D","496791","B32222","CCBE8F"],
             \"style":"SHADOW"},
@@ -499,7 +500,7 @@ let s:built_in_schemes=[
             \"colors":["B1E6AC","361A1A","2E4873","15458C","CCBD66"],
             \"style":"COLOUR"},
             \{"name":"Slates",
-            \"colors":["F2EFE4","232733","386599","FF2828","D9948B"],
+            \"colors":["F2EFE4","232733","386599","FF2828","D9B2AD"],
             \"style":"COLOUR"},
             \{"name":"Factory",
             \"colors":["050505","A6A6A6","8296B3","54DEB0","404259"],
@@ -508,10 +509,10 @@ let s:built_in_schemes=[
             \"colors":["0A0D07","A9BA93","7F7BC7","FF2828","363E4D"],
             \"style":"ABOUND"},
             \{"name":"RosyBlue",
-            \"colors":["0A0A0F","ABA995","7991B3","54DFB1","2C2E4D"],
+            \"colors":["0A0A0F","AD9EAB","7F96B8","54DFB1","393A4D"],
             \"style":"ABOUND"},
             \{"name":"MoonNight",
-            \"colors":["081524","B4B6B8","AC8CCC","FFDC42","406643"],
+            \"colors":["060F1A","B4B6B8","AC8CCC","FFDC42","406643"],
             \"style":"SHADOW"},
             \]
 let s:win_txtline = 2
@@ -677,7 +678,7 @@ function! s:generate_colors(colors, y_step,...) "{{{
 
     for c in ["bgd","fgd","syn","msg","dif"]
         for i in range(len(s:{c}clr_list))
-            let s:{c}clr{i} = has("gui_running") ? s:{c}clr_list[i] 
+            let s:{c}clr{i} = has("gui_running") ? s:{c}clr_list[i]
                         \ : colorv#hex2term(s:{c}clr_list[i],"CHECK")
         endfor
     endfor
@@ -911,7 +912,7 @@ function! s:indent_hl_aug() "{{{
 endfunction "}}}
 function! galaxy#toggle_indent_hl(...) "{{{
     if !exists("b:galaxy_indent_hl")
-                \ || b:galaxy_indent_hl == 0 
+                \ || b:galaxy_indent_hl == 0
                 \ || (exists("a:1") && a:1 == "ON")
         call s:load_indent_hl_syn()
         call s:indent_hl()
@@ -1882,7 +1883,7 @@ function! galaxy#write_cache() "{{{
     try
         call writefile(CacheStringList, file)
     catch /^Vim\%((\a\+)\)\=:E/
-        call s:error("Could not write cache. Stop scheme-caching . ")
+        call s:error("Could not write cache. No scheme-caching . ")
         return -1
     endtry
 endfunction "}}}
