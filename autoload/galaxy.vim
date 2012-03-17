@@ -3,8 +3,7 @@
 "    File: colors/galaxy.vim
 " Summary: A colorscheme that makes scheming colors easy.
 "  Author: Rykka <Rykka10(at)gmail.com>
-" Last Update: 2012-03-16
-" Version: 1.2.0
+" Last Update: 2012-03-17
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim
@@ -22,7 +21,7 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:galaxy={}
 let g:galaxy.name="_GALAXY_"
-let g:galaxy.version="1.2.0"
+let g:galaxy.version="1.3.0"
 let g:galaxy.winpos = "bot"
 " g:Optioins "{{{2
 if !exists("g:galaxy_cache_File") "{{{
