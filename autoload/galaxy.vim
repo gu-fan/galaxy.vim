@@ -515,7 +515,7 @@ let s:built_in_schemes=[
             \"colors":["050505","A6A6A6","8296B3","54DEB0","404259"],
             \"style":"SHADOW"},
             \{"name":"InkGreen",
-            \"colors":["0A0D07","A9BA93","7F7BC7","FF2828","363E4D"],
+            \"colors":["0A0D07","A9BA93","7F7BC7","FF7236","363E4D"],
             \"style":"ABOUND"},
             \{"name":"RosyBlue",
             \"colors":["0A0A0F","A3A09B","7F96B8","54DFB1","393A4D"],
