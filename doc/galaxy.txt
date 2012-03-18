@@ -134,7 +134,7 @@ QUICKSTART                                          *galaxy-quickstart*
         :GalaxyHigh (<leader>glh)
         
         set |g:galaxy_indent_hl_pos| to show highlight in end or start.
-        with |g:galaxy_indent_highlight| |g:galaxy_indent_hl_file| 
+        with |g:galaxy_highlight_indent| |g:galaxy_indent_hl_file| 
         you can set the to auto highlight indent in these filetype.
 
         The mixed white space and tab will be showing as Error. 
@@ -183,25 +183,39 @@ COMMANDS                                              *galaxy-commands*
 
 OPTIONS                                               *galaxy-options*
 
-                                                *g:galaxy_indent_highlight*
-    'g:galaxy_indent_highlight'                 (default:1)
-    Enable indent_highlight.
+    NOTE: All options must be put before ':colorscheme galaxy'
+
+
+                                                *g:galaxy_hl_visual_fg*
+    'g:galaxy_hl_visual_fg'                    (default:0)
+    Highlighting |hl-Visual| foreground or not.
+    if set to 1, will use current background color to hightlight.
+    otherwise the Visual-foreground color will be transparent.
+
+                                                *g:galaxy_tcursor_color*
+    'g:galaxy_tcursor_color'                    (default:"DarkGray")
+    set it as terminal cursor color after exit vim.
+    The |cterm-colors| names can be used.
+
+                                                *g:galaxy_highlight_indent*
+    'g:galaxy_highlight_indent'                 (default:1)
+    Enable highlight indent.
 
                                                 *g:galaxy_indent_hl_pos*
     'g:galaxy_indent_hl_pos'                    (default:"start")
-    the highlight position in indent highlight.
+    The highlight position in indent highlight.
     if set to "end", will highlight at each indent end.
     NOTE    the tab '\t' will be always highlighted entirely.
     
+                                                *g:galaxy_indent_hl_file*
+    'g:galaxy_indent_hl_file'                   ("python,c,javascript")
+    Enable auto indent highlight with filetype.
 
                                                 *g:galaxy_show_trailing_ws*
     'g:galaxy_show_trailing_ws'                 (default:1)
     Enable showing trailing white space as indentError 
     if indent_highlight is ON.   
 
-                                                *g:galaxy_indent_hl_file*
-    'g:galaxy_indent_hl_file'                   ("python,c,javascript")
-    Enable auto indent highlight with filetype.
 
                                                 *g:galaxy_statusline_blink*
     'g:galaxy_statusline_blink'                 (default:1)

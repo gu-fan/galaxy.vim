@@ -50,8 +50,8 @@ endif "}}}
 if !exists("g:galaxy_debug")
     let g:galaxy_debug=0
 endif
-if !exists("g:galaxy_indent_highlight")
-    let g:galaxy_indent_highlight=1
+if !exists("g:galaxy_highlight_indent")
+    let g:galaxy_highlight_indent=1
 endif
 if !exists("g:galaxy_indent_hl_pos")
     "end/start
@@ -68,6 +68,12 @@ if !exists("g:galaxy_indent_hl_file")
 endif
 if !exists("g:galaxy_load_syn_dict")
     let g:galaxy_load_syn_dict=1
+endif
+if !exists("g:galaxy_hl_visual_fg")
+    let g:galaxy_hl_visual_fg=0
+endif
+if !exists("g:galaxy_tcursor_color")
+    let g:galaxy_tcursor_color="DarkGray"
 endif
 " s:misc_var "{{{2
 let s:nocolor = "NONE"
@@ -125,7 +131,7 @@ let s:gui_hl_list=[
             \["CursorColumn",   "CursorLine"    ],
             \["Visual",         "nocolor",  "fgdclr6",  "n"     ],
             \["VisualNOS",      "nocolor",  "fgdclr7",  "n"     ],
-            \["Search",         "fgdclr2",  "difclr5",  "n"     ],
+            \["Search",         "fgdclr2",  "difclr2",  "n"     ],
             \["IncSearch",      "bgdclr0",  "msgclr2",  "b"     ],
             \["Wildmenu",       "msgclr1",  "bgdclr1",  "b"     ],
             \["Pmenu",          "fgdclr1",  "bgdclr1",  "n"     ],
@@ -218,7 +224,7 @@ let s:style_hl_list=
             \["CursorLine",     "nocolor",  "bgdclr2",  "n"     ],
             \["Visual",         "nocolor",  "bgdclr6",  "n"     ],
             \["VisualNOS",      "nocolor",  "bgdclr7",  "n"     ],
-            \["Search",         "fgdclr2",  "bgdclr2",  "n"     ],
+            \["Search",         "fgdclr1",  "bgdclr4",  "n"     ],
             \["IncSearch",      "bgdclr0",  "fgdclr2",  "b"     ],
             \["Wildmenu",       "fgdclr1",  "bgdclr2",  "rb"    ],
             \["Pmenu",          "bgdclr6",  "bgdclr1",  "n"     ],
@@ -232,7 +238,7 @@ let s:style_hl_list=
             \["TabLine",        "bgdclr0",  "bgdclr3",  "n"     ],
             \["TabLineSel",     "bgdclr4",  "bgdclr0",  "b"     ],
             \["TabLineFill",    "bgdclr0",  "bgdclr2",  "n"     ],
-            \["StatusLine",     "bgdclr8",  "bgdclr3",  "b"     ],
+            \["StatusLine",     "fgdclr2",  "bgdclr3",  "b"     ],
             \["StatusLineNC",   "bgdclr1",  "bgdclr3",  "n"     ],
             \["User1",          "msgclr0",  "bgdclr3",  "b"     ],
             \["User2",          "msgclr1",  "bgdclr3",  "b"     ],
@@ -251,7 +257,7 @@ let s:style_hl_list=
     \"highlights":[
         \["Visual",         "nocolor",  "difclr0",  "n"     ],
         \["VisualNOS",      "nocolor",  "difclr1",  "n"     ],
-        \["Search",         "fgdclr2",  "difclr5",  "n"     ],
+        \["Search",         "fgdclr2",  "difclr2",  "n"     ],
         \["IncSearch",      "fgdclr9",  "msgclr2",  "b"     ],
         \["Wildmenu",       "difclr0",  "fgdclr2",  "rb"    ],
         \["Pmenu",          "fgdclr0",  "fgdclr9",  "n"     ],
@@ -1029,8 +1035,8 @@ function! s:term_cursor() "{{{
         let color_normal="#".s:synclr_list[3]
         let color_insert="#".s:msgclr_list[0]
     endif
-    let color_exit='darkgray'
-    "from lilydjwg
+    let color_exit=g:galaxy_tcursor_color
+    "by lilydjwg
     let au_cmd=""
     if &term =~ 'xterm\|rxvt'
         exe 'silent !echo -ne "\e]12;' . escape(color_normal, '#'). '\007"'
@@ -1960,10 +1966,18 @@ function! galaxy#load_scheme(...) "{{{
         call s:hi_list(s:scheme.highlights)
     endif
 
-    if exists("g:galaxy_statusline_blink") && g:galaxy_statusline_blink == 1
+    if g:galaxy_hl_visual_fg == 1
+        call s:hi_list([
+                    \["Visual",         "bgdclr1",  "fgdclr1",  "n"     ],
+                    \["VisualNOS",      "bgdclr1",  "fgdclr1",  "n"     ],
+                    \])
+    endif
+
+
+    if g:galaxy_statusline_blink == 1
         call s:statusline_aug()
     endif
-    if exists("g:galaxy_indent_highlight ") && g:galaxy_indent_highlight == 1
+    if g:galaxy_highlight_indent == 1
         call s:indent_hl_aug()
     endif
     if !has("gui_running")
@@ -2016,17 +2030,17 @@ function! galaxy#load_scheme16(...) "{{{
 
     call s:hi_t_list(s:term_hl_list)
 
-    if exists("g:galaxy_statusline_blink") && g:galaxy_statusline_blink == 1
+    if g:galaxy_statusline_blink == 1
         call s:statusline_term16_aug()
     endif
-    if exists("g:galaxy_indent_highlight ") && g:galaxy_indent_highlight == 1
+    if g:galaxy_highlight_indent == 1
         call s:indent_hl_aug()
     endif
 
     call s:term_cursor()
 
     " predefined syntax highlights
-    if exists("g:galaxy_load_syn_dict") && g:galaxy_load_syn_dict==1
+    if g:galaxy_load_syn_dict==1
         for list in values(s:synlink_dict)
             call s:hi_list(list)
         endfor
