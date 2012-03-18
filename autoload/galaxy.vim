@@ -3,7 +3,7 @@
 "    File: colors/galaxy.vim
 " Summary: A colorscheme that makes scheming colors easy.
 "  Author: Rykka <Rykka10(at)gmail.com>
-" Last Update: 2012-03-17
+" Last Update: 2012-03-18
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim
@@ -47,6 +47,9 @@ if !exists("g:galaxy_store_Folder") "{{{
     endif
 endif "}}}
 
+if !exists("g:galaxy_debug")
+    let g:galaxy_debug=0
+endif
 if !exists("g:galaxy_indent_highlight")
     let g:galaxy_indent_highlight=1
 endif
@@ -1639,7 +1642,7 @@ function! s:caution(msg) "{{{
 endfunction "}}}
 function! s:warning(msg) "{{{
     echohl Warningmsg
-    exe "echom \"[Galaxy Warning] ".escape(a:msg,'"')."\""
+    exe "echo \"[Galaxy Warning] ".escape(a:msg,'"')."\""
     echohl Normal
 endfunction "}}}
 function! s:error(msg) "{{{
@@ -1648,6 +1651,15 @@ function! s:error(msg) "{{{
     echom "[Galaxy Error] ".escape(a:msg,'"')." "
     echohl Normal
 endfunction "}}}
+function! s:debug(msg) "{{{
+    if g:galaxy_debug!=1
+        return
+    endif
+    echohl Errormsg
+    echom "[Galaxy Debug] ".escape(a:msg,'"')
+    echohl Normal
+endfunction "}}}
+
 function! s:line(text,pos) "{{{
     let suf_len= s:line_width-a:pos-len(a:text)+1
     let suf_len= suf_len <= 0 ? 1 : suf_len
@@ -1783,7 +1795,7 @@ function! s:write_store(scheme) "{{{
         try
             call writefile(CacheStringList, file)
         catch /^Vim\%((\a\+)\)\=:E/
-            call s:error("Could not write scheme. Stopped. ")
+            call s:error("Could not write scheme files. ".v:exception)
             return -1
         endtry
     endif
@@ -1801,13 +1813,14 @@ function! s:load_store() "{{{
 endfunction "}}}
 function! galaxy#load_cache() "{{{
     let file = expand(g:galaxy_cache_File)
-    if !filereadable(file)
-        call s:warning("Could NOT read cache. default scheme loaded.")
-        return ""
-    endif
     let s:_gui_name = exists("s:_gui_name") ? s:_gui_name : ""
     let s:_term_name = exists("s:_term_name") ? s:_term_name : ""
-    let CacheStringList = readfile(file)
+    try
+        let CacheStringList = readfile(file)
+    catch /^Vim\%((\a\+)\)\=:E/
+        call s:debug("Could not load cache. ".v:exception)
+        return -1
+    endtry
     for i in CacheStringList
         if i =~ '_GUI_NAME'
             let s:_gui_name = matchstr(i,'_GUI_NAME\s*\zs.*\ze\s*')
@@ -1866,10 +1879,6 @@ endfunction "}}}
 function! galaxy#write_cache() "{{{
     let CacheStringList = []
     let file = expand(g:galaxy_cache_File)
-    if !filewritable(file)
-        call s:warning("Could NOT write cache. No scheme-cache support.")
-        return ""
-    endif
     if !has("gui_running")
         let term_name=s:scheme.name
         let gui_name=s:_gui_name
@@ -1883,7 +1892,7 @@ function! galaxy#write_cache() "{{{
     try
         call writefile(CacheStringList, file)
     catch /^Vim\%((\a\+)\)\=:E/
-        call s:error("Could not write cache. No scheme-caching . ")
+        call s:error("Could not caching-scheme. ".v:exception)
         return -1
     endtry
 endfunction "}}}
@@ -1895,6 +1904,9 @@ function! galaxy#init() "{{{
     else
         call galaxy#load_scheme("","START")
     endif
+    aug galaxy#cache
+        au! VIMLEAVEPre * call galaxy#write_cache()
+    aug END
 endfunction "}}}
 function! galaxy#load(name) "{{{
     if !has("gui_running") && (&t_Co==8 || &t_Co==16)
