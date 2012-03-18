@@ -518,10 +518,10 @@ let s:built_in_schemes=[
             \"colors":["0A0D07","A9BA93","7F7BC7","FF2828","363E4D"],
             \"style":"ABOUND"},
             \{"name":"RosyBlue",
-            \"colors":["0A0A0F","AD9EAB","7F96B8","54DFB1","393A4D"],
+            \"colors":["0A0A0F","A3A09B","7F96B8","54DFB1","393A4D"],
             \"style":"ABOUND"},
             \{"name":"MoonNight",
-            \"colors":["060F1A","B4B6B8","7FA5B8","FFDC42","406643"],
+            \"colors":["060F1A","B4B6B8","7FA5B8","D6B938","406643"],
             \"style":"SHADOW"},
             \]
 let s:win_txtline = 2
