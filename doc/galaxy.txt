@@ -183,7 +183,7 @@ COMMANDS                                              *galaxy-commands*
 
 OPTIONS                                               *galaxy-options*
 
-    NOTE: All options must be put before ':colorscheme galaxy'
+    NOTE: All options must be be put before ':colorscheme galaxy'
 
 
                                                 *g:galaxy_hl_visual_fg*
@@ -194,7 +194,7 @@ OPTIONS                                               *galaxy-options*
 
                                                 *g:galaxy_tcursor_color*
     'g:galaxy_tcursor_color'                    (default:"DarkGray")
-    set it as terminal cursor color after exit vim.
+    the terminal cursor color  to be set after exit vim.
     The |cterm-colors| names can be used.
 
                                                 *g:galaxy_highlight_indent*
