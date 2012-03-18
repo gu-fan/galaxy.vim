@@ -1,4 +1,4 @@
-*galaxy.txt*         Galaxy          A colorscheme that makes scheming colors easy.
+*galaxy.txt*         Galaxy          Makes scheming colors easier.
 
   
                      ______      __                                    ~
@@ -18,7 +18,7 @@ CONTENTS                                         *galaxy-contents*
 ==============================================================================
 INTRO                                               *galaxy-intro*
 
-    *galaxy* is a colorscheme that makes scheming colors easy.
+    *galaxy* is a colorscheme that makes scheming colors easier.
     
     To use:
         :colorscheme galaxy
