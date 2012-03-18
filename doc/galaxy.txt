@@ -183,7 +183,7 @@ COMMANDS                                              *galaxy-commands*
 
 OPTIONS                                               *galaxy-options*
 
-    NOTE: All options must be be put before ':colorscheme galaxy'
+    NOTE: All options must be put before ':colorscheme galaxy'
 
 
                                                 *g:galaxy_hl_visual_fg*
