@@ -231,9 +231,9 @@ let s:style_hl_list=
             \["PmenuSel",       "fgdclr1",  "bgdclr1",  "rb"    ],
             \["PmenuSbar",      "bgdclr6",  "bgdclr1",  "n"     ],
             \["PmenuThumb",     "bgdclr0",  "bgdclr4",  "n"     ],
-            \["Folded",         "bgdclr6",  "bgdclr2",  "n"     ],
-            \["FoldColumn",     "bmdclr1",  "bgdclr2",  "n"     ],
-            \["LineNr",         "bgdclr4",  "bgdclr1",  "n"     ],
+            \["Folded",         "bgdclr5",  "bgdclr1",  "n"     ],
+            \["FoldColumn",     "bgdclr5",  "bgdclr1",  "n"     ],
+            \["LineNr",         "bmdclr0",  "bgdclr2",  "n"     ],
             \["SignColumn",     "msgclr2",  "bgdclr1",  "n"     ],
             \["TabLine",        "bmdclr0",  "bgdclr3",  "n"     ],
             \["TabLineSel",     "bgdclr6",  "bgdclr0",  "b"     ],
@@ -682,29 +682,19 @@ function! s:gen_base_colors(colors) "{{{
     let S = exists("a:2") ? a:2 : 6
     let V = exists("a:3") ? a:3 : 6
     
-    " more dark/light than background color
+    " more darker/lighter than background color bgdclr0
     let [bmdy, bmdi , bmdq] = colorv#hex2yiq(bgd)
     if bmdy < 50
-        let bmdy=bmdy/2.0
+        let bmdy=bmdy/2.5
         let y_sign = 1
     else
-        let bmdy=100-(100-bmdy)/2.0
+        let bmdy=100-(100-bmdy)/2.5
         let y_sign = -1
     endif
     let bmd = colorv#yiq2hex([bmdy,bmdi,bmdq])
 
-    " " more dark/light than foreground color
-    " let [fmdy, fmdi , fmdq] = colorv#hex2yiq(fgd)
-    " if fmdy < 50
-    "     let fmdy=fmdy/2
-    " else
-    "     let fmdy=100-(100-fmdy)/2
-    " endif
-    " let fmd = colorv#yiq2hex([fmdy,fmdi,fmdq])
-    
     " 3 colors only.
     let s:bmdclr_list=colorv#list_gen(bmd,"Value",3,y_sign*V,NOCYCLE)
-    " let s:fmdclr_list=colorv#list_gen(fmd,"Value",3,(-y_sign*V),NOCYCLE)
 
     let s:bgdclr_list=colorv#list_gen(bgd,"Value",10,y_sign*V,NOCYCLE)
     let s:fgdclr_list=colorv#list_gen(fgd,"Value",10,(-y_sign*V),NOCYCLE)
