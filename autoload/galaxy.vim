@@ -3,7 +3,7 @@
 "    File: autoload/galaxy.vim
 " Summary: A colorscheme that makes scheming colors easier.
 "  Author: Rykka <Rykka10(at)gmail.com>
-" Last Update: 2012-03-18
+" Last Update: 2012-03-25
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim
@@ -222,24 +222,24 @@ let s:style_hl_list=
     \{"name":"SHADOW",
     \"highlights":[
             \["CursorLine",     "nocolor",  "bgdclr2",  "n"     ],
-            \["Visual",         "nocolor",  "bgdclr6",  "n"     ],
-            \["VisualNOS",      "nocolor",  "bgdclr7",  "n"     ],
-            \["Search",         "fgdclr1",  "bgdclr4",  "n"     ],
-            \["IncSearch",      "bgdclr0",  "fgdclr2",  "b"     ],
+            \["Visual",         "nocolor",  "bgdclr5",  "n"     ],
+            \["VisualNOS",      "nocolor",  "bgdclr6",  "n"     ],
+            \["Search",         "bmdclr1",  "bgdclr4",  "n"     ],
+            \["IncSearch",      "bmdclr0",  "fgdclr2",  "b"     ],
             \["Wildmenu",       "fgdclr1",  "bgdclr2",  "rb"    ],
             \["Pmenu",          "bgdclr6",  "bgdclr1",  "n"     ],
             \["PmenuSel",       "fgdclr1",  "bgdclr1",  "rb"    ],
             \["PmenuSbar",      "bgdclr6",  "bgdclr1",  "n"     ],
             \["PmenuThumb",     "bgdclr0",  "bgdclr4",  "n"     ],
-            \["Folded",         "bgdclr5",  "bgdclr2",  "n"     ],
-            \["FoldColumn",     "bgdclr0",  "bgdclr2",  "n"     ],
+            \["Folded",         "bgdclr6",  "bgdclr2",  "n"     ],
+            \["FoldColumn",     "bmdclr1",  "bgdclr2",  "n"     ],
             \["LineNr",         "bgdclr4",  "bgdclr1",  "n"     ],
             \["SignColumn",     "msgclr2",  "bgdclr1",  "n"     ],
-            \["TabLine",        "bgdclr0",  "bgdclr3",  "n"     ],
-            \["TabLineSel",     "bgdclr4",  "bgdclr0",  "b"     ],
-            \["TabLineFill",    "bgdclr0",  "bgdclr2",  "n"     ],
-            \["StatusLine",     "fgdclr2",  "bgdclr3",  "b"     ],
-            \["StatusLineNC",   "bgdclr1",  "bgdclr3",  "n"     ],
+            \["TabLine",        "bmdclr0",  "bgdclr3",  "n"     ],
+            \["TabLineSel",     "bgdclr6",  "bgdclr0",  "b"     ],
+            \["TabLineFill",    "bmdclr0",  "bgdclr2",  "n"     ],
+            \["StatusLine",     "fgdclr1",  "bgdclr3",  "b"     ],
+            \["StatusLineNC",   "bmdclr0",  "bgdclr3",  "n"     ],
             \["User1",          "msgclr0",  "bgdclr3",  "b"     ],
             \["User2",          "msgclr1",  "bgdclr3",  "b"     ],
             \["User3",          "msgclr2",  "bgdclr3",  "b"     ],
@@ -496,7 +496,7 @@ function! s:set_dark8_var() "{{{
     let s:dif2_t="darkmagenta"
 endfunction "}}}
 " s:schemes "{{{2
-" bgd fgd syn msg dif
+"                       bgd     fgd      syn      msg       dif
 let s:built_in_schemes=[
             \{"name":"Paper_And_Pen",
             \"colors":["EBE9E8","2B2C33","345B85","CC2020","D9A79E"]},
@@ -521,7 +521,7 @@ let s:built_in_schemes=[
             \"colors":["0A0A0F","A3A09B","7F96B8","54DFB1","393A4D"],
             \"style":"ABOUND"},
             \{"name":"MoonNight",
-            \"colors":["060F1A","B4B6B8","7FA5B8","D6B938","406643"],
+            \"colors":["060F1A","B4B6B8","7FA5B8","C2A832","406643"],
             \"style":"SHADOW"},
             \]
 let s:win_txtline = 2
@@ -668,24 +668,51 @@ let s:synlink_dict.xml = [
             \["xmlNamespace         ",   "PreProc       "    ],
             \["xmlTagName           ",   "Statement     "    ],
             \]
+let s:synlink_dict.galaxy = [
+            \["galaxyItalic",          "msgclr2",  "nocolor",  "b"     ],
+            \]
+
 " CLRS"{{{1
 "======================================================================
-function! s:generate_colors(colors, y_step,...) "{{{
+function! s:gen_base_colors(colors) "{{{
 
     let NOCYCLE = 0
     let [bgd, fgd, syn, msg, dif] = a:colors
-
     let H = exists("a:1") ? a:1 : 5
     let S = exists("a:2") ? a:2 : 6
     let V = exists("a:3") ? a:3 : 6
+    
+    " more dark/light than background color
+    let [bmdy, bmdi , bmdq] = colorv#hex2yiq(bgd)
+    if bmdy < 50
+        let bmdy=bmdy/2.0
+        let y_sign = 1
+    else
+        let bmdy=100-(100-bmdy)/2.0
+        let y_sign = -1
+    endif
+    let bmd = colorv#yiq2hex([bmdy,bmdi,bmdq])
 
-    let s:bgdclr_list=colorv#list_gen(bgd,"Value",10,a:y_step*V,NOCYCLE)
-    let s:fgdclr_list=colorv#list_gen(fgd,"Value",10,(-a:y_step*V),NOCYCLE)
+    " " more dark/light than foreground color
+    " let [fmdy, fmdi , fmdq] = colorv#hex2yiq(fgd)
+    " if fmdy < 50
+    "     let fmdy=fmdy/2
+    " else
+    "     let fmdy=100-(100-fmdy)/2
+    " endif
+    " let fmd = colorv#yiq2hex([fmdy,fmdi,fmdq])
+    
+    " 3 colors only.
+    let s:bmdclr_list=colorv#list_gen(bmd,"Value",3,y_sign*V,NOCYCLE)
+    " let s:fmdclr_list=colorv#list_gen(fmd,"Value",3,(-y_sign*V),NOCYCLE)
+
+    let s:bgdclr_list=colorv#list_gen(bgd,"Value",10,y_sign*V,NOCYCLE)
+    let s:fgdclr_list=colorv#list_gen(fgd,"Value",10,(-y_sign*V),NOCYCLE)
     let s:synclr_list=colorv#yiq_list_gen(syn,"Hue",10,7*H)
     let s:msgclr_list=colorv#yiq_list_gen(msg,"Hue",14,5*H)
     let s:difclr_list=colorv#yiq_list_gen(dif,"Hue",12,6*H)
 
-    for c in ["bgd","fgd","syn","msg","dif"]
+    for c in ["bgd","fgd","syn","msg","dif","bmd"]
         for i in range(len(s:{c}clr_list))
             let s:{c}clr{i} = has("gui_running") ? s:{c}clr_list[i]
                         \ : colorv#hex2term(s:{c}clr_list[i],"CHECK")
@@ -799,13 +826,6 @@ function! s:hi_list(list,...) "{{{
             exec "hi! link ".hl_from." ".hl_to
         endif
     endfor
-endfunction "}}}
-function! s:get_y_step(L) "{{{
-    if a:L<=50
-        return 1
-    else
-        return -1
-    endif
 endfunction "}}}
 function! s:set_bg(L) "{{{
     " XXX: there maybe errors of &background in terminal
@@ -1941,9 +1961,8 @@ function! galaxy#load_scheme(...) "{{{
 
     let [s:y,s:i,s:q]=colorv#hex2yiq(s:scheme.colors[0])
     call s:set_bg(s:y)
-    let y_step = s:get_y_step(s:y)
-    "generate bgd/fgd/syn/msg/dif color
-    call s:generate_colors(s:scheme.colors, y_step)
+    "generate base colors:bgd/fgd/syn/msg/dif
+    call s:gen_base_colors(s:scheme.colors)
 
     " predefined highlights
     call s:hi_list(s:gui_hl_list)
@@ -1952,7 +1971,7 @@ function! galaxy#load_scheme(...) "{{{
     call s:hi_list(s:scheme_style_list)
 
     " predefined syntax highlights
-    if exists("g:galaxy_load_syn_dict") && g:galaxy_load_syn_dict==1
+    if g:galaxy_load_syn_dict==1
         for list in values(s:synlink_dict)
             call s:hi_list(list)
         endfor
