@@ -35,12 +35,14 @@ call s:default("g:galaxy_debug",            0)
 call s:default("g:galaxy_highlight_indent", 1)
 call s:default("g:galaxy_indent_hl_pos",    "start")    " end/start
 call s:default("g:galaxy_statusline_blink", 1)
+call s:default("g:galaxy_auto_statusline",  1)
 call s:default("g:galaxy_statusline_default", 
-            \"%*\ %{mode()}\ %6*%m%r%1*%<%F\%=%2*\ %03l%3*%02c\ \%4*\ %P\ ")
+            \"%1*%02n.%*\ %03l:%02c\ %<%F%1*%m%r%*\%=\ %{&enc}\ %P")
 call s:default("g:galaxy_statusline_alternate", 
             \"%*\ %{mode()}\ %6*%m%r%1*%<%F\%=%2*\ %03l%3*%02c\ \%4*\ %P\ ")
 call s:default("g:galaxy_show_trailing_ws", 1)
 call s:default("g:galaxy_indent_hl_file",   "python,c,javascript")
+call s:default("g:galaxy_syntax_colorful",  0)
 call s:default("g:galaxy_load_syn_dict",    1)
 call s:default("g:galaxy_load_syn_tune",    1)
 call s:default("g:galaxy_hl_visual_fg",     0)
@@ -179,26 +181,61 @@ let s:gui_hl_list=[
             \["NonText",        "Comment"       ],
             \["Ignore",         "Comment"       ],
             \["SpecialComment", "bgdclr6",  "nocolor",  "b"     ],
-            \["Keyword",        "synclr0",  "nocolor",  "b"     ],
-            \["Statement",      "synclr0",  "nocolor",  "n"     ],
-            \["Conditional",    "synclr0",  "nocolor",  "i"     ],
-            \["Repeat",         "synclr0",  "nocolor",  "i"     ],
-            \["Label",          "synclr0",  "nocolor",  "b"     ],
-            \["Include",        "synclr1",  "nocolor",  "n"     ],
-            \["PreProc",        "synclr1",  "nocolor",  "b"     ],
-            \["Define",         "synclr1",  "nocolor",  "i"     ],
+            \]
+let s:gui_syn_clr_0=[
+            \["Keyword",        "synclr9",  "nocolor",  "b"     ],
+            \["Statement",      "synclr9",  "nocolor",  "n"     ],
+            \["Conditional",    "synclr9",  "nocolor",  "i"     ],
+            \["Repeat",         "synclr9",  "nocolor",  "i"     ],
+            \["Label",          "synclr9",  "nocolor",  "b"     ],
+            \["PreProc",        "synclr1",  "nocolor",  "n"     ],
+            \["Include",        "synclr1",  "nocolor",  "b"     ],
+            \["Define",         "synclr1",  "nocolor",  "b"     ],
             \["PreCondit",      "Define"        ],
             \["Macro",          "synclr1",  "nocolor",  "ib"    ],
             \["Special",        "synclr2",  "bgdclr0",  "n"     ],
             \["Delimiter",      "synclr2",  "nocolor",  "b"     ],
-            \["SpecialChar",    "synclr2",  "nocolor",  "n"     ],
+            \["SpecialChar",    "synclr2",  "nocolor",  "i"     ],
             \["Debug",          "synclr2",  "nocolor",  "bi"    ],
             \["SpecialKey",     "SpecialChar"   ],
             \["Tag",            "Special"       ],
             \["Type",           "synclr3",  "nocolor",  "n"     ],
             \["Typedef",        "synclr3",  "nocolor",  "b"     ],
-            \["StorageClass",   "synclr4",  "nocolor",  "n"     ],
-            \["Structure",      "synclr4",  "nocolor",  "b"     ],
+            \["StorageClass",   "synclr3",  "nocolor",  "i"     ],
+            \["Structure",      "synclr3",  "nocolor",  "ib"     ],
+            \["Directory",      "Type"          ],
+            \["Identifier",     "synclr5",  "nocolor",  "b"     ],
+            \["Constant",       "synclr5",  "nocolor",  "n"     ],
+            \["Boolean",        "synclr5",  "nocolor",  "n"     ],
+            \["Float",          "synclr5",  "nocolor",  "i"     ],
+            \["String",         "synclr7",  "nocolor",  "n"     ],
+            \["Character",      "synclr7",  "nocolor",  "i"     ],
+            \["Function",       "synclr7",  "nocolor",  "b"     ],
+            \["Keyword",        "synclr9",  "nocolor",  "b"     ],
+            \["Operator",       "synclr9",  "nocolor",  "n"     ],
+            \["Exception",      "synclr9",  "nocolor",  "bi"    ],
+            \]
+let s:gui_syn_clr_1=[
+            \["Keyword",        "synclr0",  "nocolor",  "b"     ],
+            \["Statement",      "synclr0",  "nocolor",  "n"     ],
+            \["Conditional",    "synclr0",  "nocolor",  "i"     ],
+            \["Repeat",         "synclr0",  "nocolor",  "i"     ],
+            \["Label",          "synclr0",  "nocolor",  "b"     ],
+            \["PreProc",        "synclr1",  "nocolor",  "n"     ],
+            \["Include",        "synclr1",  "nocolor",  "b"     ],
+            \["Define",         "synclr1",  "nocolor",  "b"     ],
+            \["PreCondit",      "Define"        ],
+            \["Macro",          "synclr1",  "nocolor",  "ib"    ],
+            \["Special",        "synclr2",  "bgdclr0",  "n"     ],
+            \["Delimiter",      "synclr2",  "nocolor",  "b"     ],
+            \["SpecialChar",    "synclr2",  "nocolor",  "i"     ],
+            \["Debug",          "synclr2",  "nocolor",  "bi"    ],
+            \["SpecialKey",     "SpecialChar"   ],
+            \["Tag",            "Special"       ],
+            \["Type",           "synclr3",  "nocolor",  "n"     ],
+            \["Typedef",        "synclr3",  "nocolor",  "b"     ],
+            \["StorageClass",   "synclr4",  "nocolor",  "i"     ],
+            \["Structure",      "synclr4",  "nocolor",  "ib"     ],
             \["Directory",      "Type"          ],
             \["Identifier",     "synclr5",  "nocolor",  "b"     ],
             \["Constant",       "synclr5",  "nocolor",  "n"     ],
@@ -678,19 +715,19 @@ function! s:hi_t_list(list,...) "{{{
             let [hl_grp,hl_fg,hl_bg,hl_fm]=item
 
             if empty(hl_fm)
-                let fm_txt=""
+                let fm_txt = ""
+            else
+                let fm_txt = "NONE"
             endif
-            let fm_txt = "NONE"
+
             let fm_txt .= hl_fm=~'r' ? ",reverse"     : ""
 
-            let hl_fg=tolower(hl_fg)
-            let hl_bg=tolower(hl_bg)
             let fg_txt = empty(hl_fg) ? hl_fg :
                         \ exists("s:".hl_fg) ? s:{hl_fg} : s:fg_t
             let bg_txt = empty(hl_bg) ? hl_bg :
                         \ exists("s:".hl_bg) ? s:{hl_bg} : s:bg_t
 
-            " term 8 need to set bold.
+            " term 8 need set cterm to bold.
             if exists("s:t_Co") && s:t_Co==8 "{{{
                 for i in range(8)
                     if fg_txt =~? '\<'.s:b8_name[i].'\>'
@@ -722,7 +759,12 @@ function! s:hi_list(list,...) "{{{
         if len(item) == 4
             let [hl_grp,hl_fg,hl_bg,hl_fm] = item
 
-            let fm_txt = "NONE"
+            if empty(hl_fm) 
+                let fm_txt = ""
+            else
+                let fm_txt = "NONE"
+            endif
+
             let fm_txt .= hl_fm=~'u' ? ",underline"   : ""
             let fm_txt .= hl_fm=~'r' ? ",reverse"     : ""
             let fm_txt .= hl_fm=~'b' ? ",bold"        : ""
@@ -746,11 +788,7 @@ function! s:hi_list(list,...) "{{{
                 let fm_txt .= ",standout"
             endif
 
-            " let hl_fg=tolower(hl_fg)
-            " let hl_bg=tolower(hl_bg)
-
-            " "" or "ffffff"
-            " s:msgclr10 5A3F00
+            " "" "msgclr0" "5A3F00"
             let fg_txt = hl_fg =~ '\x\{6}' || empty(hl_fg) ? hl_fg :
                         \ exists("s:".hl_fg) ? s:{hl_fg} : s:fgdclr0
             let bg_txt = hl_bg =~ '\x\{6}' || empty(hl_bg) ? hl_bg :
@@ -923,6 +961,13 @@ function! s:clear_indent_hl() "{{{
 endfunction "}}}
 " STAT"{{{1
 "======================================================================
+function! s:set_statusline() "{{{
+    if exists("s:scheme.style") && s:scheme.style =~? 'COLOUR\|ABOUND'
+        let &statusline=g:galaxy_statusline_default
+    else
+        let &statusline=g:galaxy_statusline_alternate
+    endif
+endfunction "}}}
 function! s:statusline_aug() "{{{
     if version >= 700 "{{{
         let s:list_insert_enter = []
@@ -1926,11 +1971,18 @@ function! galaxy#load_scheme(...) "{{{
 
     " predefined highlights
     call s:hi_list(s:gui_hl_list)
+    if g:galaxy_syntax_colorful == 1
+        call s:hi_list(s:gui_syn_clr_1)
+    else
+        call s:hi_list(s:gui_syn_clr_0)
+    endif
+
     " predefined scheme style highlights
     let s:scheme_style_list = s:get_style_list(s:scheme.style)
     call s:hi_list(s:scheme_style_list)
-
-    " predefined syntax highlights
+    
+    
+    " predefined filetype syntax highlights
     if g:galaxy_load_syn_dict==1
         for list in values(s:synlink_dict)
             call s:hi_list(list)
@@ -1959,6 +2011,9 @@ function! galaxy#load_scheme(...) "{{{
 
     if g:galaxy_statusline_blink == 1
         call s:statusline_aug()
+    endif
+    if g:galaxy_auto_statusline == 1
+        call s:set_statusline()
     endif
     if g:galaxy_highlight_indent == 1
         call s:indent_hl_aug()
