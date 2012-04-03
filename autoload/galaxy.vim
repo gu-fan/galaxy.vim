@@ -3,7 +3,7 @@
 "    File: autoload/galaxy.vim
 " Summary: A colorscheme that makes scheming colors easier.
 "  Author: Rykka <Rykka10(at)gmail.com>
-" Last Update: 2012-04-03
+" Last Update: 2012-04-04
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim
@@ -24,6 +24,28 @@ let g:galaxy.name    = "_GALAXY_"
 let g:galaxy.version = "1.3.0"
 let g:galaxy.winpos  = "bot"
 " g:options "{{{2
+function! s:default(option, value) "{{{
+    if !exists(a:option)
+        let {a:option} = a:value
+        return 0
+    endif
+    return 1
+endfunction "}}}
+call s:default("g:galaxy_debug",            0)
+call s:default("g:galaxy_highlight_indent", 1)
+call s:default("g:galaxy_indent_hl_pos",    "start")    " end/start
+call s:default("g:galaxy_statusline_blink", 1)
+call s:default("g:galaxy_statusline_default", 
+            \"%*\ %{mode()}\ %6*%m%r%1*%<%F\%=%2*\ %03l%3*%02c\ \%4*\ %P\ ")
+call s:default("g:galaxy_statusline_alternate", 
+            \"%*\ %{mode()}\ %6*%m%r%1*%<%F\%=%2*\ %03l%3*%02c\ \%4*\ %P\ ")
+call s:default("g:galaxy_show_trailing_ws", 1)
+call s:default("g:galaxy_indent_hl_file",   "python,c,javascript")
+call s:default("g:galaxy_load_syn_dict",    1)
+call s:default("g:galaxy_load_syn_tune",    1)
+call s:default("g:galaxy_hl_visual_fg",     0)
+call s:default("g:galaxy_tcursor_color",    "DarkGray")
+
 if !exists("g:galaxy_cache_File") "{{{
     if has("win32") || has("win64")
         if exists('$HOME')
@@ -47,37 +69,6 @@ if !exists("g:galaxy_store_Folder") "{{{
     endif
 endif "}}}
 
-if !exists("g:galaxy_debug")
-    let g:galaxy_debug=0
-endif
-if !exists("g:galaxy_highlight_indent")
-    let g:galaxy_highlight_indent=1
-endif
-if !exists("g:galaxy_indent_hl_pos")
-    "end/start
-    let g:galaxy_indent_hl_pos="start"
-endif
-if !exists("g:galaxy_statusline_blink")
-    let g:galaxy_statusline_blink=1
-endif
-if !exists("g:galaxy_show_trailing_ws")
-    let g:galaxy_show_trailing_ws=1
-endif
-if !exists("g:galaxy_indent_hl_file")
-    let g:galaxy_indent_hl_file="python,c,javascript"
-endif
-if !exists("g:galaxy_load_syn_dict")
-    let g:galaxy_load_syn_dict=1
-endif
-if !exists("g:galaxy_load_syn_tune")
-    let g:galaxy_load_syn_tune=1
-endif
-if !exists("g:galaxy_hl_visual_fg")
-    let g:galaxy_hl_visual_fg=0
-endif
-if !exists("g:galaxy_tcursor_color")
-    let g:galaxy_tcursor_color="DarkGray"
-endif
 " s:misc_var "{{{2
 let s:nocolor = "NONE"
 let s:fg      = "fg"
@@ -133,7 +124,7 @@ let s:gui_hl_list=[
             \["BoldItalic",     "nocolor",  "nocolor",  "ib"    ],
             \["Underlined",     "nocolor",  "nocolor",  "u"     ],
             \["Undercurl",      "nocolor",  "nocolor",  "c"     ],
-            \["Cursor",         "nocolor",  "msgclr8",  "n"     ],
+            \["Cursor",         "bgdclr1",  "msgclr8",  "n"     ],
             \["CursorIM",       "nocolor",  "synclr4",  "n"     ],
             \["CursorLine",     "nocolor",  "bgdclr1",  "n"     ],
             \["CursorColumn",   "CursorLine"    ],
@@ -198,9 +189,9 @@ let s:gui_hl_list=[
             \["Define",         "synclr1",  "nocolor",  "i"     ],
             \["PreCondit",      "Define"        ],
             \["Macro",          "synclr1",  "nocolor",  "ib"    ],
-            \["Special",        "synclr2",  "nocolor",  "n"     ],
+            \["Special",        "synclr2",  "bgdclr0",  "n"     ],
             \["Delimiter",      "synclr2",  "nocolor",  "b"     ],
-            \["SpecialChar",    "synclr2",  "nocolor",  "i"     ],
+            \["SpecialChar",    "synclr2",  "nocolor",  "n"     ],
             \["Debug",          "synclr2",  "nocolor",  "bi"    ],
             \["SpecialKey",     "SpecialChar"   ],
             \["Tag",            "Special"       ],
@@ -230,8 +221,8 @@ let s:style_hl_list=
     \{"name":"SHADOW",
     \"highlights":[
             \["CursorLine",     "nocolor",  "bgdclr2",  "n"     ],
-            \["Visual",         "nocolor",  "bgdclr5",  "n"     ],
-            \["VisualNOS",      "nocolor",  "bgdclr6",  "n"     ],
+            \["Visual",         "nocolor",  "bgdclr3",  "n"     ],
+            \["VisualNOS",      "nocolor",  "difclr3",  "n"     ],
             \["Search",         "bmdclr1",  "bgdclr4",  "n"     ],
             \["IncSearch",      "bmdclr0",  "fgdclr2",  "b"     ],
             \["Wildmenu",       "fgdclr1",  "bgdclr2",  "rb"    ],
@@ -727,31 +718,46 @@ function! s:hi_t_list(list,...) "{{{
     endfor
 endfunction "}}}
 function! s:hi_list(list,...) "{{{
-    let list=a:list
-    for item in list
+    for item in a:list
         if len(item) == 4
-            let [hl_grp,hl_fg,hl_bg,hl_fm]=item
+            let [hl_grp,hl_fg,hl_bg,hl_fm] = item
 
-            if empty(hl_fm)
-                let fm_txt=""
-            endif
             let fm_txt = "NONE"
             let fm_txt .= hl_fm=~'u' ? ",underline"   : ""
-            let fm_txt .= hl_fm=~'c' ? ",undercurl"   : ""
             let fm_txt .= hl_fm=~'r' ? ",reverse"     : ""
             let fm_txt .= hl_fm=~'b' ? ",bold"        : ""
-            let fm_txt .= hl_fm=~'i' ? ",italic"      : ""
-            let fm_txt .= hl_fm=~'s' ? ",standout"    : ""
 
-            let hl_fg=tolower(hl_fg)
-            let hl_bg=tolower(hl_bg)
+            " set undercurl color in gui (guisp)
+            let sp_txt = ""
+            if hl_fm=~'c' && s:mode=="gui"
+                let fm_txt .= ",undercurl"
+                let sp_txt = '#'.s:msgclr4
+            elseif hl_fm=~'c' && s:mode=="cterm"
+                let fm_txt .= ",underline"
+            endif
+
+            " italic not work in term
+            if hl_fm=~'i' && s:mode=="gui"
+                let fm_txt .= ",italic"
+            endif
+
+            " standout not work in term
+            if hl_fm=~'s' && s:mode=="gui"
+                let fm_txt .= ",standout"
+            endif
+
+            " let hl_fg=tolower(hl_fg)
+            " let hl_bg=tolower(hl_bg)
+
             " "" or "ffffff"
             " s:msgclr10 5A3F00
             let fg_txt = hl_fg =~ '\x\{6}' || empty(hl_fg) ? hl_fg :
                         \ exists("s:".hl_fg) ? s:{hl_fg} : s:fgdclr0
             let bg_txt = hl_bg =~ '\x\{6}' || empty(hl_bg) ? hl_bg :
                         \ exists("s:".hl_bg) ? s:{hl_bg} : s:bgdclr0
-            if has("gui_running")
+
+
+            if s:mode=="gui"
                 let fg_txt = fg_txt =~ '^\x\{6}$' ? "#".fg_txt : fg_txt
                 let bg_txt = bg_txt =~ '^\x\{6}$' ? "#".bg_txt : bg_txt
             else
@@ -759,25 +765,14 @@ function! s:hi_list(list,...) "{{{
                 let bg_txt= bg_txt =~ '\x\{6}$' ? colorv#hex2term(bg_txt,"CHECK") : bg_txt
             endif
 
-            " set sp_txt:undercurl color in gui
-            if fm_txt=~'c' && has("gui_running")
-                "msg color 0
-                let sp_txt='#'.s:msgclr0
-            elseif fm_txt=~'c' && !has("gui_running")
-                let sp_txt=""
-                "reverse it.
-                let [fg_txt,bg_txt]=[bg_txt,fg_txt]
-            else
-                let sp_txt=""
-            endif
+
 
             let bg_txt = empty(bg_txt) ? "" : s:mode."bg=".bg_txt." "
             let fg_txt = empty(fg_txt) ? "" : s:mode."fg=".fg_txt." "
             let sp_txt = empty(sp_txt) ? "" : s:mode."sp=".sp_txt." "
             let fm_txt = empty(fm_txt) ? "" : s:mode."=".fm_txt
 
-            if !empty(fg_txt) || !empty(bg_txt)
-                        \ || !empty(fm_txt) || !empty(sp_txt)
+            if !empty(fg_txt) || !empty(bg_txt) || !empty(fm_txt) || !empty(sp_txt)
                 exec "hi! ".hl_grp." ".fg_txt.bg_txt.sp_txt.fm_txt
             endif
 
