@@ -3,7 +3,7 @@
 "    File: autoload/galaxy.vim
 " Summary: A colorscheme that makes scheming colors easier.
 "  Author: Rykka <Rykka10(at)gmail.com>
-" Last Update: 2012-03-25
+" Last Update: 2012-04-03
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim
@@ -176,10 +176,10 @@ let s:gui_hl_list=[
             \["Todo",           "msgclr2",  "bgdclr2",  "b"     ],
             \["Title",          "msgclr0",  "nocolor",  "b"     ],
             \["Conceal",        "fgdclr1",  "nocolor",  "n"     ],
-            \["Comment",        "bgdclr4",  "nocolor",  "n"     ],
+            \["Comment",        "bgdclr5",  "nocolor",  "n"     ],
             \["NonText",        "Comment"       ],
             \["Ignore",         "Comment"       ],
-            \["SpecialComment", "bgdclr5",  "nocolor",  "b"     ],
+            \["SpecialComment", "bgdclr6",  "nocolor",  "b"     ],
             \["Underlined",     "nocolor",  "nocolor",  "u"     ],
             \["Keyword",        "synclr0",  "nocolor",  "n"     ],
             \["Label",          "synclr0",  "nocolor",  "b"     ],
@@ -236,7 +236,7 @@ let s:style_hl_list=
             \["LineNr",         "bmdclr0",  "bgdclr2",  "n"     ],
             \["SignColumn",     "msgclr2",  "bgdclr1",  "n"     ],
             \["TabLine",        "bmdclr0",  "bgdclr3",  "n"     ],
-            \["TabLineSel",     "bgdclr6",  "bgdclr0",  "b"     ],
+            \["TabLineSel",     "fgdclr2",  "bgdclr0",  "b"     ],
             \["TabLineFill",    "bmdclr0",  "bgdclr2",  "n"     ],
             \["StatusLine",     "fgdclr1",  "bgdclr3",  "b"     ],
             \["StatusLineNC",   "bmdclr0",  "bgdclr3",  "n"     ],
