@@ -279,17 +279,17 @@ let s:style_hl_list=
         \["TabLine",        "fgdclr8",  "fgdclr3",  "n"     ],
         \["TabLineSel",     "fgdclr1",  "bgdclr0",  "b"     ],
         \["TabLineFill",    "bgdclr0",  "fgdclr4",  "n"     ],
-        \["StatusLine",     "bgdclr9",  "fgdclr6",  "b"     ],
-        \["StatusLineNC",   "fgdclr1",  "fgdclr6",  "n"     ],
-        \["User1",          "msgclr1",  "fgdclr6",  "b"     ],
-        \["User2",          "msgclr2",  "fgdclr6",  "b"     ],
-        \["User3",          "msgclr3",  "fgdclr6",  "b"     ],
-        \["User4",          "msgclr4",  "fgdclr6",  "b"     ],
-        \["User5",          "msgclr5",  "fgdclr6",  "b"     ],
-        \["User6",          "msgclr6",  "fgdclr6",  "b"     ],
-        \["User7",          "msgclr7",  "fgdclr6",  "b"     ],
-        \["User8",          "msgclr8",  "fgdclr6",  "b"     ],
-        \["User9",          "msgclr9",  "fgdclr6",  "b"     ],
+        \["StatusLine",     "difclr3",  "msgclr4",  "b"     ],
+        \["StatusLineNC",   "fgdclr5",  "fgdclr6",  "n"     ],
+        \["User1",          "fgdclr2",  "fgdclr6",  "b"     ],
+        \["User2",          "fgdclr1",  "fgdclr5",  "b"     ],
+        \["User3",          "fgdclr0",  "fgdclr4",  "b"     ],
+        \["User4",          "bgdclr3",  "fgdclr3",  "b"     ],
+        \["User5",          "bgdclr2",  "fgdclr2",  "b"     ],
+        \["User6",          "difclr4",  "msgclr6",  "b"     ],
+        \["User7",          "difclr5",  "msgclr8",  "b"     ],
+        \["User8",          "difclr6",  "msgclr0",  "b"     ],
+        \["User9",          "difclr7",  "msgclr2",  "b"     ],
         \]
     \},
     \{"name":"COLOUR",
@@ -310,6 +310,7 @@ let s:style_hl_list=
         \["TabLineSel",     "fgdclr2",  "bgdclr0",  "b"     ],
         \["TabLineFill",    "bgdclr0",  "fgdclr2",  "n"     ],
         \["StatusLine",     "difclr3",  "msgclr0",  "b"     ],
+        \["StatusLineNC",   "fgdclr3",  "fgdclr2",  "n"     ],
         \["User1",          "bgdclr1",  "fgdclr2",  "b"     ],
         \["User2",          "bgdclr2",  "fgdclr3",  "b"     ],
         \["User3",          "bgdclr3",  "fgdclr4",  "b"     ],
@@ -319,7 +320,6 @@ let s:style_hl_list=
         \["User7",          "difclr5",  "msgclr4",  "b"     ],
         \["User8",          "difclr6",  "msgclr6",  "b"     ],
         \["User9",          "difclr7",  "msgclr8",  "b"     ],
-        \["StatusLineNC",   "fgdclr3",  "fgdclr2",  "n"     ],
         \]
     \}
 \]
@@ -513,7 +513,7 @@ let s:built_in_schemes=[
             \"colors":["050505","A6A6A6","8296B3","54DEB0","404259"],
             \"style":"SHADOW"},
             \{"name":"InkGreen",
-            \"colors":["0A0D07","A9BA93","7F7BC7","FF7236","363E4D"],
+            \"colors":["0A0D07","A9BA93","8682D1","FF7236","363E4D"],
             \"style":"ABOUND"},
             \{"name":"RosyBlue",
             \"colors":["0A0A0F","A3A09B","7F96B8","54DFB1","393A4D"],
@@ -946,7 +946,7 @@ function! s:statusline_aug() "{{{
                         let [_item[2],_item[1]] = _item[1:2]
                     elseif grp =~? '^User\d$'
                         if exists("s:scheme.style")
-                            \&& s:scheme.style =~? 'COLOUR'
+                            \&& s:scheme.style =~? 'COLOUR\|ABOUND'
                             " let _item[1] = status_bgd
                         else
                             let _item[2] = status_bgd

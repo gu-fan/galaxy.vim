@@ -50,6 +50,7 @@ QUICKSTART                                          *galaxy-quickstart*
         Default mapping is <leader>gll
 
         Then you can choose/edit/generate/delete schemes in it.
+
         
                                                         *galaxy-new*
     Generate new schemes~
@@ -119,7 +120,7 @@ QUICKSTART                                          *galaxy-quickstart*
                                                         *galaxy-terminal*
     With Terminal~
         Works fine with 256 Terminal and use predefined scheme in 16 and 8 .
-        You should check if your '&t_Co' option if not working properly.
+        You should check if your '&t_Co' option if it's not working properly.
 
     NOTE    Terminal scheme in 8/16 terminal color is predefined.
 
@@ -149,6 +150,24 @@ QUICKSTART                                          *galaxy-quickstart*
         This will reverse the statusline color when enter insert mode.
         set |g:galaxy_statusline_blink| to 0 to disable it.
         
+    NOTE    The hl-User1 ~ hl-User9 color is auto generated.
+            You can use them to have different color in statusline.
+    e.g.:
+>
+    set statusline=%2*%n.%*[%03l,%02c,%P]%<%F%1*%m%r%*\%=[%{&enc},%{&ff}]
+<
+
+    for style 'COLOUR' And 'ABOUND'.
+    hl-StatusLine is Colourful .
+    hl-StatusLineNC is in dim color.
+    hl-USER1 ~ hl-USER5 is shading Background color.
+    hl-USER6 ~ hl-USER9 is Colorful color with gradual change.
+    You can use:
+>
+    set statusline=%*\ %{mode()}\ %6*%m%r%1*%<%F\%=%2*\ %03l\|%3*%02c\ \%4*\ %P\ 
+<
+    To get an effect Similar to PowerLine.vim
+    See |'statusline'| for more details.
 
 ==============================================================================
 INSTALL                                          *galaxy-install*
@@ -184,20 +203,14 @@ COMMANDS                                              *galaxy-commands*
 
 OPTIONS                                               *galaxy-options*
 
-    NOTE: All options must be put before ':colorscheme galaxy'
-
-
-                                                *g:galaxy_hl_visual_fg*
-    'g:galaxy_hl_visual_fg'                    (default:0)
-    Highlighting |hl-Visual| foreground or not.
-    if set to 1, will use current background color to hightlight.
-    otherwise the Visual-foreground color will be transparent.
+    NOTE: All options must be put before executing ':colorscheme galaxy'
 
                                                 *g:galaxy_tcursor_color*
     'g:galaxy_tcursor_color'                    (default:"DarkGray")
-    the terminal cursor color  to be set after exit vim.
+    The terminal cursor color to be set after exit vim.
     The |cterm-colors| names can be used.
 
+    Colorful indenting.~
                                                 *g:galaxy_highlight_indent*
     'g:galaxy_highlight_indent'                 (default:1)
     Enable highlight indent.
@@ -218,21 +231,29 @@ OPTIONS                                               *galaxy-options*
     if indent_highlight is ON.   
 
 
+    StatusLine with different color between INSERT/NORMAL mode.~
                                                 *g:galaxy_statusline_blink*
     'g:galaxy_statusline_blink'                 (default:1)
     Enable statusline blink while InsertEnter and InsertLeave.
     
-    NOTE    The User1 ~ User9 color is auto generated.
-            You can use them to have different color in statusline.
-    e.g.:
-    set statusline=%2*%n.%*[%03l,%02c,%P]%<%F%1*%m%r%*\%=[%W%Y,%{&enc},%{&ff}]
-    see |'statusline'| for details.
 
+    Load predefined syntax tuning.~
                                                 *g:galaxy_load_syn_dict*
-    Load predefined syntax link.~
     'g:galaxy_load_syn_dict'                    (default:1)
     Enable loading galaxy predefined syntax link of several filetypes.
 
+                                                *g:galaxy_load_syn_tune*
+    'g:galaxy_load_syn_tune'                    (default:1)
+    Enable loading galaxy predefined syntax tuning of several filetypes.
+    currently only vim , highlight it's 'endfunction' part with 'Function'.
+
+    Transparent hl-Visual foreground.~
+                                                *g:galaxy_hl_visual_fg*
+    'g:galaxy_hl_visual_fg'                    (default:0)
+    By default the Visual-foreground color will be transparent.
+    if set to 1, will use current background color to hightlight it.
+
+    Storing and Caching.~
                                                 *g:galaxy_store_Folder*
     'g:galaxy_store_Folder'     (default:
                                 for Win: "$HOME\vimfiles\colors\galaxy\"
@@ -257,6 +278,13 @@ DEVELOPER                                             *galaxy-developer*
    
 ------------------------------------------------------------------------------
 HISTORY                                               *galaxy-history*
+
+"1.3.0~
+"  DONE: 120301 g:galaxy_hl_visual_fg
+"  DONE: 120301 g:galaxy_tcursor_color
+"  DONE: 120403 g:galaxy_load_syn_tune
+"  DONE: 120403 More color and style difference in default syntax group.
+"  DONE: 120403 make Statusline like PowerLine.vim in style: 'COLOUR/ABOUND'
 
 "1.2.0 Spring Festival~
 "  DONE: 120123  add g:galaxy_indent_hl_pos , set default to "satrt"
