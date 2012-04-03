@@ -69,6 +69,9 @@ endif
 if !exists("g:galaxy_load_syn_dict")
     let g:galaxy_load_syn_dict=1
 endif
+if !exists("g:galaxy_load_syn_tune")
+    let g:galaxy_load_syn_tune=1
+endif
 if !exists("g:galaxy_hl_visual_fg")
     let g:galaxy_hl_visual_fg=0
 endif
@@ -125,6 +128,11 @@ let s:clr_helptxt=[
 " s:gui "{{{2
 let s:gui_hl_list=[
             \["Normal",         "fgdclr0",  "bgdclr0",  "n"     ],
+            \["Italic",         "nocolor",  "nocolor",  "i"     ],
+            \["Bold",           "nocolor",  "nocolor",  "b"     ],
+            \["BoldItalic",     "nocolor",  "nocolor",  "ib"    ],
+            \["Underlined",     "nocolor",  "nocolor",  "u"     ],
+            \["Undercurl",      "nocolor",  "nocolor",  "c"     ],
             \["Cursor",         "nocolor",  "msgclr8",  "n"     ],
             \["CursorIM",       "nocolor",  "synclr4",  "n"     ],
             \["CursorLine",     "nocolor",  "bgdclr1",  "n"     ],
@@ -167,50 +175,50 @@ let s:gui_hl_list=[
             \["ModeMsg",        "bgdclr0",  "msgclr9",  "b"     ],
             \["WarningMsg",     "bgdclr0",  "msgclr3",  "b"     ],
             \["ErrorMsg",       "bgdclr0",  "msgclr0",  "b"     ],
-            \["Error",          "nocolor",  "difclr1",  "b"    ],
+            \["Error",          "nocolor",  "difclr5",  "b"     ],
             \["SpellBad",       "nocolor",  "difclr1",  "n"     ],
             \["SpellCap",       "SpellBad"      ],
             \["SpellLocal",     "nocolor",  "difclr5",  "n"     ],
             \["SpellRare",      "SpellLocal"    ],
             \["MatchParen",     "bgdclr0",  "bgdclr6",  "b"     ],
-            \["Todo",           "msgclr2",  "bgdclr2",  "b"     ],
+            \["Todo",           "msgclr5",  "bgdclr2",  "b"     ],
             \["Title",          "msgclr0",  "nocolor",  "b"     ],
             \["Conceal",        "fgdclr1",  "nocolor",  "n"     ],
             \["Comment",        "bgdclr5",  "nocolor",  "n"     ],
             \["NonText",        "Comment"       ],
             \["Ignore",         "Comment"       ],
             \["SpecialComment", "bgdclr6",  "nocolor",  "b"     ],
-            \["Underlined",     "nocolor",  "nocolor",  "u"     ],
-            \["Keyword",        "synclr0",  "nocolor",  "n"     ],
-            \["Label",          "synclr0",  "nocolor",  "b"     ],
+            \["Keyword",        "synclr0",  "nocolor",  "b"     ],
             \["Statement",      "synclr0",  "nocolor",  "n"     ],
-            \["Conditional",    "Statement"     ],
-            \["Repeat",         "Statement"     ],
-            \["Operator",       "synclr1",  "nocolor",  "n"     ],
-            \["Exception",      "synclr0",  "nocolor",  "bi"    ],
-            \["Debug",          "synclr2",  "nocolor",  "bi"    ],
+            \["Conditional",    "synclr0",  "nocolor",  "i"     ],
+            \["Repeat",         "synclr0",  "nocolor",  "i"     ],
+            \["Label",          "synclr0",  "nocolor",  "b"     ],
+            \["Include",        "synclr1",  "nocolor",  "n"     ],
+            \["PreProc",        "synclr1",  "nocolor",  "b"     ],
+            \["Define",         "synclr1",  "nocolor",  "i"     ],
+            \["PreCondit",      "Define"        ],
+            \["Macro",          "synclr1",  "nocolor",  "ib"    ],
             \["Special",        "synclr2",  "nocolor",  "n"     ],
-            \["Delimiter",      "synclr2",  "nocolor",  "n"     ],
-            \["SpecialChar",    "synclr2",  "nocolor",  "b"     ],
+            \["Delimiter",      "synclr2",  "nocolor",  "b"     ],
+            \["SpecialChar",    "synclr2",  "nocolor",  "i"     ],
+            \["Debug",          "synclr2",  "nocolor",  "bi"    ],
             \["SpecialKey",     "SpecialChar"   ],
-            \["Tag",            "SpecialChar"   ],
-            \["Type",           "synclr4",  "nocolor",  "n"     ],
-            \["StorageClass",   "synclr4",  "nocolor",  "b"     ],
+            \["Tag",            "Special"       ],
+            \["Type",           "synclr3",  "nocolor",  "n"     ],
+            \["Typedef",        "synclr3",  "nocolor",  "b"     ],
+            \["StorageClass",   "synclr4",  "nocolor",  "n"     ],
+            \["Structure",      "synclr4",  "nocolor",  "b"     ],
             \["Directory",      "Type"          ],
-            \["Identifier",     "synclr4",  "nocolor",  "b"     ],
-            \["Constant",       "synclr6",  "nocolor",  "n"     ],
-            \["Boolean",        "synclr6",  "nocolor",  "b"     ],
-            \["Float",          "Constant"      ],
-            \["Number",         "Constant"      ],
+            \["Identifier",     "synclr5",  "nocolor",  "b"     ],
+            \["Constant",       "synclr5",  "nocolor",  "n"     ],
+            \["Boolean",        "synclr5",  "nocolor",  "n"     ],
+            \["Float",          "synclr5",  "nocolor",  "i"     ],
+            \["String",         "synclr7",  "nocolor",  "n"     ],
+            \["Character",      "synclr7",  "nocolor",  "i"     ],
             \["Function",       "synclr7",  "nocolor",  "b"     ],
-            \["Structure",      "synclr7",  "nocolor",  "n"     ],
-            \["String",         "synclr8",  "nocolor",  "n"     ],
-            \["Character",      "synclr8",  "nocolor",  "i"     ],
-            \["Include",        "synclr9",  "nocolor",  "n"     ],
-            \["PreProc",        "synclr9",  "nocolor",  "ib"     ],
-            \["Define",         "PreProc"       ],
-            \["Macro",          "PreProc"       ],
-            \["PreCondit",      "PreProc"       ],
+            \["Keyword",        "synclr9",  "nocolor",  "b"     ],
+            \["Operator",       "synclr9",  "nocolor",  "n"     ],
+            \["Exception",      "synclr9",  "nocolor",  "bi"    ],
             \]
 " s:styles "{{{2
 let s:style_hl_list=
@@ -282,11 +290,6 @@ let s:style_hl_list=
         \["User7",          "msgclr7",  "fgdclr6",  "b"     ],
         \["User8",          "msgclr8",  "fgdclr6",  "b"     ],
         \["User9",          "msgclr9",  "fgdclr6",  "b"     ],
-        \["MatchParen",     "bgdclr0",  "synclr7",  "b"     ],
-        \["Identifier",     "synclr5",  "nocolor",  "b"     ],
-        \["Structure",      "synclr5",  "nocolor",  "b"     ],
-        \["Operator",       "synclr1",  "nocolor",  "n"     ],
-        \["Delimiter",      "synclr3",  "nocolor",  "n"     ],
         \]
     \},
     \{"name":"COLOUR",
@@ -306,22 +309,17 @@ let s:style_hl_list=
         \["TabLine",        "bgdclr0",  "fgdclr1",  "n"     ],
         \["TabLineSel",     "fgdclr2",  "bgdclr0",  "b"     ],
         \["TabLineFill",    "bgdclr0",  "fgdclr2",  "n"     ],
-        \["StatusLine",     "difclr0",  "fgdclr2",  "b"     ],
-        \["StatusLineNC",   "bgdclr2",  "fgdclr2",  "n"     ],
-        \["User1",          "difclr1",  "fgdclr2",  "b"     ],
-        \["User2",          "difclr2",  "fgdclr2",  "b"     ],
-        \["User3",          "difclr3",  "fgdclr2",  "b"     ],
-        \["User4",          "difclr4",  "fgdclr2",  "b"     ],
-        \["User5",          "difclr5",  "fgdclr2",  "b"     ],
-        \["User6",          "difclr6",  "fgdclr2",  "b"     ],
-        \["User7",          "difclr7",  "fgdclr2",  "b"     ],
-        \["User8",          "difclr8",  "fgdclr2",  "b"     ],
-        \["User9",          "difclr9",  "fgdclr2",  "b"     ],
-        \["MatchParen",     "bgdclr0",  "synclr4",  "b"     ],
-        \["Identifier",     "synclr5",  "nocolor",  "b"     ],
-        \["Structure",      "synclr5",  "nocolor",  "b"     ],
-        \["Operator",       "synclr1",  "nocolor",  "n"     ],
-        \["Delimiter",      "synclr3",  "nocolor",  "n"     ],
+        \["StatusLine",     "difclr3",  "msgclr0",  "b"     ],
+        \["User1",          "bgdclr1",  "fgdclr2",  "b"     ],
+        \["User2",          "bgdclr2",  "fgdclr3",  "b"     ],
+        \["User3",          "bgdclr3",  "fgdclr4",  "b"     ],
+        \["User4",          "fgdclr1",  "fgdclr5",  "b"     ],
+        \["User5",          "fgdclr2",  "fgdclr6",  "b"     ],
+        \["User6",          "difclr4",  "msgclr2",  "b"     ],
+        \["User7",          "difclr5",  "msgclr4",  "b"     ],
+        \["User8",          "difclr6",  "msgclr6",  "b"     ],
+        \["User9",          "difclr7",  "msgclr8",  "b"     ],
+        \["StatusLineNC",   "fgdclr3",  "fgdclr2",  "n"     ],
         \]
     \}
 \]
@@ -533,145 +531,117 @@ let s:synlink_dict     = {}
 let s:syn_hi_gui_dict  = {}
 let s:syn_hi_term_dict = {}
 let s:synlink_dict.ada = [
-            \["adaBegin",   "Type"    ],
-            \["adaEnd",     "Type"        ],
-            \["adaKeyword",         "Keyword"        ],
+            \["adaBegin             ","Structure       "          ],
+            \["adaEnd               ","Structure       "          ],
+            \["adaKeyword           ","Keyword         "          ],
             \]
 let s:synlink_dict.cpp = [
-            \["cppAccess",   "Type"    ],
-            \["cppStatement",   "Special"    ],
+            \["cppAccess            ","Structure       "          ],
+            \["cppStatement         ","Special         "          ],
             \]
 let s:synlink_dict.hs = [
-            \["ConId                ",   "Type          "    ],
-            \["hsPragma             ",   "PreProc       "    ],
-            \["hsConSym             ",   "Operator      "    ],
+            \["ConId                ","Structure  "               ],
+            \["hsPragma             ","PreProc    "               ],
+            \["hsConSym             ","Operator   "               ],
             \]
 let s:synlink_dict.html = [
-            \["htmlArg              ",   "Statement     "    ],
-            \["htmlEndTag           ",   "Special       "    ],
-            \["htmlItalic           ",   "Underlined    "    ],
-            \["htmlLink             ",   "Underlined    "    ],
-            \["htmlSpecialTagName   ",   "PreProc       "    ],
-            \["htmlTag              ",   "Special       "    ],
-            \["htmlTagName          ",   "Type          "    ],
+            \["htmlEndTag           ","Tag        "               ],
+            \["htmlLink             ","Underlined "               ],
+            \["htmlSpecialTagName   ","SpecialChar"               ],
+            \["htmlTag              ","Tag        "               ],
+            \["htmlTagName          ","Delimiter  "               ],
             \]
 let s:synlink_dict.lisp = [
-            \["lispAtom             ",   "Type          "    ],
-            \["lispAtomMark         ",   "Type          "    ],
-            \["lispConcat           ",   "Type          "    ],
-            \["lispDecl             ",   "Type          "    ],
-            \["lispFunc             ",   "Special       "    ],
-            \["lispKey              ",   "PreProc       "    ],
+            \["lispFunc             ","Function   "               ],
+            \["lispKey              ","Keyword    "               ],
             \]
 let s:synlink_dict.netrw = [
-            \["netrwDir             ",   "Special       "    ],
-            \["netrwExe             ",   "Wildmenu      "    ],
-            \["netrwSymLink         ",   "Statement     "    ],
+            \["netrwDir             ","Special    "               ],
+            \["netrwExe             ","Wildmenu   "               ],
+            \["netrwSymLink         ","Statement  "               ],
             \]
 let s:synlink_dict.pascal = [
-            \["pascalAsmKey         ",   "Statement     "    ],
-            \["pascalDirective      ",   "PreProc       "    ],
-            \["pascalModifier       ",   "PreProc       "    ],
-            \["pascalPredefined     ",   "Special       "    ],
-            \["pascalStatement      ",   "Type          "    ],
-            \["pascalStruct         ",   "Type          "    ],
+            \["pascalAsmKey         ","Keyword       "            ],
+            \["pascalDirective      ","PreProc       "            ],
+            \["pascalModifier       ","Macro         "            ],
+            \["pascalPredefined     ","Define        "            ],
+            \["pascalStatement      ","Statement     "            ],
+            \["pascalStruct         ","Structure     "            ],
             \]
 let s:synlink_dict.php = [
-            \["phpComparison        ",   "Special       "    ],
-            \["phpDefine            ",   "Type          "    ],
-            \["phpIdentifier        ",   "Normal        "    ],
-            \["phpMemberSelector    ",   "Special       "    ],
-            \["phpRegion            ",   "Special       "    ],
-            \["phpVarSelector       ",   "Special       "    ],
+            \["phpComparison        ","Special       "            ],
             \]
 let s:synlink_dict.python = [
-            \["pythonStatement      ",   "Type          "    ],
             \]
 let s:synlink_dict.ruby = [
-            \["rubyConstant         ",   "Special       "    ],
-            \["rubyDefine           ",   "Type          "    ],
-            \["rubyRegexp           ",   "Special       "    ],
+            \["rubyDefine           ","Typedef       "            ],
+            \["rubyRegexp           ","Special       "            ],
             \]
 let s:synlink_dict.scm = [
-            \["schemeSyntax         ",   "Special       "    ],
+            \["schemeSyntax         ","Special       "            ],
             \]
 let s:synlink_dict.sh = [
-            \["shArithRegion        ",   "Normal        "    ],
-            \["shDerefSimple        ",   "Normal        "    ],
-            \["shDerefVar           ",   "Normal        "    ],
-            \["shFunction           ",   "Type          "    ],
-            \["shLoop               ",   "Statement     "    ],
-            \["shStatement          ",   "Special       "    ],
-            \["shVariable           ",   "Normal        "    ],
             \]
 let s:synlink_dict.sql = [
-            \["sqlKeyword           ",   "Statement     "    ],
+            \["sqlKeyword           ","Keyword       "            ],
             \]
 let s:synlink_dict.tex = [
-            \["texDocType           ",   "PreProc       "    ],
-            \["texLigature          ",   "Constant      "    ],
-            \["texMatcher           ",   "Normal        "    ],
-            \["texNewCmd            ",   "PreProc       "    ],
-            \["texOnlyMath          ",   "Constant      "    ],
-            \["texRefZone           ",   "Constant      "    ],
-            \["texSection           ",   "Type          "    ],
-            \["texSectionMarker     ",   "Type          "    ],
-            \["texSectionModifier   ",   "Constant      "    ],
-            \["texTypeSize          ",   "Special       "    ],
-            \["texTypeStyle         ",   "Special       "    ],
+            \["texDocType           ","PreProc       "            ],
+            \["texLigature          ","Constant      "            ],
+            \["texNewCmd            ","PreProc       "            ],
+            \["texOnlyMath          ","Constant      "            ],
+            \["texRefZone           ","Constant      "            ],
+            \["texSection           ","Structure     "            ],
+            \["texSectionMarker     ","Structure     "            ],
+            \["texSectionModifier   ","Constant      "            ],
             \]
 let s:synlink_dict.vim = [
-            \["vimFuncKey           ",   "Function      "    ],
-            \["vimOption            ",   "Keyword       "    ],
-            \["vimCommand           ",   "Statement     "    ],
-            \["vimHiCTerm           ",   "Statement     "    ],
-            \["vimHiCtermFgBg       ",   "Statement     "    ],
-            \["vimHighlight         ",   "Statement     "    ],
-            \["vimHiGui             ",   "Statement     "    ],
-            \["vimHiGuiFgBg         ",   "Statement     "    ],
-            \["vimHiAttrib          ",   "Constant      "    ],
-            \["vimCommentTitle      ",   "SpecialComment"    ],
-            \["vimCommentTitleLeader",   "SpecialComment"    ],
-            \["vimEnvVar            ",   "Special       "    ],
-            \["vimSyntax            ",   "Special       "    ],
-            \["vimSynType           ",   "Special       "    ],
-            \["vimUserAttrb         ",   "Special       "    ],
+            \["vimFuncKey           ","Function      "            ],
+            \["vimOption            ","Keyword       "            ],
+            \["vimHiAttrib          ","Constant      "            ],
+            \["vimHiGroup           ","Special"                   ],
+            \["vimCommentTitle      ","SpecialComment"            ],
+            \["vimCommentTitleLeader","SpecialComment"            ],
+            \["vimSpecial           ","Special       "            ],
             \]
 let s:syn_hi_term_dict.vimwiki2 = [
-            \["VimwikiHeader1",          "Red",  "bg",  "b"     ],
-            \["VimwikiHeader2",          "Magenta",  "bg",  "b"     ],
-            \["VimwikiHeader3",          "Blue",  "bg",  "b"     ],
-            \["VimwikiHeader4",          "Cyan",  "bg",  "b"     ],
-            \["VimwikiHeader5",          "Green",  "bg",  "b"     ],
-            \["VimwikiHeader6",          "Yellow",  "bg",  "b"     ],
+            \["VimwikiHeader1       ", "Red",     "bg",  "b"      ],
+            \["VimwikiHeader2       ", "Magenta", "bg",  "b"      ],
+            \["VimwikiHeader3       ", "Blue",    "bg",  "b"      ],
+            \["VimwikiHeader4       ", "Cyan",    "bg",  "b"      ],
+            \["VimwikiHeader5       ", "Green",   "bg",  "b"      ],
+            \["VimwikiHeader6       ", "Yellow",  "bg",  "b"      ],
             \]
 
 let s:syn_hi_gui_dict.vimwiki2 = [
-            \["VimwikiHeader1",          "msgclr2",  "nocolor",  "b"     ],
-            \["VimwikiHeader2",          "msgclr4",  "nocolor",  "b"     ],
-            \["VimwikiHeader3",          "msgclr6",  "nocolor",  "b"     ],
-            \["VimwikiHeader4",          "msgclr8",  "nocolor",  "b"     ],
-            \["VimwikiHeader5",          "msgclr10",  "nocolor",  "b"     ],
-            \["VimwikiHeader6",          "msgclr12",  "nocolor",  "b"     ],
+            \["VimwikiHeader1       ", "msgclr2",  "nocolor",  "b" ],
+            \["VimwikiHeader2       ", "msgclr4",  "nocolor",  "b" ],
+            \["VimwikiHeader3       ", "msgclr6",  "nocolor",  "b" ],
+            \["VimwikiHeader4       ", "msgclr8",  "nocolor",  "b" ],
+            \["VimwikiHeader5       ", "msgclr10", "nocolor",  "b" ],
+            \["VimwikiHeader6       ", "msgclr12", "nocolor",  "b" ],
             \]
 let s:synlink_dict.xml = [
-            \["xmlAttrib            ",   "Special       "    ],
-            \["xmlCdata             ",   "Normal        "    ],
-            \["xmlCdataCdata        ",   "Statement     "    ],
-            \["xmlCdataEnd          ",   "PreProc       "    ],
-            \["xmlCdataStart        ",   "PreProc       "    ],
-            \["xmlDocType           ",   "PreProc       "    ],
-            \["xmlDocTypeDecl       ",   "PreProc       "    ],
-            \["xmlDocTypeKeyword    ",   "PreProc       "    ],
-            \["xmlEndTag            ",   "Statement     "    ],
-            \["xmlProcessingDelim   ",   "PreProc       "    ],
-            \["xmlNamespace         ",   "PreProc       "    ],
-            \["xmlTagName           ",   "Statement     "    ],
+            \["xmlProcessingDelim   ","PreProc       "            ],
+            \["xmlNamespace         ","PreProc       "            ],
+            \["xmlTag               ","Tag "                      ],
+            \["xmlTagName           ","Delimiter"                 ],
             \]
 let s:synlink_dict.galaxy = [
-            \["galaxyItalic",          "msgclr2",  "nocolor",  "b"     ],
+            \["galaxyItalic         ","msgclr2",  "nocolor",  "b" ],
             \]
+function! s:syntax_tune() "{{{
+    aug galaxy#syn
+        au!
+        au! Syntax vim call <SID>syn_vim()
+    aug END
+endfunction "}}}
 
+function! s:syn_vim() "{{{
+    " vim function and endfunction hl-group
+    silent! syn clear vimFuncBody
+    syn region	vimFuncBody  contained	start="\ze("	matchgroup=vimFuncKey end="\<\(endf\>\|endfu\%[nction]\>\)"		contains=@vimFuncBodyList
+endfunction "}}}
 " CLRS"{{{1
 "======================================================================
 function! s:gen_base_colors(colors) "{{{
@@ -975,7 +945,12 @@ function! s:statusline_aug() "{{{
                         let status_bgd = item[1]
                         let [_item[2],_item[1]] = _item[1:2]
                     elseif grp =~? '^User\d$'
-                        let _item[2] = status_bgd
+                        if exists("s:scheme.style")
+                            \&& s:scheme.style =~? 'COLOUR'
+                            " let _item[1] = status_bgd
+                        else
+                            let _item[2] = status_bgd
+                        endif
                     endif
                     call add(s:list_insert_enter,_item)
 
@@ -1970,6 +1945,10 @@ function! galaxy#load_scheme(...) "{{{
         endfor
     endif
 
+    if g:galaxy_load_syn_tune==1
+        call s:syntax_tune()
+    endif
+
     " the scheme defined highlights
     if exists("s:scheme.highlights")
         call s:hi_list(s:scheme.highlights)
@@ -2056,6 +2035,10 @@ function! galaxy#load_scheme16(...) "{{{
         for list in values(s:syn_hi_term_dict)
             call s:hi_list(list)
         endfor
+    endif
+
+    if g:galaxy_load_syn_tune==1
+        call s:syntax_tune()
     endif
 
     " set cursorline on 16 term
