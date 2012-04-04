@@ -312,7 +312,7 @@ let s:hl_styles.ABOUND = [
         \["VisualNOS",      "nocolor",  "fgdclr5",  "n"     ],
         \["Search",         "fgdclr0",  "bgdclr4",  "n"     ],
         \["IncSearch",      "fgdclr9",  "msgclr2",  "b"     ],
-        \["Wildmenu",       "synclr0",  "fgdclr2",  "rb"    ],
+        \["Wildmenu",       "bgdclr0",  "fgdclr0",  "rb"    ],
         \["Pmenu",          "fgdclr0",  "fgdclr9",  "n"     ],
         \["PmenuSel",       "bgdclr8",  "bgdclr0",  "rb"    ],
         \["PmenuSbar",      "fgdclr1",  "fgdclr5",  "n"     ],
