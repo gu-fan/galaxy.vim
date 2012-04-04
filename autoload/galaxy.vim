@@ -1128,9 +1128,9 @@ function! s:term_cursor() "{{{
 endfunction "}}}
 function! galaxy#show_mode() "{{{
     let val= mode()
-    if &paste | let val .=' P' | endif
-    if &diff  | let val .=' D' | endif
-    if &list  | let val .=' L' | endif
+    if &paste | let val .= ' P' | endif
+    if &diff  | let val .= ' D' | endif
+    if &list  | let val .= ' L' | endif
     return val
 endfunction "}}}
 
