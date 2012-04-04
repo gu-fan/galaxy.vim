@@ -541,11 +541,11 @@ endfunction "}}}
 " s:schemes "{{{2
 "                       bgd     fgd      syn      msg       dif
 let s:default_schemes=[
-            \{"name":"White",
-            \"colors":["FFFFFF","000000","306399","FF0D0D","B0E1EB"]},
             \{"name":"Black",
             \"colors":["000000","C1CBD6","9FB9D6","FF0D0D","4B6266"]},
-            \{"name":"Paper_And_Pen",
+            \{"name":"White",
+            \"colors":["FFFFFF","000000","306399","FF0D0D","B0E1EB"]},
+            \{"name":"Paper",
             \"colors":["EBE9E8","2B2C33","345B85","CC2020","D9A79E"]},
             \{"name":"Wine",
             \"colors":["0D0609","9C9B94","A37B5F","F03535","2D374A"]},
@@ -568,7 +568,7 @@ let s:default_schemes=[
             \"colors":["0A0D07","A9BA93","8682D1","FF7236","363E4D"],
             \"style":"ABOUND"},
             \{"name":"RosyBlue",
-            \"colors":["0A0A0F","CCC7C1","819FCC","54DFB1","404157"],
+            \"colors":["262633","CCC2C7","A681CC","54DFB1","404157"],
             \"style":"ABOUND"},
             \]
 let s:win_txtline = 2
