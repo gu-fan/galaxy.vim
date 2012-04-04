@@ -12,8 +12,12 @@
 ------------------------------------------------------------------------------
 CONTENTS                                         *galaxy-contents*
 1. Intro                                         |galaxy-intro|
+    Quickstart                                   |galaxy-quickstart|
+    More Schemes                                 |galaxy-more-schemes|
+    Fix Troubles                                 |galaxy-fix-troubles|
 2. Install                                       |galaxy-install|
 3. Commands                                      |galaxy-commands|
+    Options                                      |galaxy-options|
 4. Developer                                     |galaxy-developer|
 ==============================================================================
 INTRO                                               *galaxy-intro*
@@ -26,11 +30,10 @@ INTRO                                               *galaxy-intro*
     To choose:     
         :Galaxy 
 
-
     Screenshot: http://rykka.is-programmer.com/posts/31819
     Post issues: https://github.com/Rykka/vim-galaxy
 
-    NOTE: ColorV required if download from github.
+    NOTE: ColorV required.
           https://github.com/Rykka/ColorV
     
 ------------------------------------------------------------------------------
@@ -40,18 +43,71 @@ QUICKSTART                                          *galaxy-quickstart*
         :colorscheme galaxy
         Put it in your vimrc to keep on using it.
 
+        
+    Choose Schemes~
+        :Galaxy
+        Default mapping is <leader>gll
+        Then you can choose schemes in it.
+
+                                                    *galaxy-load*
+        You can also load designate scheme by scheme name.
+        :GalaxyLoad {scheme}
+
+
+    Scheme Options~
+                                                    *galaxy_syntax*
+        By default. galaxy set the |g:galaxy_colorful_syntax| to 1.
+        Means syntax highlights will be more colorful.
+        You can set it to 0 to disable it.
+
+                                                    *galaxy-indent*
+        To highligh indents.
+        :GalaxyHigh (<leader>glh)
+        
+        It's the default behavior in filetypes of "python,c,javascript".
+        You can set |g:galaxy_indent_hl_ftype| to make it active in more files.
+        
+        Other options are |g:galaxy_indent_hl_pos| |g:galaxy_show_trailing_ws|.
+
+    Stautsline Hightlights~
+                                                *galaxy-statusline*
+        By default, galaxy will provide you a colorful statusline.
+        you can set |g:galaxy_auto_statusline| to disable it.
+        You can set |g:galaxy_statusline_default| to change the statusline.
+
+        Other options are |g:galaxy_statusline_blink|. See them for details.
+
+    In Terminal~
+                                                        *galaxy-terminal*
+        256 terminal works fine.
+        8/16 terminal are using predefined colors.
+
+------------------------------------------------------------------------------
+TROUBLE SHOOTING                                      *galaxy-fix-troubles*
+
+    NOTE    ColorV required.
+            https://github.com/Rykka/ColorV
+
     NOTE    Your current scheme is cached on your disk.
             set |g:galaxy_cache_File| with proper place if errors occurs.
             If you can not write/read cache.
             use ':GalaxyLoad {scheme}' to load designate scheme.
-        
-    Open galaxy manager window~
-        :Galaxy
-        Default mapping is <leader>gll
 
-        Then you can choose/edit/generate/delete schemes in it.
+    NOTE    If colors are not correct in your terminal.
+            You should check '&t_Co' option and the terminal supported colors.
 
-        
+    NOTE    Terminal cursor is not fully tested in all OS.
+            And only support "xterm\rxvt\screen\TMUX" till now.
+            Please report issues with "OS,vim version,&t_Co,&term"
+            at https://github.com/Rykka/vim-galaxy/issues 
+
+    NOTE:   All options must be put before executing ':colorscheme galaxy'
+
+------------------------------------------------------------------------------
+MORE SCHEMS                                            *galaxy-more-schemes*
+
+    If Built-in schemes didn't fit your need. You can easily create some.~
+
                                                         *galaxy-new*
     Generate new schemes~
         :GalaxyNew
@@ -61,11 +117,6 @@ QUICKSTART                                          *galaxy-quickstart*
         Then a ColorV windows is opended for choosing background color.
         Choose one and then press 'q' to quit the window. 
         Your scheme is auto generated.
-                                                        *galaxy-load*
-    Load schemes~
-        :GalaxyLoad {scheme}
-
-        Load designate scheme with scheme name.
 
                                                         *galaxy-edit*
                                                         *galaxy-color*
@@ -117,44 +168,6 @@ QUICKSTART                                          *galaxy-quickstart*
         move cursor in the galaxy window. 
         press 'dd'.
         The scheme will be deleted.
-                                                        *galaxy-terminal*
-    With Terminal~
-        Works fine with 256 Terminal and use predefined scheme in 16 and 8 .
-        You should check if your '&t_Co' option if it's not working properly.
-
-    NOTE    Terminal scheme in 8/16 terminal color is predefined.
-
-    NOTE    Terminal cursor is not fully tested in all OS.
-            And only support "xterm\rxvt\screen\TMUX" till now.
-            Please report issues with "OS,vim version,&t_Co,&term"
-            at https://github.com/Rykka/vim-galaxy/issues 
-
-
-                                                *galaxy-indent*
-    Highlight Indent~
-        To highlight the indents of current file.
-        :GalaxyHigh (<leader>glh)
-        
-        set |g:galaxy_indent_hl_pos| to show highlight in end or start.
-        with |g:galaxy_highlight_indent| |g:galaxy_indent_hl_file| 
-        you can set the to auto highlight indent in these filetype.
-
-        The mixed white space and tab will be showing as Error. 
-        e.g.: '^\t  \t'
-
-        |g:galaxy_show_trailing_ws| will showing the trailing white space as 
-        errors. 
-
-                                                *galaxy-statusline*
-    Stautsline Hightlights~
-        
-        By default, galaxy will provide you a colorful statusline.
-        you can set |g:galaxy_auto_statusline| to disable it.
-
-        You can set |g:galaxy_statusline_default| to change it.
-
-        See options for more details.
-
 ==============================================================================
 INSTALL                                          *galaxy-install*
 
@@ -187,40 +200,40 @@ COMMANDS                                              *galaxy-commands*
     :GalaxyAuto (default: <leader>gla)      Generate schemes with color-list in
                                             buffer. see |galaxy-generate|
 
+------------------------------------------------------------------------------
 OPTIONS                                               *galaxy-options*
 
-    NOTE: All options must be put before executing ':colorscheme galaxy'
 
                                                 *g:galaxy_tcursor_color*
     'g:galaxy_tcursor_color'                    (default:"DarkGray")
-    The terminal cursor color to be set after exit vim.
+    Set terminal cursor color to it after exit vim.
     The |cterm-colors| names can be used.
 
     Colorful indenting.~
-                                                *g:galaxy_highlight_indent*
-    'g:galaxy_highlight_indent'                 (default:1)
+                                                *g:galaxy_enable_indent_hl*
+    'g:galaxy_enable_indent_hl'                 (default:1)
     Enable highlight indent.
 
                                                 *g:galaxy_indent_hl_pos*
     'g:galaxy_indent_hl_pos'                    (default:"start")
     The highlight position in indent highlight.
     if set to "end", will highlight at each indent end.
-    NOTE    the tab '\t' will be always highlighted entirely.
+    NOTE   Tab indent '\t' will be always highlighted entirely.
     
-                                                *g:galaxy_indent_hl_file*
-    'g:galaxy_indent_hl_file'                   ("python,c,javascript")
+                                                *g:galaxy_indent_hl_ftype*
+    'g:galaxy_indent_hl_ftype'                   ("python,c,javascript")
     Enable auto indent highlight with filetype.
 
                                                 *g:galaxy_show_trailing_ws*
     'g:galaxy_show_trailing_ws'                 (default:1)
     Enable showing trailing white space as indentError 
     if indent_highlight is ON.   
+    The mixed white space and tab will be showing as Error. 
+    e.g.: '^\t  \t'
 
 
     StatusLine with different color between INSERT/NORMAL mode.~
-                                                *g:galaxy_statusline_blink*
-    'g:galaxy_statusline_blink'                 (default:1)
-    Enable statusline blink while InsertEnter and InsertLeave.
+
 
                                                 *g:galaxy_auto_statusline*
     'g:galaxy_auto_statusline'                 (default:1)
@@ -260,21 +273,30 @@ OPTIONS                                               *galaxy-options*
 <
           See |statusline| for more details.
                                                 
-    Load predefined syntax tuning.~
+                                                *g:galaxy_statusline_blink*
+    'g:galaxy_statusline_blink'                 (default:1)
+    Enable statusline blink while InsertEnter and InsertLeave.
+
+    Syntax Colors tuning.~
+                                                *g:galaxy_colorful_syntax*
+    'g:galaxy_colorful_syntax'                    (default:1)
+    This will make syntax highlights more colorful.
+    Set it to 0 to make syntax less colorful.
+
                                                 *g:galaxy_load_syn_dict*
     'g:galaxy_load_syn_dict'                    (default:1)
     Enable loading galaxy predefined syntax link of several filetypes.
 
-                                                *g:galaxy_load_syn_tune*
-    'g:galaxy_load_syn_tune'                    (default:1)
+                                                *g:galaxy_load_syn_tuning*
+    'g:galaxy_load_syn_tuning'                    (default:1)
     Enable loading galaxy predefined syntax tuning of several filetypes.
     currently only vim , highlight it's 'endfunction' part with 'Function'.
 
-    Transparent hl-Visual foreground.~
-                                                *g:galaxy_hl_visual_fg*
-    'g:galaxy_hl_visual_fg'                    (default:0)
-    By default the Visual-foreground color will be transparent.
-    if set to 1, will use current background color to hightlight it.
+    hl-Visual foreground.~
+                                                *g:galaxy_visual_hl_fg*
+    'g:galaxy_visual_hl_fg'                    (default:0)
+    If set to 1, highlight |Visual| section foreground with colors.
+    By default is 0 , to make the |Visual| section transparent.
 
     Storing and Caching.~
                                                 *g:galaxy_store_Folder*
@@ -303,11 +325,13 @@ DEVELOPER                                             *galaxy-developer*
 HISTORY                                               *galaxy-history*
 
 "1.3.0~
-"  DONE: 120301 g:galaxy_hl_visual_fg
-"  DONE: 120301 g:galaxy_tcursor_color
-"  DONE: 120403 g:galaxy_load_syn_tune
+"  DONE: 120404 tuning statusline
+"  DONE: 120403 g:galaxy_colorful_syntax
 "  DONE: 120403 More color and style difference in default syntax group.
-"  DONE: 120403 make Statusline like PowerLine.vim in style: 'COLOUR/ABOUND'
+"  DONE: 120403 g:galaxy_load_syn_tuning
+"  DONE: 120403 make Statusline more colorful.
+"  DONE: 120301 g:galaxy_visual_hl_fg
+"  DONE: 120301 g:galaxy_tcursor_color
 
 "1.2.0 Spring Festival~
 "  DONE: 120123  add g:galaxy_indent_hl_pos , set default to "satrt"

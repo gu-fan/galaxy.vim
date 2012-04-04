@@ -32,20 +32,20 @@ function! s:default(option, value) "{{{
     return 1
 endfunction "}}}
 call s:default("g:galaxy_debug",            0)
-call s:default("g:galaxy_highlight_indent", 1)
-call s:default("g:galaxy_indent_hl_pos",    "start")    " end/start
+call s:default("g:galaxy_enable_indent_hl", 1)
+call s:default("g:galaxy_indent_hl_pos",    "start")
 call s:default("g:galaxy_show_trailing_ws", 1)
-call s:default("g:galaxy_indent_hl_file",   "python,c,javascript")
-call s:default("g:galaxy_syntax_colorful",  1)
+call s:default("g:galaxy_indent_hl_ftype",   "python,c,javascript")
+call s:default("g:galaxy_colorful_syntax",  1)
 call s:default("g:galaxy_load_syn_dict",    1)
-call s:default("g:galaxy_load_syn_tune",    1)
-call s:default("g:galaxy_hl_visual_fg",     0)
+call s:default("g:galaxy_load_syn_tuning",    1)
+call s:default("g:galaxy_visual_hl_fg",     0)
 call s:default("g:galaxy_tcursor_color",    "DarkGray")
 
 call s:default("g:galaxy_statusline_blink", 1)
 call s:default("g:galaxy_auto_statusline",  1)
 call s:default("g:galaxy_statusline_default", 
-            \'%4*%( %n %)%3*%( %Y %)%2*%( %M%R %)%1*%( %k %)'.
+            \'%4*%(%3n %)%3*%( %Y %)%2*%( %M%R %)%1*%( %k %)'.
             \'%* %{galaxy#show_mode()} '.
             \'%5* %<%F %='.
             \'%6*%( %{&ff},%{&enc} %)%7* %03l %8* %03c %9* %P '
@@ -957,7 +957,7 @@ function! s:indent_hl() "{{{
 endfunction "}}}
 function! s:indent_hl_aug() "{{{
     aug galaxy#indent_hl
-        for file in split(g:galaxy_indent_hl_file,",")
+        for file in split(g:galaxy_indent_hl_ftype,",")
             exe "au! FileType" file "call galaxy#toggle_indent_hl('ON')"
         endfor
     aug END
@@ -2009,7 +2009,7 @@ function! galaxy#load_scheme(...) "{{{
 
     " predefined highlights
     call s:hi_list(s:default_hl)
-    if g:galaxy_syntax_colorful == 1
+    if g:galaxy_colorful_syntax == 1
         call s:hi_list(s:syn_hl_1)
     else
         call s:hi_list(s:syn_hl_0)
@@ -2030,7 +2030,7 @@ function! galaxy#load_scheme(...) "{{{
         endfor
     endif
 
-    if g:galaxy_load_syn_tune==1
+    if g:galaxy_load_syn_tuning==1
         call s:syntax_tune()
     endif
 
@@ -2039,7 +2039,7 @@ function! galaxy#load_scheme(...) "{{{
         call s:hi_list(s:scheme.highlights)
     endif
 
-    if g:galaxy_hl_visual_fg == 1
+    if g:galaxy_visual_hl_fg == 1
         call s:hi_list([
                     \["Visual",         "bgdclr1",  "fgdclr1",  "n"     ],
                     \["VisualNOS",      "bgdclr1",  "fgdclr1",  "n"     ],
@@ -2053,7 +2053,7 @@ function! galaxy#load_scheme(...) "{{{
     if g:galaxy_auto_statusline == 1
         let &statusline = g:galaxy_statusline_default
     endif
-    if g:galaxy_highlight_indent == 1
+    if g:galaxy_enable_indent_hl == 1
         call s:indent_hl_aug()
     endif
     if !has("gui_running")
@@ -2110,7 +2110,7 @@ function! galaxy#load_scheme16(...) "{{{
     if g:galaxy_statusline_blink == 1
         call s:statusline_term16_aug()
     endif
-    if g:galaxy_highlight_indent == 1
+    if g:galaxy_enable_indent_hl == 1
         call s:indent_hl_aug()
     endif
 
@@ -2126,7 +2126,7 @@ function! galaxy#load_scheme16(...) "{{{
         endfor
     endif
 
-    if g:galaxy_load_syn_tune==1
+    if g:galaxy_load_syn_tuning==1
         call s:syntax_tune()
     endif
 
