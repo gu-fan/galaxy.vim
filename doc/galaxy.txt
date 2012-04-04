@@ -73,7 +73,8 @@ QUICKSTART                                          *galaxy-quickstart*
                                                 *galaxy-statusline*
         By default, galaxy will provide you a colorful statusline.
         you can set |g:galaxy_auto_statusline| to disable it.
-        You can set |g:galaxy_statusline_default| to change the statusline.
+        You can set |g:galaxy_statusline_default| and
+        |galaxy_statusline_alternate|  to change the statusline.
 
         Other options are |g:galaxy_statusline_blink|. See them for details.
 
@@ -241,11 +242,23 @@ OPTIONS                                               *galaxy-options*
     
                                                 *g:galaxy_statusline_default*
     'g:galaxy_statusline_default' 
-    statusline in default and shadow style.
-    default is:
+    statusline in DEFAULT and SHADOW style.
+    default:
 >
     g:galaxy_statusline_default = 
             \'%4*%( %n %)%3*%( %Y %)%2*%( %M%R %)%1*%( %k %)'.
+            \'%* %{galaxy#show_mode()} '.
+            \'%5* %<%F %='.
+            \'%6*%( %{&ff},%{&enc} %)%7* %03l %8* %03c %9* %P '
+<
+
+                                                *g:galaxy_statusline_alternate*
+    'g:galaxy_statusline_alternate' 
+    statusline in COLOUR and ABOUND style.
+    default:
+>
+    g:galaxy_statusline_alternate = 
+            \'%4*%(%3n %)%3*%( %Y %)%2*%( %M%R %)%1*%( %k %)'.
             \'%* %{galaxy#show_mode()} '.
             \'%5* %<%F %='.
             \'%6*%( %{&ff},%{&enc} %)%7* %03l %8* %03c %9* %P '

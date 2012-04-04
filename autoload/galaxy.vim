@@ -45,6 +45,12 @@ call s:default("g:galaxy_tcursor_color",    "DarkGray")
 call s:default("g:galaxy_statusline_blink", 1)
 call s:default("g:galaxy_auto_statusline",  1)
 call s:default("g:galaxy_statusline_default", 
+            \'%* %{galaxy#show_mode()} '.
+            \'%1*%(%2n %)%2*%( %Y %)%3*%( %M%R %)%4*%( %k %)'.
+            \'%5* %<%F %='.
+            \'%6*%( %{&ff},%{&enc} %)%7* %03l %8* %03c %9* %P '
+            \)
+call s:default("g:galaxy_statusline_alternate", 
             \'%4*%(%3n %)%3*%( %Y %)%2*%( %M%R %)%1*%( %k %)'.
             \'%* %{galaxy#show_mode()} '.
             \'%5* %<%F %='.
@@ -223,7 +229,7 @@ let s:syn_hl_1=[
             \] "}}}
 " s:styles "{{{2
 let s:hl_styles = {}
-" default "{{{
+"{{{ Default
 let s:hl_styles.GALAXY = [
         \["Cursor",         "bgdclr1",  "msgclr8",  "n"     ],
         \["CursorIM",       "nocolor",  "synclr4",  "n"     ],
@@ -2051,7 +2057,11 @@ function! galaxy#load_scheme(...) "{{{
         call s:statusline_aug()
     endif
     if g:galaxy_auto_statusline == 1
-        let &statusline = g:galaxy_statusline_default
+        if s:scheme.style =~ 'COLOUR\|ABOUND'
+            let &statusline = g:galaxy_statusline_alternate
+        else
+            let &statusline = g:galaxy_statusline_default
+        endif
     endif
     if g:galaxy_enable_indent_hl == 1
         call s:indent_hl_aug()
