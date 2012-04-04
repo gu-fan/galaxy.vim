@@ -130,7 +130,7 @@ QUICKSTART                                          *galaxy-quickstart*
             at https://github.com/Rykka/vim-galaxy/issues 
 
 
-                                                *galaxy-indent-highlight*
+                                                *galaxy-indent*
     Highlight Indent~
         To highlight the indents of current file.
         :GalaxyHigh (<leader>glh)
@@ -145,29 +145,15 @@ QUICKSTART                                          *galaxy-quickstart*
         |g:galaxy_show_trailing_ws| will showing the trailing white space as 
         errors. 
 
-                                                *galaxy-statusline-blink*
-    Highlight Stautsline in Insert-Mode.~
-        This will reverse the statusline color when enter insert mode.
-        set |g:galaxy_statusline_blink| to 0 to disable it.
+                                                *galaxy-statusline*
+    Stautsline Hightlights~
         
-    NOTE    The hl-User1 ~ hl-User9 color is auto generated.
-            You can use them to have different color in statusline.
-    e.g.:
->
-    set statusline=%2*%n.%*[%03l,%02c,%P]%<%F%1*%m%r%*\%=[%{&enc},%{&ff}]
-<
+        By default, galaxy will provide you a colorful statusline.
+        you can set |g:galaxy_auto_statusline| to disable it.
 
-    for style 'COLOUR' And 'ABOUND'.
-    hl-StatusLine is Colourful .
-    hl-StatusLineNC is in dim color.
-    hl-USER1 ~ hl-USER5 is shading Background color.
-    hl-USER6 ~ hl-USER9 is Colorful color with gradual change.
-    You can use:
->
-    set statusline=%*\ %{mode()}\ %6*%m%r%1*%<%F\%=%2*\ %03l\|%3*%02c\ \%4*\ %P\ 
-<
-    To get an effect Similar to PowerLine.vim
-    See |'statusline'| for more details.
+        You can set |g:galaxy_statusline_default| to change it.
+
+        See options for more details.
 
 ==============================================================================
 INSTALL                                          *galaxy-install*
@@ -235,8 +221,45 @@ OPTIONS                                               *galaxy-options*
                                                 *g:galaxy_statusline_blink*
     'g:galaxy_statusline_blink'                 (default:1)
     Enable statusline blink while InsertEnter and InsertLeave.
-    
 
+                                                *g:galaxy_auto_statusline*
+    'g:galaxy_auto_statusline'                 (default:1)
+    Auto set statusline while switching scheme.
+    
+                                                *g:galaxy_statusline_default*
+    'g:galaxy_statusline_default' 
+    statusline in default and shadow style.
+    default is:
+>
+    g:galaxy_statusline_default = 
+            \'%4*%( %n %)%3*%( %Y %)%2*%( %M%R %)%1*%( %k %)'.
+            \'%* %{galaxy#show_mode()} '.
+            \'%5* %<%F %='.
+            \'%6*%( %{&ff},%{&enc} %)%7* %03l %8* %03c %9* %P '
+<
+
+
+    NOTE:   hl-USER1 ~ hl-USER4 is more colorful,
+            and will change while entering insert mode.
+            set |g:galaxy_statusline_blink| to 0 to disable blink.
+
+            hl-USER5 ~ hl-USER9 is gradient in background color.
+
+    NOTE:   You can change it with valid statusline string,
+            Remember to quote it in "'" from avoid escaping ' ' with '\'.
+
+            galaxy#show_mode() is a simple function showing some modes.
+>
+    function! galaxy#show_mode() "{{{
+        let val= mode()
+        if &paste | let val .=' P' | endif
+        if &diff  | let val .=' D' | endif
+        if &list  | let val .=' L' | endif
+        return val
+    endfunction "}}}
+<
+          See |statusline| for more details.
+                                                
     Load predefined syntax tuning.~
                                                 *g:galaxy_load_syn_dict*
     'g:galaxy_load_syn_dict'                    (default:1)

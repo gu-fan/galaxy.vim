@@ -34,19 +34,22 @@ endfunction "}}}
 call s:default("g:galaxy_debug",            0)
 call s:default("g:galaxy_highlight_indent", 1)
 call s:default("g:galaxy_indent_hl_pos",    "start")    " end/start
-call s:default("g:galaxy_statusline_blink", 1)
-call s:default("g:galaxy_auto_statusline",  1)
-call s:default("g:galaxy_statusline_default", 
-            \"%1*%02n.%*\ %03l:%02c\ %<%F%1*%m%r%*\%=\ %{&enc}\ %P")
-call s:default("g:galaxy_statusline_alternate", 
-            \"%*\ %{mode()}\ %6*%m%r%1*%<%F\%=%2*\ %03l%3*%02c\ \%4*\ %P\ ")
 call s:default("g:galaxy_show_trailing_ws", 1)
 call s:default("g:galaxy_indent_hl_file",   "python,c,javascript")
-call s:default("g:galaxy_syntax_colorful",  0)
+call s:default("g:galaxy_syntax_colorful",  1)
 call s:default("g:galaxy_load_syn_dict",    1)
 call s:default("g:galaxy_load_syn_tune",    1)
 call s:default("g:galaxy_hl_visual_fg",     0)
 call s:default("g:galaxy_tcursor_color",    "DarkGray")
+
+call s:default("g:galaxy_statusline_blink", 1)
+call s:default("g:galaxy_auto_statusline",  1)
+call s:default("g:galaxy_statusline_default", 
+            \'%4*%( %n %)%3*%( %Y %)%2*%( %M%R %)%1*%( %k %)'.
+            \'%* %{galaxy#show_mode()} '.
+            \'%5* %<%F %='.
+            \'%6*%( %{&ff},%{&enc} %)%7* %03l %8* %03c %9* %P '
+            \)
 
 if !exists("g:galaxy_cache_File") "{{{
     if has("win32") || has("win64")
@@ -119,70 +122,39 @@ let s:clr_helptxt=[
             \"Background(Normal Background)",
             \"Diff(DiffAdd,DiffChange,... Background)"]
 " s:gui "{{{2
-let s:gui_hl_list=[
+" default hl"{{{
+let s:default_hl=[
             \["Normal",         "fgdclr0",  "bgdclr0",  "n"     ],
             \["Italic",         "nocolor",  "nocolor",  "i"     ],
             \["Bold",           "nocolor",  "nocolor",  "b"     ],
             \["BoldItalic",     "nocolor",  "nocolor",  "ib"    ],
             \["Underlined",     "nocolor",  "nocolor",  "u"     ],
             \["Undercurl",      "nocolor",  "nocolor",  "c"     ],
-            \["Cursor",         "bgdclr1",  "msgclr8",  "n"     ],
-            \["CursorIM",       "nocolor",  "synclr4",  "n"     ],
-            \["CursorLine",     "nocolor",  "bgdclr1",  "n"     ],
-            \["CursorColumn",   "CursorLine"    ],
-            \["Visual",         "nocolor",  "fgdclr6",  "n"     ],
-            \["VisualNOS",      "nocolor",  "fgdclr7",  "n"     ],
-            \["Search",         "fgdclr2",  "difclr2",  "n"     ],
-            \["IncSearch",      "bgdclr0",  "msgclr2",  "b"     ],
-            \["Wildmenu",       "msgclr1",  "bgdclr1",  "b"     ],
-            \["Pmenu",          "fgdclr1",  "bgdclr1",  "n"     ],
-            \["PmenuSel",       "fgdclr1",  "bgdclr1",  "rb"    ],
-            \["PmenuSbar",      "fgdclr1",  "fgdclr6",  "n"     ],
-            \["PmenuThumb",     "bgdclr0",  "fgdclr2",  "n"     ],
-            \["DiffAdd",        "nocolor",  "difclr8",  "n"     ],
-            \["DiffChange",     "nocolor",  "difclr4",  "n"     ],
-            \["DiffDelete",     "synclr2",  "bgdclr1",  "b"     ],
-            \["DiffText",       "nocolor",  "difclr8",  "n"     ],
-            \["Folded",         "bgdclr5",  "bgdclr2",  "n"     ],
-            \["ColorColumn",    "Folded"        ],
-            \["FoldColumn",     "bgdclr5",  "bgdclr2",  "n"     ],
-            \["LineNr",         "bgdclr4",  "bgdclr1",  "n"     ],
-            \["SignColumn",     "msgclr2",  "bgdclr2",  "n"     ],
-            \["TabLine",        "bgdclr0",  "bgdclr4",  "n"     ],
-            \["TabLineSel",     "fgdclr1",  "bgdclr0",  "b"     ],
-            \["TabLineFill",    "bgdclr0",  "bgdclr3",  "n"     ],
-            \["StatusLine",     "fgdclr1",  "bgdclr3",  "b"     ],
-            \["StatusLineNC",   "bgdclr0",  "bgdclr3",  "n"     ],
-            \["VertSplit",      "StatusLineNC"  ],
-            \["User1",          "msgclr0",  "bgdclr3",  "b"     ],
-            \["User2",          "msgclr1",  "bgdclr3",  "b"     ],
-            \["User3",          "msgclr2",  "bgdclr3",  "b"     ],
-            \["User4",          "msgclr3",  "bgdclr3",  "b"     ],
-            \["User5",          "msgclr4",  "bgdclr3",  "b"     ],
-            \["User6",          "msgclr5",  "bgdclr3",  "b"     ],
-            \["User7",          "msgclr6",  "bgdclr3",  "b"     ],
-            \["User8",          "msgclr7",  "bgdclr3",  "b"     ],
-            \["User9",          "msgclr8",  "bgdclr3",  "b"     ],
-            \["MoreMsg",        "bgdclr0",  "msgclr12", "b"     ],
-            \["Question",       "bgdclr0",  "msgclr10", "b"     ],
-            \["ModeMsg",        "bgdclr0",  "msgclr9",  "b"     ],
-            \["WarningMsg",     "bgdclr0",  "msgclr3",  "b"     ],
             \["ErrorMsg",       "bgdclr0",  "msgclr0",  "b"     ],
+            \["WarningMsg",     "bgdclr0",  "msgclr2",  "b"     ],
+            \["MoreMsg",        "bgdclr0",  "msgclr4",  "b"     ],
+            \["Question",       "bgdclr0",  "msgclr6",  "b"     ],
+            \["ModeMsg",        "bgdclr0",  "msgclr8",  "b"     ],
+            \["MatchParen",     "bgdclr0",  "bgdclr6",  "b"     ],
             \["Error",          "nocolor",  "difclr5",  "b"     ],
             \["SpellBad",       "nocolor",  "difclr1",  "n"     ],
             \["SpellCap",       "SpellBad"      ],
             \["SpellLocal",     "nocolor",  "difclr5",  "n"     ],
             \["SpellRare",      "SpellLocal"    ],
-            \["MatchParen",     "bgdclr0",  "bgdclr6",  "b"     ],
             \["Todo",           "msgclr5",  "bgdclr2",  "b"     ],
             \["Title",          "msgclr0",  "nocolor",  "b"     ],
-            \["Conceal",        "fgdclr1",  "nocolor",  "n"     ],
+            \["Conceal",        "bgdclr2",  "nocolor",  "n"     ],
             \["Comment",        "bgdclr5",  "nocolor",  "n"     ],
             \["NonText",        "Comment"       ],
             \["Ignore",         "Comment"       ],
             \["SpecialComment", "bgdclr6",  "nocolor",  "b"     ],
-            \]
-let s:gui_syn_clr_0=[
+            \["DiffDelete",     "bgdclr0",  "bgdclr2",  "n"     ],
+            \["DiffAdd",        "fgdclr2",  "difclr0",  "n"     ],
+            \["DiffChange",     "fgdclr2",  "difclr6",  "n"     ],
+            \["DiffText",       "fgdclr2",  "difclr3",  "n"     ],
+            \] "}}}
+" syn 0 "{{{
+let s:syn_hl_0=[
             \["Keyword",        "synclr9",  "nocolor",  "b"     ],
             \["Statement",      "synclr9",  "nocolor",  "n"     ],
             \["Conditional",    "synclr9",  "nocolor",  "i"     ],
@@ -214,8 +186,9 @@ let s:gui_syn_clr_0=[
             \["Keyword",        "synclr9",  "nocolor",  "b"     ],
             \["Operator",       "synclr9",  "nocolor",  "n"     ],
             \["Exception",      "synclr9",  "nocolor",  "bi"    ],
-            \]
-let s:gui_syn_clr_1=[
+            \] "}}}
+" syn 1 "{{{
+let s:syn_hl_1=[
             \["Keyword",        "synclr0",  "nocolor",  "b"     ],
             \["Statement",      "synclr0",  "nocolor",  "n"     ],
             \["Conditional",    "synclr0",  "nocolor",  "i"     ],
@@ -247,198 +220,242 @@ let s:gui_syn_clr_1=[
             \["Keyword",        "synclr9",  "nocolor",  "b"     ],
             \["Operator",       "synclr9",  "nocolor",  "n"     ],
             \["Exception",      "synclr9",  "nocolor",  "bi"    ],
-            \]
+            \] "}}}
 " s:styles "{{{2
-let s:style_hl_list=
-\[
-    \{"name":"GALAXY",
-    \"highlights":[
-        \]
-    \},
-    \{"name":"SHADOW",
-    \"highlights":[
-            \["CursorLine",     "nocolor",  "bgdclr2",  "n"     ],
-            \["Visual",         "nocolor",  "bgdclr3",  "n"     ],
-            \["VisualNOS",      "nocolor",  "difclr3",  "n"     ],
-            \["Search",         "bmdclr1",  "bgdclr4",  "n"     ],
-            \["IncSearch",      "bmdclr0",  "fgdclr2",  "b"     ],
-            \["Wildmenu",       "fgdclr1",  "bgdclr2",  "rb"    ],
-            \["Pmenu",          "bgdclr6",  "bgdclr1",  "n"     ],
-            \["PmenuSel",       "fgdclr1",  "bgdclr1",  "rb"    ],
-            \["PmenuSbar",      "bgdclr6",  "bgdclr1",  "n"     ],
-            \["PmenuThumb",     "bgdclr0",  "bgdclr4",  "n"     ],
-            \["Folded",         "bgdclr5",  "bgdclr1",  "n"     ],
-            \["FoldColumn",     "bgdclr5",  "bgdclr1",  "n"     ],
-            \["LineNr",         "bmdclr0",  "bgdclr2",  "n"     ],
-            \["SignColumn",     "msgclr2",  "bgdclr1",  "n"     ],
-            \["TabLine",        "bmdclr0",  "bgdclr3",  "n"     ],
-            \["TabLineSel",     "fgdclr2",  "bgdclr0",  "b"     ],
-            \["TabLineFill",    "bmdclr0",  "bgdclr2",  "n"     ],
-            \["StatusLine",     "fgdclr1",  "bgdclr3",  "b"     ],
-            \["StatusLineNC",   "bmdclr0",  "bgdclr3",  "n"     ],
-            \["User1",          "msgclr0",  "bgdclr3",  "b"     ],
-            \["User2",          "msgclr1",  "bgdclr3",  "b"     ],
-            \["User3",          "msgclr2",  "bgdclr3",  "b"     ],
-            \["User4",          "msgclr3",  "bgdclr3",  "b"     ],
-            \["User5",          "msgclr4",  "bgdclr3",  "b"     ],
-            \["User6",          "msgclr5",  "bgdclr3",  "b"     ],
-            \["User7",          "msgclr6",  "bgdclr3",  "b"     ],
-            \["User8",          "msgclr7",  "bgdclr3",  "b"     ],
-            \["User9",          "msgclr8",  "bgdclr3",  "b"     ],
-            \["Todo",           "msgclr1",  "bgdclr3",  "b"     ],
-            \["Conceal",        "bgdclr2",  "nocolor",  "n"     ],
-        \]
-    \},
-    \{"name":"ABOUND",
-    \"highlights":[
-        \["Visual",         "nocolor",  "difclr0",  "n"     ],
-        \["VisualNOS",      "nocolor",  "difclr1",  "n"     ],
-        \["Search",         "fgdclr2",  "difclr2",  "n"     ],
+let s:hl_styles = {}
+" default "{{{
+let s:hl_styles.GALAXY = [
+        \["Cursor",         "bgdclr1",  "msgclr8",  "n"     ],
+        \["CursorIM",       "nocolor",  "synclr4",  "n"     ],
+        \["CursorLine",     "nocolor",  "bgdclr1",  "n"     ],
+        \["CursorColumn",   "CursorLine"    ],
+        \["Visual",         "nocolor",  "bgdclr4",  "n"     ],
+        \["VisualNOS",      "nocolor",  "bgdclr5",  "n"     ],
+        \["Search",         "bgdclr1",  "fgdclr4",  "n"     ],
+        \["IncSearch",      "bgdclr0",  "msgclr2",  "b"     ],
+        \["Wildmenu",       "msgclr1",  "bgdclr1",  "b"     ],
+        \["Pmenu",          "fgdclr1",  "bgdclr1",  "n"     ],
+        \["PmenuSel",       "fgdclr1",  "bgdclr1",  "rb"    ],
+        \["PmenuSbar",      "fgdclr1",  "fgdclr6",  "n"     ],
+        \["PmenuThumb",     "bgdclr0",  "fgdclr2",  "n"     ],
+        \["Folded",         "bgdclr5",  "bgdclr2",  "n"     ],
+        \["ColorColumn",    "Folded"        ],
+        \["FoldColumn",     "bgdclr5",  "bgdclr2",  "n"     ],
+        \["LineNr",         "bgdclr4",  "bgdclr1",  "n"     ],
+        \["SignColumn",     "msgclr2",  "bgdclr2",  "n"     ],
+        \["TabLine",        "bgdclr0",  "bgdclr4",  "n"     ],
+        \["TabLineSel",     "fgdclr1",  "bgdclr0",  "b"     ],
+        \["TabLineFill",    "bgdclr0",  "bgdclr3",  "n"     ],
+        \["StatusLine",     "msgclr2",  "difclr0",  "b"     ],
+        \["StatusLineNC",   "bgdclr0",  "bgdclr3",  "n"     ],
+        \["VertSplit",      "StatusLineNC"  ],
+        \["User1",          "fgdclr4",  "difclr1",  "b"     ],
+        \["User2",          "fgdclr3",  "difclr2",  "b"     ],
+        \["User3",          "fgdclr2",  "difclr3",  "b"     ],
+        \["User4",          "fgdclr1",  "difclr4",  "b"     ],
+        \["User5",          "fgdclr0",  "bgdclr3",  "b"     ],
+        \["User6",          "bgdclr1",  "bgdclr4",  "b"     ],
+        \["User7",          "bgdclr2",  "bgdclr5",  "b"     ],
+        \["User8",          "bgdclr3",  "bgdclr6",  "b"     ],
+        \["User9",          "bgdclr4",  "bgdclr7",  "b"     ],
+        \] "}}}
+"{{{ Shadow
+let s:hl_styles.SHADOW = [
+        \["Cursor",         "bgdclr1",  "msgclr8",  "n"     ],
+        \["CursorLine",     "nocolor",  "bgdclr2",  "n"     ],
+        \["CursorIM",       "nocolor",  "synclr4",  "n"     ],
+        \["CursorLine",     "nocolor",  "bgdclr1",  "n"     ],
+        \["CursorColumn",   "CursorLine"    ],
+        \["Visual",         "nocolor",  "bgdclr3",  "n"     ],
+        \["VisualNOS",      "nocolor",  "bgdclr2",  "n"     ],
+        \["Search",         "fgdclr2",  "bgdclr3",  "n"     ],
+        \["IncSearch",      "bgdclr0",  "msgclr2",  "b"     ],
+        \["Wildmenu",       "fgdclr1",  "bgdclr2",  "rb"    ],
+        \["Pmenu",          "bgdclr6",  "bgdclr1",  "n"     ],
+        \["PmenuSel",       "fgdclr1",  "bgdclr1",  "rb"    ],
+        \["PmenuSbar",      "bgdclr6",  "bgdclr1",  "n"     ],
+        \["PmenuThumb",     "bgdclr0",  "bgdclr4",  "n"     ],
+        \["Folded",         "bgdclr5",  "bgdclr1",  "n"     ],
+        \["ColorColumn",    "Folded"        ],
+        \["FoldColumn",     "bgdclr5",  "bgdclr1",  "n"     ],
+        \["LineNr",         "bmdclr0",  "bgdclr2",  "n"     ],
+        \["SignColumn",     "msgclr2",  "bgdclr1",  "n"     ],
+        \["TabLine",        "bmdclr0",  "bgdclr3",  "n"     ],
+        \["TabLineSel",     "fgdclr2",  "bgdclr0",  "b"     ],
+        \["TabLineFill",    "bmdclr0",  "bgdclr2",  "n"     ],
+        \["StatusLine",     "difclr0",  "msgclr0",  "b"     ],
+        \["StatusLineNC",   "bgdclr0",  "bgdclr3",  "n"     ],
+        \["VertSplit",      "StatusLineNC"  ],
+        \["User1",          "fgdclr4",  "bgdclr1",  "b"     ],
+        \["User2",          "fgdclr3",  "bgdclr2",  "b"     ],
+        \["User3",          "fgdclr2",  "bgdclr3",  "b"     ],
+        \["User4",          "fgdclr1",  "bgdclr4",  "b"     ],
+        \["User5",          "bgdclr0",  "bgdclr5",  "b"     ],
+        \["User6",          "bgdclr1",  "bgdclr6",  "b"     ],
+        \["User7",          "bgdclr2",  "bgdclr7",  "b"     ],
+        \["User8",          "bgdclr3",  "bgdclr8",  "b"     ],
+        \["User9",          "bgdclr4",  "bgdclr9",  "b"     ],
+        \] "}}}
+"{{{ Abound
+let s:hl_styles.ABOUND = [
+        \["Cursor",         "bgdclr1",  "msgclr8",  "n"     ],
+        \["CursorIM",       "nocolor",  "synclr4",  "n"     ],
+        \["CursorLine",     "nocolor",  "bgdclr1",  "n"     ],
+        \["CursorColumn",   "CursorLine"    ],
+        \["Visual",         "nocolor",  "fgdclr6",  "n"     ],
+        \["VisualNOS",      "nocolor",  "fgdclr5",  "n"     ],
+        \["Search",         "fgdclr0",  "bgdclr4",  "n"     ],
         \["IncSearch",      "fgdclr9",  "msgclr2",  "b"     ],
-        \["Wildmenu",       "difclr0",  "fgdclr2",  "rb"    ],
+        \["Wildmenu",       "synclr0",  "fgdclr2",  "rb"    ],
         \["Pmenu",          "fgdclr0",  "fgdclr9",  "n"     ],
         \["PmenuSel",       "bgdclr8",  "bgdclr0",  "rb"    ],
         \["PmenuSbar",      "fgdclr1",  "fgdclr5",  "n"     ],
         \["PmenuThumb",     "bgdclr2",  "fgdclr2",  "n"     ],
         \["Folded",         "fgdclr3",  "fgdclr8",  "n"     ],
+        \["ColorColumn",    "Folded"        ],
         \["FoldColumn",     "fgdclr6",  "fgdclr8",  "n"     ],
         \["LineNr",         "fgdclr4",  "fgdclr9",  "n"     ],
         \["SignColumn",     "msgclr2",  "fgdclr4",  "n"     ],
         \["TabLine",        "fgdclr8",  "fgdclr3",  "n"     ],
         \["TabLineSel",     "fgdclr1",  "bgdclr0",  "b"     ],
         \["TabLineFill",    "bgdclr0",  "fgdclr4",  "n"     ],
-        \["StatusLine",     "difclr3",  "msgclr4",  "b"     ],
-        \["StatusLineNC",   "fgdclr5",  "fgdclr6",  "n"     ],
-        \["User1",          "fgdclr2",  "fgdclr6",  "b"     ],
-        \["User2",          "fgdclr1",  "fgdclr5",  "b"     ],
-        \["User3",          "fgdclr0",  "fgdclr4",  "b"     ],
-        \["User4",          "bgdclr3",  "fgdclr3",  "b"     ],
-        \["User5",          "bgdclr2",  "fgdclr2",  "b"     ],
-        \["User6",          "difclr4",  "msgclr6",  "b"     ],
-        \["User7",          "difclr5",  "msgclr8",  "b"     ],
-        \["User8",          "difclr6",  "msgclr0",  "b"     ],
-        \["User9",          "difclr7",  "msgclr2",  "b"     ],
-        \]
-    \},
-    \{"name":"COLOUR",
-    \"highlights":[
+        \["StatusLine",     "difclr0",  "msgclr0",  "b"     ],
+        \["StatusLineNC",   "fgdclr4",  "fgdclr6",  "n"     ],
+        \["VertSplit",      "StatusLineNC"  ],
+        \["User1",          "bgdclr0",  "msgclr1",  "b"     ],
+        \["User2",          "bgdclr0",  "msgclr2",  "b"     ],
+        \["User3",          "bgdclr0",  "msgclr3",  "b"     ],
+        \["User4",          "bgdclr0",  "msgclr4",  "b"     ],
+        \["User5",          "fgdclr1",  "fgdclr6",  "b"     ],
+        \["User6",          "fgdclr0",  "fgdclr5",  "b"     ],
+        \["User7",          "bgdclr4",  "fgdclr4",  "b"     ],
+        \["User8",          "bgdclr3",  "fgdclr3",  "b"     ],
+        \["User9",          "bgdclr2",  "fgdclr2",  "b"     ],
+        \] "}}}
+"{{{ Coulor
+let s:hl_styles.COLOUR = [
         \["Cursor",         "bgdclr1",  "msgclr4",  "n"     ],
-        \["Visual",         "nocolor",  "difclr2",  "n"     ],
-        \["VisualNOS",      "nocolor",  "difclr0",  "n"     ],
+        \["CursorIM",       "nocolor",  "synclr4",  "n"     ],
+        \["CursorLine",     "nocolor",  "bgdclr1",  "n"     ],
+        \["CursorColumn",   "CursorLine"    ],
+        \["Visual",         "nocolor",  "bgdclr4",  "n"     ],
+        \["VisualNOS",      "nocolor",  "bgdclr3",  "n"     ],
+        \["Search",         "fgdclr1",  "bgdclr4",  "n"     ],
+        \["IncSearch",      "bgdclr0",  "msgclr2",  "b"     ],
         \["Wildmenu",       "difclr0",  "fgdclr2",  "rb"    ],
         \["Pmenu",          "bgdclr0",  "fgdclr2",  "n"     ],
         \["PmenuSel",       "difclr1",  "fgdclr2",  "rb"    ],
         \["PmenuSbar",      "bgdclr1",  "fgdclr0",  "n"     ],
-        \["PmenuThumb",     "bgdclr2",  "difclr1",  "n"     ],
+        \["PmenuThumb",     "bgdclr2",  "fgdclr6",  "n"     ],
         \["Folded",         "bgdclr8",  "bgdclr2",  "n"     ],
+        \["ColorColumn",    "Folded"        ],
         \["FoldColumn",     "bgdclr4",  "bgdclr2",  "n"     ],
         \["LineNr",         "bgdclr6",  "bgdclr1",  "n"     ],
         \["SignColumn",     "msgclr2",  "bgdclr2",  "n"     ],
         \["TabLine",        "bgdclr0",  "fgdclr1",  "n"     ],
         \["TabLineSel",     "fgdclr2",  "bgdclr0",  "b"     ],
         \["TabLineFill",    "bgdclr0",  "fgdclr2",  "n"     ],
-        \["StatusLine",     "difclr3",  "msgclr0",  "b"     ],
-        \["StatusLineNC",   "fgdclr3",  "fgdclr2",  "n"     ],
-        \["User1",          "bgdclr1",  "fgdclr2",  "b"     ],
-        \["User2",          "bgdclr2",  "fgdclr3",  "b"     ],
-        \["User3",          "bgdclr3",  "fgdclr4",  "b"     ],
-        \["User4",          "fgdclr1",  "fgdclr5",  "b"     ],
-        \["User5",          "fgdclr2",  "fgdclr6",  "b"     ],
-        \["User6",          "difclr4",  "msgclr2",  "b"     ],
-        \["User7",          "difclr5",  "msgclr4",  "b"     ],
-        \["User8",          "difclr6",  "msgclr6",  "b"     ],
-        \["User9",          "difclr7",  "msgclr8",  "b"     ],
-        \]
-    \}
-\]
+        \["StatusLine",     "difclr3",  "synclr0",  "b"     ],
+        \["StatusLineNC",   "fgdclr8",  "fgdclr3",  "n"     ],
+        \["VertSplit",      "StatusLineNC"  ],
+        \["User1",          "difclr3",  "synclr1",  "b"     ],
+        \["User2",          "difclr3",  "synclr2",  "b"     ],
+        \["User3",          "difclr3",  "synclr3",  "b"     ],
+        \["User4",          "difclr3",  "synclr4",  "b"     ],
+        \["User5",          "bgdclr1",  "fgdclr3",  "b"     ],
+        \["User6",          "bgdclr2",  "fgdclr4",  "b"     ],
+        \["User7",          "bgdclr3",  "fgdclr5",  "b"     ],
+        \["User8",          "fgdclr1",  "fgdclr6",  "b"     ],
+        \["User9",          "fgdclr0",  "fgdclr7",  "b"     ],
+        \] "}}}
 "{{{term_list
 let s:term_hl_list=[
-            \["Normal",         "fg_t",  "bg_t",  "n"     ],
-            \["Cursor",         "fg_t",  "bg_t",  "r"     ],
-            \["CursorLine",     "black",  "dif2_t",  "n"     ],
-            \["CursorColumn",   "CursorLine"    ],
-            \["Visual",         "nocolor",  "fd_t",  "n"     ],
-            \["VisualNOS",      "Visual"     ],
-            \["Search",         "nocolor",  "dif2_t",  "n"     ],
-            \["IncSearch",      "nocolor",  "msg1_t",  "n"     ],
-            \["Wildmenu",       "msg1_t",  "fg_t",  "r"     ],
-            \["Pmenu",          "fg_t",  "cn_t",  "n"     ],
+            \["Normal",         "fg_t",  "bg_t",  "n"      ],
+            \["Cursor",         "fg_t",  "bg_t",  "r"      ],
+            \["CursorLine",     "black",  "dif2_t",  "n"   ],
+            \["CursorColumn",   "CursorLine"               ],
+            \["Visual",         "nocolor",  "fd_t",  "n"   ],
+            \["VisualNOS",      "Visual"                   ],
+            \["Search",         "nocolor",  "dif2_t",  "n" ],
+            \["IncSearch",      "nocolor",  "msg1_t",  "n" ],
+            \["Wildmenu",       "msg1_t",  "fg_t",  "r"    ],
+            \["Pmenu",          "fg_t",  "cn_t",  "n"      ],
             \["PmenuSel",       "bg_t",  "msg1_t",  "n"    ],
-            \["PmenuSbar",      "Pmenu"     ],
-            \["PmenuThumb",     "fg_t",  "msg2_t",  "n"     ],
-            \["DiffAdd",        "nocolor",  "dif0_t",  "n"     ],
-            \["DiffChange",     "nocolor",  "dif1_t",  "n"     ],
-            \["DiffDelete",     "msg0_t",  "bg_t",  "b"     ],
-            \["DiffText",       "nocolor",  "dif2_t",  "n"     ],
-            \["Folded",         "bg_t",  "fd_t",  "n"     ],
-            \["FoldColumn",     "dif2_t",  "fd_t",  "n"     ],
-            \["LineNr",         "Folded"     ],
-            \["SignColumn",     "msg1_t",  "fd_t",  "n"     ],
-            \["ColorColumn",    "Folded"        ],
-            \["tabline",        "bg_t",  "fd_t",  "n"     ],
-            \["tablinesel",     'syn0_t',  "bg_t",  "n"     ],
-            \["tablinefill",    "cn_t",  "fg_t",  "n"     ],
-            \["StatusLine",     "dif2_t",  "fg_t",  "n"     ],
-            \["StatusLineNC",   "bg_t",  "fg_t",  "n"     ],
-            \["VertSplit",      "StatusLineNC"  ],
-            \["User1",          "msg0_t",  "fg_t",  "n"     ],
-            \["User2",          "msg1_t",  "fg_t",  "n"     ],
-            \["User3",          "msg2_t",  "fg_t",  "n"     ],
-            \["User4",          "dif0_t",  "fg_t",  "n"     ],
-            \["User5",          "dif1_t",  "fg_t",  "n"     ],
-            \["User6",          "dif2_t",  "fg_t",  "n"     ],
-            \["User7",          "dif2_t",  "fg_t",  "n"     ],
-            \["User8",          "dif2_t",  "fg_t",  "n"     ],
-            \["User9",          "dif2_t",  "fg_t",  "n"     ],
-            \["MoreMsg",        "dif2_t",  "bg_t",  "n"     ],
-            \["Question",       "msg1_t",  "bg_t",  "n"     ],
-            \["ModeMsg",        "dif0_t",  "bg_t",  "n"     ],
+            \["PmenuSbar",      "Pmenu"                    ],
+            \["PmenuThumb",     "fg_t",  "msg2_t",  "n"    ],
+            \["DiffAdd",        "nocolor",  "dif0_t",  "n" ],
+            \["DiffChange",     "nocolor",  "dif1_t",  "n" ],
+            \["DiffDelete",     "msg0_t",  "bg_t",  "b"    ],
+            \["DiffText",       "nocolor",  "dif2_t",  "n" ],
+            \["Folded",         "bg_t",  "fd_t",  "n"      ],
+            \["FoldColumn",     "dif2_t",  "fd_t",  "n"    ],
+            \["LineNr",         "Folded"                   ],
+            \["SignColumn",     "msg1_t",  "fd_t",  "n"    ],
+            \["ColorColumn",    "Folded"                   ],
+            \["tabline",        "bg_t",  "fd_t",  "n"      ],
+            \["tablinesel",     'syn0_t',  "bg_t",  "n"    ],
+            \["tablinefill",    "cn_t",  "fg_t",  "n"      ],
+            \["StatusLine",     "dif2_t",  "fg_t",  "n"    ],
+            \["StatusLineNC",   "bg_t",  "fg_t",  "n"      ],
+            \["VertSplit",      "StatusLineNC"             ],
+            \["User1",          "msg0_t",  "fg_t",  "n"    ],
+            \["User2",          "msg1_t",  "fg_t",  "n"    ],
+            \["User3",          "msg2_t",  "fg_t",  "n"    ],
+            \["User4",          "dif0_t",  "fg_t",  "n"    ],
+            \["User5",          "dif1_t",  "fg_t",  "n"    ],
+            \["User6",          "dif2_t",  "fg_t",  "n"    ],
+            \["User7",          "dif2_t",  "fg_t",  "n"    ],
+            \["User8",          "dif2_t",  "fg_t",  "n"    ],
+            \["User9",          "dif2_t",  "fg_t",  "n"    ],
+            \["MoreMsg",        "dif2_t",  "bg_t",  "n"    ],
+            \["Question",       "msg1_t",  "bg_t",  "n"    ],
+            \["ModeMsg",        "dif0_t",  "bg_t",  "n"    ],
             \["MatchParen",     "bg_t",  "syn1_t",  "n"    ],
             \["WarningMsg",     "cn_t",  "msg1_t",  "n"    ],
-            \["SpellLocal",     "WarningMsg"    ],
-            \["SpellRare",      "WarningMsg"    ],
+            \["SpellLocal",     "WarningMsg"               ],
+            \["SpellRare",      "WarningMsg"               ],
             \["ErrorMsg",       "fg_t",  "msg0_t",  "n"    ],
-            \["Error",          "ErrorMsg"    ],
-            \["SpellBad",       "Error"    ],
-            \["SpellCap",       "SpellBad"      ],
+            \["Error",          "ErrorMsg"                 ],
+            \["SpellBad",       "Error"                    ],
+            \["SpellCap",       "SpellBad"                 ],
             \["Todo",           "fg_t",  "dif0_t",  "n"    ],
-            \["Title",          "msg0_t",  "nocolor",  "n"     ],
-            \["Conceal",        "cn_t",  "bg",  "n"     ],
-            \["Comment",        "cn_t",  "bg",  "n"     ],
-            \["NonText",        "Comment"       ],
-            \["Ignore",         "Comment"       ],
-            \["SpecialComment", "syn0_t",  "bg",  "n"     ],
-            \["Underlined",     "ud_t",  "bg",  "n"     ],
-            \["Keyword",        "syn0_t",  "bg",  "n"     ],
-            \["Statement",      "syn0_t",  "bg",  "n"     ],
-            \["Conditional",    "Statement"     ],
-            \["Repeat",         "Statement"     ],
-            \["Function",       "syn0_t",  "bg",  "n"     ],
-            \["Structure",      "syn0_t",  "bg",  "n"     ],
-            \["Exception",      "syn2_t",  "bg",  "r"    ],
-            \["Debug",          "Exception"     ],
-            \["SpecialChar",    "syn2_t",  "bg",  "n"     ],
-            \["SpecialKey",     "SpecialChar"   ],
-            \["Tag",            "SpecialChar"   ],
-            \["PreProc",        "syn2_t",  "bg",  "n"     ],
-            \["Include",         "PreProc"       ],
-            \["Define",         "PreProc"       ],
-            \["Macro",          "PreProc"       ],
-            \["PreCondit",      "PreProc"       ],
-            \["Special",        "syn2_t",  "bg",  "n"     ],
-            \["Delimiter",      "Special"       ],
-            \["Type",           "syn3_t",  "bg",  "n"     ],
-            \["Operator",       "Type"          ],
-            \["Directory",      "Type"          ],
-            \["Identifier",     "syn3_t",  "bg",  "n"     ],
-            \["StorageClass",   "Identifier"    ],
-            \["Constant",       "syn3_t",  "bg",  "n"     ],
-            \["Boolean",        "Constant"      ],
-            \["Float",          "Constant"      ],
-            \["Number",         "Constant"      ],
-            \["String",         "syn1_t",  "bg",  "n"     ],
-            \["Character",         "syn1_t",  "bg",  "n"     ],
-            \["Label",          "syn1_t",  "bg",  "r"     ],
+            \["Title",          "msg0_t",  "nocolor",  "n" ],
+            \["Conceal",        "cn_t",  "bg",  "n"        ],
+            \["Comment",        "cn_t",  "bg",  "n"        ],
+            \["NonText",        "Comment"                  ],
+            \["Ignore",         "Comment"                  ],
+            \["SpecialComment", "syn0_t",  "bg",  "n"      ],
+            \["Underlined",     "ud_t",  "bg",  "n"        ],
+            \["Keyword",        "syn0_t",  "bg",  "n"      ],
+            \["Statement",      "syn0_t",  "bg",  "n"      ],
+            \["Conditional",    "Statement"                ],
+            \["Repeat",         "Statement"                ],
+            \["Function",       "syn0_t",  "bg",  "n"      ],
+            \["Structure",      "syn0_t",  "bg",  "n"      ],
+            \["Exception",      "syn2_t",  "bg",  "r"      ],
+            \["Debug",          "Exception"                ],
+            \["SpecialChar",    "syn2_t",  "bg",  "n"      ],
+            \["SpecialKey",     "SpecialChar"              ],
+            \["Tag",            "SpecialChar"              ],
+            \["PreProc",        "syn2_t",  "bg",  "n"      ],
+            \["Include",         "PreProc"                 ],
+            \["Define",         "PreProc"                  ],
+            \["Macro",          "PreProc"                  ],
+            \["PreCondit",      "PreProc"                  ],
+            \["Special",        "syn2_t",  "bg",  "n"      ],
+            \["Delimiter",      "Special"                  ],
+            \["Type",           "syn3_t",  "bg",  "n"      ],
+            \["Operator",       "Type"                     ],
+            \["Directory",      "Type"                     ],
+            \["Identifier",     "syn3_t",  "bg",  "n"      ],
+            \["StorageClass",   "Identifier"               ],
+            \["Constant",       "syn3_t",  "bg",  "n"      ],
+            \["Boolean",        "Constant"                 ],
+            \["Float",          "Constant"                 ],
+            \["Number",         "Constant"                 ],
+            \["String",         "syn1_t",  "bg",  "n"      ],
+            \["Character",      "syn1_t",  "bg",  "n"      ],
+            \["Label",          "syn1_t",  "bg",  "r"      ],
             \]
 let s:b8_name=[
             \"DarkGrey","Blue","Green","Cyan","Red","Magenta","Yellow",
@@ -452,56 +469,56 @@ let s:n8_name=[
             \]
 "}}}
 function! s:set_light16_var() "{{{
-    let s:fg_t="black"
-    let s:bg_t="lightgrey"
-    let s:cn_t="darkgrey"
-    let s:fd_t="darkgrey"
-    let s:ud_t="darkblue"
-    let s:syn0_t="darkcyan"
-    let s:syn1_t="darkgreen"
-    let s:syn2_t="darkmagenta"
-    let s:syn3_t="darkred"
-    let s:msg0_t="red"
-    let s:msg1_t="magenta"
-    let s:msg2_t="yellow"
-    let s:dif0_t="green"
-    let s:dif1_t="cyan"
-    let s:dif2_t="darkyellow"
+    let s:fg_t   = "black"
+    let s:bg_t   = "lightgrey"
+    let s:cn_t   = "darkgrey"
+    let s:fd_t   = "darkgrey"
+    let s:ud_t   = "darkblue"
+    let s:syn0_t = "darkcyan"
+    let s:syn1_t = "darkgreen"
+    let s:syn2_t = "darkmagenta"
+    let s:syn3_t = "darkred"
+    let s:msg0_t = "red"
+    let s:msg1_t = "magenta"
+    let s:msg2_t = "yellow"
+    let s:dif0_t = "green"
+    let s:dif1_t = "cyan"
+    let s:dif2_t = "darkyellow"
 endfunction "}}}
 function! s:set_light8_var() "{{{
-    let s:t_Co=8
-    let s:fg_t="black"
-    let s:bg_t="lightgrey"
-    let s:cn_t="darkcyan"
-    let s:fd_t="black"
-    let s:ud_t="darkblue"
-    let s:syn0_t="darkblue"
-    let s:syn1_t="darkyellow"
-    let s:syn2_t="darkmagenta"
-    let s:syn3_t="darkred"
-    let s:msg0_t="red"
-    let s:msg1_t="magenta"
-    let s:msg2_t="yellow"
-    let s:dif0_t="green"
-    let s:dif1_t="cyan"
-    let s:dif2_t="darkgreen"
+    let s:t_Co   = 8
+    let s:fg_t   = "black"
+    let s:bg_t   = "lightgrey"
+    let s:cn_t   = "darkcyan"
+    let s:fd_t   = "black"
+    let s:ud_t   = "darkblue"
+    let s:syn0_t = "darkblue"
+    let s:syn1_t = "darkyellow"
+    let s:syn2_t = "darkmagenta"
+    let s:syn3_t = "darkred"
+    let s:msg0_t = "red"
+    let s:msg1_t = "magenta"
+    let s:msg2_t = "yellow"
+    let s:dif0_t = "green"
+    let s:dif1_t = "cyan"
+    let s:dif2_t = "darkgreen"
 endfunction "}}}
 function! s:set_dark16_var() "{{{
-    let s:fg_t="lightgrey"
-    let s:bg_t="black"
-    let s:cn_t="darkgrey"
-    let s:fd_t="darkgrey"
-    let s:ud_t="blue"
-    let s:syn0_t="darkcyan"
-    let s:syn1_t="darkgreen"
-    let s:syn2_t="darkyellow"
-    let s:syn3_t="darkmagenta"
-    let s:msg0_t="red"
-    let s:msg1_t="magenta"
-    let s:msg2_t="yellow"
-    let s:dif0_t="darkgreen"
-    let s:dif1_t="darkcyan"
-    let s:dif2_t="darkmagenta"
+    let s:fg_t   = "lightgrey"
+    let s:bg_t   = "black"
+    let s:cn_t   = "darkgrey"
+    let s:fd_t   = "darkgrey"
+    let s:ud_t   = "blue"
+    let s:syn0_t = "darkcyan"
+    let s:syn1_t = "darkgreen"
+    let s:syn2_t = "darkyellow"
+    let s:syn3_t = "darkmagenta"
+    let s:msg0_t = "red"
+    let s:msg1_t = "magenta"
+    let s:msg2_t = "yellow"
+    let s:dif0_t = "darkgreen"
+    let s:dif1_t = "darkcyan"
+    let s:dif2_t = "darkmagenta"
 endfunction "}}}
 function! s:set_dark8_var() "{{{
     let s:t_Co=8
@@ -523,7 +540,11 @@ function! s:set_dark8_var() "{{{
 endfunction "}}}
 " s:schemes "{{{2
 "                       bgd     fgd      syn      msg       dif
-let s:built_in_schemes=[
+let s:default_schemes=[
+            \{"name":"White",
+            \"colors":["FFFFFF","000000","306399","FF0D0D","B0E1EB"]},
+            \{"name":"Black",
+            \"colors":["000000","C1CBD6","9FB9D6","FF0D0D","4B6266"]},
             \{"name":"Paper_And_Pen",
             \"colors":["EBE9E8","2B2C33","345B85","CC2020","D9A79E"]},
             \{"name":"Wine",
@@ -531,27 +552,27 @@ let s:built_in_schemes=[
             \{"name":"Spring",
             \"colors":["D5E6A1","4B4B4D","496791","B32222","CCBE8F"],
             \"style":"SHADOW"},
+            \{"name":"MoonNight",
+            \"colors":["060F1A","B4B6B8","7FA5B8","C2A832","598099"],
+            \"style":"SHADOW"},
+            \{"name":"Factory",
+            \"colors":["050505","A6A6A6","8296B3","54DEB0","404259"],
+            \"style":"SHADOW"},
             \{"name":"Village",
-            \"colors":["B1E6AC","361A1A","2E4873","15458C","CCBD66"],
+            \"colors":["B1E6AC","362020","324F7D","1B488C","CCBD66"],
             \"style":"COLOUR"},
             \{"name":"Slates",
             \"colors":["F2EFE4","232733","386599","FF2828","D9B2AD"],
             \"style":"COLOUR"},
-            \{"name":"Factory",
-            \"colors":["050505","A6A6A6","8296B3","54DEB0","404259"],
-            \"style":"SHADOW"},
             \{"name":"InkGreen",
             \"colors":["0A0D07","A9BA93","8682D1","FF7236","363E4D"],
             \"style":"ABOUND"},
             \{"name":"RosyBlue",
-            \"colors":["0A0A0F","A3A09B","7F96B8","54DFB1","393A4D"],
+            \"colors":["0A0A0F","CCC7C1","819FCC","54DFB1","404157"],
             \"style":"ABOUND"},
-            \{"name":"MoonNight",
-            \"colors":["060F1A","B4B6B8","7FA5B8","C2A832","406643"],
-            \"style":"SHADOW"},
             \]
 let s:win_txtline = 2
-let s:win_builtin_line=len(s:built_in_schemes)
+let s:win_builtin_line=len(s:default_schemes)
 
 " SYNX "{{{1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -640,14 +661,13 @@ let s:syn_hi_term_dict.vimwiki2 = [
             \["VimwikiHeader5       ", "Green",   "bg",  "b"      ],
             \["VimwikiHeader6       ", "Yellow",  "bg",  "b"      ],
             \]
-
 let s:syn_hi_gui_dict.vimwiki2 = [
-            \["VimwikiHeader1       ", "msgclr2",  "nocolor",  "b" ],
-            \["VimwikiHeader2       ", "msgclr4",  "nocolor",  "b" ],
-            \["VimwikiHeader3       ", "msgclr6",  "nocolor",  "b" ],
-            \["VimwikiHeader4       ", "msgclr8",  "nocolor",  "b" ],
-            \["VimwikiHeader5       ", "msgclr10", "nocolor",  "b" ],
-            \["VimwikiHeader6       ", "msgclr12", "nocolor",  "b" ],
+            \["VimwikiHeader1       ", "msgclr0",  "nocolor",  "b" ],
+            \["VimwikiHeader2       ", "msgclr2",  "nocolor",  "b" ],
+            \["VimwikiHeader3       ", "msgclr4",  "nocolor",  "b" ],
+            \["VimwikiHeader4       ", "msgclr6",  "nocolor",  "b" ],
+            \["VimwikiHeader5       ", "msgclr7",  "nocolor",  "b" ],
+            \["VimwikiHeader6       ", "msgclr8",  "nocolor",  "b" ],
             \]
 let s:synlink_dict.xml = [
             \["xmlProcessingDelim   ","PreProc       "            ],
@@ -697,15 +717,25 @@ function! s:gen_base_colors(colors) "{{{
     let s:bgdclr_list=colorv#list_gen(bgd,"Value",10,y_sign*V,NOCYCLE)
     let s:fgdclr_list=colorv#list_gen(fgd,"Value",10,(-y_sign*V),NOCYCLE)
     let s:synclr_list=colorv#yiq_list_gen(syn,"Hue",10,7*H)
-    let s:msgclr_list=colorv#yiq_list_gen(msg,"Hue",14,5*H)
-    let s:difclr_list=colorv#yiq_list_gen(dif,"Hue",12,6*H)
+    let s:msgclr_list=colorv#yiq_list_gen(msg,"Hue",10,7*H)
+    let s:difclr_list=colorv#yiq_list_gen(dif,"Hue",10,7*H)
 
     for c in ["bgd","fgd","syn","msg","dif","bmd"]
         for i in range(len(s:{c}clr_list))
-            let s:{c}clr{i} = has("gui_running") ? s:{c}clr_list[i]
-                        \ : colorv#hex2term(s:{c}clr_list[i],"CHECK")
+
+            let s:{c}clr{i}  = s:{c}clr_list[i]
+            " let s:difclr mix with background color
+            if c == "dif"
+                let s:{c}clr{i} = colorv#hexadd(
+                            \s:{c}clr{i}."AF", s:bgdclr0."FF")[0:-3]
+            endif
+            " convert to term code
+            if !has("gui_running")
+                let s:{c}clr{i}  = colorv#hex2term(s:{c}clr{i},"CHECK")
+            endif
         endfor
     endfor
+
 
 endfunction "}}}
 function! s:hi_t_list(list,...) "{{{
@@ -835,21 +865,21 @@ function! s:set_bg(L) "{{{
     endif
 endfunction "}}}
 function! s:get_style_list(style) "{{{
-    let scheme_hl_list = []
-    for hl_list in s:style_hl_list
-        if a:style == hl_list.name
-            let scheme_hl_list += hl_list.highlights
+    let hl_scheme = []
+    for [name,hl_list] in items(s:hl_styles)
+        if a:style == name
+            let hl_scheme += hl_list
         endif
     endfor
-    return scheme_hl_list
+    return hl_scheme
 endfunction "}}}
 function! s:get_scheme_list() "{{{
-    let scheme_list=deepcopy(s:built_in_schemes)
+    let scheme_list=deepcopy(s:default_schemes)
 
     " get stored scheme
     let stored_theme_list = s:load_store()
     if !empty(stored_theme_list)
-        let scheme_list=deepcopy(s:built_in_schemes)
+        let scheme_list=deepcopy(s:default_schemes)
 
         for i in range(len(stored_theme_list))
             if exists("stored_theme_list[".i."].name")
@@ -961,20 +991,13 @@ function! s:clear_indent_hl() "{{{
 endfunction "}}}
 " STAT"{{{1
 "======================================================================
-function! s:set_statusline() "{{{
-    if exists("s:scheme.style") && s:scheme.style =~? 'COLOUR\|ABOUND'
-        let &statusline=g:galaxy_statusline_default
-    else
-        let &statusline=g:galaxy_statusline_alternate
-    endif
-endfunction "}}}
 function! s:statusline_aug() "{{{
     if version >= 700 "{{{
         let s:list_insert_enter = []
         let s:list_insert_leave = []
         let hl_grp = ["StatusLine","User1","User2","User3",
                     \"User4","User5","User6","User7","User8","User9",]
-        let hl_list = (s:scheme_style_list + s:gui_hl_list)
+        let hl_list = (s:scheme_style_list + s:default_hl)
         for grp in hl_grp
             for item in hl_list
                 if item[0] == grp
@@ -982,14 +1005,22 @@ function! s:statusline_aug() "{{{
 
                     let _item = copy(item)
                     if grp =~? '^StatusLine$'
-                        let status_bgd = item[1]
+                        let statline_fg = item[1]
                         let [_item[2],_item[1]] = _item[1:2]
                     elseif grp =~? '^User\d$'
                         if exists("s:scheme.style")
                             \&& s:scheme.style =~? 'COLOUR\|ABOUND'
-                            " let _item[1] = status_bgd
-                        else
-                            let _item[2] = status_bgd
+                            if grp =~ '[1234]'
+                                " fgd = bgd
+                                " let _item[1] = item[2]
+                                " bgd = statusline bgd
+                                " let _item[2] = statline_fg
+                            endif
+                            " else
+                            " if grp =~ '[1234]'
+                                " let _item[1] = item[2]
+                                " let _item[2] = statline_fg
+                            " endif
                         endif
                     endif
                     call add(s:list_insert_enter,_item)
@@ -1089,6 +1120,14 @@ function! s:term_cursor() "{{{
         exec au_cmd
     aug END
 endfunction "}}}
+function! galaxy#show_mode() "{{{
+    let val= mode()
+    if &paste | let val .=' P' | endif
+    if &diff  | let val .=' D' | endif
+    if &list  | let val .=' L' | endif
+    return val
+endfunction "}}}
+
 " WINS "{{{1
 "======================================================================
 function! galaxy#win() "{{{
@@ -1272,7 +1311,6 @@ function! s:win_scheme_edit_colorv() "{{{
             let s:edit_clr = i
             return
         elseif col >=56 && col <= 62
-
             let style = input("Input scheme's style"
                         \."('G[alaxy](default)|A[bound]|C[olour]|S[hadow]'):\n")
             if style =~? 'c\%[olour]'
@@ -1352,7 +1390,7 @@ function! s:win_scheme_del() "{{{
     let linenum=line('.')
     let col = col('.')
     let s:win_txtline=2
-    let s:win_builtin_line=len(s:built_in_schemes)
+    let s:win_builtin_line=len(s:default_schemes)
     if linenum<=s:win_txtline
         call s:echo("Please move down to choose a scheme.")
         return
@@ -1970,11 +2008,11 @@ function! galaxy#load_scheme(...) "{{{
     call s:gen_base_colors(s:scheme.colors)
 
     " predefined highlights
-    call s:hi_list(s:gui_hl_list)
+    call s:hi_list(s:default_hl)
     if g:galaxy_syntax_colorful == 1
-        call s:hi_list(s:gui_syn_clr_1)
+        call s:hi_list(s:syn_hl_1)
     else
-        call s:hi_list(s:gui_syn_clr_0)
+        call s:hi_list(s:syn_hl_0)
     endif
 
     " predefined scheme style highlights
@@ -2013,7 +2051,7 @@ function! galaxy#load_scheme(...) "{{{
         call s:statusline_aug()
     endif
     if g:galaxy_auto_statusline == 1
-        call s:set_statusline()
+        let &statusline = g:galaxy_statusline_default
     endif
     if g:galaxy_highlight_indent == 1
         call s:indent_hl_aug()
@@ -2034,6 +2072,7 @@ function! galaxy#load_scheme(...) "{{{
 
     let g:colors_name = "galaxy"
     let g:galaxy_name = s:scheme.name
+    let g:galaxy.scheme = s:scheme
 endfunction "}}}
 function! galaxy#load_scheme16(...) "{{{
     let cache_scheme = (exists("a:1") && a:1 !~ '^\s*$') ? a:1
@@ -2105,6 +2144,7 @@ function! galaxy#load_scheme16(...) "{{{
     endif
     let g:colors_name = "galaxy"
     let g:galaxy_name = s:scheme.name
+    let g:galaxy.scheme = s:scheme
 endfunction "}}}
 function! galaxy#next_scheme(...) "{{{
     if !exists("s:scheme_list")
