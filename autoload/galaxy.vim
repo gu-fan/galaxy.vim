@@ -374,6 +374,42 @@ let s:hl_styles.COLOUR = [
         \["User8",          "fgdclr1",  "fgdclr6",  "b"     ],
         \["User9",          "fgdclr0",  "fgdclr7",  "b"     ],
         \] "}}}
+" s:schemes "{{{2
+"                       bgd     fgd      syn      msg       dif
+let s:default_schemes=[
+            \{"name":"Black",
+            \"colors":["000000","C1CBD6","9FB9D6","FF0D0D","4B6266"]},
+            \{"name":"White",
+            \"colors":["FFFFFF","000000","306399","FF0D0D","B0E1EB"]},
+            \{"name":"Paper",
+            \"colors":["EBE9E8","2B2C33","345B85","CC2020","D9A79E"]},
+            \{"name":"Wine",
+            \"colors":["0D0609","9C9B94","A37B5F","F03535","2D374A"]},
+            \{"name":"Spring",
+            \"colors":["D5E6A1","363836","496791","B32222","CCBE8F"],
+            \"style":"SHADOW"},
+            \{"name":"MoonNight",
+            \"colors":["060F1A","B4B6B8","7FA5B8","C2A832","598099"],
+            \"style":"SHADOW"},
+            \{"name":"Factory",
+            \"colors":["050505","A6A6A6","8296B3","54DEB0","404259"],
+            \"style":"SHADOW"},
+            \{"name":"Village",
+            \"colors":["B1E6AC","362020","324F7D","1B488C","CCBD66"],
+            \"style":"COLOUR"},
+            \{"name":"Slates",
+            \"colors":["F2EFE4","232733","386599","FF2828","D9B2AD"],
+            \"style":"COLOUR"},
+            \{"name":"InkGreen",
+            \"colors":["0A0D07","A9BA93","8682D1","FF7236","363E4D"],
+            \"style":"ABOUND"},
+            \{"name":"RosyBlue",
+            \"colors":["262633","CCC2C7","A681CC","54DFB1","404157"],
+            \"style":"ABOUND"},
+            \]
+let s:win_txtline = 2
+let s:win_builtin_line=len(s:default_schemes)
+
 "{{{term_list
 let s:term_hl_list=[
             \["Normal",         "fg_t",  "bg_t",  "n"      ],
@@ -473,7 +509,6 @@ let s:n8_name=[
             \"Black","DarkBlue","DarkGreen","DarkCyan","DarkRed","DarkMagenta","DarkYellow",
             \"LightGrey",
             \]
-"}}}
 function! s:set_light16_var() "{{{
     let s:fg_t   = "black"
     let s:bg_t   = "lightgrey"
@@ -544,42 +579,6 @@ function! s:set_dark8_var() "{{{
     let s:dif1_t="darkcyan"
     let s:dif2_t="darkmagenta"
 endfunction "}}}
-" s:schemes "{{{2
-"                       bgd     fgd      syn      msg       dif
-let s:default_schemes=[
-            \{"name":"Black",
-            \"colors":["000000","C1CBD6","9FB9D6","FF0D0D","4B6266"]},
-            \{"name":"White",
-            \"colors":["FFFFFF","000000","306399","FF0D0D","B0E1EB"]},
-            \{"name":"Paper",
-            \"colors":["EBE9E8","2B2C33","345B85","CC2020","D9A79E"]},
-            \{"name":"Wine",
-            \"colors":["0D0609","9C9B94","A37B5F","F03535","2D374A"]},
-            \{"name":"Spring",
-            \"colors":["D5E6A1","4B4B4D","496791","B32222","CCBE8F"],
-            \"style":"SHADOW"},
-            \{"name":"MoonNight",
-            \"colors":["060F1A","B4B6B8","7FA5B8","C2A832","598099"],
-            \"style":"SHADOW"},
-            \{"name":"Factory",
-            \"colors":["050505","A6A6A6","8296B3","54DEB0","404259"],
-            \"style":"SHADOW"},
-            \{"name":"Village",
-            \"colors":["B1E6AC","362020","324F7D","1B488C","CCBD66"],
-            \"style":"COLOUR"},
-            \{"name":"Slates",
-            \"colors":["F2EFE4","232733","386599","FF2828","D9B2AD"],
-            \"style":"COLOUR"},
-            \{"name":"InkGreen",
-            \"colors":["0A0D07","A9BA93","8682D1","FF7236","363E4D"],
-            \"style":"ABOUND"},
-            \{"name":"RosyBlue",
-            \"colors":["262633","CCC2C7","A681CC","54DFB1","404157"],
-            \"style":"ABOUND"},
-            \]
-let s:win_txtline = 2
-let s:win_builtin_line=len(s:default_schemes)
-
 " SYNX "{{{1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let s:synlink_dict     = {}
