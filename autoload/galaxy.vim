@@ -3,7 +3,7 @@
 "    File: autoload/galaxy.vim
 " Summary: A colorscheme that makes scheming colors easier.
 "  Author: Rykka <Rykka10(at)gmail.com>
-" Last Update: 2012-04-04
+" Last Update: 2012-04-06
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim
@@ -744,18 +744,13 @@ function! s:gen_base_colors(colors) "{{{
 
 
 endfunction "}}}
-function! s:hi_t_list(list,...) "{{{
+function! s:hi_t_list(list) "{{{
     let list=a:list
     for item in list
         if len(item) == 4
             let [hl_grp,hl_fg,hl_bg,hl_fm]=item
 
-            if empty(hl_fm)
-                let fm_txt = ""
-            else
-                let fm_txt = "NONE"
-            endif
-
+            let fm_txt = empty(hl_fm) ? "" : "NONE"
             let fm_txt .= hl_fm=~'r' ? ",reverse"     : ""
 
             let fg_txt = empty(hl_fg) ? hl_fg :
@@ -766,6 +761,7 @@ function! s:hi_t_list(list,...) "{{{
             " term 8 need set cterm to bold.
             if exists("s:t_Co") && s:t_Co==8 "{{{
                 for i in range(8)
+                    " for t8 color name
                     if fg_txt =~? '\<'.s:b8_name[i].'\>'
                         let fg_txt=s:n8_num[i]
                         let fm_txt.=",bold"
@@ -790,17 +786,28 @@ function! s:hi_t_list(list,...) "{{{
         endif
     endfor
 endfunction "}}}
-function! s:hi_list(list,...) "{{{
+function! s:hi_list(list) "{{{
     for item in a:list
         if len(item) == 4
             let [hl_grp,hl_fg,hl_bg,hl_fm] = item
+            
+            " "" "msgclr0" "5A3F00"
+            let fg_txt = hl_fg =~ '\x\{6}' || empty(hl_fg) ? hl_fg :
+                    \ exists("s:".hl_fg) ? s:{hl_fg} : s:fgdclr0
+            let bg_txt = hl_bg =~ '\x\{6}' || empty(hl_bg) ? hl_bg :
+                    \ exists("s:".hl_bg) ? s:{hl_bg} : s:bgdclr0
 
-            if empty(hl_fm) 
-                let fm_txt = ""
+            if s:mode=="gui"
+                let fg_txt = fg_txt =~ '^\x\{6}$' ? "#".fg_txt : fg_txt
+                let bg_txt = bg_txt =~ '^\x\{6}$' ? "#".bg_txt : bg_txt
             else
-                let fm_txt = "NONE"
+                let fg_txt= fg_txt =~ '\x\{6}$' ? 
+                            \colorv#hex2term(fg_txt,"CHECK") : fg_txt
+                let bg_txt= bg_txt =~ '\x\{6}$' ? 
+                            \colorv#hex2term(bg_txt,"CHECK") : bg_txt
             endif
 
+            let fm_txt = empty(hl_fm) ? "" : "NONE"
             let fm_txt .= hl_fm=~'u' ? ",underline"   : ""
             let fm_txt .= hl_fm=~'r' ? ",reverse"     : ""
             let fm_txt .= hl_fm=~'b' ? ",bold"        : ""
@@ -814,40 +821,28 @@ function! s:hi_list(list,...) "{{{
                 let fm_txt .= ",underline"
             endif
 
-            " italic not work in term
+            " not working in term
             if hl_fm=~'i' && s:mode=="gui"
                 let fm_txt .= ",italic"
             endif
-
-            " standout not work in term
             if hl_fm=~'s' && s:mode=="gui"
                 let fm_txt .= ",standout"
             endif
 
-            " "" "msgclr0" "5A3F00"
-            let fg_txt = hl_fg =~ '\x\{6}' || empty(hl_fg) ? hl_fg :
-                        \ exists("s:".hl_fg) ? s:{hl_fg} : s:fgdclr0
-            let bg_txt = hl_bg =~ '\x\{6}' || empty(hl_bg) ? hl_bg :
-                        \ exists("s:".hl_bg) ? s:{hl_bg} : s:bgdclr0
 
+            let bg_txt = empty(bg_txt) ? "" : " ".s:mode."bg=".bg_txt
+            let fg_txt = empty(fg_txt) ? "" : " ".s:mode."fg=".fg_txt
+            let sp_txt = empty(sp_txt) ? "" : " ".s:mode."sp=".sp_txt
+            let fm_txt = empty(fm_txt) ? "" : " ".s:mode."="  .fm_txt
 
-            if s:mode=="gui"
-                let fg_txt = fg_txt =~ '^\x\{6}$' ? "#".fg_txt : fg_txt
-                let bg_txt = bg_txt =~ '^\x\{6}$' ? "#".bg_txt : bg_txt
-            else
-                let fg_txt= fg_txt =~ '\x\{6}$' ? colorv#hex2term(fg_txt,"CHECK") : fg_txt
-                let bg_txt= bg_txt =~ '\x\{6}$' ? colorv#hex2term(bg_txt,"CHECK") : bg_txt
-            endif
-
-
-
-            let bg_txt = empty(bg_txt) ? "" : s:mode."bg=".bg_txt." "
-            let fg_txt = empty(fg_txt) ? "" : s:mode."fg=".fg_txt." "
-            let sp_txt = empty(sp_txt) ? "" : s:mode."sp=".sp_txt." "
-            let fm_txt = empty(fm_txt) ? "" : s:mode."=".fm_txt
-
-            if !empty(fg_txt) || !empty(bg_txt) || !empty(fm_txt) || !empty(sp_txt)
-                exec "hi! ".hl_grp." ".fg_txt.bg_txt.sp_txt.fm_txt
+            if !empty(fg_txt) || !empty(bg_txt) 
+                \|| !empty(fm_txt) || !empty(sp_txt)
+                try
+                    exec "hi! ".hl_grp.fg_txt.bg_txt.sp_txt.fm_txt
+                catch /^Vim\%((\a\+)\)\=:E/	 
+                    call s:debug("hi ".v:exception
+                                \.hl_grp.fg_txt.bg_txt.sp_txt.fm_txt)
+                endtry
             endif
 
         elseif len(item) == 2
@@ -1162,7 +1157,7 @@ function! galaxy#win() "{{{
     iabc <buffer>
 
     aug galaxy#cursor_move
-        au! CursorMoved,CursorMovedI <buffer>  call s:on_cursor_moved()
+        au! CursorMoved,CursorMovedI <buffer>  call s:cursor_text_hi()
     aug END
     "}}}
     "{{{ maps
@@ -1431,26 +1426,25 @@ function! s:win_scheme_del() "{{{
     endif
     " redraw window
 endfunction "}}}
-function! s:on_cursor_moved()  "{{{
-    if line('.') > 2
-        execute 'match' "ErrorMsg".' /\%'.line('.').'l\%<17c/'
+function! s:cursor_text_hi()  "{{{
+    if line('.') > 2 
+        execute 'match' "PmenuSel".' /\%'.line('.').'l\%<17c/'
         let c=col('.')
         if c >19 && c<26
-            execute '2match' "ErrorMsg".' /\%2l\%>19c\%<26c/'
+            execute '2match' "PmenuSel".' /\%2l\%>19c\%<26c/'
         elseif c >26 && c<33
-            execute '2match' "ErrorMsg".' /\%2l\%>26c\%<33c/'
+            execute '2match' "PmenuSel".' /\%2l\%>26c\%<33c/'
         elseif c >33 && c<40
-            execute '2match' "ErrorMsg".' /\%2l\%>33c\%<40c/'
+            execute '2match' "PmenuSel".' /\%2l\%>33c\%<40c/'
         elseif c >40 && c<47
-            execute '2match' "ErrorMsg".' /\%2l\%>40c\%<47c/'
+            execute '2match' "PmenuSel".' /\%2l\%>40c\%<47c/'
         elseif c >47 && c<54
-            execute '2match' "ErrorMsg".' /\%2l\%>47c\%<54c/'
+            execute '2match' "PmenuSel".' /\%2l\%>47c\%<54c/'
         elseif c >55 && c<62
-            execute '2match' "ErrorMsg".' /\%2l\%>55c\%<62c/'
+            execute '2match' "PmenuSel".' /\%2l\%>55c\%<62c/'
         else
             execute '2match ' "none"
         endif
-        " echoe c
     else
         execute 'match' "none"
         execute '2match ' "none"
