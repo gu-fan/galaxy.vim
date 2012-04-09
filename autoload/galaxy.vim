@@ -1158,7 +1158,11 @@ function! galaxy#win() "{{{
     " Set default first , items(dict) is an unordered list
     for [name, colors] in sort(items(s:d_scheme_dict)) + 
                          \sort(items(s:f_scheme_dict))
-        let lines +=[printf("%-15.15s", name)."    ".join(colors)]
+        if name == s:scheme.name
+            let lines +=[printf("%-15.15s", name)."    ".join(colors)." <<"]
+        else
+            let lines +=[printf("%-15.15s", name)."    ".join(colors)]
+        endif
     endfor
 
     setl ma
@@ -1185,7 +1189,25 @@ function! s:win_load_scheme() "{{{
         call s:win_opt_set()
     else
         let name = s:name_in_row(row)
+        let colors = s:colors_in_row(row)
+        let line = [printf("%-15.15s", name)."    ".join(colors)." <<"]
+        let old_name = s:scheme.name
+        let old_row =  search('\<'.old_name.'\>','w')
+        if old_row
+            let old_colors = s:colors_in_row(old_row)
+            let old_line = [printf("%-15.15s", old_name)."    "
+                        \.join(old_colors)]
+            setl ma
+            call setline(old_row,old_line)
+            setl noma
+        endif
+        setl ma
+            call setline(row,line)
+        setl noma
         call galaxy#load(name)
+        0 call search('\<'.name.'\>','w')
+        
+        " update screen
         if s:get_bufwin(s:screen.name)
             call s:screen.win()
             wincmd p
@@ -1258,7 +1280,7 @@ function! s:win_rename_scheme() "{{{
         setl ma
             exe cmd
         setl noma
-        0 cal search('\<'.new_name.'\>')
+        0 cal search('\<'.new_name.'\>','w')
     endif
 endfunction "}}}
 function! s:win_edt_scheme_cv() "{{{
@@ -1555,7 +1577,7 @@ function! galaxy#gen_callback(color,name,...) "{{{
     call s:save_file_schemes()
     call galaxy#load(name)
     call galaxy#win()
-    0cal search('\<'.name.'\>')
+    0cal search('\<'.name.'\>','w')
 
 endfunction "}}}
 function! galaxy#auto_gen() "{{{
@@ -1642,12 +1664,13 @@ function! s:win_map() "{{{
     map <silent><buffer> H :h galaxy-quickstart<cr>
 endfunction "}}}
 function! s:win_hi() "{{{
-    call matchadd("Title"           , '\%1l\%<20c')
+    call matchadd("Function"        , '\%1l\%<20c')
     call matchadd("Comment"         , '\%1l\%>19c')
     call matchadd("TODO"            , '\%1l\%>65c[?H]', 10)
     call matchadd("Comment"         , '\%2l'          , 4)
     call matchadd("SpecialComment"  , '\%<3l\w*:'     , 15)
     call matchadd("Pmenu"           , '\%3l'          , 10)
+    call matchadd("Title"           , '\%>54c\%<56c<<', 15)
     aug galaxy#cursor_move
         au! CursorMoved,CursorMovedI <buffer>  call s:cursor_text_hi()
     aug END
