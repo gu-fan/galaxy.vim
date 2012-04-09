@@ -3,25 +3,17 @@
 "    File: autoload/galaxy.vim
 " Summary: A colorscheme that makes scheming colors easier.
 "  Author: Rykka <Rykka10(at)gmail.com>
-" Last Update: 2012-04-06
+" License: The MIT Licence
+"          http://www.opensource.org/licenses/mit-license.php
+"          Copyright (c) 2011-2012 Rykka.ForestGreen
+" Last Update: 2012-04-10
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim
-" CHCK "{{{1
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-if version < 700
-    finish
-else
-    hi clear
-    if exists("syntax_on")
-        syntax reset
-    endif
-endif
 " VARS "{{{1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:galaxy         = {}
-let g:galaxy.name    = "_GALAXY_"
-let g:galaxy.version = "1.3.0"
+let g:galaxy.version = "2.0.0"
 let g:galaxy.winpos  = "bot"
 " g:options "{{{2
 function! s:default(option, value) "{{{
@@ -35,52 +27,73 @@ call s:default("g:galaxy_debug",            0)
 call s:default("g:galaxy_enable_indent_hl", 1)
 call s:default("g:galaxy_indent_hl_pos",    "start")
 call s:default("g:galaxy_show_trailing_ws", 1)
-call s:default("g:galaxy_indent_hl_ftype",   "python,c,javascript")
+call s:default("g:galaxy_indent_hl_ftype",  "python,c,javascript")
 call s:default("g:galaxy_colorful_syntax",  1)
 call s:default("g:galaxy_load_syn_dict",    1)
-call s:default("g:galaxy_load_syn_tuning",    1)
+call s:default("g:galaxy_load_syn_tuning",  1)
 call s:default("g:galaxy_visual_hl_fg",     0)
 call s:default("g:galaxy_tcursor_color",    "DarkGray")
 
+call s:default("g:galaxy_statusline_style", "Left")
 call s:default("g:galaxy_statusline_blink", 1)
 call s:default("g:galaxy_auto_statusline",  1)
-call s:default("g:galaxy_statusline_default", 
-            \'%* %{galaxy#show_mode()} '.
-            \'%1*%(%2n %)%2*%( %Y %)%3*%( %M%R %)%4*%( %k %)'.
-            \'%5* %<%F %='.
-            \'%6*%( %{&ff},%{&enc} %)%7* %03l %8* %03c %9* %P '
+call s:default("g:galaxy_default_ff",  "unix")
+call s:default("g:galaxy_default_enc",  "utf-8")
+
+call s:default("g:galaxy_statusline_left", ""
+            \.'%* %{galaxy#smode()} '
+            \.'%1*%(%2n.%)%2*%( %Y %)%3*%( %M%R %)%4*%( %k %)'
+            \.'%9* %<%F %='
+            \.'%8*%(%{galaxy#enc()}%)%7*%4l %6*%3c %5* %P '
             \)
-call s:default("g:galaxy_statusline_alternate", 
-            \'%4*%(%3n %)%3*%( %Y %)%2*%( %M%R %)%1*%( %k %)'.
-            \'%* %{galaxy#show_mode()} '.
-            \'%5* %<%F %='.
-            \'%6*%( %{&ff},%{&enc} %)%7* %03l %8* %03c %9* %P '
+call s:default("g:galaxy_statusline_right", ""
+            \.'%9*%(%2n.%)%8*%4l %7*%3c '
+            \.'%5* %<%F %=%6* %P '
+            \.'%4*%( %Y %)%3*%( %k %)'
+            \.'%2*%(%{galaxy#enc()}%)%1*%( %M%R %)'
+            \.'%* %{galaxy#smode()} '
             \)
 
-if !exists("g:galaxy_cache_File") "{{{
-    if has("win32") || has("win64")
-        if exists('$HOME')
-            let g:galaxy_cache_File = expand('$HOME') . '\.vim_galaxy_cache'
-        else
-            let g:galaxy_cache_File = expand('$VIM') . '\.vim_galaxy_cache'
-        endif
-    else
-        let g:galaxy_cache_File = expand('$HOME') . '/.vim_galaxy_cache'
+call s:default("g:galaxy_statusline_test", ""
+            \.'%* 0 %1* 1 %2* 2 %3* 3 %4* 4 %5* 5 %6* 6 %7*  7 %8* 8 %9* 9'
+            \)
+if has("win32") || has("win64")
+    if exists('$HOME')
+        call s:default("g:galaxy_cache_file", 
+                    \expand('$HOME') . '\.vim_galaxy_cache')
+        call s:default("g:galaxy_scheme_file", 
+                    \expand('$HOME') . '\.vim_galaxy_schemes')
+    elseif exists('$HOME')
+        call s:default("g:galaxy_cache_file",  
+                    \expand('$VIM') . '\.vim_galaxy_cache')
+        call s:default("g:galaxy_scheme_file",  
+                    \expand('$VIM') . '\.vim_galaxy_schemes')
     endif
-endif "}}}
-if !exists("g:galaxy_store_Folder") "{{{
-    if has("win32") || has("win64")
-        if exists('$HOME')
-            let g:galaxy_store_Folder = expand('$HOME').'\vimfiles\colors\galaxy\'
-        else
-            let g:galaxy_store_Folder = expand('$VIM').'\vimfiles\colors\galaxy\'
-        endif
-    else
-        let g:galaxy_store_Folder = expand('$HOME') . '/.vim/colors/galaxy/'
-    endif
-endif "}}}
+else
+    call s:default("g:galaxy_cache_file", 
+                \expand('$HOME') . '/.vim_galaxy_cache')
+    call s:default("g:galaxy_scheme_file",  
+                \expand('$HOME') . '/.vim_galaxy_schemes')
+endif
 
-" s:misc_var "{{{2
+" s:vars  initial "{{{2
+"
+let s:galaxy  = {}
+let s:galaxy.name  = "_GALAXY_".g:galaxy.version
+
+let s:seq_num = 0
+let s:scheme  = {}
+"               ui name style syntax status indent
+let s:cache_term = ["TEM_OPT","","","","",""]
+let s:cache_gui  = ["GUI_OPT","","","","",""]
+
+if has("gui_running")
+    let s:mode="gui"
+else
+    let s:mode="cterm"
+endif
+
+" constants "{{{
 let s:nocolor = "NONE"
 let s:fg      = "fg"
 let s:bg      = "bg"
@@ -92,41 +105,47 @@ let s:b       = ",bold"
 let s:u       = ",underline"
 let s:i       = ",italic"
 
+"
 let s:pre_name_list=[
-            \ "Red"     , "LightRed"     , "DarkRed"     ,
-            \ "Green"   , "LightGreen"   , "DarkGreen"   , "SeaGreen"   ,
-            \ "Blue"    , "LightBlue"    , "DarkBlue"    , "SlateBlue"  ,
-            \ "Cyan"    , "LightCyan"    , "DarkCyan"    ,
-            \ "Magenta" , "LightMagenta" , "DarkMagenta" ,
-            \ "Yellow"  , "LightYellow"  , "Brown"       , "DarkYellow" ,
-            \ "Gray"    , "LightGray"    , "DarkGray"    ,
-            \ "Black"   , "White"        ,
-            \ "Orange"  , "Purple"       , "Violet"      ,
-            \]
+\"Red"          , "LightRed"    , "DarkRed"   , "Green"       , "LightGreen" ,
+\"DarkGreen"    , "SeaGreen"    , "Blue"      , "LightBlue"   , "DarkBlue"   ,
+\"SlateBlue"    , "Cyan"        , "LightCyan" , "DarkCyan"    , "Magenta"    ,
+\"LightMagenta" , "DarkMagenta" , "Yellow"    , "LightYellow" ,
+\"Brown"        , "DarkYellow"  , "Gray"      , "LightGray"   , "DarkGray"   ,
+\"Black"        , "White"       , "Orange"    , "Purple"      , "Violet"     ,
+\]
+
 for i in s:pre_name_list
-    let i=tolower(i)
-    let s:{i}=i
+    let z = tolower(i)
+    let s:{z} = i
 endfor
+unlet z
+unlet i
 
-if has("gui_running")
-    let s:mode="gui"
-else
-    let s:mode="cterm"
-endif
-
-let s:prev_dict={}
+"}}}
+" txt "{{{
 let s:tips_list=[
             \'Load: 2-Click/Space/<CR>',
-            \'New: gn           Del: dd/D',
+            \'New: gn/gr        Del: dd/D',
             \'Select:Click      Edit: e',
-            \'Help: F1          Quit: q/Q',
+            \'Screen:sc         Saver:sv',
+            \'Help: F1/H        Quit: q/Q',
             \]
-let s:clr_helptxt=[
+let s:head_tip = [
+            \"      Screen:sc   Load:<Click>  Edit:e  New:gn  Tips:?",
+            \"      Saver:sv    Load:<Space>  Edit:e  New:gr  Tips:?",
+            \"      Screen:sc   Load:<Enter>  Edit:e  New:gn  Help:H",
+            \]
+let s:hlp_txt=[
+            \"Background(Normal Background)",
             \"Foreground Color(Normal Foreground)",
             \"Syntax Color(Vars,Functions,...)",
             \"Message Color(ErrorMsg,ModeMsg,...)",
-            \"Background(Normal Background)",
             \"Diff(DiffAdd,DiffChange,... Background)"]
+"}}}
+"
+" SCHM "{{{1
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " s:gui "{{{2
 " default hl"{{{
 let s:default_hl=[
@@ -136,6 +155,7 @@ let s:default_hl=[
             \["BoldItalic",     "nocolor",  "nocolor",  "ib"    ],
             \["Underlined",     "nocolor",  "nocolor",  "u"     ],
             \["Undercurl",      "nocolor",  "nocolor",  "c"     ],
+            \["Reverse",        "nocolor",  "nocolor",  "r"     ],
             \["ErrorMsg",       "bgdclr0",  "msgclr0",  "b"     ],
             \["WarningMsg",     "bgdclr0",  "msgclr2",  "b"     ],
             \["MoreMsg",        "bgdclr0",  "msgclr4",  "b"     ],
@@ -150,10 +170,10 @@ let s:default_hl=[
             \["Todo",           "msgclr5",  "bgdclr2",  "b"     ],
             \["Title",          "msgclr0",  "nocolor",  "b"     ],
             \["Conceal",        "bgdclr2",  "nocolor",  "n"     ],
-            \["Comment",        "bgdclr5",  "nocolor",  "n"     ],
+            \["Comment",        "bgdclr6",  "nocolor",  "n"     ],
             \["NonText",        "Comment"       ],
             \["Ignore",         "Comment"       ],
-            \["SpecialComment", "bgdclr6",  "nocolor",  "b"     ],
+            \["SpecialComment", "bgdclr7",  "nocolor",  "b"     ],
             \["DiffDelete",     "bgdclr0",  "bgdclr2",  "n"     ],
             \["DiffAdd",        "fgdclr2",  "difclr0",  "n"     ],
             \["DiffChange",     "fgdclr2",  "difclr6",  "n"     ],
@@ -227,12 +247,14 @@ let s:syn_hl_1=[
             \["Operator",       "synclr9",  "nocolor",  "n"     ],
             \["Exception",      "synclr9",  "nocolor",  "bi"    ],
             \] "}}}
+
 " s:styles "{{{2
 let s:hl_styles = {}
 "{{{ Default
-let s:hl_styles.GALAXY = [
-        \["Cursor",         "bgdclr1",  "msgclr8",  "n"     ],
-        \["CursorIM",       "nocolor",  "synclr4",  "n"     ],
+let s:hl_styles.Default = [
+        \["Cursor",         "bgdclr1",  "msgclr7",  "n"     ],
+        \["CursorS",        "bgdclr1",  "msgclr7",  "n"     ],
+        \["CursorIM",       "nocolor",  "msgclr4",  "n"     ],
         \["CursorLine",     "nocolor",  "bgdclr1",  "n"     ],
         \["CursorColumn",   "CursorLine"    ],
         \["Visual",         "nocolor",  "bgdclr4",  "n"     ],
@@ -244,32 +266,32 @@ let s:hl_styles.GALAXY = [
         \["PmenuSel",       "fgdclr1",  "bgdclr1",  "rb"    ],
         \["PmenuSbar",      "fgdclr1",  "fgdclr6",  "n"     ],
         \["PmenuThumb",     "bgdclr0",  "fgdclr2",  "n"     ],
-        \["Folded",         "bgdclr5",  "bgdclr2",  "n"     ],
+        \["Folded",         "fgdclr4",  "bgdclr2",  "n"     ],
         \["ColorColumn",    "Folded"        ],
-        \["FoldColumn",     "bgdclr5",  "bgdclr2",  "n"     ],
+        \["FoldColumn",     "bgdclr5",  "bgdclr2",  "b"     ],
         \["LineNr",         "bgdclr4",  "bgdclr1",  "n"     ],
         \["SignColumn",     "msgclr2",  "bgdclr2",  "n"     ],
-        \["TabLine",        "bgdclr0",  "bgdclr4",  "n"     ],
+        \["TabLine",        "bgdclr0",  "bgdclr4",  "u"     ],
         \["TabLineSel",     "fgdclr1",  "bgdclr0",  "b"     ],
         \["TabLineFill",    "bgdclr0",  "bgdclr3",  "n"     ],
-        \["StatusLine",     "msgclr2",  "difclr0",  "b"     ],
-        \["StatusLineNC",   "bgdclr0",  "bgdclr3",  "n"     ],
+        \["StatusLine",     "bgdclr0",  "msgclr0",  "b"     ],
+        \["StatusLineNC",   "bgdclr0",  "bgdclr4",  "n"     ],
         \["VertSplit",      "StatusLineNC"  ],
-        \["User1",          "fgdclr4",  "difclr1",  "b"     ],
-        \["User2",          "fgdclr3",  "difclr2",  "b"     ],
-        \["User3",          "fgdclr2",  "difclr3",  "b"     ],
-        \["User4",          "fgdclr1",  "difclr4",  "b"     ],
-        \["User5",          "fgdclr0",  "bgdclr3",  "b"     ],
-        \["User6",          "bgdclr1",  "bgdclr4",  "b"     ],
-        \["User7",          "bgdclr2",  "bgdclr5",  "b"     ],
-        \["User8",          "bgdclr3",  "bgdclr6",  "b"     ],
-        \["User9",          "bgdclr4",  "bgdclr7",  "b"     ],
+        \["User1",          "bgdclr4",  "msgclr1",  "r"     ],
+        \["User2",          "bgdclr3",  "msgclr2",  "r"     ],
+        \["User3",          "bgdclr2",  "msgclr3",  "r"     ],
+        \["User4",          "bgdclr1",  "msgclr4",  "r"     ],
+        \["User5",          "bgdclr7",  "bgdclr1",  "b"     ],
+        \["User6",          "bgdclr8",  "bgdclr2",  "b"     ],
+        \["User7",          "bgdclr8",  "bgdclr3",  "b"     ],
+        \["User8",          "bgdclr9",  "bgdclr4",  "b"     ],
+        \["User9",          "bgdclr9",  "bgdclr5",  "b"     ],
         \] "}}}
 "{{{ Shadow
-let s:hl_styles.SHADOW = [
-        \["Cursor",         "bgdclr1",  "msgclr8",  "n"     ],
-        \["CursorLine",     "nocolor",  "bgdclr2",  "n"     ],
-        \["CursorIM",       "nocolor",  "synclr4",  "n"     ],
+let s:hl_styles.Shadow = [
+        \["Cursor",         "bgdclr1",  "msgclr6",  "n"     ],
+        \["CursorS",        "bgdclr1",  "msgclr6",  "n"     ],
+        \["CursorIM",       "nocolor",  "msgclr4",  "n"     ],
         \["CursorLine",     "nocolor",  "bgdclr1",  "n"     ],
         \["CursorColumn",   "CursorLine"    ],
         \["Visual",         "nocolor",  "bgdclr3",  "n"     ],
@@ -281,32 +303,33 @@ let s:hl_styles.SHADOW = [
         \["PmenuSel",       "fgdclr1",  "bgdclr1",  "rb"    ],
         \["PmenuSbar",      "bgdclr6",  "bgdclr1",  "n"     ],
         \["PmenuThumb",     "bgdclr0",  "bgdclr4",  "n"     ],
-        \["Folded",         "bgdclr5",  "bgdclr1",  "n"     ],
+        \["Folded",         "bgdclr6",  "bgdclr2",  "n"     ],
         \["ColorColumn",    "Folded"        ],
-        \["FoldColumn",     "bgdclr5",  "bgdclr1",  "n"     ],
-        \["LineNr",         "bmdclr0",  "bgdclr2",  "n"     ],
+        \["FoldColumn",     "bgdclr5",  "bgdclr1",  "b"     ],
+        \["LineNr",         "bgdclr1",  "bgdclr4",  "n"     ],
         \["SignColumn",     "msgclr2",  "bgdclr1",  "n"     ],
-        \["TabLine",        "bmdclr0",  "bgdclr3",  "n"     ],
+        \["TabLine",        "bgdclr0",  "bgdclr3",  "n"     ],
         \["TabLineSel",     "fgdclr2",  "bgdclr0",  "b"     ],
-        \["TabLineFill",    "bmdclr0",  "bgdclr2",  "n"     ],
-        \["StatusLine",     "difclr0",  "msgclr0",  "b"     ],
-        \["StatusLineNC",   "bgdclr0",  "bgdclr3",  "n"     ],
+        \["TabLineFill",    "bgdclr0",  "bgdclr2",  "n"     ],
+        \["StatusLine",     "bgdclr1",  "msgclr0",  "b"     ],
+        \["StatusLineNC",   "bgdclr0",  "bgdclr4",  "n"     ],
         \["VertSplit",      "StatusLineNC"  ],
-        \["User1",          "fgdclr4",  "bgdclr1",  "b"     ],
-        \["User2",          "fgdclr3",  "bgdclr2",  "b"     ],
-        \["User3",          "fgdclr2",  "bgdclr3",  "b"     ],
-        \["User4",          "fgdclr1",  "bgdclr4",  "b"     ],
+        \["User1",          "bgdclr8",  "bgdclr1",  "b"     ],
+        \["User2",          "bgdclr8",  "bgdclr2",  "b"     ],
+        \["User3",          "bgdclr8",  "bgdclr3",  "b"     ],
+        \["User4",          "bgdclr9",  "bgdclr4",  "b"     ],
         \["User5",          "bgdclr0",  "bgdclr5",  "b"     ],
-        \["User6",          "bgdclr1",  "bgdclr6",  "b"     ],
-        \["User7",          "bgdclr2",  "bgdclr7",  "b"     ],
-        \["User8",          "bgdclr3",  "bgdclr8",  "b"     ],
-        \["User9",          "bgdclr4",  "bgdclr9",  "b"     ],
+        \["User6",          "bgdclr0",  "bgdclr6",  "b"     ],
+        \["User7",          "bgdclr1",  "bgdclr7",  "b"     ],
+        \["User8",          "bgdclr1",  "bgdclr8",  "b"     ],
+        \["User9",          "bgdclr2",  "bgdclr9",  "b"     ],
         \] "}}}
-"{{{ Abound
-let s:hl_styles.ABOUND = [
+"{{{ Flowery
+let s:hl_styles.Flowery = [
         \["Cursor",         "bgdclr1",  "msgclr8",  "n"     ],
-        \["CursorIM",       "nocolor",  "synclr4",  "n"     ],
-        \["CursorLine",     "nocolor",  "bgdclr1",  "n"     ],
+        \["CursorS",        "bgdclr1",  "msgclr8",  "n"     ],
+        \["CursorIM",       "nocolor",  "msgclr4",  "n"     ],
+        \["CursorLine",     "nocolor",  "difclr3",  "n"     ],
         \["CursorColumn",   "CursorLine"    ],
         \["Visual",         "nocolor",  "fgdclr6",  "n"     ],
         \["VisualNOS",      "nocolor",  "fgdclr5",  "n"     ],
@@ -317,32 +340,33 @@ let s:hl_styles.ABOUND = [
         \["PmenuSel",       "bgdclr8",  "bgdclr0",  "rb"    ],
         \["PmenuSbar",      "fgdclr1",  "fgdclr5",  "n"     ],
         \["PmenuThumb",     "bgdclr2",  "fgdclr2",  "n"     ],
-        \["Folded",         "fgdclr3",  "fgdclr8",  "n"     ],
+        \["Folded",         "fgdclr3",  "bgdclr3",  "n"     ],
         \["ColorColumn",    "Folded"        ],
-        \["FoldColumn",     "fgdclr6",  "fgdclr8",  "n"     ],
-        \["LineNr",         "fgdclr4",  "fgdclr9",  "n"     ],
-        \["SignColumn",     "msgclr2",  "fgdclr4",  "n"     ],
-        \["TabLine",        "fgdclr8",  "fgdclr3",  "n"     ],
+        \["FoldColumn",     "bgdclr1",  "bgdclr3",  "b"     ],
+        \["LineNr",         "fgdclr3",  "bgdclr5",  "n"     ],
+        \["SignColumn",     "msgclr2",  "bgdclr3",  "n"     ],
+        \["TabLine",        "bgdclr9",  "bgdclr3",  "n"     ],
         \["TabLineSel",     "fgdclr1",  "bgdclr0",  "b"     ],
-        \["TabLineFill",    "bgdclr0",  "fgdclr4",  "n"     ],
+        \["TabLineFill",    "bgdclr0",  "bgdclr4",  "n"     ],
         \["StatusLine",     "difclr0",  "msgclr0",  "b"     ],
-        \["StatusLineNC",   "fgdclr4",  "fgdclr6",  "n"     ],
+        \["StatusLineNC",   "bgdclr5",  "bgdclr2",  "r"     ],
         \["VertSplit",      "StatusLineNC"  ],
-        \["User1",          "bgdclr0",  "msgclr1",  "b"     ],
-        \["User2",          "bgdclr0",  "msgclr2",  "b"     ],
-        \["User3",          "bgdclr0",  "msgclr3",  "b"     ],
-        \["User4",          "bgdclr0",  "msgclr4",  "b"     ],
-        \["User5",          "fgdclr1",  "fgdclr6",  "b"     ],
-        \["User6",          "fgdclr0",  "fgdclr5",  "b"     ],
-        \["User7",          "bgdclr4",  "fgdclr4",  "b"     ],
-        \["User8",          "bgdclr3",  "fgdclr3",  "b"     ],
-        \["User9",          "bgdclr2",  "fgdclr2",  "b"     ],
+        \["User1",          "bgdclr6",  "msgclr1",  "b"     ],
+        \["User2",          "bgdclr5",  "msgclr2",  "b"     ],
+        \["User3",          "bgdclr4",  "msgclr3",  "b"     ],
+        \["User4",          "bgdclr3",  "msgclr4",  "b"     ],
+        \["User5",          "bgdclr9",  "bgdclr3",  "r"     ],
+        \["User6",          "bgdclr8",  "bgdclr3",  "r"     ],
+        \["User7",          "bgdclr8",  "bgdclr2",  "r"     ],
+        \["User8",          "bgdclr7",  "bgdclr2",  "r"     ],
+        \["User9",          "bgdclr7",  "bgdclr1",  "r"     ],
         \] "}}}
-"{{{ Coulor
-let s:hl_styles.COLOUR = [
+"{{{ Colour
+let s:hl_styles.Colour = [
         \["Cursor",         "bgdclr1",  "msgclr4",  "n"     ],
-        \["CursorIM",       "nocolor",  "synclr4",  "n"     ],
-        \["CursorLine",     "nocolor",  "bgdclr1",  "n"     ],
+        \["CursorS",        "bgdclr1",  "msgclr4",  "n"     ],
+        \["CursorIM",       "nocolor",  "msgclr4",  "n"     ],
+        \["CursorLine",     "nocolor",  "difclr1",  "n"     ],
         \["CursorColumn",   "CursorLine"    ],
         \["Visual",         "nocolor",  "bgdclr4",  "n"     ],
         \["VisualNOS",      "nocolor",  "bgdclr3",  "n"     ],
@@ -353,64 +377,46 @@ let s:hl_styles.COLOUR = [
         \["PmenuSel",       "difclr1",  "fgdclr2",  "rb"    ],
         \["PmenuSbar",      "bgdclr1",  "fgdclr0",  "n"     ],
         \["PmenuThumb",     "bgdclr2",  "fgdclr6",  "n"     ],
-        \["Folded",         "bgdclr8",  "bgdclr2",  "n"     ],
+        \["Folded",         "fgdclr2",  "fgdclr8",  "n"     ],
         \["ColorColumn",    "Folded"        ],
-        \["FoldColumn",     "bgdclr4",  "bgdclr2",  "n"     ],
-        \["LineNr",         "bgdclr6",  "bgdclr1",  "n"     ],
-        \["SignColumn",     "msgclr2",  "bgdclr2",  "n"     ],
-        \["TabLine",        "bgdclr0",  "fgdclr1",  "n"     ],
+        \["FoldColumn",     "fgdclr4",  "fgdclr7",  "b"     ],
+        \["LineNr",         "bgdclr2",  "fgdclr6",  "n"     ],
+        \["SignColumn",     "msgclr2",  "fgdclr2",  "n"     ],
+        \["TabLine",        "fgdclr3",  "fgdclr7",  "n"     ],
         \["TabLineSel",     "fgdclr2",  "bgdclr0",  "b"     ],
-        \["TabLineFill",    "bgdclr0",  "fgdclr2",  "n"     ],
+        \["TabLineFill",    "fgdclr2",  "fgdclr6",  "n"     ],
         \["StatusLine",     "difclr3",  "synclr0",  "b"     ],
-        \["StatusLineNC",   "fgdclr8",  "fgdclr3",  "n"     ],
+        \["StatusLineNC",   "fgdclr7",  "fgdclr3",  "r"     ],
         \["VertSplit",      "StatusLineNC"  ],
-        \["User1",          "difclr3",  "synclr1",  "b"     ],
-        \["User2",          "difclr3",  "synclr2",  "b"     ],
-        \["User3",          "difclr3",  "synclr3",  "b"     ],
-        \["User4",          "difclr3",  "synclr4",  "b"     ],
-        \["User5",          "bgdclr1",  "fgdclr3",  "b"     ],
-        \["User6",          "bgdclr2",  "fgdclr4",  "b"     ],
-        \["User7",          "bgdclr3",  "fgdclr5",  "b"     ],
-        \["User8",          "fgdclr1",  "fgdclr6",  "b"     ],
-        \["User9",          "fgdclr0",  "fgdclr7",  "b"     ],
+        \["User1",          "fgdclr5",  "synclr1",  "b"     ],
+        \["User2",          "fgdclr6",  "synclr2",  "b"     ],
+        \["User3",          "fgdclr6",  "synclr3",  "b"     ],
+        \["User4",          "fgdclr7",  "synclr4",  "b"     ],
+        \["User5",          "fgdclr3",  "fgdclr7",  "r"     ],
+        \["User6",          "fgdclr3",  "fgdclr8",  "r"     ],
+        \["User7",          "fgdclr4",  "fgdclr8",  "r"     ],
+        \["User8",          "fgdclr4",  "fgdclr9",  "r"     ],
+        \["User9",          "fgdclr5",  "fgdclr9",  "r"     ],
         \] "}}}
+
 " s:schemes "{{{2
 "                       bgd     fgd      syn      msg       dif
 let s:default_schemes=[
-            \{"name":"Black",
-            \"colors":["000000","C1CBD6","9FB9D6","FF0D0D","4B6266"]},
-            \{"name":"White",
-            \"colors":["FFFFFF","000000","306399","FF0D0D","B0E1EB"]},
-            \{"name":"Paper",
-            \"colors":["EBE9E8","2B2C33","345B85","CC2020","D9A79E"]},
-            \{"name":"Wine",
-            \"colors":["0D0609","9C9B94","A37B5F","F03535","2D374A"]},
-            \{"name":"Spring",
-            \"colors":["D5E6A1","363836","496791","B32222","CCBE8F"],
-            \"style":"SHADOW"},
-            \{"name":"MoonNight",
-            \"colors":["060F1A","B4B6B8","7FA5B8","C2A832","598099"],
-            \"style":"SHADOW"},
-            \{"name":"Factory",
-            \"colors":["050505","A6A6A6","8296B3","54DEB0","404259"],
-            \"style":"SHADOW"},
-            \{"name":"Village",
-            \"colors":["B1E6AC","362020","324F7D","1B488C","CCBD66"],
-            \"style":"COLOUR"},
-            \{"name":"Slates",
-            \"colors":["F2EFE4","232733","386599","FF2828","D9B2AD"],
-            \"style":"COLOUR"},
-            \{"name":"InkGreen",
-            \"colors":["0A0D07","A9BA93","8682D1","FF7236","363E4D"],
-            \"style":"ABOUND"},
-            \{"name":"RosyBlue",
-            \"colors":["262633","CCC2C7","A681CC","54DFB1","404157"],
-            \"style":"ABOUND"},
-            \]
-let s:win_txtline = 2
-let s:win_builtin_line=len(s:default_schemes)
-
-"{{{term_list
+        \["Black"    ,"000000","C1CBD6","9FB9D6","FF0D0D","4B6266"],
+        \["White"    ,"FFFFFF","000000","306399","FF0D0D","B0E1EB"],
+        \["Paper"    ,"EBE9E8","2B2C33","345B85","CC2020","D9A79E"],
+        \["Wine"     ,"0D0609","9C9B94","A37B5F","F03535","2D374A"],
+        \["Spring"   ,"D5E6A1","363836","496791","B32222","CCBE8F"],
+        \["MoonNight","060F1A","B4B6B8","7FA5B8","C2A832","598099"],
+        \["Factory"  ,"050505","A6A6A6","8296B3","54DEB0","404259"],
+        \["Village"  ,"B1E6AC","362020","324F7D","1B488C","CCBD66"],
+        \["Slates"   ,"F2EFE4","232733","386599","FF2828","D9B2AD"],
+        \["InkGreen" ,"0A0D07","A9BA93","8682D1","FF7236","363E4D"],
+        \]
+let s:intro_lines = 2
+let s:blt_in_lines=len(s:default_schemes)
+" }}}
+" s:term_list "{{{
 let s:term_hl_list=[
             \["Normal",         "fg_t",  "bg_t",  "n"      ],
             \["Cursor",         "fg_t",  "bg_t",  "r"      ],
@@ -579,6 +585,8 @@ function! s:set_dark8_var() "{{{
     let s:dif1_t="darkcyan"
     let s:dif2_t="darkmagenta"
 endfunction "}}}
+"}}}
+"
 " SYNX "{{{1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let s:synlink_dict     = {}
@@ -680,60 +688,322 @@ let s:synlink_dict.xml = [
             \["xmlTag               ","Tag "                      ],
             \["xmlTagName           ","Delimiter"                 ],
             \]
-let s:synlink_dict.galaxy = [
-            \["galaxyItalic         ","msgclr2",  "nocolor",  "b" ],
-            \]
-function! s:syntax_tune() "{{{
+function! s:syntax_tuning() "{{{
     aug galaxy#syn
         au!
         au! Syntax vim call <SID>syn_vim()
     aug END
 endfunction "}}}
-
 function! s:syn_vim() "{{{
     " vim function and endfunction hl-group
     silent! syn clear vimFuncBody
     syn region	vimFuncBody  contained	start="\ze("	matchgroup=vimFuncKey end="\<\(endf\>\|endfu\%[nction]\>\)"		contains=@vimFuncBodyList
 endfunction "}}}
+
+" INHL{{{1
+"======================================================================
+function! s:load_indent_hl_syn() "{{{
+    " clear indent syntax match  or it will be multi loaded
+    silent! call s:clear_indent_syn()
+
+    if  g:galaxy_indent_hl_pos=="end" | let p_txt = "#ms=e"
+    else                              | let p_txt = "#me=s+1"
+    endif
+
+    " indent Highlight with style
+    " WorkRound: without contains
+    "            the vimLineComment will display as vimString
+    "            if there are '"' in line .
+    "            But with contains, Indent0 did not shown.
+    for in_str in [repeat(' ', &sw), '\t']
+        exe 'syn match galaxyIndent0'.' #^'.in_str.p_txt
+                    \.' contains=vimLineComment containedin=ALL'
+
+        for i in range(1,7)
+            exe 'syn match galaxyIndent'.i.' #\%(^\1\{'.i.'}\)\@<=\('.in_str.'\)'.p_txt
+                    \.' contains=vimLineComment containedin=ALL'
+        endfor
+    endfor
+
+    syn match galaxyIndentErr #^ \+\t#  containedin=ALL
+    syn match galaxyIndentErr #^\t\+ #  containedin=ALL
+
+    if g:galaxy_show_trailing_ws == 1
+        syn match galaxyIndentErr #\t\+$# containedin=ALL
+        syn match galaxyIndentErr # \+$#  containedin=ALL
+    endif
+
+endfunction "}}}
+function! s:indent_hl() "{{{
+" this function should be called everytime when toggle indent hl
+    if exists("s:scheme.style") && s:scheme.style =~? 'COLOUR\|ABOUND'
+        let s:indent_hl_list=[
+                    \["galaxyIndent0", "nocolor",  "difclr2",  "n"     ],
+                    \["galaxyIndent1", "nocolor",  "difclr3",  "n"     ],
+                    \["galaxyIndent2", "nocolor",  "difclr4",  "n"     ],
+                    \["galaxyIndent3", "nocolor",  "difclr5",  "n"     ],
+                    \["galaxyIndent4", "nocolor",  "difclr6",  "n"     ],
+                    \["galaxyIndent5", "nocolor",  "difclr7",  "n"     ],
+                    \["galaxyIndent6", "nocolor",  "difclr8",  "n"     ],
+                    \["galaxyIndent7", "nocolor",  "difclr9",  "n"     ],
+                    \]
+    else
+        let s:indent_hl_list=[
+                    \["galaxyIndent0", "nocolor",  "bgdclr1",  "n"     ],
+                    \["galaxyIndent1", "nocolor",  "bgdclr2",  "n"     ],
+                    \["galaxyIndent2", "nocolor",  "bgdclr3",  "n"     ],
+                    \["galaxyIndent3", "nocolor",  "bgdclr4",  "n"     ],
+                    \["galaxyIndent4", "nocolor",  "bgdclr5",  "n"     ],
+                    \["galaxyIndent5", "nocolor",  "bgdclr6",  "n"     ],
+                    \["galaxyIndent6", "nocolor",  "bgdclr7",  "n"     ],
+                    \["galaxyIndent7", "nocolor",  "bgdclr8",  "n"     ],
+                    \]
+    endif
+    call s:hi_list(s:indent_hl_list)
+    hi link galaxyIndentErr ErrorMsg
+endfunction "}}}
+function! s:indent_hl_aug() "{{{
+    if g:galaxy_enable_indent_hl == 1
+        aug galaxy#indent_hl
+            for file in split(g:galaxy_indent_hl_ftype,",")
+                exe "au! FileType" file "call galaxy#toggle_indent_hl('ON')"
+            endfor
+        aug END
+    else
+        silent! windo call s:clear_indent_syn()
+        silent! windo call s:clear_indent_hl()
+        aug galaxy#indent_hl
+            au!
+        aug END
+    endif
+endfunction "}}}
+function! galaxy#toggle_indent_hl(...) "{{{
+    if !exists("b:galaxy_indent_hl")
+                \ || b:galaxy_indent_hl == 0
+                \ || (exists("a:1") && a:1 == "ON")
+        call s:load_indent_hl_syn()
+        call s:indent_hl()
+        let b:galaxy_indent_hl = 1
+    elseif b:galaxy_indent_hl == 1 || (exists("a:1") && a:1 == "OFF")
+        silent! call s:clear_indent_syn()
+        silent! call s:clear_indent_hl()
+        let b:galaxy_indent_hl = 0
+    endif
+endfunction "}}}
+function! s:clear_indent_syn() "{{{
+    " use silent! to call it
+    for i in range(8)
+        exe "syn clear galaxyIndent".i
+    endfor
+    syn clear galaxyIndentErr
+endfunction "}}}
+function! s:clear_indent_hl() "{{{
+    " use silent! to call it
+    for i in range(8)
+        exe "hi galaxyIndent".i "NONE"
+    endfor
+    hi galaxyIndentErr NONE
+endfunction "}}}
+" STAT"{{{1
+"======================================================================
+function! s:statusline_aug() "{{{
+    if version >= 700 "{{{
+        let s:list_insert_enter = []
+        let s:list_insert_leave = []
+        let hl_grp = ["StatusLine","User1","User2","User3",
+                    \"User4","User5","User6","User7","User8","User9",]
+        let hl_list = (s:hl_styles[s:scheme.style] + s:default_hl)
+        for grp in hl_grp
+            for item in hl_list
+                if item[0] == grp
+                    call add(s:list_insert_leave,item)
+
+                    let _item = copy(item)
+                    if grp =~? '^StatusLine$'
+                        let statline_fg = item[1]
+                        let statline_bg = item[2]
+                        let [_item[2],_item[1]] = _item[1:2]
+                    elseif grp =~? '^User\d$'
+                        if exists("s:scheme.style")
+                            if s:scheme.style =~? 'Colour'
+                                if grp =~ '[1234]'
+                                    let _item[2] = statline_bg
+                                endif
+                                if grp =~ '[56789]'
+                                    let _item[1] = statline_bg
+                                endif
+                            endif
+                            if s:scheme.style =~? 'Flowery'
+                                if grp =~ '[1234]'
+                                    let _item[2] = statline_bg
+                                endif
+                                if grp =~ '[56789]'
+                                    let _item[1] = statline_bg
+                                endif
+                            endif
+                            if s:scheme.style =~? 'Default'
+                                if grp =~ '[123456789]'
+                                    " let _item[1] = statline_fg
+                                endif
+                            endif
+                        endif
+                    endif
+                    call add(s:list_insert_enter,_item)
+                    break
+                endif
+            endfor
+        endfor
+
+        aug galaxy#insertenter
+            au!
+            au InsertEnter * call s:hi_list(s:list_insert_enter)
+            au InsertLeave * call s:hi_list(s:list_insert_leave)
+        aug END
+    endif "}}}
+endfunction "}}}
+function! s:statusline_term16_aug() "{{{
+if version >= 700 "{{{
+    if s:y <=50
+        let s:list_insert_enter=[
+            \["StatusLine",     "Gray",  "Blue",  "n"     ],
+            \["User1",          "Red",  "Blue",  "n"     ],
+            \["User2",          "Magenta",  "Blue",  "n"     ],
+            \["User3",          "Cyan",  "Blue",  "n"     ],
+            \["User4",          "Green",  "Blue",  "n"     ],
+            \["User5",          "Blue",  "Blue",  "n"     ],
+            \["User6",          "Yellow",  "Blue",  "n"     ],
+            \]
+    else
+        let s:list_insert_enter=[
+            \["StatusLine",     "Black",  "Yellow",  "n"     ],
+            \["User1",          "Red",  "Yellow",  "n"     ],
+            \["User2",          "Magenta",  "Yellow",  "n"     ],
+            \["User3",          "Cyan",  "Yellow",  "n"     ],
+            \["User4",          "Green",  "Yellow",  "n"     ],
+            \["User5",          "Blue",  "Yellow",  "n"     ],
+            \["User6",          "Yellow",  "Yellow",  "n"     ],
+            \]
+    endif
+        let s:list_insert_leave =[]
+        let hl_grp = ["StatusLine","User1","User2","User3",
+                    \"User4","User5","User6"]
+        for item in s:term_hl_list
+            for grp in hl_grp
+                if item[0] == grp
+                    call add(s:list_insert_leave,item)
+                endif
+            endfor
+        endfor
+
+    aug galaxy#insertenter
+        au!
+        au InsertEnter * call s:hi_list(s:list_insert_enter)
+        au InsertLeave * call s:hi_list(s:list_insert_leave)
+    aug END
+endif "}}}
+endfunction "}}}
+function! s:term_cursor() "{{{
+    if &t_Co <=16
+        if s:y < 50
+            let color_normal="Cyan"
+            let color_insert="Red"
+        else
+            let color_normal="Darkblue"
+            let color_insert="Darkred"
+        endif
+    else
+        let color_normal="#".s:synclr_list[3]
+        let color_insert="#".s:msgclr_list[0]
+    endif
+    let color_exit=g:galaxy_tcursor_color
+    "by lilydjwg
+    let au_cmd=""
+    if &term =~ 'xterm\|rxvt'
+        exe 'silent !echo -ne "\e]12;' . escape(color_normal, '#'). '\007"'
+        let &t_SI="\e]12;" . color_insert . "\007"
+        let &t_EI="\e]12;" . color_normal . "\007"
+
+        let au_cmd='autocmd VimLeave * :silent !echo -ne "\e]12;"' . escape(color_exit, '#') . '"\007"'
+    elseif &term =~ "screen"
+        if !exists('$SUDO_UID')
+            if exists('$TMUX')
+                exe 'silent !echo -ne "\033Ptmux;\033\e]12;"' . escape(color_normal, '#') . '"\007\033\\"'
+                let &t_SI="\033Ptmux;\033\e]12;" . color_insert . "\007\033\\"
+                let &t_EI="\033Ptmux;\033\e]12;" . color_normal . "\007\033\\"
+                let au_cmd='autocmd VimLeave * :silent !echo -ne "\033Ptmux;\033\e]12;"' . shellescape(color_exit, 1) . '"\007\033\\"'
+            else
+                exe 'silent !echo -ne "\033P\e]12;"' . escape(color_normal, '#') . '"\007\033\\"'
+                let &t_SI="\033P\e]12;" . color_insert . "\007\033\\"
+                let &t_EI="\033P\e]12;" . color_normal . "\007\033\\"
+                let au_cmd='autocmd VimLeave * :silent !echo -ne "\033P\e]12;"' . escape(color_exit, '#')  . '"\007\033\\"'
+            endif
+        endif
+    endif
+    aug galaxy#term_cursor
+        au!
+        exec au_cmd
+    aug END
+endfunction "}}}
+function! galaxy#smode() "{{{
+    let val= mode()
+    if &paste | let val .= ' P' | endif
+    if &diff  | let val .= ' D' | endif
+    if &list  | let val .= ' L' | endif
+    return val
+endfunction "}}}
+function! galaxy#enc() "{{{
+    let val = ""
+    if &ff != g:galaxy_default_ff
+        let val = " ".toupper(&ff[:0])
+    endif
+    if &enc == g:galaxy_default_enc
+        " pass
+    elseif &enc == "utf-8"
+        let val.= " U8"
+    elseif &enc == "utf-16"
+        let val.= " U16"
+    elseif &enc == "latin1"
+        let val.= " LA1"
+    elseif &enc =~ '^gb'
+        let val.= " GB"
+    else
+        let val.= " ".&enc
+    endif
+    return val
+endfunction "}}}
+
 " CLRS"{{{1
 "======================================================================
 function! s:gen_base_colors(colors) "{{{
 
     let NOCYCLE = 0
     let [bgd, fgd, syn, msg, dif] = a:colors
-    let H = exists("a:1") ? a:1 : 5
-    let S = exists("a:2") ? a:2 : 6
-    let V = exists("a:3") ? a:3 : 6
     
     " more darker/lighter than background color bgdclr0
-    let [bmdy, bmdi , bmdq] = colorv#hex2yiq(bgd)
-    if bmdy < 50
-        let bmdy=bmdy/2.5
+    if s:y < 50
         let y_sign = 1
     else
-        let bmdy=100-(100-bmdy)/2.5
         let y_sign = -1
     endif
-    let bmd = colorv#yiq2hex([bmdy,bmdi,bmdq])
 
-    " 3 colors only.
-    let s:bmdclr_list=colorv#list_gen(bmd,"Value",3,y_sign*V,NOCYCLE)
+    let s:bgdclr_list=colorv#list_gen(bgd,"Value",10,y_sign*5,NOCYCLE)
+    let s:fgdclr_list=colorv#list_gen(fgd,"Value",10,(-y_sign*5),NOCYCLE)
+    let s:synclr_list=colorv#yiq_list_gen(syn,"Hue",10,35)
+    let s:msgclr_list=colorv#yiq_list_gen(msg,"Hue",10,35)
+    let s:difclr_list=colorv#yiq_list_gen(dif,"Hue",10,35)
 
-    let s:bgdclr_list=colorv#list_gen(bgd,"Value",10,y_sign*V,NOCYCLE)
-    let s:fgdclr_list=colorv#list_gen(fgd,"Value",10,(-y_sign*V),NOCYCLE)
-    let s:synclr_list=colorv#yiq_list_gen(syn,"Hue",10,7*H)
-    let s:msgclr_list=colorv#yiq_list_gen(msg,"Hue",10,7*H)
-    let s:difclr_list=colorv#yiq_list_gen(dif,"Hue",10,7*H)
-
-    for c in ["bgd","fgd","syn","msg","dif","bmd"]
+    for c in ["bgd","fgd","syn","msg","dif"]
         for i in range(len(s:{c}clr_list))
 
             let s:{c}clr{i}  = s:{c}clr_list[i]
             " let s:difclr mix with background color
             if c == "dif"
                 let s:{c}clr{i} = colorv#hexadd(
-                            \s:{c}clr{i}."AF", s:bgdclr0."FF")[0:-3]
+                            \s:{c}clr{i}."FF", s:bgdclr0."99")[0:-3]
             endif
+            
+            " Hex copy
+            let s:h{c}clr{i}  = s:{c}clr{i}
             " convert to term code
             if !has("gui_running")
                 let s:{c}clr{i}  = colorv#hex2term(s:{c}clr{i},"CHECK")
@@ -743,7 +1013,7 @@ function! s:gen_base_colors(colors) "{{{
 
 
 endfunction "}}}
-function! s:hi_t_list(list) "{{{
+function! s:hi_Tlis(list) "{{{
     let list=a:list
     for item in list
         if len(item) == 4
@@ -850,7 +1120,7 @@ function! s:hi_list(list) "{{{
         endif
     endfor
 endfunction "}}}
-function! s:set_bg(L) "{{{
+function! s:set_background(L) "{{{
     " XXX: there maybe errors of &background in terminal
     if a:L<=50
         if exists("g:colors_name")
@@ -864,617 +1134,236 @@ function! s:set_bg(L) "{{{
         set background=light
     endif
 endfunction "}}}
-function! s:get_style_list(style) "{{{
-    let hl_scheme = []
-    for [name,hl_list] in items(s:hl_styles)
-        if a:style == name
-            let hl_scheme += hl_list
-        endif
-    endfor
-    return hl_scheme
-endfunction "}}}
-function! s:get_scheme_list() "{{{
-    let scheme_list=deepcopy(s:default_schemes)
-
-    " get stored scheme
-    let stored_theme_list = s:load_store()
-    if !empty(stored_theme_list)
-        let scheme_list=deepcopy(s:default_schemes)
-
-        for i in range(len(stored_theme_list))
-            if exists("stored_theme_list[".i."].name")
-                        \ && exists("stored_theme_list[".i."].colors")
-                        \ && len(stored_theme_list[i].colors)==5
-                call add(scheme_list, stored_theme_list[i])
-            else
-                continue
-            endif
-        endfor
-    endif
-    return scheme_list
-endfunction "}}}
-" INHL{{{1
-"======================================================================
-function! s:load_indent_hl_syn() "{{{
-    " clear indent syntax match  or it will be multi loaded
-    silent! call s:clear_indent_syn()
-
-    if  g:galaxy_indent_hl_pos=="end" | let p_txt = "#ms=e"
-    else                              | let p_txt = "#me=s+1"
-    endif
-
-    " indent Highlight with style
-    " WorkRound: without contains
-    "            the vimLineComment will display as vimString
-    "            if there are '"' in line .
-    "            But with contains, Indent0 did not shown.
-    for in_str in [repeat(' ', &sw), '\t']
-        exe 'syn match galaxyIndent0'.' #^'.in_str.p_txt
-                    \.' contains=vimLineComment containedin=ALL'
-
-        for i in range(1,7)
-            exe 'syn match galaxyIndent'.i.' #\%(^\1\{'.i.'}\)\@<=\('.in_str.'\)'.p_txt
-                    \.' contains=vimLineComment containedin=ALL'
-        endfor
-    endfor
-
-    syn match galaxyIndentErr #^ \+\t#  containedin=ALL
-    syn match galaxyIndentErr #^\t\+ #  containedin=ALL
-
-    if g:galaxy_show_trailing_ws == 1
-        syn match galaxyIndentErr #\t\+$# containedin=ALL
-        syn match galaxyIndentErr # \+$#  containedin=ALL
-    endif
-
-endfunction "}}}
-function! s:indent_hl() "{{{
-" this function should be called everytime when toggle indent hl
-    if exists("s:scheme.style") && s:scheme.style =~? 'COLOUR\|ABOUND'
-        let s:indent_hl_list=[
-                    \["galaxyIndent0", "nocolor",  "difclr2",  "n"     ],
-                    \["galaxyIndent1", "nocolor",  "difclr3",  "n"     ],
-                    \["galaxyIndent2", "nocolor",  "difclr4",  "n"     ],
-                    \["galaxyIndent3", "nocolor",  "difclr5",  "n"     ],
-                    \["galaxyIndent4", "nocolor",  "difclr6",  "n"     ],
-                    \["galaxyIndent5", "nocolor",  "difclr7",  "n"     ],
-                    \["galaxyIndent6", "nocolor",  "difclr8",  "n"     ],
-                    \["galaxyIndent7", "nocolor",  "difclr9",  "n"     ],
-                    \]
-    else
-        let s:indent_hl_list=[
-                    \["galaxyIndent0", "nocolor",  "bgdclr1",  "n"     ],
-                    \["galaxyIndent1", "nocolor",  "bgdclr2",  "n"     ],
-                    \["galaxyIndent2", "nocolor",  "bgdclr3",  "n"     ],
-                    \["galaxyIndent3", "nocolor",  "bgdclr4",  "n"     ],
-                    \["galaxyIndent4", "nocolor",  "bgdclr5",  "n"     ],
-                    \["galaxyIndent5", "nocolor",  "bgdclr6",  "n"     ],
-                    \["galaxyIndent6", "nocolor",  "bgdclr7",  "n"     ],
-                    \["galaxyIndent7", "nocolor",  "bgdclr8",  "n"     ],
-                    \]
-    endif
-    call s:hi_list(s:indent_hl_list)
-    hi link galaxyIndentErr ErrorMsg
-endfunction "}}}
-function! s:indent_hl_aug() "{{{
-    aug galaxy#indent_hl
-        for file in split(g:galaxy_indent_hl_ftype,",")
-            exe "au! FileType" file "call galaxy#toggle_indent_hl('ON')"
-        endfor
-    aug END
-endfunction "}}}
-function! galaxy#toggle_indent_hl(...) "{{{
-    if !exists("b:galaxy_indent_hl")
-                \ || b:galaxy_indent_hl == 0
-                \ || (exists("a:1") && a:1 == "ON")
-        call s:load_indent_hl_syn()
-        call s:indent_hl()
-        let b:galaxy_indent_hl = 1
-    elseif b:galaxy_indent_hl == 1 || (exists("a:1") && a:1 == "OFF")
-        silent! call s:clear_indent_syn()
-        silent! call s:clear_indent_hl()
-        let b:galaxy_indent_hl = 0
-    endif
-endfunction "}}}
-function! s:clear_indent_syn() "{{{
-    " use silent! to call it
-    for i in range(8)
-        exe "syn clear galaxyIndent".i
-    endfor
-    syn clear galaxyIndentErr
-endfunction "}}}
-function! s:clear_indent_hl() "{{{
-    " use silent! to call it
-    for i in range(8)
-        exe "hi galaxyIndent".i "NONE"
-    endfor
-    hi galaxyIndentErr NONE
-endfunction "}}}
-" STAT"{{{1
-"======================================================================
-function! s:statusline_aug() "{{{
-    if version >= 700 "{{{
-        let s:list_insert_enter = []
-        let s:list_insert_leave = []
-        let hl_grp = ["StatusLine","User1","User2","User3",
-                    \"User4","User5","User6","User7","User8","User9",]
-        let hl_list = (s:scheme_style_list + s:default_hl)
-        for grp in hl_grp
-            for item in hl_list
-                if item[0] == grp
-                    call add(s:list_insert_leave,item)
-
-                    let _item = copy(item)
-                    if grp =~? '^StatusLine$'
-                        let statline_fg = item[1]
-                        let [_item[2],_item[1]] = _item[1:2]
-                    elseif grp =~? '^User\d$'
-                        if exists("s:scheme.style")
-                            \&& s:scheme.style =~? 'COLOUR\|ABOUND'
-                            if grp =~ '[1234]'
-                                " fgd = bgd
-                                " let _item[1] = item[2]
-                                " bgd = statusline bgd
-                                " let _item[2] = statline_fg
-                            endif
-                            " else
-                            " if grp =~ '[1234]'
-                                " let _item[1] = item[2]
-                                " let _item[2] = statline_fg
-                            " endif
-                        endif
-                    endif
-                    call add(s:list_insert_enter,_item)
-
-                    break
-                endif
-            endfor
-        endfor
-
-        aug galaxy#insertenter
-            au!
-            au InsertEnter * call s:hi_list(s:list_insert_enter)
-            au InsertLeave * call s:hi_list(s:list_insert_leave)
-        aug END
-    endif "}}}
-endfunction "}}}
-function! s:statusline_term16_aug() "{{{
-if version >= 700 "{{{
-    if s:y <=50
-        let s:list_insert_enter=[
-            \["StatusLine",     "Gray",  "Blue",  "n"     ],
-            \["User1",          "Red",  "Blue",  "n"     ],
-            \["User2",          "Magenta",  "Blue",  "n"     ],
-            \["User3",          "Cyan",  "Blue",  "n"     ],
-            \["User4",          "Green",  "Blue",  "n"     ],
-            \["User5",          "Blue",  "Blue",  "n"     ],
-            \["User6",          "Yellow",  "Blue",  "n"     ],
-            \]
-    else
-        let s:list_insert_enter=[
-            \["StatusLine",     "Black",  "Yellow",  "n"     ],
-            \["User1",          "Red",  "Yellow",  "n"     ],
-            \["User2",          "Magenta",  "Yellow",  "n"     ],
-            \["User3",          "Cyan",  "Yellow",  "n"     ],
-            \["User4",          "Green",  "Yellow",  "n"     ],
-            \["User5",          "Blue",  "Yellow",  "n"     ],
-            \["User6",          "Yellow",  "Yellow",  "n"     ],
-            \]
-    endif
-        let s:list_insert_leave =[]
-        let hl_grp = ["StatusLine","User1","User2","User3",
-                    \"User4","User5","User6"]
-        for item in s:term_hl_list
-            for grp in hl_grp
-                if item[0] == grp
-                    call add(s:list_insert_leave,item)
-                endif
-            endfor
-        endfor
-
-    aug galaxy#insertenter
-        au!
-        au InsertEnter * call s:hi_list(s:list_insert_enter)
-        au InsertLeave * call s:hi_list(s:list_insert_leave)
-    aug END
-endif "}}}
-endfunction "}}}
-function! s:term_cursor() "{{{
-    if &t_Co <=16
-        if s:y < 50
-            let color_normal="Cyan"
-            let color_insert="Red"
-        else
-            let color_normal="Darkblue"
-            let color_insert="Darkred"
-        endif
-    else
-        let color_normal="#".s:synclr_list[3]
-        let color_insert="#".s:msgclr_list[0]
-    endif
-    let color_exit=g:galaxy_tcursor_color
-    "by lilydjwg
-    let au_cmd=""
-    if &term =~ 'xterm\|rxvt'
-        exe 'silent !echo -ne "\e]12;' . escape(color_normal, '#'). '\007"'
-        let &t_SI="\e]12;" . color_insert . "\007"
-        let &t_EI="\e]12;" . color_normal . "\007"
-
-        let au_cmd='autocmd VimLeave * :silent !echo -ne "\e]12;"' . escape(color_exit, '#') . '"\007"'
-    elseif &term =~ "screen"
-        if !exists('$SUDO_UID')
-            if exists('$TMUX')
-                exe 'silent !echo -ne "\033Ptmux;\033\e]12;"' . escape(color_normal, '#') . '"\007\033\\"'
-                let &t_SI="\033Ptmux;\033\e]12;" . color_insert . "\007\033\\"
-                let &t_EI="\033Ptmux;\033\e]12;" . color_normal . "\007\033\\"
-                let au_cmd='autocmd VimLeave * :silent !echo -ne "\033Ptmux;\033\e]12;"' . shellescape(color_exit, 1) . '"\007\033\\"'
-            else
-                exe 'silent !echo -ne "\033P\e]12;"' . escape(color_normal, '#') . '"\007\033\\"'
-                let &t_SI="\033P\e]12;" . color_insert . "\007\033\\"
-                let &t_EI="\033P\e]12;" . color_normal . "\007\033\\"
-                let au_cmd='autocmd VimLeave * :silent !echo -ne "\033P\e]12;"' . escape(color_exit, '#')  . '"\007\033\\"'
-            endif
-        endif
-    endif
-    aug galaxy#term_cursor
-        au!
-        exec au_cmd
-    aug END
-endfunction "}}}
-function! galaxy#show_mode() "{{{
-    let val= mode()
-    if &paste | let val .= ' P' | endif
-    if &diff  | let val .= ' D' | endif
-    if &list  | let val .= ' L' | endif
-    return val
-endfunction "}}}
-
 " WINS "{{{1
 "======================================================================
 function! galaxy#win() "{{{
-    call s:getwin()
-    "{{{local setting
-    setlocal winfixwidth
-    setlocal nospell
-    setl nocursorline nocursorcolumn
-    setl tw=0
-    setl buftype=nofile
-    setl bufhidden=delete
-    setl nolist
-    setl noswapfile
-    setl nobuflisted
-    setl nowrap
-    setl nofoldenable
-    setl nomodeline
-    setl nonumber
-    setl noea
-    setl foldcolumn=0
-    setl sidescrolloff=0
-    setl ft=galaxy_
-    if v:version >= 703
-        setl cc=
-    endif
-    iabc <buffer>
 
-    aug galaxy#cursor_move
-        au! CursorMoved,CursorMovedI <buffer>  call s:cursor_text_hi()
-    aug END
-    "}}}
-    "{{{ maps
-    nmap <silent><buffer> q :call galaxy#exit_win()<cr>
-    nmap <silent><buffer> Q :call galaxy#exit_win()<cr>
-    nmap <silent><buffer> gn :call galaxy#win_scheme_gen_colorv()<cr>
-    nmap <silent><buffer> e :call <SID>win_scheme_edit_colorv()<cr>
-    nmap <silent><buffer> dd :call <SID>win_scheme_del()<cr>
-    nmap <silent><buffer> D :call <SID>win_scheme_del()<cr>
-    nnoremap <silent><buffer> <Tab> W
-    nnoremap <silent><buffer> <s-Tab> B
-    map <silent><buffer> <cr> :call <SID>win_load_scheme()<cr>
-    map <silent><buffer> <space> :call <SID>win_load_scheme()<cr>
-    map <silent><buffer> <Kenter> :call <SID>win_load_scheme()<cr>
-    map <silent><buffer> <2-leftmouse> :call <SID>win_load_scheme()<cr>
-    map <silent><buffer>  ? :call <SID>seq_echo()<cr>
-    map <silent><buffer>  <F1> :h galaxy<cr>
-    map <silent><buffer> H :h galaxy<cr>
-    "}}}
-    "hi "{{{
-    let Title_ptn='\%1l\%<20c'
-    let Title_ptn2='\%1l\%>19c'
-    let Title_ptnq='\%1l\%60c?'
-    call matchadd("SpecialComment",Title_ptn)
-    call matchadd("Comment",Title_ptn2)
-    call matchadd("TODO",Title_ptnq,25)
-    let Type_ptn='\%2l'
-    call matchadd("Question",Type_ptn,4) "}}}
-    "Text "{{{
-    let StringList = []
-    let m = "Galaxy v".g:galaxy.version."
-                \    H:help  gn:new e:edit dd:delete q:quit  ?"
-    call add(StringList,m)
-    let m = "SCHEME"
-    let m = s:line_sub(m,"BGD",20)
-    let m = s:line_sub(m,"FGD",27)
-    let m = s:line_sub(m,"SYN",34)
-    let m = s:line_sub(m,"MSG",41)
-    let m = s:line_sub(m,"DIF",48)
-    let m = s:line_sub(m,"STYLE",56)
-    call add(StringList,m)
-    let s:scheme_list = s:get_scheme_list()
-    for scheme in s:scheme_list
-        let colors=""
-        for color in scheme.colors
-            " hi color when create txt .it's faster.
-            " but no 256 support.
-            " exec "hi ".grp." guifg=#".color." guibg=#".color
-            let colors .= color." "
-            " if has("gui_running") || &t_Co==256
-            "     let grp="glx".color
-            "     call s:hi_list([[grp,color,color,"n"]])
-            "     let ptn=color
-            "     let s:prev_dict[grp]= matchadd(grp,ptn)
-            " endif
-        endfor
-        let name = scheme.name
-        let style = exists("scheme.style") ? scheme.style : ""
-        let m = strpart(name,0,16)
-        let m = s:line_sub(m,colors,20)
-        let m = s:line_sub(m,style,56)
-        call add(StringList,m)
+    cal s:new_win(s:galaxy.name)
+    " Pre
+    cal s:win_map()
+
+    "Text
+    let lines = [
+    \"GALAXY v1.0.0      Screen:sc   Load:<Click>  Edit:e  New:gn  Tips:?",
+    \"STYLE: Default     SYNTAX:Less   STATUSLINE:Left    INDENT_HL:On  ",
+    \"SCHEME:            BGD    FGD    SYN    MSG    DIF               ",
+    \]
+    let s:intro_lines=len(lines)
+    let lines[0] = "GALAXY v" . g:galaxy.version 
+                \. s:head_tip[(colorv#random(0,2))]
+    let lines[1] = s:get_opt_line()   
+
+    " Load scheme dicts
+    cal s:load_file_schemes()
+    " Set default first , items(dict) is an unordered list
+    for [name, colors] in sort(items(s:d_scheme_dict)) + 
+                         \sort(items(s:f_scheme_dict))
+        let lines +=[printf("%-15.15s", name)."    ".join(colors)]
     endfor
-    let l:win_h = len(StringList)
-    let l:win_h = l:win_h > 20 ? 20 : l:win_h
+
     setl ma
-    if !empty(StringList)
-        for i in range(len(StringList))
-            call setline(i+1,StringList[i])
-        endfor
-    endif
-    setl noma "}}}
+        call setline(1,lines)
+    setl noma
+
     if winnr('$') != 1
-        execute 'resize' l:win_h
-        redraw
+        let win_h = len(lines)
+        let win_h = win_h > 20 ? 20 : win_h
+        execute 'resize' win_h
     endif
-    call galaxy#load_scheme("","START")
-    call colorv#preview("sbNc")
-    redraw
-    call s:echo(len(s:scheme_list)." schemes loaded. Now is ["
-                \.s:scheme.name."].")
-    call search('\<'.s:scheme.name.'\>')
-endfunction "}}}
-function! s:getwin() "{{{
-    let spLoc= g:galaxy.winpos == "top" ? "topleft " : "botright "
-    let spSize= 20
-    let spDirc= ""
-    let exists_buffer= bufnr(g:galaxy.name)
-    if exists_buffer== -1
-        silent! exec spLoc .' '.spSize.spDirc.'new '.  g:galaxy.name
-    else
-        if !s:go_buffer_win(g:galaxy.name)
-            silent! exe spLoc ." ".spSize.spDirc."split +buffer" . exists_buffer
-        endif
-    endif
-endfunction "}}}
-function! s:go_buffer_win(name) "{{{
-    """ if buffer exists , go to buffer and return 1
-    """ else return 0
-    if bufwinnr(bufnr(a:name)) != -1
-        exe bufwinnr(bufnr(a:name)) . "wincmd w"
-        return 1
-    else
-        return 0
-    endif
+
+    " redraw
+    call galaxy#load("","","START")
+    cal s:win_hi()
+    " redraw
+
+    call s:echo(len(s:A_scheme_dict)." schemes loaded."
+                    \."Now is [".s:scheme.name."].")
 endfunction "}}}
 function! s:win_load_scheme() "{{{
-    let linenum=line('.')
-    if linenum<=2
-    if linenum==1 && col('.')==60 && matchstr(getline(1),"?",59,1) == "?"
-            call s:seq_echo()
-        else
-    call s:echo("Please move down to choose a scheme.")
-        endif
-    return
+    let row=line('.')
+    if row <= s:intro_lines
+        call s:win_opt_set()
     else
-        let line = getline(linenum)
-        let line_lst=split(line,'\s\+')
-        let name=line_lst[0]
-        if !has("gui_running") && (&t_Co==8 || &t_Co==16)
-            " echoe "win load" name
-            call galaxy#load_scheme16(name)
-        else
-            call galaxy#load_scheme(name)
+        let name = s:name_in_row(row)
+        call galaxy#load(name)
+        if s:get_bufwin(s:screen.name)
+            call s:screen.win()
+            wincmd p
         endif
     endif
-
 endfunction "}}}
-function! s:win_scheme_edit_colorv() "{{{
-    let [line, col] = getpos('.')[1:2]
-    if line <= s:win_txtline
-        call s:echo("Please move down to choose a scheme.")
+function! s:win_del_scheme() "{{{
+    let [row,col] = getpos('.')[1:2]
+    if row <= s:intro_lines
+        call s:echo("Move down to choose a scheme.")
         return
-    elseif line <= s:win_txtline + s:win_builtin_line
-        call s:echo("You could not modify built-in schemes.")
-        return
-    endif
-
-    " get scheme color and style from line.
-    let line_lst = split(getline(line),'\s\+')
-    let scheme = {}
-    let scheme.name = line_lst[0]
-    let scheme.colors = line_lst[1:5]
-    let scheme.style= exists("line_lst[6]") ? line_lst[6] : ""
-    let clr_helptxt = s:clr_helptxt
-    let s:edit_scheme = deepcopy(scheme)
-    let s:edit_linenum = line
-
-    for i in range(6)
-        if col >= 20+i*7 && col <= 25+i*7 && i <= 4
-            call s:input_cv_call(scheme.colors[i],clr_helptxt[i],"galaxy#e_call",['g:ColorV.HEX'])
-            let s:edit_clr = i
-            return
-        elseif col >=56 && col <= 62
-            let style = input("Input scheme's style"
-                        \."('G[alaxy](default)|A[bound]|C[olour]|S[hadow]'):\n")
-            if style =~? 'c\%[olour]'
-                let scheme.style="COLOUR"
-            elseif style =~? 's\%[hadow]'
-                let scheme.style="SHADOW"
-            elseif style =~? 'a\%[bound]'
-                let scheme.style="ABOUND"
-            else
-                let scheme.style=""
-            endif
-
-            call s:write_store(scheme)
-
-            " if exists galaxy buffer. go and change the scheme style name.
-            if s:go_buffer_win(g:galaxy.name)
-                let m = strpart(scheme.name, 0, 16)
-                let colors=""
-                for color in scheme.colors
-                    let colors .= color." "
-                endfor
-                let m = s:line_sub(m,colors,20)
-                let m = s:line_sub(m,scheme.style,56)
-                setl ma
-                call setline(line,m)
-                setl noma
-                call colorv#preview_line("Nb",line)
-            endif
-
-            let s:edit_clr=-1
-            call galaxy#load_scheme(scheme.name)
-            return
-        endif
-    endfor
-
-    call s:echo("Please put cursor on the colors or styles.")
-    let s:edit_clr=-1
-
-endfunction "}}}
-function! galaxy#e_call(color) "{{{
-    let color=a:color
-    let scheme=s:edit_scheme
-    let line=s:edit_linenum
-    if !exists("s:edit_clr") || s:edit_clr == -1
-    return
-    endif
-    if color=~'\x\{6}'
-        let scheme.colors[s:edit_clr]=color
-    else
-        let scheme.colors[s:edit_clr]=eval(color)
-    endif
-    call s:write_store(scheme)
-    if !s:go_buffer_win(g:galaxy.name)
-        return -1
-    endif
-    let colors=""
-    for color in scheme.colors
-        let colors .= color." "
-    endfor
-    let m = strpart(scheme.name,0,16)
-    let m = s:line_sub(m,colors,20)
-    let m = s:line_sub(m,scheme.style,56)
-    setl ma
-        call setline(line,m)
-    setl noma
-    call colorv#preview_line("Nb",line)
-    call galaxy#load_scheme(scheme.name)
-endfunction "}}}
-function! s:input_cv_call(color,txt,callfunc,callarg) "{{{
-    "1:exit call   | 2: update call
-    call colorv#win("",a:color,1,a:callfunc,a:callarg)
-    call s:echo("Choose your color for ".a:txt)
-endfunction "}}}
-
-function! s:win_scheme_del() "{{{
-    " get the name
-    let linenum=line('.')
-    let col = col('.')
-    let s:win_txtline=2
-    let s:win_builtin_line=len(s:default_schemes)
-    if linenum<=s:win_txtline
-        call s:echo("Please move down to choose a scheme.")
+    elseif row<= s:intro_lines + s:blt_in_lines
+        call s:echo("Could not delete built-in Schemes.")
         return
     endif
-    if linenum <= s:win_txtline + s:win_builtin_line
-        call s:echo("You could NOT delete built-in Schemes.")
-        return
-    endif
-    let line = getline(linenum)
-    let line_lst=split(line,'\s\+')
-    let scheme={}
-    let scheme.name=line_lst[0]
-
-    " delete the .galaxy file
-    let folder =  expand(g:galaxy_store_Folder)
-    let file = folder.scheme.name.".galaxy"
-    let input=input("Are you sure to delete the file ".file."?\n(y[es]/no):")
-    if filewritable(file) && input=~? 'y\%[es]'
-        call delete(file)
-        call s:echo("File deleted.")
-        if s:go_buffer_win(g:galaxy.name)
+    
+    " save to cache
+    let name = s:name_in_row(row)
+    if has_key(s:f_scheme_dict, name)
+        call remove(s:f_scheme_dict, name)
+        call s:save_file_schemes() 
+        " write buffer
+        if s:get_bufwin(s:galaxy.name)
             setl ma
-            exec linenum."delete"
+            exec row."delete"
             setl noma
         endif
-    elseif !filewritable(file)
-    call s:echo("Error:file not writeable.")
-    return
+        call s:echo("Scheme ".name." deleted.")
     else
-    call s:echo("File deleting quited.")
-    return
-    endif
-    " redraw window
-endfunction "}}}
-function! s:cursor_text_hi()  "{{{
-    if line('.') > 2 
-        execute 'match' "PmenuSel".' /\%'.line('.').'l\%<17c/'
-        let c=col('.')
-        if c >19 && c<26
-            execute '2match' "PmenuSel".' /\%2l\%>19c\%<26c/'
-        elseif c >26 && c<33
-            execute '2match' "PmenuSel".' /\%2l\%>26c\%<33c/'
-        elseif c >33 && c<40
-            execute '2match' "PmenuSel".' /\%2l\%>33c\%<40c/'
-        elseif c >40 && c<47
-            execute '2match' "PmenuSel".' /\%2l\%>40c\%<47c/'
-        elseif c >47 && c<54
-            execute '2match' "PmenuSel".' /\%2l\%>47c\%<54c/'
-        elseif c >55 && c<62
-            execute '2match' "PmenuSel".' /\%2l\%>55c\%<62c/'
-        else
-            execute '2match ' "none"
-        endif
-    else
-        execute 'match' "none"
-        execute '2match ' "none"
-    endif
-endfunction "}}}
-function! galaxy#exit_win() "{{{
-    if s:go_buffer_win(g:galaxy.name)
-    close
-    endif
-endfunction "}}}
-" GENS {{{1
-"============================================================================
-function! galaxy#win_scheme_gen_colorv() "{{{
-    let scheme={}
-    let name=input("Please Input your Scheme name ([a-zA-Z0-9_]):\n")
-    if !empty(name) && name =~ '^[a-zA-Z0-9_]*$'
-        let scheme.name= substitute(name,'\s',"_","g")
-    else
-        call s:echo("Not a Valid Name. Stopped.")
+        call s:echo("Could not find scheme ".name)
         return
     endif
-    let s:edit_scheme =deepcopy(scheme)
-    call s:input_cv_call("111315","Background","galaxy#gen_call",['g:ColorV.HEX','s:edit_scheme.name'])
+    
 endfunction "}}}
-function! galaxy#gen_call(color,name,...) "{{{
-    let scheme={}
-    let name=a:name
-    if name =~ '[glstvw]:\w*'
-        let scheme.name=eval(name)
+function! s:win_rename_scheme() "{{{
+    let [row,col] = getpos('.')[1:2]
+     
+    if row <= s:intro_lines
+        call s:echo("Move down to choose a scheme.")
+        return
+    endif
+
+    let name = s:name_in_row(row)
+    let new_name = input("Input a new name:")
+    let new_name = s:valid_name(new_name)
+    if new_name is 0
+        return
+    endif
+    echom name new_name
+    
+    if has_key(s:f_scheme_dict, name)
+        "find from f_dict, cpy colors and rmv old one
+        let colors  = copy(s:f_scheme_dict[name])
+        cal remove(s:f_scheme_dict, name)
+        let note = "Rename scheme '".name."' to '". new_name."'"
+        let cmd = "call setline(row, s:line_sub(new_name , join(colors), 20))"
     else
-        let scheme.name=name
+        "not find from f_dict. cpy colors from blt-in
+        let colors  = copy(s:d_scheme_dict[name])
+        let note = "Create scheme '".new_name."' from Builti-in '".name."'"
+        let cmd = "call append(line('$'), s:line_sub(new_name , join(colors), 20))"
+    endif
+
+    " add to dict
+    cal extend(s:f_scheme_dict, {new_name : colors}, "force")
+    cal s:save_file_schemes() 
+    cal s:echo(note)
+
+    if s:get_bufwin(s:galaxy.name)
+        setl ma
+            exe cmd
+        setl noma
+        0 cal search('\<'.new_name.'\>')
+    endif
+endfunction "}}}
+function! s:win_edt_scheme_cv() "{{{
+    let [row, col] = getpos('.')[1:2]
+
+    if row <= s:intro_lines
+        call s:win_opt_set()
+        return
+    endif
+
+    let scheme = s:scheme_in_row(row)
+    let colors = s:colors_in_scheme(scheme)
+    let s:edit_scheme = deepcopy(scheme)
+    let s:edit_row = row
+    let s:edit_buf = "win"
+    let s:edit_idx = -1
+
+    for i in range(5)
+        if col <= 16
+            call s:win_rename_scheme()
+            return
+        elseif col >= 20+i*7 && col <= 25+i*7
+            call s:input_cv_call(colors[i],s:hlp_txt[i]
+                    \,"galaxy#edit_callback",['g:ColorV.HEX'])
+            let s:edit_idx = i
+            return
+        endif
+    endfor
+
+endfunction "}}}
+function! galaxy#edit_callback(color) "{{{
+
+    if !exists("s:edit_idx") || s:edit_idx == -1
+        return
+    endif
+
+    let row    = s:edit_row
+
+    let name   = s:name_in_scheme(s:edit_scheme)
+    if has_key(s:d_scheme_dict, name)
+        call s:caution("You are editing a Built-in scheme. ")
+        let new_name = input("Input new name to make a copy:")
+        let name = s:valid_name(new_name)
+        if name is 0
+            return
+        endif
+    endif
+
+    let colors = s:colors_in_scheme(s:edit_scheme)
+    if a:color=~'\x\{6}'
+        let colors[s:edit_idx]=a:color
+    else
+        let colors[s:edit_idx]=eval(a:color)
+    endif
+
+    let scheme = { name : colors }
+    cal extend(s:f_scheme_dict, scheme, "force")
+    cal s:save_file_schemes()
+    cal galaxy#load(name)
+
+    " edit line in buffer
+    if !s:get_bufwin(s:galaxy.name) && !s:get_bufwin(s:screen.name)
+        return
+    endif
+
+    if s:edit_buf == "scr"
+        call s:screen.win()
+    else
+        call galaxy#win()
+    endif
+
+endfunction "}}}
+function! s:input_cv_call(color,txt,callfunc,callarg) "{{{
+    "1:callback when exit  | 2: callback when update
+    call colorv#win("",a:color,["exit",a:callfunc,a:callarg])
+    call s:echo(a:txt)
+endfunction "}}}
+function! s:win_new_scheme_cv() "{{{
+    cal s:echo("Two steps to generate a scheme.")
+    let name=input("1. Input scheme name:\n")
+    let name = s:valid_name(name)
+    if name is 0
+        return
+    endif
+    let s:gen_name = name
+    let randhex = printf("%06.6s",printf("%X",colorv#random(0,16777215)))
+    cal s:input_cv_call(randhex,"2. Choose Background"
+                \,"galaxy#gen_callback",['g:ColorV.HEX','s:gen_name'])
+endfunction "}}}
+function! s:win_new_scheme_rd() "{{{
+    cal s:echo("One steps to generate a random scheme.")
+    let name=input("1. Input scheme name:\n")
+    let name = s:valid_name(name)
+    if name is 0
+        return
+    endif
+    let randhex = printf("%06.6s",printf("%X",colorv#random(0,16777215)))
+    call galaxy#gen_callback(randhex,name)
+endfunction "}}}
+function! galaxy#gen_callback(color,name,...) "{{{
+    let name=a:name
+    if name =~ '^[glstvw]:\w*'
+        let name=eval(name)
+    else
+        let name=name
     endif
     let colors=[]
     let color=a:color
@@ -1483,7 +1372,7 @@ function! galaxy#gen_call(color,name,...) "{{{
     else
         let bgr=eval(color)
     endif
-
+    "{{{ Gen Colors
     let [bgry,bgri,bgrq]=colorv#hex2yiq(bgr)
     let [bgrh,bgrs,bgrv]=colorv#hex2hsv(bgr)
 
@@ -1650,31 +1539,33 @@ function! galaxy#gen_call(color,name,...) "{{{
     endif
     let [dify0,difi0,difq0]=colorv#hex2yiq(dif0)
     let dif=colorv#yiq2hex([dify,difi0,difq0])
-
+"}}}
     for i in [bgr,fgr,syn,msg,dif]
         call add(colors,i)
     endfor
-    let scheme.colors=colors
-    call s:write_store(scheme)
+    
+    let name = name[:15]
+    let scheme = {name : colors}
+    call extend(s:f_scheme_dict, scheme, "force")
 
     if exists("a:1") && a:1 =="SILENT"
         return
-    else
-        call galaxy#load_scheme(scheme.name)
-        call galaxy#win()
     endif
+
+    call s:save_file_schemes()
+    call galaxy#load(name)
+    call galaxy#win()
+    0cal search('\<'.name.'\>')
 
 endfunction "}}}
 function! galaxy#auto_gen() "{{{
-"auto gen with colorv list
-    let CacheStringList = getline(0,'$')
     let namelist=[]
-    for i in CacheStringList
+    for i in getline(1,'$')
         if i =~ '\(\S*\)\s*\(#\x\{6}\)'
             let name=substitute(i,'\(^.*\)\s*\(#\x\{6}\)','\1','')
             let name=substitute(name,'\s*',"",'g')
             let name=substitute(name,'\W','_','')
-            let name =strpart(name,0,17)
+            let name =strpart(name,0,16)
             let color=matchstr(i,'#\x\{6}')
             let color=substitute(color,'#','','')
             call add(namelist,[name,color])
@@ -1684,50 +1575,944 @@ function! galaxy#auto_gen() "{{{
         call s:caution("Generating ColorSchemes, Please Wait...")
         let n=0
         for [name,color] in namelist
-            call galaxy#gen_call(color,name,"SILENT")
+            call galaxy#gen_callback(color,name, "SILENT")
             let n+=1
         endfor
+        call s:save_file_schemes()
         call s:caution("Generating Complete! ".n." Schemes was generated.")
+        call galaxy#load()
     endif
-    " echo string(namelist)
-    call galaxy#load_scheme()
+endfunction "}}}
+
+function! s:valid_name(name) "{{{
+    if empty(a:name)
+        call s:error("Name is empty.")
+        return 0
+    elseif a:name !~ '^\w*$'
+        call s:error("Name must contain word characters ([0-9a-zA-Z_]) only.")
+        return 0
+    elseif a:name !~ '^\w\{4,15}$'
+        call s:error("Name must have 4~15 characters.")
+        return 0
+    elseif a:name =~ '^\x\{6}$'
+        call s:error("Don't use Hex as Name.")
+        return 0
+    else
+        let name = a:name
+        if has_key(s:A_scheme_dict, name)
+            call s:error("Name already exists.")
+            return 0
+        endif
+    endif
+    return name
+endfunction "}}}
+function! s:win_setl() "{{{
+    setl winfixwidth noea
+    setl nocursorline nocursorcolumn
+    setl buftype=nofile bufhidden=delete
+    setl nolist noswapfile nobuflisted
+    setl nowrap nofoldenable nomodeline nonumber nospell
+    setl foldcolumn=0 sidescrolloff=0 tw=0
+    if v:version >= 703
+        setl cc=
+    endif
+    iabc <buffer>
+endfunction "}}}
+function! s:win_map() "{{{
+    mapclear <buffer>
+    nma <silent><buffer> q  :call galaxy#exit_win()<cr>
+    nma <silent><buffer> Q  :call galaxy#exit_win()<cr>
+    nma <silent><buffer> gn :call <SID>win_new_scheme_cv()<cr>
+    nma <silent><buffer> gr :call <SID>win_new_scheme_rd()<cr>
+    nma <silent><buffer> e  :call <SID>win_edt_scheme_cv()<cr>
+    nma <silent><buffer> dd :call <SID>win_del_scheme()<cr>
+
+    nno <silent><buffer> <Tab> W
+    nno <silent><buffer> <S-Tab> B
+
+    map <silent><buffer> sc   :call galaxy#screen.win()<cr>
+    map <silent><buffer> sv   :call galaxy#screen.saver()<CR>
+    map <silent><buffer> <CR> :call <SID>win_load_scheme()<cr>
+    map <silent><buffer> <Kenter> :call <SID>win_load_scheme()<cr>
+    map <silent><buffer> <Space> :call <SID>win_load_scheme())<cr>
+    map <silent><buffer> <2-Leftmouse> :call <SID>win_load_scheme()<cr>
+
+    map <silent><buffer> ? :call <SID>echo_tips()<cr>
+    map <silent><buffer> <F1> :h galaxy-quickstart<cr>
+    map <silent><buffer> H :h galaxy-quickstart<cr>
+endfunction "}}}
+function! s:win_hi() "{{{
+    call matchadd("Title"           , '\%1l\%<20c')
+    call matchadd("Comment"         , '\%1l\%>19c')
+    call matchadd("TODO"            , '\%1l\%>65c[?H]', 10)
+    call matchadd("Comment"         , '\%2l'          , 4)
+    call matchadd("SpecialComment"  , '\%<3l\w*:'     , 15)
+    call matchadd("Pmenu"           , '\%3l'          , 10)
+    aug galaxy#cursor_move
+        au! CursorMoved,CursorMovedI <buffer>  call s:cursor_text_hi()
+    aug END
+    call colorv#preview("sbNc")
+endfunction "}}}
+function! s:cursor_text_hi()  "{{{
+    let [row,col] = getpos('.')[1:2]
+    execute '3match' "none"
+    execute '2match' "none"
+    if  row == 2
+        " check if it is whitespace
+        if  getline(row)[col-1] =~ '\s'
+            return
+        endif
+
+        let [a,b] = s:get_cWORD_pos()
+        execute '3match' 'PmenuSel' '/\%'.(2).'l'
+                    \.'\%>'.(a-1).'c\%<'.(b+1).'c/'
+        return
+
+    endif
+    if  row > 3
+        if  getline(row)[col-1] =~ '\s'
+            execute '2match' "PmenuSel".' /\%'.(row)
+                \.'l\%<17c/'
+            return
+        endif
+        let [a,b] = s:get_cWORD_pos()
+        execute '3match' "PmenuSel".' /\%'.(3)
+                \.'l\%>17c\%>'.(a-1) .'c\%<'.(b+1).'c/'
+        execute '2match' "PmenuSel".' /\%'.(row)
+                \.'l\(\%>'.(a-1) .'c\%<'.(b+1).'c\|\%<17c\)/'
+        return
+    endif
+endfunction "}}}
+function! s:new_win(name,...) "{{{
+    let opt = exists("a:1") ? a:1 : g:galaxy.winpos
+    let spLoc= opt=="top" ? "topleft " : "botright "
+    let spSize= 20
+    let spDirc= ""
+    let exists_buffer= bufnr(a:name)
+    if exists_buffer== -1
+        silent! exec spLoc .' '.spSize.spDirc.'new '.  a:name
+        cal s:win_setl()
+    else
+        if !s:get_bufwin(a:name)
+            silent! exe spLoc ." ".spSize.spDirc."split +buffer" . exists_buffer
+            cal s:win_setl()
+        endif
+    endif
+endfunction "}}}
+function! s:get_bufwin(name) "{{{
+    """ if buffer exists , go to buffer and return 1
+    """ else return 0
+    if bufwinnr(bufnr(a:name)) != -1
+        exe bufwinnr(bufnr(a:name)) . "wincmd w"
+        return 1
+    else
+        return 0
+    endif
+endfunction "}}}
+function! s:check_win(name) "{{{
+    if bufnr('%') != bufnr(a:name)
+        return 0
+    else
+        return 1
+    endif
+endfunction "}}}
+function! galaxy#exit_win() "{{{
+    if s:get_bufwin(s:galaxy.name)
+        close
+    endif
+endfunction "}}}
+
+function! s:scheme_in_row(row) "{{{
+    let m = split(getline(a:row))
+    return {m[0] : m[1:5]}
+endfunction "}}}
+function! s:name_in_row(row) "{{{
+    return split(getline(a:row))[0]
+endfunction "}}}
+function! s:colors_in_row(row) "{{{
+    return split(getline(a:row))[1:5]
+endfunction "}}}
+function! s:name_in_scheme(scheme) "{{{
+    return keys(a:scheme)[0]
+endfunction "}}}
+function! s:colors_in_scheme(scheme) "{{{
+    return values(a:scheme)[0]
+endfunction "}}}
+
+function! s:win_opt_set() "{{{
+    if !s:check_win(s:galaxy.name) && !s:check_win(s:screen.name)
+        return
+    endif
+
+    let word = expand('<cWORD>')
+    " check if it is whitespace
+    if empty(word) || getline(line('.'))[col('.')-1] =~ '\s'
+        return
+    endif
+    let key = split(word,':')[0]
+    let mod = 0
+
+    if      key == "GALAXY_SCREEN"
+        call s:screen.saver()
+    elseif  key == "GALAXY"
+        call s:screen.win()
+    elseif  key == "Screen"
+        call s:screen.win()
+    elseif  key == "Load"
+        " pass
+    elseif  key == "Edit"
+        " pass
+    elseif  key == "New"
+        call s:win_new_scheme_cv()
+    elseif  key == "Tips"
+        call s:echo_tips()
+    endif
+
+    if      key == "STYLE"
+        call galaxy#next_style()
+        let mod = 1
+    elseif  key == "SYNTAX"
+        let g:galaxy_colorful_syntax = !g:galaxy_colorful_syntax
+        let mod = 1
+        call s:retain_cache()
+    elseif  key == "STATUSLINE"
+        let g:galaxy_statusline_style = g:galaxy_statusline_style == "Right" ? 
+            \ "Left" : g:galaxy_statusline_style == "Left" ?  "Test"  : "Right"
+        call s:retain_cache()
+        let mod = 1
+    elseif  key == "INDENT_HL"
+        let g:galaxy_enable_indent_hl = !g:galaxy_enable_indent_hl
+        call s:retain_cache()
+        let mod = 1
+    endif
+    if mod == 1
+        setl ma
+        if s:check_win(s:screen.name)
+            call setline('.', " ".s:get_opt_line())
+        else
+            call setline('.', s:get_opt_line())
+        endif
+        setl noma
+        redraw!
+        call galaxy#load("","","START")
+    endif
+endfunction "}}}
+function! s:set_option(opt) "{{{
+    let [ui,name,style,syntax,status,indent] = a:opt
+    let g:galaxy_colorful_syntax = syntax=="Less" ? 0 : 1
+    let g:galaxy_statusline_style = status=="Left" ? "Left" : 
+                \status== "Right" ? "Right" : "Test"
+    let g:galaxy_enable_indent_hl = indent=="On" ? 1 : 0
+endfunction "}}}
+function! s:get_opt_line() "{{{
+    let syn    = g:galaxy_colorful_syntax ? "More" : "Less"
+    let stat   = g:galaxy_statusline_style
+    let indent = g:galaxy_enable_indent_hl ? "On " : "Off"
+    let line = "STYLE:". printf("%-7s", s:scheme.style)
+            \."      SYNTAX:".syn
+            \."   STATUSLINE:".printf("%-5s",g:galaxy_statusline_style)
+            \."    INDENT_HL:".indent
+    return line
+endfunction "}}}
+" SCRN {{{1
+"============================================================================
+let s:screen = {} "{{{
+let galaxy#screen = s:screen
+let s:screen.name = "GALAXY_SCREEN".g:galaxy.version
+"                       b987654321f 
+let s:chars = "0123456789abcdefghijklmnopqrstuvwxyz"
+let s:screen_lines = [
+\" GALAXY_SCREEN                                           v 2.0.0 ",
+\"                                                                 ",
+\"-SCHEME-------------BGD----FGD----SYN----MSG----DIF--------------",
+\" Black              FFFFFF FFFFFF FFFFFF FFFFFF FFFFFF           ",
+\"------------------------ GALAXY GENERATED COLORS ----------------",
+\"                                                                 ",
+\"                                                                 ",
+\"                                                                 ",
+\"                                                                 ",
+\"                                                                 ",
+\"                                                                 ",
+\"                                                                 ",
+\"                                                                 ",
+\"                                                                 ",
+\"                                                                 ",
+\"-----------------------------------------------------------------",
+\" STYLE: Default     SYNTAX:Less   STATUSLINE:Left    INDENT_HL:On",
+\"-----------------------------------------------------------------",
+\"                                                                 ",
+\"                                                                 ",
+\" SYNTAX HIGHLIGHTING GROUP:                                      ",
+\"-----------------------------------------------------------------",
+\" Constant         Statement       PreProc          Special       ",
+\" String           Conditional     Include          SpecialChar   ",
+\" Character        Repeat          Define           Tag           ",
+\" Number           Label           Macro            Delimiter     ",
+\" Boolean          Operator        PreCondit        Debug         ",
+\" Float            Keyword                                        ",
+\"                  Exception       Type                           ",
+\" Identifier                       StorageClass                   ",
+\" Function                         Structure                      ",
+\"                  Comment         Typedef                        ",
+\"                  SpecialComment                                 ",
+\"                                                                 ",
+\" DEFAULT HIGHLIGHTING GROUP:                                     ",
+\"-----------------------------------------------------------------",
+\" Cursor           Folded          TabLine          User1         ",
+\" CursorLine       ColorColumn     TabLineSel       User2         ",
+\" CursorIM         FoldColumn      TabLineFill      User3         ",
+\" CursorLine       LineNr                           User4         ",
+\" CursorColumn     SignColumn      StatusLine       User5         ",
+\"                                  StatusLineNC     User6         ",
+\" Visual           Wildmenu        VertSplit        User7         ",
+\" VisualNOS        Pmenu                            User8         ",
+\"                  PmenuSel                         User9         ",
+\" Search           PmenuSbar                                      ",
+\" IncSearch        PmenuThumb                                     ",
+\"                                                                 ",
+\" MISC HIGHLIGHTING GROUP  ( * is defined by Galaxy )             ",
+\"-----------------------------------------------------------------",
+\" Normal           ErrorMsg        Conceal          SpellBad      ",
+\" Italic     *     WarningMsg      NonText          SpellCap      ",
+\" Bold       *     MoreMsg         Ignore           SpellLocal    ",
+\" BoldItalic *     ModeMsg                          SpellRare     ",
+\" Underlined                       DiffDelete                     ",
+\" Undercurl  *     Question        DiffAdd          Error         ",
+\" Reverse    *                     DiffChange                     ",
+\" Title            MatchParen      DiffText                       ",
+\" Todo                                                            ",
+\"                                                                 ",
+\]
+"}}}
+function! s:screen.win() dict "{{{
+    cal s:new_win(s:screen.name,"top")
+    let self.lines= copy(s:screen_lines)
+    let lines = self.lines
+
+    let syn = g:galaxy_colorful_syntax == 1 ? "More" : "Less"
+    let self.width   = 65
+    let self.row_ver = 1
+    let self.row_hi  = 4
+    let self.row_clr = 6
+    let self.row_op  = 17
+    let lines[0] = s:line_sub(lines[0],"v ".g:galaxy.version, 58)
+    let lines[3] = printf("%-65s", printf(" %-15.15s",s:scheme.name)
+                \."   ".join(s:scheme.colors))
+    let lines[16] =  " ".s:get_opt_line()
+    for i in range(10)
+        let lines[6-1+i] = repeat(" ",19).join([s:hbgdclr{i},s:hfgdclr{i}
+                    \,s:hsynclr{i},s:hmsgclr{i},s:hdifclr{i}])
+    endfor
+
+    setl ma
+        call setline(1,lines)
+    setl noma
+
+    call self.highlight()
+    call self.map()
+    "_ resize
+endfunction "}}}
+function! s:screen.map() dict "{{{
+    map <silent><buffer>q   :call galaxy#screen.exit()<CR>
+    map <silent><buffer>e   :call galaxy#screen.edit()<CR>
+    map <silent><buffer> <CR> :call galaxy#screen.edit()<CR>
+    map <silent><buffer> <Kenter> :call galaxy#screen.edit()<CR>
+    map <silent><buffer> <Space> :call galaxy#screen.edit()<CR>
+    map <silent><buffer> <2-Leftmouse> :call galaxy#screen.edit()<CR>
+
+    map <silent><buffer> sv :call galaxy#screen.saver()<CR>
+
+endfunction "}}}
+function! s:screen.exit() dict "{{{
+    if s:get_bufwin(s:screen.name)
+        close
+    endif
+endfunction "}}}
+function! s:screen.rename() "{{{
+    let [row,col] = getpos('.')[1:2]
+    let line = getline(row)
+    let name = split(line)[0]
+    
+    let new_name = input("Input scheme's new name ( 4~15 char):")
+    let new_name = s:valid_name(new_name)
+    if new_name is 0
+        return
+    endif
+    
+    if has_key(s:f_scheme_dict, name)
+        let colors  = deepcopy(s:f_scheme_dict[name])
+        cal remove(s:f_scheme_dict, name)
+        let note = "Rename scheme '".name."' to '". new_name."'"
+    else
+        let colors  = deepcopy(s:d_scheme_dict[name])
+        let note = "Create scheme '".new_name."' from Builti-in '".name."'"
+    endif
+    let scheme = {new_name : colors}
+    cal extend(s:f_scheme_dict, scheme, "force")
+    cal s:save_file_schemes() 
+    
+    " write buffer
+    if s:get_bufwin(self.name)
+        setl ma
+            call setline(row, s:line_sub(" ".new_name , join(colors), 20))
+        setl noma
+    endif
+    call s:echo(note)
+endfunction "}}}
+function! s:screen.edit() dict "{{{
+    let [row, col] = getpos('.')[1:2]
+    let scheme = s:scheme_in_row(self.row_hi)
+    let colors = s:colors_in_scheme(scheme)
+    let s:edit_scheme = deepcopy(scheme)
+    let s:edit_row = row
+    "NOTE: for callback
+    let s:edit_buf = "scr"
+    if row == self.row_hi
+        for i in range(5)
+            if col <= 16
+                call self.rename()
+                return
+            endif
+            if col >= 20+i*7-1 && col <= 25+i*7
+                let s:edit_idx = i
+                call s:input_cv_call(colors[i],s:hlp_txt[i]
+                        \,"galaxy#edit_callback",['g:ColorV.HEX'])
+                return
+            endif
+        endfor
+    endif
+    if row == self.row_op || row == 1
+        call s:win_opt_set()
+    endif
+endfunction "}}}
+function! s:screen.highlight() dict "{{{
+    " syntax reset
+
+    for line in getline(20,'$')
+        for word in split(line)
+            sil! execute "syn keyword ".word." ".word
+        endfor
+    endfor
+
+    call matchadd("Title"          , '\%1l'        , 5)
+    call matchadd("TODO"           , '\%3l'        , 4)
+    call matchadd("Comment"        , '\%'.self.row_op.'l'       , 4)
+    call matchadd("SpecialComment" , '\%'.self.row_op.'l\w*:'   , 15)
+
+    aug galaxy#screen_cursor_move
+        au! CursorMoved,CursorMovedI <buffer>  call s:screen.cursor_hi()
+    aug END
+
+    call colorv#preview("sNbc")
+endfunction "}}}
+function! s:screen.cursor_hi() dict "{{{
+    let [row,col] = getpos('.')[1:2]
+    execute '2match ' "none"
+    execute '3match' "none"
+    if  row == self.row_hi
+        if  col <= 15 && col > 1
+            execute '3match' "WarningMsg".' /\%'.(self.row_hi-1)
+                    \.'l\%>'.(1) .'c\%<'.(8).'c/'
+            execute '2match' "PmenuSel".' /\%'.(self.row_hi)
+                    \.'l\%>'.(1) .'c\%<'.(16).'c/'
+            return
+        endif
+        " check if it is whitespace
+        if  getline(row)[col-1] =~ '\s'
+            return
+        endif
+
+        let [a,b] = s:get_cWORD_pos()
+        execute '3match' "WarningMsg".' /\%'.(self.row_hi-1)
+                \.'l\%>'.(a-1) .'c\%<'.(b+1).'c/'
+        execute '2match' "PmenuSel".' /\%'.(self.row_hi)
+                \.'l\%>'.(a-1) .'c\%<'.(b+1).'c/'
+        return
+    endif
+
+    if  row == self.row_op
+        " check if it is whitespace
+        if  getline(row)[col-1] =~ '\s'
+            return
+        endif
+
+        let [a,b] = s:get_cWORD_pos()
+        execute '3match' 'PmenuSel' '/\%'.(self.row_op).'l'
+                    \.'\%>'.(a-1).'c\%<'.(b+1).'c/'
+        return
+
+    endif
+endfunction "}}}
+" SAVR {{{1
+"============================================================================
+function! s:screen.saver() dict "{{{
+    cal s:new_win(s:screen.name)
+    call s:screen.clean()
+
+    resize | vert resize
+    let width = winwidth(0)
+    let height = winheight(0)
+    call s:screen.window(width,height)
+    call s:echo("...")
+    
+    let eh = s:event()
+    let stars = s:stars()
+    let stars.maxobj = colorv#random(0,3)
+    let stars.center = [ width/2, height/2]
+    cal stars.init()
+    let s:screen.run = 1
+    let s:screen.time = localtime()
+    while s:screen.run == 1
+
+        call s:screen.clear()
+        call s:screen.clock()
+
+        call stars.update()
+
+        call eh.listen()
+        call s:screen.update()
+        sleep 33m
+    endwhile
+    call s:screen.re_hi()
+endfunction "}}}
+function! s:event() "{{{
+    let event = {'receiver':[]}
+    function! event.register(obj) "{{{
+        call add(self.receiver, a:obj)
+    endfunction "}}}
+    function! event.listen() "{{{
+        let c = getchar(0) 
+        if c != 0
+            let e = nr2char(c)
+            if e == "\<ESC>" || e == "q"
+                let s:screen.run = 0
+            elseif e =~? '[H?]' || e == "\<CR>" || e == "\<Space>"
+                call s:echo("Press '<ESC>/q' to stop")
+            endif
+            for obj in self.receiver
+                call obj.receive_e(e)
+            endfor
+        endif
+    endfunction "}}}
+    return event
+endfunction "}}}
+function! s:stars() "{{{
+    let starsys = {'objs':[],'maxobj':4}
+    let starsys.center = [10,10]
+    let starsys.spd = [0.0,0.0]
+    let starsys.pos = [0.0,0.0]
+    let starsys.angle = -1.570795
+    let starsys.radius = 10
+    let starsys.rspd = 0.017453
+    function! starsys.init() dict "{{{
+        let self.proj          = s:dprojector()
+        let self.proj.obj.rect = [[" ","0"," "],["0","0","0"],[" ","0"," "]]
+        let self.proj.maxobj   = 50
+        let self.proj.fadef    = 0.27
+        let self.proj.spdf     = 0.06
+        let self.proj.rndmf    = 4
+        let self.proj.rndxf    = 8
+        let self.size          = 3
+        for i in range(self.maxobj)
+            let proj = s:projector()
+            let proj.angle = len(self.objs) * 6.283184 / self.maxobj
+            let proj.rotate_spd = colorv#random(-16,16) / 100.0
+            if proj.rotate_spd <= 0.01  && proj.rotate_spd >= -0.01
+                let proj.rotate_spd =  0.04
+            endif
+            let proj.radius  = colorv#random(15,30) + 0.0
+            let proj.fadef = 0.21
+            let proj.spdf  = 0.03
+            call proj.init()
+            call add(self.objs,proj)
+        endfor
+    endfunction "}}}
+    function! starsys.update() dict "{{{
+        let self.angle += self.rspd
+        let self.pos[0] = self.center[0] + self.radius * cos(self.angle)
+        let self.pos[1] = self.center[1] + self.radius * sin(self.angle)
+        let self.proj.pos[0] = self.pos[0] - self.size/2
+        let self.proj.pos[1] = self.pos[1] - self.size/2
+        cal self.proj.update()
+        for obj in self.objs
+            let  obj.angle  += obj.rotate_spd
+            let  a           = obj.radius * sin(obj.angle)
+            let  b           = obj.radius * cos(obj.angle)
+            let  obj.spd[0] = obj.rotate_spd * a
+            let  obj.spd[1] = obj.rotate_spd * b
+            let  obj.pos[0]  = self.pos[0] + b
+            let  obj.pos[1]  = self.pos[1] + a
+            call obj.update()
+        endfor
+    endfunction "}}}
+    function! starsys.receive_e(e) "{{{
+        if      a:e =~? "a" | let self.center[0] -= 0.5
+        elseif  a:e =~? "d" | let self.center[0] += 0.5
+        elseif  a:e =~? "w" | let self.center[1] -= 0.5
+        elseif  a:e =~? "s" | let self.center[1] += 0.5
+        endif
+    endfunction "}}}
+    return starsys
+endfunction "}}}
+function! s:dprojector() "{{{
+    let dprojector       = s:projector()
+    let dprojector.obj   = s:object([["0"]])
+    let dprojector.radius = 12
+    function! dprojector.add() dict "{{{
+        let c = colorv#random(self.rndmf,self.rndxf)
+        let par = s:particle(s:chars[c])
+        let angle  = ( 0.017453 ) * colorv#random(0,360)
+        let a = self.radius * sin(angle)
+        let b = self.radius * cos(angle)
+        let par.pos[0] = self.pos[0] + b
+        let par.pos[1] = self.pos[1] + a
+        let par.spd[0] =  self.spd[0]/3.0 - b * 0.08
+        let par.spd[1] =  self.spd[0]/3.0 - a * 0.08
+        let par.fadespd =  c / 3.1 * self.fadef
+        call add(self.pars, par)
+    endfunction "}}}
+    return dprojector
+endfunction "}}}
+function! s:projector() "{{{
+    let projector       = {'pars':[], 'maxpar':30}
+    let projector.pos   = [30,30]
+    let projector.spd   = [0.0,0.0]
+    let projector.fadef = 0.20
+    let projector.spdf  = 0.04
+    let projector.rndmf = 2
+    let projector.rndxf = 7
+    let projector.obj   = s:object([["7"]])
+    let projector.size  = 2
+    function! projector.init() dict "{{{
+        for i in range(5)
+            call self.add()
+        endfor
+    endfunction "}}}
+    function! projector.add() dict "{{{
+        let c = colorv#random(self.rndmf,self.rndxf)
+        let par = s:particle(s:chars[c])
+        let par.spd[0] = colorv#random(-35,35) * self.spdf - self.spd[0]/3.0
+        let par.spd[1] = colorv#random(-35,35) * self.spdf - self.spd[1]/3.0
+        let par.pos[0] = self.pos[0]
+        let par.pos[1] = self.pos[1]
+        let par.fadespd = colorv#random(1,10) * self.fadef
+        call add(self.pars, par)
+    endfunction "}}}
+    function! projector.update() dict "{{{
+        if len(self.pars) < self.maxpar
+            call self.add()
+        endif
+        
+        let self.obj.pos[0] = self.pos[0] - self.size/2
+        let self.obj.pos[1] = self.pos[1] - self.size/2
+        cal self.obj.update()
+
+        for par in self.pars
+            call par.update()
+            if par.life <= 0
+                call remove(self.pars, index(self.pars, par))
+                call self.add()
+            endif
+        endfor
+    endfunction "}}}
+    return projector
+endfunction "}}}
+function! s:object(...) "{{{
+    let rect           = exists("a:1") ? a:1 : [["*"]]
+    let object         = s:particle()
+    unl object.rect
+    let object.rect    = rect
+    function! object.draw() dict "{{{
+        for i in range(len(self.rect))
+            for j in range(len(self.rect[i]))
+                if self.rect[i][j] != " "
+                    call s:screen.plot(float2nr(self.pos[0])+j
+                            \,float2nr(self.pos[1])+i
+                            \,self.rect[i][j])
+                endif
+            endfor
+        endfor
+    endfunction "}}}
+    function! object.fade() "{{{
+        let l = self.life
+        let self.life -= self.fadespd
+        if self.life <= 0
+            return
+        endif
+        " each time from 9.x tp 8.x or 1.x to 0.x
+        let k = float2nr(l)-float2nr(self.life)
+        if k >= 1
+            for i in range(len(self.rect))
+                for j in range(len(self.rect[i]))
+                    if self.rect[i][j] =~ '\d'
+                        if self.rect[i][j] - k > 0
+                            let self.rect[i][j] = self.rect[i][j]-k
+                        else
+                            let self.rect[i][j] = " "
+                            let self.life = 0
+                        endif
+                    endif
+                    if self.rect[i][j] =~ '[a-z]'
+                        let t = char2nr(self.rect[i][j])
+                        if t - k >= 97
+                            let self.rect[i][j] = nr2char(t-k)
+                        else
+                            let self.rect[i][j] = " "
+                            let self.life = 0
+                        endif
+                    endif
+                endfor
+            endfor
+        endif
+    endfunction "}}}
+    return object
+endfunction "}}}
+function! s:particle(...) "{{{
+    let rect             = exists("a:1") ? a:1 : "9"
+    let particle         = {}
+    let particle.pos     = [1.0,1.0]
+    let particle.rect    = rect
+    let particle.spd     = [0.0,0.0]
+    let particle.maxspd  = 2
+    let particle.fadespd = 0.0
+    let particle.life    = 10.0
+    let particle.size    = 1
+    function! particle.draw() dict "{{{
+        call s:screen.plot(float2nr(self.pos[0])
+                \,float2nr(self.pos[1]), self.rect)
+    endfunction "}}}
+    function! particle.fade() "{{{
+        let l = self.life
+        let self.life -= self.fadespd
+        if self.life <= 0
+            return
+        endif
+        " each time from 9.x tp 8.x or 1.x to 0.x
+        let k = float2nr(l)-float2nr(self.life)
+        if k >= 1
+            if self.rect =~ '\d'
+                if self.rect - k > 0
+                    let self.rect = self.rect - k
+                else
+                    let self.rect = " "
+                    let self.life = 0
+                endif
+            endif
+            if self.rect =~ '[a-z]'
+                let t = char2nr(self.rect)
+                if t - k >= 97
+                    let self.rect = nr2char(t-k)
+                else
+                    let self.rect = " "
+                    let self.life = 0
+                endif
+            endif
+        endif
+    endfunction "}}}
+    function! particle.update() dict "{{{
+        if self.life <= 0
+            return
+        endif
+        if self.fadespd > 0
+            call self.fade()
+        endif
+        let self.pos = [self.pos[0]+self.spd[0] , 
+                \self.pos[1] + self.spd[1] ]
+        if self.pos[0] >= s:screen.width || self.pos[0] <= 0
+            let self.spd[0] = -self.spd[0]/1.8
+        endif
+        if self.pos[1] >= s:screen.height || self.pos[1] <= 0
+            let self.spd[1] = -self.spd[1]/1.8
+        endif
+        call self.draw()
+    endfunction "}}}
+    return particle
+endfunction "}}}
+function! s:screen.update() dict "{{{
+        setl ma lz
+        for i in range(len(self.lines))
+            if getline(i+1) != self.lines[i]
+                call setline(i+1, self.lines[i])
+            endif
+        endfor
+        setl noma nolz
+        redraw
+endfunction "}}}
+function! s:screen.plot(x,y,c) dict "{{{
+    let x = a:x>=self.width  ? self.width  : a:x<=1 ? 1 : a:x
+    let y = a:y>=self.height ? self.height : a:y<=1 ? 1 : a:y
+    let line = self.lines[y-1]
+    let self.lines[y-1] = substitute(line,'\%'.x.'c.',a:c,'')
+endfunction "}}}
+
+function! s:screen.clock() "{{{
+    let time = localtime()
+    let self.lines[self.height-1] = printf("%".self.width."s"
+                \,"This little galaxy's age is "
+                \. (time - s:screen.time) . " seconds.")
+endfunction "}}}
+function! s:screen.nomap() "{{{
+    sil! unmap <buffer> e
+    sil! unmap <buffer> <CR>
+    sil! unmap <buffer> <Space>
+    sil! unmap <buffer> <Kenter>
+    sil! unmap <buffer> <2-Leftmouse>
+endfunction "}}}
+function! s:screen.re_hi() "{{{
+   call clearmatches()
+   hi! link Cursor CursorS
+endfunction "}}}
+function! s:screen.window(width,height) dict "{{{
+    let win = []
+    for i in range(a:height)
+        call add(win, repeat(" ", a:width))
+    endfor
+    let self.lines = win
+    let self.height = a:height
+    let self.width  = a:width
+    call s:screen.hi_sav()
+endfunction "}}}
+function! s:screen.clear() "{{{
+    for i in range(len(self.lines))
+        let self.lines[i] = repeat(" ",len(self.lines[0]))
+    endfor
+endfunction "}}}
+function! s:screen.clean() "{{{
+    if s:check_win(s:screen.name)
+        setl ma
+            %d_
+        setl noma
+    endif
+    call s:screen.nohi()
+    call s:screen.nomap()
+endfunction "}}}
+function! s:screen.nohi() "{{{
+    match none
+    2match none
+    3match none
+    call clearmatches()
+    aug galaxy#screen_cursor_move
+        au!
+    aug END
+endfunction "}}}
+function! s:screen.hi_sav() "{{{
+
+   let list = [
+        \['GalaxyS0','bgdclr0','bgdclr0','n'],
+        \['GalaxyS1','bgdclr1','bgdclr1','n'],
+        \['GalaxyS2','bgdclr2','bgdclr2','n'],
+        \['GalaxyS3','bgdclr3','bgdclr3','n'],
+        \['GalaxyS4','bgdclr4','bgdclr4','n'],
+        \['GalaxyS5','bgdclr5','bgdclr5','n'],
+        \['GalaxyS6','bgdclr6','bgdclr6','n'],
+        \['GalaxyS7','bgdclr7','bgdclr7','n'],
+        \['GalaxyS8','bgdclr8','bgdclr8','n'],
+        \['GalaxyS9','bgdclr9','bgdclr9','n'],
+        \]
+   call s:hi_list(list)
+   syn clear
+   syn match GalaxyS0 /0/
+   syn match GalaxyS1 /1/
+   syn match GalaxyS2 /2/
+   syn match GalaxyS3 /3/
+   syn match GalaxyS4 /4/
+   syn match GalaxyS5 /5/
+   syn match GalaxyS6 /6/
+   syn match GalaxyS7 /7/
+   syn match GalaxyS8 /8/
+   syn match GalaxyS9 /9/
+   hi! link Cursor GalaxyS0
+   call matchadd("SpecialComment" , '\%'.self.height.'l\D')
+   call matchadd("Todo" , '\%'.self.height.'l\d')
+endfunction "}}}
+function! s:screen.line(p1,p2,c) dict "{{{
+    let [x1,y1] = a:p1
+    let [x2,y2] = a:p2
+    let dx = x2 - x1
+    let dy = y2 - y1
+    let err = 0
+    if dx == 0 
+        if dy > 0   | let s = 1
+        else        | let s = -1
+        endif
+        for i in range(y1,y2, s)
+            call s:screen.plot(x1,y1+i,a:c)
+        endfor
+    else
+        let delta = abs((dy+0.0)/dx)
+        if dx > 0   | let s = 1
+        else        | let s = -1
+        endif
+        let y = y1
+        for i in range(x1,x2,s)
+            call s:screen.plot(i,y,a:c)
+            let err = err + delta
+            if err >= 0.5
+                let y += 1
+                let err -= 1.0
+            endif
+        endfor
+    endif
+    
 endfunction "}}}
 " HELP "{{{1
 "======================================================================
-function! s:exec(cmd) "{{{
-    let old_ei = &ei
-    set ei=all
-    exec a:cmd
-    let &ei = old_ei
-endfunction "}}}
 function! s:echo(msg) "{{{
-    exe "echom \"[Galaxy Note] ".escape(a:msg,'"')."\""
+    redraw
+    exe "echom \"[Galaxy] ".escape(a:msg,'"')."\""
 endfunction "}}}
 function! s:caution(msg) "{{{
+    redraw
     echohl Modemsg
-    exe "echom \"[Galaxy Caution] ".escape(a:msg,'"')."\""
+    exe "echom \"[Galaxy] ".escape(a:msg,'"')."\""
     echohl Normal
 endfunction "}}}
 function! s:warning(msg) "{{{
+    redraw
     echohl Warningmsg
-    exe "echo \"[Galaxy Warning] ".escape(a:msg,'"')."\""
+    exe "echo \"[Galaxy] ".escape(a:msg,'"')."\""
     echohl Normal
 endfunction "}}}
 function! s:error(msg) "{{{
+    redraw
     echohl Errormsg
     redraw
-    echom "[Galaxy Error] ".escape(a:msg,'"')." "
+    echom "[Galaxy] ".escape(a:msg,'"')." "
     echohl Normal
 endfunction "}}}
 function! s:debug(msg) "{{{
     if g:galaxy_debug!=1
         return
     endif
+    redraw
     echohl Errormsg
-    echom "[Galaxy Debug] ".escape(a:msg,'"')
+    echom "[Galaxy] ".escape(a:msg,'"')
     echohl Normal
 endfunction "}}}
 
+function! s:get_cword_pos() "{{{
+    let word = expand('<cword>')
+    let len = len(word)
+    let f = match(getline('.'), word , col('.')-len )
+    if f == -1
+        call s:debug("get_cword could not find correct position")
+        return [1,1]
+    else
+        return [f+1, f+len]
+    endif
+endfunction "}}}
+function! s:get_cWORD_pos() "{{{
+    let word = expand('<cWORD>')
+    let len = len(word)
+    let f = match(getline('.'), word , col('.')-len )
+    if f == -1
+        call s:debug("get_cword could not find correct position")
+        return [1,1]
+    else
+        return [f+1, f+len]
+    endif
+
+endfunction "}}}
 function! s:line(text,pos) "{{{
     let suf_len= s:line_width-a:pos-len(a:text)+1
     let suf_len= suf_len <= 0 ? 1 : suf_len
@@ -1746,30 +2531,32 @@ function! s:line_sub(line,text,pos) "{{{
         return substitute(line,pat,text,'')
     endif
 endfunction "}}}
+function! s:check_win(name) "{{{
+    if bufnr('%') != bufnr(a:name)
+        return 0
+    else
+        return 1
+    endif
+endfunction "}}}
 function! s:clear_text() "{{{
-    if expand('%') !=g:galaxy.name
+    if !s:check_win(s:galaxy.name)
         call s:warning("Not [GALAXY] buffer")
         return
+    else
+        let cur=getpos('.')
+        " silent! normal! ggVG"_x
+        silent %delete _
+        return cur
     endif
-    let cur=getpos('.')
-    " silent! normal! ggVG"_x
-    silent %delete _
-    return cur
 endfunction "}}}
-function! s:seq_echo() "{{{
-    " let txt_list
-    let txt_list=s:tips_list
-
-    let s:seq_num= exists("s:seq_num") ? s:seq_num : 0
-    let idx=0
-    for txt in txt_list
-        if s:fmod(s:seq_num,len(txt_list)) == idx
-            call s:echo("[".idx."]".txt)
-            break
+function! s:echo_tips() "{{{
+    for idx in range(len(s:tips_list))
+        if s:fmod(s:seq_num,len(s:tips_list)) == idx
+            call s:echo("[".idx."]".s:tips_list[idx])
+            let s:seq_num += 1
+            return
         endif
-        let idx+=1
     endfor
-    let s:seq_num+=1
 endfunction "}}}
 function! s:fmod(x,y) "{{{
     "no fmod() in 702
@@ -1804,161 +2591,128 @@ function! s:float(x) "{{{
 endfunction "}}}
 " LOAD "{{{1
 "======================================================================
-function! s:write_store(scheme) "{{{
-    " and should remove the cache
+function! s:get_upd_schemes_dict() "{{{
+    cal s:load_default_schemes()
+    cal s:load_file_schemes()
 
-    let scheme=a:scheme
-    let CacheStringList = []
-    let folder=expand(g:galaxy_store_Folder)
-    if !isdirectory(folder) "{{{
-        if exists("*mkdir")
-            try
-                call mkdir(folder,"p")
-            catch /^Vim\%((\a\+)\)\=:E/
-                call s:error("Could not mkdir on this system. Stopped.")
-                return -1
-            endtry
+    let s:A_scheme_dict = deepcopy(s:d_scheme_dict)
+    cal extend(s:A_scheme_dict, s:f_scheme_dict,"keep")
+    return s:A_scheme_dict
+endfunction "}}}
+function! s:load_default_schemes() "{{{
+    let s:d_scheme_dict = {}
+    let scheme_list=deepcopy(s:default_schemes)
+    let scheme = {}
+    for items in scheme_list
+        let scheme[items[0]] = items[1:5]
+        cal extend(s:d_scheme_dict, scheme,"keep")
+    endfor
+endfunction "}}}
+function! s:load_file_schemes() "{{{
+    let s:f_scheme_dict = {}
+    let file = expand(g:galaxy_scheme_file)
+    if !filereadable(file)
+        call s:error("Could not read scheme files. ".v:exception)
+        return
+    endif
+    let list = readfile(file)
+    let scheme ={}
+    for line in list
+        let m = split(line)
+        if len(m) != 6
+            call s:debug("Not a valid line :".line)
+            continue
         else
-            call s:error("Could not mkdir on this system. Stopped.")
-            return -1
+            " let scheme.name = m[0]
+            " let scheme.colors = m[1:5]
+            let scheme[m[0]] = m[1:5]
+            cal extend(s:f_scheme_dict, scheme)
         endif
-    elseif filewritable(folder) != 2
-        call s:error("The galaxy store Folder is not writeable.")
-        return -1
-    endif "}}}
-    " XXX: let scheme_list_list became the editing variable
-    if exists("scheme.colors") && len(scheme.colors)==5
-        call add(CacheStringList,"GALAXY_NAME\t\t".scheme.name)
-        call add(CacheStringList,
-                    \"GALAXY_COLORS\t" .scheme.colors[0]." "
-                    \.scheme.colors[1]." " .scheme.colors[2]." "
-                    \.scheme.colors[3]." " .scheme.colors[4])
+    endfor
+endfunction "}}}
+function! s:save_file_schemes() "{{{
+    let schemes = s:f_scheme_dict
+    let file = expand(g:galaxy_scheme_file)
 
-        if exists("scheme.style")
-            call add(CacheStringList,"GALAXY_STYLE\t".scheme.style)
-        endif
+    let lines = []
+    for [name, colors] in items(s:f_scheme_dict)
+        let lines += [printf("%-15.15s", name)."    ".join(colors)]
+    endfor
 
-        if exists("scheme.highlights")
-            for i in range(len(scheme.highlights))
-                if len(scheme.highlights[i]) == 4
-                    call add(CacheStringList,
-                                \"GALAXY_HIGH\t\t"
-                                \.scheme.highlights[i][0]." "
-                                \.scheme.highlights[i][1]." "
-                                \.scheme.highlights[i][2]." "
-                                \.scheme.highlights[i][3])
-                elseif len(scheme.highlights[i]) == 2
-                    call add(CacheStringList,
-                                \"GALAXY_HIGH\t\t"
-                                \.scheme.highlights[i][0]." "
-                                \.scheme.highlights[i][1])
-                endif
-            endfor
-        endif
+    try
+        call writefile(lines, file)
+    catch /^Vim\%((\a\+)\)\=:E/
+        call s:error("Could not write scheme files. ".v:exception)
+    endtry
+endfunction "}}}
 
-        " call add(CacheStringList,"GALAXY_END")
-        call add(CacheStringList,"")
-
-        let file = folder . scheme.name. ".galaxy"
-        try
-            call writefile(CacheStringList, file)
-        catch /^Vim\%((\a\+)\)\=:E/
-            call s:error("Could not write scheme files. ".v:exception)
-            return -1
-        endtry
+function! s:retain_cache() "{{{
+    " less hardware IO
+    let name = s:scheme.name
+    let style = s:scheme.style
+    let syntax = g:galaxy_colorful_syntax ? "More" : "Less"
+    let status = g:galaxy_statusline_style
+    let indent = g:galaxy_enable_indent_hl ? "On " : "Off"
+    if !has("gui_running")
+        let s:_cache_term = ["TEM_OPT",name, style,syntax,status,indent ]
+    else
+        let s:_cache_gui  = ["GUI_OPT",name, style,syntax,status,indent ]
     endif
 endfunction "}}}
-function! s:load_store() "{{{
-    let folder =  expand(g:galaxy_store_Folder)
-    let s:file_list = split(globpath(folder, '*.galaxy'), '\n')
-    let l:stored_theme_list= []
-    if isdirectory(folder)
-        for file in s:file_list
-            let l:stored_theme_list +=  galaxy#load_file(file)
-        endfor
+function! s:take_cache() "{{{
+    if exists("s:_cache_term") 
+        return s:_cache_term
+    elseif exists("s:_cache_gui")
+        return s:_cache_gui
+    else
+        return galaxy#load_cache()
     endif
-    return l:stored_theme_list
 endfunction "}}}
 function! galaxy#load_cache() "{{{
-    let file = expand(g:galaxy_cache_File)
-    let s:_gui_name = exists("s:_gui_name") ? s:_gui_name : ""
-    let s:_term_name = exists("s:_term_name") ? s:_term_name : ""
+    let file = expand(g:galaxy_cache_file)
+
     try
-        let CacheStringList = readfile(file)
+        let lines = readfile(file)
+        for line in lines
+            if line =~ 'TEM_OPT'
+                let cache = split(line)
+                if len(cache) == 6
+                    let s:cache_term = cache
+                endif
+            endif
+            if line =~ 'GUI_OPT'
+                let cache = split(line)
+                if len(cache) == 6
+                    let s:cache_gui = cache
+                endif
+            endif
+        endfor
     catch /^Vim\%((\a\+)\)\=:E/
         call s:debug("Could not load cache. ".v:exception)
-        return -1
     endtry
-    for i in CacheStringList
-        if i =~ '_GUI_NAME'
-            let s:_gui_name = matchstr(i,'_GUI_NAME\s*\zs.*\ze\s*')
-        endif
-        if i =~ 'TERM_NAME'
-            let s:_term_name = matchstr(i,'TERM_NAME\s*\zs.*\ze\s*')
-        endif
-    endfor
+
     if !has("gui_running")
-        return s:_term_name
+        return s:cache_term
     else
-        return s:_gui_name
+        return s:cache_gui
     endif
 endfunction "}}}
-function! galaxy#load_file(file) "{{{
-    let file = a:file
-    if !filereadable(file)
-        return 0
-    endif
-    let l:cached_theme_list=[]
-    for i in readfile(file) + ["GALAXY_END"]
-        if !exists("l:tmp_dict")
-            let l:tmp_dict={}
-        endif
-        if i =~ 'GALAXY_NAME'
-            let l:tmp_dict.name =
-                        \matchstr(i,'GALAXY_NAME\s*\zs.*\ze\s*')
-        endif
-        if i =~ 'GALAXY_COLORS'
-            let colors=matchstr(i,'GALAXY_COLORS\s*\zs.*\ze$')
-            let l:tmp_dict.colors = split(colors,'\s')
-            if len(l:tmp_dict.colors)==5
-                let l:color_is_5=1
-            else
-                let l:color_is_5=0
-            endif
-        endif
-        if i =~ 'GALAXY_STYLE'
-            let l:tmp_dict.style =
-                        \matchstr(i,'GALAXY_STYLE\s*\zs.*\ze\s*')
-        endif
-        if i =~ 'GALAXY_HIGH'
-            let highlights = matchstr(i,'GALAXY_HIGH\s*\zs.*\ze$')
-            let l:tmp_dict.highlights = []
-            call add(l:tmp_dict.highlights,split(highlights,'\s'))
-        endif
-        if i =~ 'GALAXY_END'
-            if exists("l:color_is_5") && l:color_is_5==1
-                call add(l:cached_theme_list,deepcopy(l:tmp_dict))
-            endif
-            unlet l:tmp_dict
-        endif
-    endfor
-    return l:cached_theme_list
-endfunction "}}}
-function! galaxy#write_cache() "{{{
-    let CacheStringList = []
-    let file = expand(g:galaxy_cache_File)
+function! galaxy#save_cache() "{{{
+    let name = s:scheme.name
+    let style = s:scheme.style
+    let syntax = g:galaxy_colorful_syntax ? "More" : "Less"
+    let status = g:galaxy_statusline_style
+    let indent = g:galaxy_enable_indent_hl ? "On " : "Off"
+    let file = expand(g:galaxy_cache_file)
+
     if !has("gui_running")
-        let term_name=s:scheme.name
-        let gui_name=s:_gui_name
+        let s:cache_term = ["TEM_OPT",name, style,syntax,status,indent ]
     else
-        let gui_name=s:scheme.name
-        let term_name=s:_term_name
+        let s:cache_gui  = ["GUI_OPT",name, style,syntax,status,indent ]
     endif
-    call add(CacheStringList,"_GUI_NAME\t".gui_name)
-    call add(CacheStringList,"TERM_NAME\t".term_name)
-    call add(CacheStringList,"")
+    let lines = [join(s:cache_term,"\t") , join(s:cache_gui,"\t")]
     try
-        call writefile(CacheStringList, file)
+        call writefile(lines, file)
     catch /^Vim\%((\a\+)\)\=:E/
         call s:error("Could not caching-scheme. ".v:exception)
         return -1
@@ -1966,45 +2720,41 @@ function! galaxy#write_cache() "{{{
 endfunction "}}}
 " MAIN "{{{1
 "======================================================================
-function! galaxy#init() "{{{
-    if !has("gui_running") && &t_Co<=16
-        call galaxy#load_scheme16("","START")
+function! s:get_scheme(name, style) "{{{
+    let scheme_dict  = s:get_upd_schemes_dict()
+    let scheme = {}
+
+    if has_key(scheme_dict, a:name)
+        let scheme.name = a:name
+        let scheme.colors = scheme_dict[a:name]
     else
-        call galaxy#load_scheme("","START")
+        let scheme.name = "Black"
+        let scheme.colors = scheme_dict['Black']
     endif
-    aug galaxy#cache
-        au! VIMLEAVEPre * call galaxy#write_cache()
-    aug END
-endfunction "}}}
-function! galaxy#load(name) "{{{
-    if !has("gui_running") && (&t_Co==8 || &t_Co==16)
-        call galaxy#load_scheme16(a:name)
+    if has_key(s:hl_styles, a:style)
+        let scheme.style = a:style
     else
-        call galaxy#load_scheme(a:name)
+        let scheme.style = "Default"
     endif
+
+    return scheme
 endfunction "}}}
-function! galaxy#load_scheme(...) "{{{
+function! s:load_c255(...) "{{{
+    let cache = s:take_cache()
+    let name  = (exists("a:1") && a:1 !~ '^\s*$') ? a:1 : cache[1]
+    let style = (exists("a:2") && a:2 !~ '^\s*$') ? a:2 : cache[2]
+    call s:set_option(cache)
+    let scheme = s:get_scheme(name,style)
+    let s:scheme = scheme
 
-    let cache_scheme = (exists("a:1") && a:1 !~ '^\s*$') ? a:1
-                \ : galaxy#load_cache()
+    call s:debug("init:".string(cache)." ".string(scheme))
+    
+    " get lumination and set background
+    let s:y = colorv#hex2yiq(scheme.colors[0])[0]
+    call s:set_background(s:y)
 
-    let s:scheme_list = s:get_scheme_list()
-    let s:scheme = s:scheme_list[0]
-    let s:scheme.style = "GALAXY"
-    for scheme in s:scheme_list
-        if scheme.name == cache_scheme
-            let s:scheme = scheme
-            if !exists("s:scheme.style") || s:scheme.style =~ '^\s*$'
-                let s:scheme.style = "GALAXY"
-            endif
-            break
-        endif
-    endfor
-
-    let [s:y,s:i,s:q]=colorv#hex2yiq(s:scheme.colors[0])
-    call s:set_bg(s:y)
     "generate base colors:bgd/fgd/syn/msg/dif
-    call s:gen_base_colors(s:scheme.colors)
+    call s:gen_base_colors(scheme.colors)
 
     " predefined highlights
     call s:hi_list(s:default_hl)
@@ -2015,170 +2765,152 @@ function! galaxy#load_scheme(...) "{{{
     endif
 
     " predefined scheme style highlights
-    let s:scheme_style_list = s:get_style_list(s:scheme.style)
-    call s:hi_list(s:scheme_style_list)
-    
+    cal s:hi_list(s:hl_styles[scheme.style])
     
     " predefined filetype syntax highlights
     if g:galaxy_load_syn_dict==1
-        for list in values(s:synlink_dict)
-            call s:hi_list(list)
-        endfor
-        for list in values(s:syn_hi_gui_dict)
+        for list in values(s:synlink_dict) + values(s:syn_hi_gui_dict)
             call s:hi_list(list)
         endfor
     endif
-
     if g:galaxy_load_syn_tuning==1
-        call s:syntax_tune()
+        call s:syntax_tuning()
     endif
-
-    " the scheme defined highlights
-    if exists("s:scheme.highlights")
-        call s:hi_list(s:scheme.highlights)
-    endif
-
     if g:galaxy_visual_hl_fg == 1
-        call s:hi_list([
-                    \["Visual",         "bgdclr1",  "fgdclr1",  "n"     ],
-                    \["VisualNOS",      "bgdclr1",  "fgdclr1",  "n"     ],
-                    \])
+        call s:hi_list([["Visual",   "bgdclr2",  "fgdclr2",  "n"     ],
+                    \["VisualNOS",   "bgdclr2",  "fgdclr2",  "n"     ]])
     endif
-
-
+    
+    " StatusLine
     if g:galaxy_statusline_blink == 1
         call s:statusline_aug()
     endif
+
     if g:galaxy_auto_statusline == 1
-        if s:scheme.style =~ 'COLOUR\|ABOUND'
-            let &statusline = g:galaxy_statusline_alternate
+        if g:galaxy_statusline_style == "Left"
+            let &statusline = g:galaxy_statusline_left
+        elseif g:galaxy_statusline_style == "Right"
+            let &statusline = g:galaxy_statusline_right
         else
-            let &statusline = g:galaxy_statusline_default
+            let &statusline = g:galaxy_statusline_test
         endif
     endif
+    
+    " Indent Highlight
     if g:galaxy_enable_indent_hl == 1
         call s:indent_hl_aug()
     endif
+
+    " restore cursor in term
     if !has("gui_running")
         call s:term_cursor()
     endif
-
-    if !exists("a:2") || a:2!="START"
-        call galaxy#write_cache()
+    
+    " silent start
+    if !exists("a:3") || a:3!="START"
+        call s:retain_cache()
         redraw
-        if !empty(s:scheme.style)
-            echom "Galaxy Scheme:\"".s:scheme.name."\" loaded. With style:" .s:scheme.style."."
-        else
-            echom "Galaxy Scheme:\"".s:scheme.name."\" loaded."
-        endif
+        echom "Scheme:[".s:scheme.name."] Loaded. "
+            \."Style:[".s:scheme.style."]."
     endif
 
     let g:colors_name = "galaxy"
-    let g:galaxy_name = s:scheme.name
     let g:galaxy.scheme = s:scheme
 endfunction "}}}
-function! galaxy#load_scheme16(...) "{{{
-    let cache_scheme = (exists("a:1") && a:1 !~ '^\s*$') ? a:1
-                \ : galaxy#load_cache()
-    let s:scheme_list = s:get_scheme_list()
-    let s:scheme = s:scheme_list[0]
-    for scheme in s:scheme_list
-        if scheme.name == cache_scheme
-            let s:scheme = scheme
-            break
-        endif
-    endfor
-    let [s:y,s:i,s:q]=colorv#hex2yiq(s:scheme.colors[0])
+function! s:load_c16(...) "{{{
+    " Only for Terminal 8 and 16
 
-    if &t_Co==16
+    let cache = s:take_cache()
+    let name = (exists("a:1") && a:1 !~ '^\s*$') ? a:1 : cache[1]
+    let style = (exists("a:2") && a:2 !~ '^\s*$') ? a:2 : cache[2]
+    call s:set_option(cache)
+
+    let scheme = s:get_scheme(name,style)
+    let s:scheme = scheme
+
+    let s:y = colorv#hex2yiq(s:scheme.colors[0])[0]
+    
+    if &t_Co == 16
         if s:y <=50
             call s:set_dark16_var()
-            let s:scheme.style = "dark16"
+            let s:scheme.Tstyle = "Dark16"
         else
             call s:set_light16_var()
-            let s:scheme.style = "light16"
+            let s:scheme.Tstyle = "Light16"
         endif
     else
         if s:y <=50
             call s:set_dark8_var()
-            let s:scheme.style = "dark8"
+            let s:scheme.Tstyle = "Dark8"
         else
             call s:set_light8_var()
-            let s:scheme.style = "light8"
+            let s:scheme.Tstyle = "Light8"
         endif
     endif
 
-    call s:hi_t_list(s:term_hl_list)
+    call s:hi_Tlis(s:term_hl_list)
+
+    if g:galaxy_auto_statusline == 1
+        if g:galaxy_statusline_style == "Left"
+            let &statusline = g:galaxy_statusline_left
+        elseif g:galaxy_statusline_style == "Right"
+            let &statusline = g:galaxy_statusline_right
+        else
+            let &statusline = g:galaxy_statusline_test
+        endif
+    endif
 
     if g:galaxy_statusline_blink == 1
         call s:statusline_term16_aug()
     endif
+
     if g:galaxy_enable_indent_hl == 1
         call s:indent_hl_aug()
     endif
 
     call s:term_cursor()
 
-    " predefined syntax highlights
     if g:galaxy_load_syn_dict==1
-        for list in values(s:synlink_dict)
-            call s:hi_list(list)
-        endfor
-        for list in values(s:syn_hi_term_dict)
+        for list in values(s:synlink_dict) + values(s:syn_hi_term_dict)
             call s:hi_list(list)
         endfor
     endif
 
     if g:galaxy_load_syn_tuning==1
-        call s:syntax_tune()
+        call s:syntax_tuning()
     endif
 
-    " set cursorline on 16 term
-    " set cul
-
-    if !exists("a:2") || a:2!="START"
-        call galaxy#write_cache()
+    if !exists("a:3") || a:3!="START"
+        call s:retain_cache()
         redraw
-        " if !empty(s:scheme.style)
-        echom "Galaxy Scheme:\"".s:scheme.name."\" loaded. With style:" .s:scheme.style."."
-        " else
-            " echom "Galaxy Scheme:\"".s:scheme.name."\" loaded."
-        " endif
+        echom "Scheme:[".s:scheme.name."] Loaded. "
+            \."Style:[".s:scheme.Tstyle."]."
     endif
     let g:colors_name = "galaxy"
-    let g:galaxy_name = s:scheme.name
-    let g:galaxy.scheme = s:scheme
+    let g:galaxy.scheme = s:scheme.name
 endfunction "}}}
-function! galaxy#next_scheme(...) "{{{
-    if !exists("s:scheme_list")
-        let s:scheme_list = s:get_scheme_list()
-        let scheme_name=galaxy#load_cache()
-    else
-        let scheme_name=s:scheme.name
-    endif
-    for i in range(len(s:scheme_list))
-        if s:scheme_list[i]['name']=~'\<'.scheme_name.'\>'
-            let scheme_num=i
-            break
-        endif
-    endfor
 
-    if exists("a:1") && a:1 == "-"
-        let scheme_num-=1
+function! galaxy#load(...) "{{{
+    let name = exists("a:1") ? a:1 : ""
+    let style = exists("a:2") ? a:2 : ""
+    let option = exists("a:3") ? a:3 : ""
+    if !has("gui_running") && (&t_Co<=16)
+        call s:load_c16(name,style,option)
     else
-        let scheme_num+=1
+        call s:load_c255(name,style,option)
     endif
-    if scheme_num >= len(s:scheme_list)
-    let scheme_num=0
-    elseif scheme_num < 0
-    let scheme_num  = len(s:scheme_list)-1
-    endif
-    let name=s:scheme_list[scheme_num]['name']
-    if !has("gui_running") && (&t_Co==8 || &t_Co==16)
-        call galaxy#load_scheme16(name)
-    else
-        call galaxy#load_scheme(name)
-    endif
+endfunction "}}}
+function! galaxy#next_style() "{{{
+    let l =  ["Default","Shadow","Flowery","Colour","Default"]
+    let i = index(l, s:scheme.style)
+    call galaxy#load("",l[i+1])
+endfunction "}}}
+function! galaxy#init() "{{{
+    call galaxy#load("","","START")
+
+    aug galaxy#cache
+        au! VIMLEAVEPre * call galaxy#save_cache()
+    aug END
 endfunction "}}}
 "}}}1
 let &cpo = s:save_cpo
