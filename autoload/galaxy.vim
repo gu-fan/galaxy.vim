@@ -1758,6 +1758,8 @@ function! s:win_opt_set() "{{{
         call s:screen.win()
     elseif  key == "Screen"
         call s:screen.win()
+    elseif  key == "Saver"
+        call s:screen.saver()
     elseif  key == "Load"
         " pass
     elseif  key == "Edit"
