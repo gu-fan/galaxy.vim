@@ -9,14 +9,14 @@
     color issue, terminal issue, highlight group issue, syntax issue ...
     This plugin simplifies these works. 
 
-    Generating a scheme with Galaxy takes only two step:
+    Generating a scheme with :GalaxyNew takes only two step:
     1. Typing a name 
     2. Pickup a color for BACKGROUND (with colorpicker of ColorV)
     Then you got the scheme, you can edit it's colors and check it's details.
     
     It contains several built-in schemes.
-    Also have Terminal support/Stylish Statusline/Indent Highlight , 
-    and more...
+    Also have Scheme Manager, Scheme Detail Screen, Terminal support, Stylish
+    Statusline, Indent Highlight and more...
 
     
 **Some Pictures:**

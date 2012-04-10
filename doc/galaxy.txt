@@ -32,14 +32,14 @@ INTRO                                               *galaxy-intro*
     color issue, terminal issue, highlight group issue, syntax issue ...
     This plugin simplifies these works. 
 
-    Generating a scheme with Galaxy takes only two step:
+    Generating a scheme with |:GalaxyNew| takes only two step:
     1. Typing a name 
     2. Pickup a color for BACKGROUND (with colorpicker of ColorV)
     Then you got the scheme, you can edit it's colors and check it's details.
     
     It contains several built-in schemes.
-    Also have Terminal support/Stylish Statusline/Indent Highlight , 
-    and more...
+    Also have Scheme Manager, Scheme Detail Screen, Terminal support, Stylish
+    Statusline, Indent Highlight and more...
 
     Some Pictures:~
 
@@ -57,53 +57,41 @@ QUICKSTART                                          *galaxy-quickstart*
 
     Start galaxy~
         :colorscheme galaxy
-        Put it in your vimrc.
+        Put this in your vimrc.
 
                                                     *galaxy-window*
-    Choose Schemes~
-        :Galaxy
-        Default mapping is <leader>gll
+    Schemes Manger~
+        :Galaxy or <leader>gll
 
-        It's the Galaxy window , you can choose schemes in it.
-        also you can set options and edit schemes.
+        The Galaxy Scheme Manager
+        You can choose schemes, set options, edit schemes in it.
 
-
-                                                    *galaxy-load*
-        You can also load designate scheme by scheme name.
+        You can also load a scheme by it's name.
         :GalaxyLoad {scheme}
 
                                                     *galaxy-screen*
-    See schemes details~
-        :GalaxyScreen
-        Default mapping is <leader>gls
+    Schemes details~
+        :GalaxyScreen or <leader>gls
 
-        You can see the scheme's details.
+        The scheme's details screen.
 
                                                     *galaxy-little*
     A little galaxy~
-        :GalaxyLittle
-        Default mapping is <leader>glv
+        :GalaxyLittle or <leader>glv
 
-        It's just a little galaxy.
+        Just a little galaxy.
 
     Scheme Options~
 
-        You can set the options in the Galaxy or Screen Window.
-        Just click them.
-
-        They will be cached in your disk.
-        If have errors. check |g:galaxy_cache_file|
+        Set the options in the Galaxy Window by clicking.
+        These options will be cached in your disk.
+        If errors occur, Check |g:galaxy_cache_file|
 
                                                     *galaxy_syntax*
-
-        Click on 'SYNTAX' will swith the richness of syntax colors.
-        More means syntax highlights will be more colorful.
-        While Less means less colorful
+        'SYNTAX': swith the richness of syntax colors.
 
                                                     *galaxy-indent*
-        
-        Click on 'INDENT_HL' will swith the auto indent highligh status.
-        if set to 'off', then will be no auto indent highlighting .
+        'INDENT_HL': swith the auto indent highligh state.
 
         The |g:galaxy_indent_hl_ftype| is the ftype that auto highlights.
         It's defualt value is "python,c,javascript".
@@ -111,30 +99,17 @@ QUICKSTART                                          *galaxy-quickstart*
         To Manually highligh indents. You should press
         :GalaxyIndent (<leader>glh)
 
-        Other options are |g:galaxy_indent_hl_pos| |g:galaxy_show_trailing_ws|.
-
-    Styles~
                                                     *galaxy-style*
+        'STYLE': swith scheme style.
 
-        Click on 'STYLE' will swith scheme style.
-
-    Stylish Stautsline ~
                                                     *galaxy-statusline*
 
-        By default, Galaxy will provide you a stylish statusline.
-        Click on 'STATUSLINE' will change statusline style.
+        'STATUSLINE': switch statusline style.
 
-        You can set |g:galaxy_statusline_left|, |galaxy_statusline_right|  to
-        change the statusline content.
-
-        Also you can set |g:galaxy_auto_statusline| to disable it.
-
-        Other options are |g:galaxy_statusline_blink|. See them for details.
-
-    In Terminal~
+    Terminal~
                                                         *galaxy-terminal*
-        256 terminal works fine.
-        8/16 terminal are using predefined colors which are 'white/dark'
+        Fully functional in 256 terminal.
+        8/16 terminal uses predefined colors 'white/dark'
 
 ------------------------------------------------------------------------------
 TROUBLE SHOOTING                                      *galaxy-fix-troubles*
@@ -165,53 +140,46 @@ MORE SCHEMS                                            *galaxy-more-schemes*
     If Built-in schemes didn't fit your mind. You can easily create some.~
 
                                                         *galaxy-new*
-    Generate new schemes~
-        :GalaxyNew
-        In Glaxy Window, you can type 'gn/gr'
+    New scheme~
+        :GalaxyNew or 'gn/gr' in Galaxy Window
     
-    Just as easy as type a scheme name.
+        Just type name and pick colors.
 
                                                         *galaxy-edit*
                                                         *galaxy-color*
-    Edit your scheme Color~
-        To edit, move cursor to the color, Then press 'e'
-        A ColorV window is opened for choosing your color.
-        Press 'q' to quit the window and make the change. 
+    Edit Color~
 
         There are 5 basic colors for generating all highlight colors.
 
-        They are 'bgd' 'fgd' 'syn' 'msg' 'dif'
-            'bgd' for background colors and line/column/... colors.
-            'fgd' for foreground colors and line/column/... colors.
-            'syn' for syntax colors. 
-            'msg' for Mode/Warning/Error/... messages colors.
-            'dif' for diff mode colors.
+            'bgd' for background
+            'fgd' for foreground
+            'syn' for syntax
+            'msg' for messages of Mode/Warning/Error/...
+            'dif' for diff mode
         
-        See Screen for their details. :GalaxyScreen
+        In |:GalaxyScreen| , you can see the detail colors.
 
-    NOTE     'bgd' and 'fgd' colors are used with
-             colorv#list_gen(hex,"Value")
-             'syn' 'msg' 'dif' colors are used with
-             colorv#yiq_list_gen(hex,"Hue")
-             see |colorv-generate| for more info.
+    NOTE     'bgd' and 'fgd' colors are generated by value in hsv space.
+             'syn' 'msg' colors are generated by hue in yiq space.
+             'dif' color are mixing with 70% background colors.
                                                         
 
                                                         *galaxy-generate*
     Generate schemes with colorlist~
-        First open ColorV colorname list by :ColorVlist (<leader>cl)
-        Make sure cursor is inside this window. 
-        Then press ':GalaxyAuto' (<leader>gla)
-        All colorname inside (100+) will be generated to schemes.
+        
+        You can generate a bunch of shemes with colorlist.
+        Colorlist should in "RED #FF0000" format.
+        
+        e.g.:
+        Open ColorV colorname list |:ColorVName|
+        Input ':GalaxyAuto'
+        All colorname inside it will be generated to schemes.
 
-    NOTE    You can use ColorV to generate more colorlist.
-            For example:  
-            '<leader>cg1' on '#ff0000' will generate a Monochromatic list
-            see |colorv-mapping-generate| for more details.
-
+                                                        *galaxy-delete*
     Delete schemes~
-        move cursor in the galaxy window. 
+        In Galaxy Window. 
         press 'dd'.
-        The scheme will be deleted.
+
 ==============================================================================
 INSTALL                                          *galaxy-install*
 
@@ -314,6 +282,11 @@ OPTIONS                                               *galaxy-options*
             \.'%* %{galaxy#smode()} '
 <
 
+                                                *g:galaxy_statusline_test*
+    'g:galaxy_statusline_test' 
+    It's a test style of statusline.
+    default value is:
+    '%* 0 %1* 1 %2* 2 %3* 3 %4* 4 %5* 5 %6* 6 %7*  7 %8* 8 %9* 9'
 
     NOTE:   hl-USER1 ~ hl-USER4 is more colorful,
             and will change while entering insert mode.
