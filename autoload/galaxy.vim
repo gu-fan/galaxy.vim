@@ -6,7 +6,7 @@
 " License: The MIT Licence
 "          http://www.opensource.org/licenses/mit-license.php
 "          Copyright (c) 2011-2012 Rykka.ForestGreen
-" Last Update: 2012-04-10
+" Last Update: 2012-04-11
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim
@@ -406,15 +406,15 @@ let s:hl_styles.Colour = [
 " s:schemes "{{{2
 "                       bgd     fgd      syn      msg       dif
 let s:default_schemes=[
-        \["Black"    ,"000000","C1CBD6","9FB9D6","FF0D0D","4B6266"],
-        \["White"    ,"FFFFFF","000000","306399","FF0D0D","B0E1EB"],
-        \["Paper"    ,"EBE9E8","2B2C33","345B85","CC2020","D9A79E"],
-        \["Wine"     ,"0D0609","9C9B94","A37B5F","F03535","2D374A"],
-        \["Spring"   ,"D5E6A1","363836","496791","B32222","CCBE8F"],
-        \["MoonNight","060F1A","B4B6B8","7FA5B8","C2A832","598099"],
-        \["Factory"  ,"050505","A6A6A6","8296B3","54DEB0","404259"],
-        \["Village"  ,"B1E6AC","362020","324F7D","1B488C","CCBD66"],
-        \["Slates"   ,"F2EFE4","232733","386599","FF2828","D9B2AD"],
+        \["Black"    ,"000000","C1CBD6","9FB9D6","FF5959","4B6266"],
+        \["White"    ,"FFFFFF","000000","306399","FF7373","B0E1EB"],
+        \["Paper"    ,"EBE9E8","2B2C33","345B85","FF6666","D9A79E"],
+        \["Wine"     ,"0D0609","9C9B94","A37B5F","59FF6A","2D374A"],
+        \["Spring"   ,"D5E6A1","363836","496791","FF5B3E","CCBE8F"],
+        \["MoonNight","060F1A","B4B6B8","7FA5B8","DBBF42","598099"],
+        \["Factory"  ,"050505","A6A6A6","8296B3","4DDBAB","404259"],
+        \["Village"  ,"B1E6AC","362020","324F7D","DEFF59","CCBD66"],
+        \["Slates"   ,"F2EFE4","232733","386599","FF7375","D9B2AD"],
         \["InkGreen" ,"0A0D07","A9BA93","8682D1","FF7236","363E4D"],
         \]
 let s:intro_lines = 2
