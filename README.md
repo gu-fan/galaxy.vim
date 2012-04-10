@@ -18,6 +18,9 @@
     Galaxy Screen:  http://img.ly/gArb 
 ![Galaxy Screen](http://s3.amazonaws.com/imgly_production/3953317/large.png)
 
+    Little galaxy:  http://img.ly/gADh 
+![Galaxy Screen](http://s3.amazonaws.com/imgly_production/3954067/large.png)
+
     Post issues: https://github.com/Rykka/vim-galaxy
 
 **NOTE:**   ColorV required. https://github.com/Rykka/ColorV
