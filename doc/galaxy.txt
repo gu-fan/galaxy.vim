@@ -22,14 +22,26 @@ CONTENTS                                         *galaxy-contents*
 ==============================================================================
 INTRO                                               *galaxy-intro*
 
-    *Galaxy* is a colorscheme that makes colorscheming easier.
-     
-    Generating a scheme of color is as easy as typing it's name.
 
-    Also have  Terminal support / Stylish Statusline / Indent Highlight , 
-    and more...
+    *Galaxy* is a colorscheme that simplifies colorscheming.
     
-    See Some Pictures:
+    We all want a nice colorscheme to comfort our eyes(and display).
+    But generating one is not that easy.
+
+    When generating a colorschemes, you must dealing with lots of issues: 
+    color issue, terminal issue, highlight group issue, syntax issue ...
+    This plugin simplifies these works. 
+
+    Generating a scheme with Galaxy takes only two step:
+    1. Typing a name 
+    2. Pickup a color for BACKGROUND (with colorpicker of ColorV)
+    Then you got the scheme, you can edit it's colors and check it's details.
+    
+    It contains several built-in schemes.
+    Also have Terminal support/Stylish Statusline/Indent Highlight , 
+    and more...
+
+    Some Pictures:~
 
         Normal Mode  :  http://img.ly/gAtY 
         Galaxy Window:  http://img.ly/gAra 
@@ -203,22 +215,19 @@ MORE SCHEMS                                            *galaxy-more-schemes*
 ==============================================================================
 INSTALL                                          *galaxy-install*
 
-1.Using [Vundle.vim](Recommend):~
-    https://github.com/gmarik/vundle
-    After installed vundle and git. Add this line to your vimrc  
+1.Using [Vundle.vim] https://github.com/gmarik/vundle 
+
+    Add two lines to your vimrc
     `Bundle 'Rykka/ColorV'` 
     `Bundle 'Rykka/vim-galaxy'` 
-    Run `:BundleInstall` to install.
-    And update them easily by `:BundleInstall!`
  
-2.Using [Galaxy on Vim.org]~
-    Download the latest version of tar.gz file, which contains ColorV
-    http://www.vim.org/scripts/script.php?script_id=3729
-    Extract to $VIMFILE folder. 
-    ("~/.vim" for linux. "$HOME/vimfiles" for windows)
-    Generate helptags. `:helptags ~/.vim/doc
+2.Using [Vim.org] http://www.vim.org/scripts/script.php?script_id=3729
     
-    NOTE   You can always get the latest version at
+    Download and Extract to your ~/.vim Folder
+    :helptags ~/.vim/doc
+
+    NOTE   Get Latest version
+           https://github.com/Rykka/ColorV/
            https://github.com/Rykka/vim-galaxy/
 ==============================================================================
 COMMANDS                                              *galaxy-commands*
