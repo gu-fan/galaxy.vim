@@ -2082,9 +2082,8 @@ function! s:screen.saver() dict "{{{
     
     let eh = s:event()
     let stars = s:stars()
-    let stars.maxobj = colorv#random(0,3)
+    let stars.maxobj = colorv#random(1,3)
     let stars.center = [ width/2, height/2]
-    cal stars.init()
     let s:screen.run = 1
     let s:screen.time = localtime()
     while s:screen.run == 1
@@ -2130,7 +2129,7 @@ function! s:stars() "{{{
     let starsys.radius = 10
     let starsys.rspd = 0.017453
     function! starsys.init() dict "{{{
-        let self.proj          = s:dprojector()
+        let self.proj          = s:dparticlesys()
         let self.proj.obj.rect = [[" ","0"," "],["0","0","0"],[" ","0"," "]]
         let self.proj.maxobj   = 50
         let self.proj.fadef    = 0.27
@@ -2139,7 +2138,7 @@ function! s:stars() "{{{
         let self.proj.rndxf    = 8
         let self.size          = 3
         for i in range(self.maxobj)
-            let proj = s:projector()
+            let proj = s:particlesys()
             let proj.angle = len(self.objs) * 6.283184 / self.maxobj
             let proj.rotate_spd = colorv#random(-16,16) / 100.0
             if proj.rotate_spd <= 0.01  && proj.rotate_spd >= -0.01
@@ -2148,7 +2147,6 @@ function! s:stars() "{{{
             let proj.radius  = colorv#random(15,30) + 0.0
             let proj.fadef = 0.21
             let proj.spdf  = 0.03
-            call proj.init()
             call add(self.objs,proj)
         endfor
     endfunction "}}}
@@ -2177,53 +2175,28 @@ function! s:stars() "{{{
         elseif  a:e =~? "s" | let self.center[1] += 0.5
         endif
     endfunction "}}}
+    call starsys.init()
     return starsys
 endfunction "}}}
-function! s:dprojector() "{{{
-    let dprojector       = s:projector()
-    let dprojector.obj   = s:object([["0"]])
-    let dprojector.radius = 12
-    function! dprojector.add() dict "{{{
-        let c = colorv#random(self.rndmf,self.rndxf)
-        let par = s:particle(s:chars[c])
+function! s:dparticlesys() "{{{
+    let dparticlesys = s:particlesys()
+    let dparticlesys.obj   = s:object([["2"]])
+    let dparticlesys.radius = 12
+    function! dparticlesys.add() dict "{{{
+        let par = [[0.0,0.0],[0.0,0.0],[9.0,0.0]]
         let angle  = ( 0.017453 ) * colorv#random(0,360)
         let a = self.radius * sin(angle)
         let b = self.radius * cos(angle)
-        let par.pos[0] = self.pos[0] + b
-        let par.pos[1] = self.pos[1] + a
-        let par.spd[0] =  self.spd[0]/3.0 - b * 0.08
-        let par.spd[1] =  self.spd[0]/3.0 - a * 0.08
-        let par.fadespd =  c / 3.1 * self.fadef
-        call add(self.pars, par)
-    endfunction "}}}
-    return dprojector
-endfunction "}}}
-function! s:projector() "{{{
-    let projector       = {'pars':[], 'maxpar':30}
-    let projector.pos   = [30,30]
-    let projector.spd   = [0.0,0.0]
-    let projector.fadef = 0.20
-    let projector.spdf  = 0.04
-    let projector.rndmf = 2
-    let projector.rndxf = 7
-    let projector.obj   = s:object([["7"]])
-    let projector.size  = 2
-    function! projector.init() dict "{{{
-        for i in range(5)
-            call self.add()
-        endfor
-    endfunction "}}}
-    function! projector.add() dict "{{{
+        let par[0][0] = self.spd[0]/3.0 - b * 0.08
+        let par[0][1] = self.spd[1]/3.0 - a * 0.08
+        let par[1][0] = self.pos[0] + b
+        let par[1][1] = self.pos[1] + a
         let c = colorv#random(self.rndmf,self.rndxf)
-        let par = s:particle(s:chars[c])
-        let par.spd[0] = colorv#random(-35,35) * self.spdf - self.spd[0]/3.0
-        let par.spd[1] = colorv#random(-35,35) * self.spdf - self.spd[1]/3.0
-        let par.pos[0] = self.pos[0]
-        let par.pos[1] = self.pos[1]
-        let par.fadespd = colorv#random(1,10) * self.fadef
+        let par[2][0] = c
+        let par[2][1] = c / 10.1 * self.fadef
         call add(self.pars, par)
     endfunction "}}}
-    function! projector.update() dict "{{{
+    function! dparticlesys.update() dict "{{{
         if len(self.pars) < self.maxpar
             call self.add()
         endif
@@ -2233,14 +2206,87 @@ function! s:projector() "{{{
         cal self.obj.update()
 
         for par in self.pars
-            call par.update()
-            if par.life <= 0
-                call remove(self.pars, index(self.pars, par))
-                call self.add()
+            let par[1][0] += par[0][0]
+            let par[1][1] += par[0][1]
+            let par[2][0] -= par[2][1]
+            if par[2][0] <= 0 
+                    \|| par[1][0] > s:screen.width || par[1][0] < 0
+                    \|| par[1][1] > s:screen.height || par[1][1] < 0
+                let angle  = ( 0.017453 ) * colorv#random(0,360)
+                let a = self.radius * sin(angle)
+                let b = self.radius * cos(angle)
+                let par[0][0] = self.spd[0]/3.0 - b * 0.08
+                let par[0][1] = self.spd[1]/3.0 - a * 0.08
+                let par[1][0] = self.pos[0] + b
+                let par[1][1] = self.pos[1] + a
+                let c = colorv#random(self.rndmf,self.rndxf)
+                let par[2][0] = c
+                let par[2][1] = c / 3.1 * self.fadef
             endif
+            call s:screen.plot(float2nr(par[1][0]),float2nr(par[1][1]),
+                                        \s:chars[float2nr(par[2][0])])
+        endfor
+
+    endfunction "}}}
+    call dparticlesys.init()
+    return dparticlesys
+endfunction "}}}
+function! s:particlesys() "{{{
+    let particlesys = {}
+    let particlesys       = {'pars':[], 'maxpar':30}
+    let particlesys.pos   = [30,30]
+    let particlesys.spd   = [0.0,0.0]
+    let particlesys.fadef = 0.20
+    let particlesys.spdf  = 0.04
+    let particlesys.rndmf = 2
+    let particlesys.rndxf = 7
+    let particlesys.obj   = s:object([["7"]])
+    let particlesys.size  = 2
+    function! particlesys.init() dict "{{{
+        for i in range(5)
+            call self.add()
         endfor
     endfunction "}}}
-    return projector
+    function! particlesys.add() dict "{{{
+        let c = colorv#random(self.rndmf,self.rndxf)
+        let par = [[0.0,0.0],[0.0,0.0],[10.0,0.0]]
+        let par[0][0] = colorv#random(-35,35) * self.spdf - self.spd[0]/3.0
+        let par[0][1] = colorv#random(-35,35) * self.spdf - self.spd[1]/3.0
+        let par[1][0] = self.pos[0]
+        let par[1][1] = self.pos[1]
+        let par[2][1] = colorv#random(1,10) * self.fadef
+        call add(self.pars, par)
+    endfunction "}}}
+    function! particlesys.update() dict "{{{
+        if len(self.pars) < self.maxpar
+            call self.add()
+        endif
+        
+        let self.obj.pos[0] = self.pos[0] - self.size/2
+        let self.obj.pos[1] = self.pos[1] - self.size/2
+        cal self.obj.update()
+
+        for par in self.pars
+            let par[1][0] += par[0][0]
+            let par[1][1] += par[0][1]
+            let par[2][0] -= par[2][1]
+            if par[2][0] <= 0 
+                    \|| par[1][0] > s:screen.width || par[1][0] < 0
+                    \|| par[1][1] > s:screen.height || par[1][1] < 0
+                let par[0][0] = colorv#random(-35,35) * self.spdf - self.spd[0]/3.0
+                let par[0][1] = colorv#random(-35,35) * self.spdf - self.spd[1]/3.0
+                let par[1][0] = self.pos[0]
+                let par[1][1] = self.pos[1]
+                let par[2][1] = colorv#random(1,10) * self.fadef
+                let par[2][0] = 9.0
+            endif
+            call s:screen.plot(float2nr(par[1][0]),float2nr(par[1][1]),
+                                        \s:chars[float2nr(par[2][0])])
+        endfor
+
+    endfunction "}}}
+    call particlesys.init()
+    return particlesys
 endfunction "}}}
 function! s:object(...) "{{{
     let rect           = exists("a:1") ? a:1 : [["*"]]
