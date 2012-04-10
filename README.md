@@ -9,11 +9,11 @@
     
     See Some Pictures:
         
-        [Normal Mode|http://img.ly/gAqu]
+![Normal Mode](http://img.ly/gAqu)
 
-        [Galaxy Window|http://img.ly/gAra]
+![Galaxy Window](http://img.ly/gAra)
 
-        [Galaxy Screen|http://img.ly/gArb]
+![Galaxy Screen](http://img.ly/gArb)
 
     Post issues: https://github.com/Rykka/vim-galaxy
 
