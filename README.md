@@ -7,13 +7,13 @@
     Also have  Terminal support / Colorful Statusline / Indent Highlight , 
     and more...
     
-    See Some Pictures:
+**Some Pictures:**
         
-![Normal Mode](http://img.ly/gAqu)
+![Normal Mode](http://s3.amazonaws.com/imgly_production/3953490/large.png)
 
-![Galaxy Window](http://img.ly/gAra)
+![Galaxy Window](http://s3.amazonaws.com/imgly_production/3953316/large.png)
 
-![Galaxy Screen](http://img.ly/gArb)
+![Galaxy Screen](http://s3.amazonaws.com/imgly_production/3953317/large.png)
 
     Post issues: https://github.com/Rykka/vim-galaxy
 
