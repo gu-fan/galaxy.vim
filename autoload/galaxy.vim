@@ -24,33 +24,34 @@ function! s:default(option, value) "{{{
     return 1
 endfunction "}}}
 call s:default("g:galaxy_debug",            0)
-call s:default("g:galaxy_enable_indent_hl", 1)
 call s:default("g:galaxy_indent_hl_pos",    "start")
 call s:default("g:galaxy_show_trailing_ws", 1)
 call s:default("g:galaxy_indent_hl_ftype",  "python,c,javascript")
-call s:default("g:galaxy_colorful_syntax",  1)
 call s:default("g:galaxy_load_syn_dict",    1)
 call s:default("g:galaxy_load_syn_tuning",  1)
 call s:default("g:galaxy_visual_hl_fg",     0)
 call s:default("g:galaxy_tcursor_color",    "DarkGray")
 
+call s:default("g:galaxy_colorful_syntax",  1)
 call s:default("g:galaxy_statusline_style", "Left")
+call s:default("g:galaxy_enable_indent_hl", 1)
+
 call s:default("g:galaxy_statusline_blink", 1)
 call s:default("g:galaxy_auto_statusline",  1)
 call s:default("g:galaxy_default_ff",  "unix")
-call s:default("g:galaxy_default_enc",  "utf-8")
+call s:default("g:galaxy_default_enc", "utf-8")
 
 call s:default("g:galaxy_statusline_left", ""
             \.'%* %{galaxy#smode()} '
             \.'%1*%(%2n.%)%2*%( %Y %)%3*%( %M%R %)%4*%( %k %)'
-            \.'%9* %<%F %='
-            \.'%8*%(%{galaxy#enc()}%)%7*%4l %6*%3c %5* %P '
+            \.'%5* %<%F %='
+            \.'%6*%(%{galaxy#enc()}%)%7*%4l %8*%3c %9* %P '
             \)
 call s:default("g:galaxy_statusline_right", ""
-            \.'%9*%(%2n.%)%8*%4l %7*%3c '
-            \.'%5* %<%F %=%6* %P '
-            \.'%4*%( %Y %)%3*%( %k %)'
-            \.'%2*%(%{galaxy#enc()}%)%1*%( %M%R %)'
+            \.'%9*%(%2n.%)%8*%4l %7*%3c %6*%( %Y %)'
+            \.'%5* %<%F %='
+            \.'%4*%( %k %)'
+            \.'%3*%(%{galaxy#enc()}%)%2* %P %1*%( %M%R %)'
             \.'%* %{galaxy#smode()} '
             \)
 
@@ -83,6 +84,9 @@ let s:galaxy.name  = "_GALAXY_".g:galaxy.version
 
 let s:seq_num = 0
 let s:scheme  = {}
+let s:scheme.name = "White"
+let s:scheme.style = "Default"
+let s:scheme.colors = ["FFFFFF","000000","306399","FF0D0D","B0E1EB"]
 "               ui name style syntax status indent
 let s:cache_term = ["TEM_OPT","","","","",""]
 let s:cache_gui  = ["GUI_OPT","","","","",""]
@@ -259,33 +263,33 @@ let s:hl_styles.Default = [
         \["CursorColumn",   "CursorLine"    ],
         \["Visual",         "nocolor",  "bgdclr4",  "n"     ],
         \["VisualNOS",      "nocolor",  "bgdclr5",  "n"     ],
-        \["Search",         "bgdclr1",  "fgdclr4",  "n"     ],
+        \["Search",         "fgdclr1",  "bgdclr3",  "n"     ],
         \["IncSearch",      "bgdclr0",  "msgclr2",  "b"     ],
         \["Wildmenu",       "msgclr1",  "bgdclr1",  "b"     ],
         \["Pmenu",          "fgdclr2",  "bgdclr3",  "n"     ],
         \["PmenuSel",       "fgdclr1",  "bgdclr1",  "rb"    ],
         \["PmenuSbar",      "fgdclr1",  "fgdclr6",  "n"     ],
         \["PmenuThumb",     "bgdclr0",  "fgdclr2",  "n"     ],
-        \["Folded",         "fgdclr4",  "bgdclr2",  "n"     ],
+        \["Folded",         "fgdclr5",  "bgdclr2",  "n"     ],
         \["ColorColumn",    "Folded"        ],
         \["FoldColumn",     "bgdclr5",  "bgdclr2",  "b"     ],
         \["LineNr",         "bgdclr4",  "bgdclr1",  "n"     ],
         \["SignColumn",     "msgclr2",  "bgdclr2",  "n"     ],
-        \["TabLine",        "bgdclr0",  "bgdclr4",  "u"     ],
+        \["TabLine",        "fgdclr4",  "bgdclr4",  "n"     ],
         \["TabLineSel",     "fgdclr1",  "bgdclr0",  "b"     ],
         \["TabLineFill",    "bgdclr0",  "bgdclr3",  "n"     ],
         \["StatusLine",     "bgdclr0",  "msgclr0",  "b"     ],
-        \["StatusLineNC",   "bgdclr0",  "bgdclr4",  "n"     ],
+        \["StatusLineNC",   "fgdclr4",  "bgdclr4",  "n"     ],
         \["VertSplit",      "StatusLineNC"  ],
         \["User1",          "bgdclr4",  "msgclr1",  "r"     ],
         \["User2",          "bgdclr3",  "msgclr2",  "r"     ],
         \["User3",          "bgdclr2",  "msgclr3",  "r"     ],
         \["User4",          "bgdclr1",  "msgclr4",  "r"     ],
-        \["User5",          "bgdclr7",  "bgdclr1",  "b"     ],
-        \["User6",          "bgdclr8",  "bgdclr2",  "b"     ],
-        \["User7",          "bgdclr8",  "bgdclr3",  "b"     ],
-        \["User8",          "bgdclr9",  "bgdclr4",  "b"     ],
-        \["User9",          "bgdclr9",  "bgdclr5",  "b"     ],
+        \["User5",          "fgdclr1",  "bgdclr1",  "b"     ],
+        \["User6",          "fgdclr1",  "bgdclr2",  "b"     ],
+        \["User7",          "fgdclr2",  "bgdclr3",  "b"     ],
+        \["User8",          "fgdclr2",  "bgdclr4",  "b"     ],
+        \["User9",          "fgdclr3",  "bgdclr5",  "b"     ],
         \] "}}}
 "{{{ Shadow
 let s:hl_styles.Shadow = [
@@ -1113,6 +1117,7 @@ function! s:hi_list(list) "{{{
                                 \.hl_grp.fg_txt.bg_txt.sp_txt.fm_txt)
                 endtry
             endif
+            call s:debug(hl_grp." ".fg_txt)
 
         elseif len(item) == 2
             let [hl_from,hl_to]=item
@@ -1150,7 +1155,7 @@ function! galaxy#win() "{{{
     \]
     let s:intro_lines=len(lines)
     let lines[0] = "GALAXY v" . g:galaxy.version 
-                \. s:head_tip[(colorv#random(0,2))]
+                \. s:head_tip[(s:random(0,2))]
     let lines[1] = s:get_opt_line()   
 
     " Load scheme dicts
@@ -1256,7 +1261,6 @@ function! s:win_rename_scheme() "{{{
     if new_name is 0
         return
     endif
-    echom name new_name
     
     if has_key(s:f_scheme_dict, name)
         "find from f_dict, cpy colors and rmv old one
@@ -1366,7 +1370,7 @@ function! s:win_new_scheme_cv() "{{{
         return
     endif
     let s:gen_name = name
-    let randhex = printf("%06.6s",printf("%X",colorv#random(0,16777215)))
+    let randhex = printf("%06.6s",printf("%X",s:random(0,16777215)))
     cal s:input_cv_call(randhex,"2. Choose Background"
                 \,"galaxy#gen_callback",['g:ColorV.HEX','s:gen_name'])
 endfunction "}}}
@@ -1377,7 +1381,7 @@ function! s:win_new_scheme_rd() "{{{
     if name is 0
         return
     endif
-    let randhex = printf("%06.6s",printf("%X",colorv#random(0,16777215)))
+    let randhex = printf("%06.6s",printf("%X",s:random(0,16777215)))
     call galaxy#gen_callback(randhex,name)
 endfunction "}}}
 function! galaxy#gen_callback(color,name,...) "{{{
@@ -1845,7 +1849,6 @@ let s:screen = {} "{{{
 let galaxy#screen = s:screen
 let s:screen.name = "GALAXY_SCREEN".g:galaxy.version
 "                       b987654321f 
-let s:chars = "0123456789abcdefghijklmnopqrstuvwxyz"
 let s:screen_lines = [
 \" GALAXY_SCREEN                                           v 2.0.0 ",
 \"                                                                 ",
@@ -2070,6 +2073,10 @@ function! s:screen.cursor_hi() dict "{{{
 endfunction "}}}
 " SAVR {{{1
 "============================================================================
+" A little galaxy system.
+" Credit me if you use it.
+" Author: Rykka Greenforest <Rykka10@gmail.com>
+" License: The MIT Licence 
 function! s:screen.saver() dict "{{{
     cal s:new_win(s:screen.name)
     call s:screen.clean()
@@ -2078,11 +2085,11 @@ function! s:screen.saver() dict "{{{
     let width = winwidth(0)
     let height = winheight(0)
     call s:screen.window(width,height)
-    call s:echo("...")
+    call s:echo("Starts...")
     
     let eh = s:event()
     let stars = s:stars()
-    let stars.maxobj = colorv#random(1,3)
+    let stars.maxobj = s:random(1,3)
     let stars.center = [ width/2, height/2]
     let s:screen.run = 1
     let s:screen.time = localtime()
@@ -2098,6 +2105,324 @@ function! s:screen.saver() dict "{{{
         sleep 33m
     endwhile
     call s:screen.re_hi()
+endfunction "}}}
+
+" Classes 
+function! s:stars() "{{{
+    let starsys = {'objs':[],'maxobj':4}
+    let starsys.center = [10,10]
+    let starsys.spd = [0.0,0.0]
+    let starsys.pos = [0.0,0.0]
+    let starsys.angle = -1.570795
+    let starsys.radius = 12
+    let starsys.rspd = 0.017453
+
+    let starsys.proj          = s:dparticlesys()
+    let starsys.proj.obj.rect = [["0"]]
+    let starsys.proj.maxobj   = 70
+    let starsys.proj.fadef    = 0.31
+    let starsys.proj.spdf     = 0.04
+    let starsys.proj.rndmf    = 3
+    let starsys.proj.rndxf    = 7
+    let starsys.size          = 3
+    let starsys.randobjs      = []
+    let starsys.maxrandobj    = 3
+    let starsys.tick          = 0
+
+    function! starsys.init() dict "{{{
+        for i in range(self.maxobj)
+            call self.add()
+        endfor
+    endfunction "}}}
+    function! starsys.add() dict "{{{
+        let proj = s:particlesys()
+        let c  = s:random(0,0)
+        let proj.charn = c
+        let proj.obj.rect = [[s:chars{c}[1]]]
+        let proj.angle = len(self.objs) * 6.283184 / self.maxobj
+        let proj.rotate_spd = s:random(-16,16) / 100.0
+        if proj.rotate_spd <= 0.01  && proj.rotate_spd >= -0.01
+            let proj.rotate_spd =  0.04
+        endif
+        let proj.radius  = s:random(17,30) + 0.0
+        let proj.fadef = 0.39
+        let proj.spdf  = 0.02
+        let proj.maxobj = 15
+        let proj.spdf  = 0.03
+        let proj.rndmf    = 4
+        let proj.rndxf    = 7
+        call add(self.objs,proj)
+    endfunction "}}}
+    function! starsys.addrand() dict "{{{
+        let randproj = s:particlesys()
+        let r = s:random(-40,40)
+        let s = s:random(0,1)
+        let v = s:random(1,s:screen.width)
+        if r <=0 && s == 0
+            let x  = [abs(r)+1,1]
+            let p  = [v, s:screen.height]
+        elseif r<=0 && s == 1
+            let x  = [abs(r)+1,s:screen.height]
+            let p  = [v, 1]
+        elseif r>0 && s == 0
+            let x  = [1,r]
+            let p  = [s:screen.width, v]
+        elseif r>0 && s == 1
+            let x  = [s:screen.width,r]
+            let p  = [1, v]
+        endif
+        let c  = s:random(1,4)
+        let randproj.charn = c
+        let randproj.obj.rect = [[s:chars{c}[9]]]
+        let randproj.life = 10
+        let randproj.fadespd = 0.04
+        let randproj.rndmf = 7
+        let randproj.rndxf = 9
+        let randproj.pos = x
+        let randproj.spd = [(p[0]-x[0])*0.04,(p[1]-x[1])*0.04] 
+        let randproj.maxobj = 40
+        let randproj.spdf = 0.04
+        let randproj.fadef = 0.03
+        let randproj.emission_rate = 3
+        call add(self.randobjs,randproj)
+    endfunction "}}}
+    function! starsys.update() dict "{{{
+
+        let self.angle += self.rspd
+        let self.pos[0] = self.center[0] + self.radius * cos(self.angle)
+        let self.pos[1] = self.center[1] + self.radius * sin(self.angle)
+
+        let self.tick += 1
+        if self.tick >= 165 && len(self.randobjs) < self.maxrandobj
+            call self.addrand()
+            let self.tick = 0
+        endif
+        for obj in self.randobjs
+            let obj.pos[0] += obj.spd[0]
+            let obj.pos[1] += obj.spd[1]
+            let obj.life   -= obj.fadespd
+            cal obj.update()
+            if obj.life <= 0 
+                call remove(self.randobjs,index(self.randobjs,obj))
+            endif
+        endfor
+
+        let self.proj.pos[0] = self.pos[0] - self.size/2
+        let self.proj.pos[1] = self.pos[1] - self.size/2
+        cal self.proj.update()
+        
+        for obj in self.objs
+            let  obj.angle  += obj.rotate_spd
+            let  a           = obj.radius * sin(obj.angle)
+            let  b           = obj.radius * cos(obj.angle)
+            let  obj.spd[0]  = obj.rotate_spd * a
+            let  obj.spd[1]  = obj.rotate_spd * b
+            let  obj.pos[0]  = self.pos[0] + b
+            let  obj.pos[1]  = self.pos[1] + a
+            call obj.update()
+        endfor
+    endfunction "}}}
+    function! starsys.receive_e(e) "{{{
+        if      a:e =~? "a" | let self.center[0] -= 0.5
+        elseif  a:e =~? "d" | let self.center[0] += 0.5
+        elseif  a:e =~? "w" | let self.center[1] -= 0.5
+        elseif  a:e =~? "s" | let self.center[1] += 0.5
+        endif
+    endfunction "}}}
+    call starsys.init()
+    return starsys
+endfunction "}}}
+function! s:dparticlesys() "{{{
+    let dparticlesys = s:particlesys()
+    let dparticlesys.obj   = s:object([["1"]])
+    let dparticlesys.radius = 12
+    let dparticlesys.emission_rate  = 1
+    function! dparticlesys.add() dict "{{{
+        let par = [[0.0,0.0],[0.0,0.0],[9.0,0.0]]
+        let angle  = ( 0.017453 ) * s:random(0,360)
+        let a = self.radius * sin(angle)
+        let b = self.radius * cos(angle)
+        let par[0][0] = self.spd[0]/3.0 - b * 0.07
+        let par[0][1] = self.spd[1]/3.0 - a * 0.07
+        let par[1][0] = self.pos[0] + b
+        let par[1][1] = self.pos[1] + a
+        let c = s:random(self.rndmf,self.rndxf)
+        let par[2][0] = c
+        let par[2][1] = c / 5.1 * self.fadef
+        call add(self.pars, par)
+    endfunction "}}}
+    function! dparticlesys.update() dict "{{{
+        for i in range(self.emission_rate)
+            if len(self.pars) < self.maxobj
+                call self.add()
+            endif
+        endfor
+        
+        let self.obj.pos[0] = self.pos[0] - self.size/2
+        let self.obj.pos[1] = self.pos[1] - self.size/2
+        cal self.obj.update()
+
+        for par in self.pars
+            let par[1][0] += par[0][0]
+            let par[1][1] += par[0][1]
+            let par[2][0] -= par[2][1]
+            if par[2][0] <= 0 
+                    \|| par[1][0] > s:screen.width || par[1][0] < 0
+                    \|| par[1][1] > s:screen.height || par[1][1] < 0
+                let angle  = ( 0.017453 ) * s:random(0,360)
+                let a = self.radius * sin(angle)
+                let b = self.radius * cos(angle)
+                let par[0][0] = self.spd[0]/3.0 - b * 0.08
+                let par[0][1] = self.spd[1]/3.0 - a * 0.08
+                let par[1][0] = self.pos[0] + b
+                let par[1][1] = self.pos[1] + a
+                let c = s:random(self.rndmf,self.rndxf)
+                let par[2][0] = c
+                let par[2][1] = c / 5.1 * self.fadef
+            endif
+
+            let c = s:chars{self.charn}[float2nr(par[2][0])]
+            call s:screen.plot(float2nr(par[1][0]),float2nr(par[1][1]), c)
+        endfor
+
+    endfunction "}}}
+    call dparticlesys.init()
+    return dparticlesys
+endfunction "}}}
+function! s:particlesys() "{{{
+    let particlesys = {}
+    let particlesys       = {'pars':[], 'maxobj':30}
+    let particlesys.charn = 0
+    let particlesys.pos   = [30,30]
+    let particlesys.spd   = [0.0,0.0]
+    let particlesys.fadef = 0.20
+    let particlesys.spdf  = 0.04
+    let particlesys.rndmf = 2
+    let particlesys.rndxf = 6
+    let particlesys.obj   = s:object([["6"]])
+    let particlesys.size  = 2
+    let particlesys.emission_rate  = 1
+    function! particlesys.init() dict "{{{
+        for i in range(5)
+            call self.add()
+        endfor
+    endfunction "}}}
+    function! particlesys.add() dict "{{{
+        let c = s:random(self.rndmf,self.rndxf)
+        let par = [[0.0,0.0],[0.0,0.0],[10.0,0.0]]
+        let par[0][0] = s:random(-35,35) * self.spdf - self.spd[0]/3.0
+        let par[0][1] = s:random(-35,35) * self.spdf - self.spd[1]/3.0
+        let par[1][0] = self.pos[0]
+        let par[1][1] = self.pos[1]
+        let par[2][0] = c
+        let par[2][1] = c /5.1 * self.fadef
+        call add(self.pars, par)
+    endfunction "}}}
+    function! particlesys.update() dict "{{{
+        
+        for i in range(self.emission_rate)
+            if len(self.pars) < self.maxobj
+                call self.add()
+            endif
+        endfor
+
+        let self.obj.pos[0] = self.pos[0] - self.size/2
+        let self.obj.pos[1] = self.pos[1] - self.size/2
+        cal self.obj.update()
+
+        for par in self.pars
+            let par[1][0] += par[0][0]
+            let par[1][1] += par[0][1]
+            let par[2][0] -= par[2][1]
+            if par[2][0] <= 0 
+                    \|| par[1][0] > s:screen.width || par[1][0] < 0
+                    \|| par[1][1] > s:screen.height || par[1][1] < 0
+                let par[0][0] = s:random(-35,35) * self.spdf - self.spd[0]/3.0
+                let par[0][1] = s:random(-35,35) * self.spdf - self.spd[1]/3.0
+                let par[1][0] = self.pos[0]
+                let par[1][1] = self.pos[1]
+                let c = s:random(self.rndmf,self.rndxf)
+                let par[2][0] = c
+                let par[2][1] = c /5.1 * self.fadef
+            endif
+
+            let c = s:chars{self.charn}[float2nr(par[2][0])]
+            call s:screen.plot(float2nr(par[1][0]),float2nr(par[1][1]), c)
+        endfor
+
+    endfunction "}}}
+    call particlesys.init()
+    return particlesys
+endfunction "}}}
+function! s:object(...) "{{{
+    let rect           = exists("a:1") ? a:1 : [["6"]]
+    let object         = s:particle()
+    unl object.rect
+    let object.rect    = rect
+    function! object.draw() dict "{{{
+        for i in range(len(self.rect))
+            for j in range(len(self.rect[i]))
+                if self.rect[i][j] != " "
+                    call s:screen.plot(float2nr(self.pos[0])+j
+                            \,float2nr(self.pos[1])+i
+                            \,self.rect[i][j])
+                endif
+            endfor
+        endfor
+    endfunction "}}}
+    function! object.setrect() "{{{
+        let o = self.life
+        let self.life -= self.fadespd
+        let k = float2nr(o) - float2nr(self.life)
+        if k >= 1
+            for i in range(len(self.rect))
+                for j in range(len(self.rect[i]))
+                    let idx = stridx(s:chars{self.charn}, self.rect[i][j])
+                    if idx-k >= 0
+                        let self.rect[i][j] = s:chars{self.charn}[idx-k]
+                    endif
+                endfor
+            endfor
+        endif
+    endfunction "}}}
+    return object
+endfunction "}}}
+function! s:particle(...) "{{{
+    let rect             = exists("a:1") ? a:1 : "6"
+    let particle         = {}
+    let particle.pos     = [1.0,1.0]
+    let particle.rect    = rect
+    let particle.spd     = [0.0,0.0]
+    let particle.maxspd  = 2
+    let particle.fadespd = 0.0
+    let particle.life    = 10.0
+    let particle.size    = 1
+    let particle.charn   = 0
+    function! particle.setrect() "{{{
+        let self.life -= self.fadespd
+        let self.rect = s:chars{self.charn}[float2nr(self.life)]
+    endfunction "}}}
+    function! particle.draw() "{{{
+        call s:screen.plot(float2nr(self.pos[0])
+                \,float2nr(self.pos[1]), self.rect)
+    endfunction "}}}
+    function! particle.update() dict "{{{
+        if self.life <= 0
+            return
+        endif
+        call self.setrect()
+
+        let self.pos = [self.pos[0]+self.spd[0] , 
+                \self.pos[1] + self.spd[1] ]
+        if self.pos[0] >= s:screen.width || self.pos[0] <= 0
+            let self.spd[0] = -self.spd[0]/1.8
+        endif
+        if self.pos[1] >= s:screen.height || self.pos[1] <= 0
+            let self.spd[1] = -self.spd[1]/1.8
+        endif
+        call self.draw()
+    endfunction "}}}
+    return particle
 endfunction "}}}
 function! s:event() "{{{
     let event = {'receiver':[]}
@@ -2120,284 +2445,64 @@ function! s:event() "{{{
     endfunction "}}}
     return event
 endfunction "}}}
-function! s:stars() "{{{
-    let starsys = {'objs':[],'maxobj':4}
-    let starsys.center = [10,10]
-    let starsys.spd = [0.0,0.0]
-    let starsys.pos = [0.0,0.0]
-    let starsys.angle = -1.570795
-    let starsys.radius = 10
-    let starsys.rspd = 0.017453
-    function! starsys.init() dict "{{{
-        let self.proj          = s:dparticlesys()
-        let self.proj.obj.rect = [[" ","0"," "],["0","0","0"],[" ","0"," "]]
-        let self.proj.maxobj   = 50
-        let self.proj.fadef    = 0.27
-        let self.proj.spdf     = 0.06
-        let self.proj.rndmf    = 4
-        let self.proj.rndxf    = 8
-        let self.size          = 3
-        for i in range(self.maxobj)
-            let proj = s:particlesys()
-            let proj.angle = len(self.objs) * 6.283184 / self.maxobj
-            let proj.rotate_spd = colorv#random(-16,16) / 100.0
-            if proj.rotate_spd <= 0.01  && proj.rotate_spd >= -0.01
-                let proj.rotate_spd =  0.04
-            endif
-            let proj.radius  = colorv#random(15,30) + 0.0
-            let proj.fadef = 0.21
-            let proj.spdf  = 0.03
-            call add(self.objs,proj)
-        endfor
-    endfunction "}}}
-    function! starsys.update() dict "{{{
-        let self.angle += self.rspd
-        let self.pos[0] = self.center[0] + self.radius * cos(self.angle)
-        let self.pos[1] = self.center[1] + self.radius * sin(self.angle)
-        let self.proj.pos[0] = self.pos[0] - self.size/2
-        let self.proj.pos[1] = self.pos[1] - self.size/2
-        cal self.proj.update()
-        for obj in self.objs
-            let  obj.angle  += obj.rotate_spd
-            let  a           = obj.radius * sin(obj.angle)
-            let  b           = obj.radius * cos(obj.angle)
-            let  obj.spd[0] = obj.rotate_spd * a
-            let  obj.spd[1] = obj.rotate_spd * b
-            let  obj.pos[0]  = self.pos[0] + b
-            let  obj.pos[1]  = self.pos[1] + a
-            call obj.update()
-        endfor
-    endfunction "}}}
-    function! starsys.receive_e(e) "{{{
-        if      a:e =~? "a" | let self.center[0] -= 0.5
-        elseif  a:e =~? "d" | let self.center[0] += 0.5
-        elseif  a:e =~? "w" | let self.center[1] -= 0.5
-        elseif  a:e =~? "s" | let self.center[1] += 0.5
-        endif
-    endfunction "}}}
-    call starsys.init()
-    return starsys
-endfunction "}}}
-function! s:dparticlesys() "{{{
-    let dparticlesys = s:particlesys()
-    let dparticlesys.obj   = s:object([["2"]])
-    let dparticlesys.radius = 12
-    function! dparticlesys.add() dict "{{{
-        let par = [[0.0,0.0],[0.0,0.0],[9.0,0.0]]
-        let angle  = ( 0.017453 ) * colorv#random(0,360)
-        let a = self.radius * sin(angle)
-        let b = self.radius * cos(angle)
-        let par[0][0] = self.spd[0]/3.0 - b * 0.08
-        let par[0][1] = self.spd[1]/3.0 - a * 0.08
-        let par[1][0] = self.pos[0] + b
-        let par[1][1] = self.pos[1] + a
-        let c = colorv#random(self.rndmf,self.rndxf)
-        let par[2][0] = c
-        let par[2][1] = c / 10.1 * self.fadef
-        call add(self.pars, par)
-    endfunction "}}}
-    function! dparticlesys.update() dict "{{{
-        if len(self.pars) < self.maxpar
-            call self.add()
-        endif
-        
-        let self.obj.pos[0] = self.pos[0] - self.size/2
-        let self.obj.pos[1] = self.pos[1] - self.size/2
-        cal self.obj.update()
 
-        for par in self.pars
-            let par[1][0] += par[0][0]
-            let par[1][1] += par[0][1]
-            let par[2][0] -= par[2][1]
-            if par[2][0] <= 0 
-                    \|| par[1][0] > s:screen.width || par[1][0] < 0
-                    \|| par[1][1] > s:screen.height || par[1][1] < 0
-                let angle  = ( 0.017453 ) * colorv#random(0,360)
-                let a = self.radius * sin(angle)
-                let b = self.radius * cos(angle)
-                let par[0][0] = self.spd[0]/3.0 - b * 0.08
-                let par[0][1] = self.spd[1]/3.0 - a * 0.08
-                let par[1][0] = self.pos[0] + b
-                let par[1][1] = self.pos[1] + a
-                let c = colorv#random(self.rndmf,self.rndxf)
-                let par[2][0] = c
-                let par[2][1] = c / 3.1 * self.fadef
-            endif
-            call s:screen.plot(float2nr(par[1][0]),float2nr(par[1][1]),
-                                        \s:chars[float2nr(par[2][0])])
-        endfor
-
-    endfunction "}}}
-    call dparticlesys.init()
-    return dparticlesys
+function! s:wstridx(str,needle,...) "{{{
+    if exists("a:1")
+        let wstart = byteidx(a:str,a:1)
+    else
+        let wstart = 0
+    endif
+    for i in range( wstart, (len(split(a:str,'\zs'))-1) )
+        if  s:wstrpart(a:str,i,1) == a:needle
+            return i
+        endif
+    endfor
+    return -1
 endfunction "}}}
-function! s:particlesys() "{{{
-    let particlesys = {}
-    let particlesys       = {'pars':[], 'maxpar':30}
-    let particlesys.pos   = [30,30]
-    let particlesys.spd   = [0.0,0.0]
-    let particlesys.fadef = 0.20
-    let particlesys.spdf  = 0.04
-    let particlesys.rndmf = 2
-    let particlesys.rndxf = 7
-    let particlesys.obj   = s:object([["7"]])
-    let particlesys.size  = 2
-    function! particlesys.init() dict "{{{
-        for i in range(5)
-            call self.add()
-        endfor
-    endfunction "}}}
-    function! particlesys.add() dict "{{{
-        let c = colorv#random(self.rndmf,self.rndxf)
-        let par = [[0.0,0.0],[0.0,0.0],[10.0,0.0]]
-        let par[0][0] = colorv#random(-35,35) * self.spdf - self.spd[0]/3.0
-        let par[0][1] = colorv#random(-35,35) * self.spdf - self.spd[1]/3.0
-        let par[1][0] = self.pos[0]
-        let par[1][1] = self.pos[1]
-        let par[2][1] = colorv#random(1,10) * self.fadef
-        call add(self.pars, par)
-    endfunction "}}}
-    function! particlesys.update() dict "{{{
-        if len(self.pars) < self.maxpar
-            call self.add()
-        endif
-        
-        let self.obj.pos[0] = self.pos[0] - self.size/2
-        let self.obj.pos[1] = self.pos[1] - self.size/2
-        cal self.obj.update()
-
-        for par in self.pars
-            let par[1][0] += par[0][0]
-            let par[1][1] += par[0][1]
-            let par[2][0] -= par[2][1]
-            if par[2][0] <= 0 
-                    \|| par[1][0] > s:screen.width || par[1][0] < 0
-                    \|| par[1][1] > s:screen.height || par[1][1] < 0
-                let par[0][0] = colorv#random(-35,35) * self.spdf - self.spd[0]/3.0
-                let par[0][1] = colorv#random(-35,35) * self.spdf - self.spd[1]/3.0
-                let par[1][0] = self.pos[0]
-                let par[1][1] = self.pos[1]
-                let par[2][1] = colorv#random(1,10) * self.fadef
-                let par[2][0] = 9.0
-            endif
-            call s:screen.plot(float2nr(par[1][0]),float2nr(par[1][1]),
-                                        \s:chars[float2nr(par[2][0])])
-        endfor
-
-    endfunction "}}}
-    call particlesys.init()
-    return particlesys
+function! s:wstrpart(str, idx,...) "{{{
+    let widx = byteidx(a:str,a:idx)
+    if widx == -1
+        return ""
+    endif
+    if exists("a:1")
+        let wend = byteidx(a:str,a:idx+a:1)
+        return strpart(a:str, widx, wend-widx)
+    else
+        return strpart(a:str, widx)
+    endif
 endfunction "}}}
-function! s:object(...) "{{{
-    let rect           = exists("a:1") ? a:1 : [["*"]]
-    let object         = s:particle()
-    unl object.rect
-    let object.rect    = rect
-    function! object.draw() dict "{{{
-        for i in range(len(self.rect))
-            for j in range(len(self.rect[i]))
-                if self.rect[i][j] != " "
-                    call s:screen.plot(float2nr(self.pos[0])+j
-                            \,float2nr(self.pos[1])+i
-                            \,self.rect[i][j])
-                endif
-            endfor
+
+let s:chars0 = "0123456789"
+let s:chars1 = "abcdefghij"
+let s:chars2 = "klmnopqrst"
+let s:chars3 = "uvwxyzABCD"
+let s:chars4 = "EFGHIJKLMN"
+" XXX:Multi Bytes string will cause line extending with substitute...
+" 3 Bytes
+" let s:chars1 = "₀₁₂₃₄₅₆₇₈₉"
+" '¹ ² ³' 2 Bytes
+" let s:chars2 = "⁰¹²³⁴⁵⁶⁷⁸⁹"
+function! s:screen.hi_sav() "{{{
+
+    for i in range(10)
+        call s:hi_list([['Galaxy'.0.i, s:hbgdclr{i},s:hbgdclr{i},'n']])
+        exec "syn match Galaxy".0.i.' /'. s:chars0[i] .'/'
+    endfor
+
+    let hex0 = s:bgdclr0
+    let h  = s:random(0,360)
+    for c in range(1,4)
+        let hex1 = colorv#hsv2hex([h+90*c,80,100])
+        let hexlist = colorv#list_gen2(hex0,hex1)
+        for i in range(10)
+            call s:hi_list([['Galaxy'.c.i, hexlist[i],hexlist[i],'n']])
+            exec "syn match Galaxy".c.i.' /'. s:chars{c}[i] .'/'
         endfor
-    endfunction "}}}
-    function! object.fade() "{{{
-        let l = self.life
-        let self.life -= self.fadespd
-        if self.life <= 0
-            return
-        endif
-        " each time from 9.x tp 8.x or 1.x to 0.x
-        let k = float2nr(l)-float2nr(self.life)
-        if k >= 1
-            for i in range(len(self.rect))
-                for j in range(len(self.rect[i]))
-                    if self.rect[i][j] =~ '\d'
-                        if self.rect[i][j] - k > 0
-                            let self.rect[i][j] = self.rect[i][j]-k
-                        else
-                            let self.rect[i][j] = " "
-                            let self.life = 0
-                        endif
-                    endif
-                    if self.rect[i][j] =~ '[a-z]'
-                        let t = char2nr(self.rect[i][j])
-                        if t - k >= 97
-                            let self.rect[i][j] = nr2char(t-k)
-                        else
-                            let self.rect[i][j] = " "
-                            let self.life = 0
-                        endif
-                    endif
-                endfor
-            endfor
-        endif
-    endfunction "}}}
-    return object
-endfunction "}}}
-function! s:particle(...) "{{{
-    let rect             = exists("a:1") ? a:1 : "9"
-    let particle         = {}
-    let particle.pos     = [1.0,1.0]
-    let particle.rect    = rect
-    let particle.spd     = [0.0,0.0]
-    let particle.maxspd  = 2
-    let particle.fadespd = 0.0
-    let particle.life    = 10.0
-    let particle.size    = 1
-    function! particle.draw() dict "{{{
-        call s:screen.plot(float2nr(self.pos[0])
-                \,float2nr(self.pos[1]), self.rect)
-    endfunction "}}}
-    function! particle.fade() "{{{
-        let l = self.life
-        let self.life -= self.fadespd
-        if self.life <= 0
-            return
-        endif
-        " each time from 9.x tp 8.x or 1.x to 0.x
-        let k = float2nr(l)-float2nr(self.life)
-        if k >= 1
-            if self.rect =~ '\d'
-                if self.rect - k > 0
-                    let self.rect = self.rect - k
-                else
-                    let self.rect = " "
-                    let self.life = 0
-                endif
-            endif
-            if self.rect =~ '[a-z]'
-                let t = char2nr(self.rect)
-                if t - k >= 97
-                    let self.rect = nr2char(t-k)
-                else
-                    let self.rect = " "
-                    let self.life = 0
-                endif
-            endif
-        endif
-    endfunction "}}}
-    function! particle.update() dict "{{{
-        if self.life <= 0
-            return
-        endif
-        if self.fadespd > 0
-            call self.fade()
-        endif
-        let self.pos = [self.pos[0]+self.spd[0] , 
-                \self.pos[1] + self.spd[1] ]
-        if self.pos[0] >= s:screen.width || self.pos[0] <= 0
-            let self.spd[0] = -self.spd[0]/1.8
-        endif
-        if self.pos[1] >= s:screen.height || self.pos[1] <= 0
-            let self.spd[1] = -self.spd[1]/1.8
-        endif
-        call self.draw()
-    endfunction "}}}
-    return particle
+    endfor
+
+   hi! link Cursor Galaxy00
+   call matchadd("DiffDelete" , '\%'.self.height.'l\D')
+   call matchadd("Todo" , '\%'.self.height.'l\d')
 endfunction "}}}
 function! s:screen.update() dict "{{{
         setl ma lz
@@ -2410,16 +2515,29 @@ function! s:screen.update() dict "{{{
         redraw
 endfunction "}}}
 function! s:screen.plot(x,y,c) dict "{{{
-    let x = a:x>=self.width  ? self.width  : a:x<=1 ? 1 : a:x
-    let y = a:y>=self.height ? self.height : a:y<=1 ? 1 : a:y
+    " let x = a:x>=self.width  ? self.width  : a:x<=1 ? 1 : a:x
+    " let y = a:y>=self.height ? self.height : a:y<=1 ? 1 : a:y
+    let [x,y] = [a:x,a:y]
+    if x > self.width || x < 1 || y > self.height || y < 1
+        return
+    endif
     let line = self.lines[y-1]
     let self.lines[y-1] = substitute(line,'\%'.x.'c.',a:c,'')
 endfunction "}}}
-
+function! s:screen.window(width,height) dict "{{{
+    let win = []
+    for i in range(a:height)
+        call add(win, repeat(" ", a:width))
+    endfor
+    let self.lines = win
+    let self.height = a:height
+    let self.width  = a:width
+    call s:screen.hi_sav()
+endfunction "}}}
 function! s:screen.clock() "{{{
     let time = localtime()
     let self.lines[self.height-1] = printf("%".self.width."s"
-                \,"This little galaxy's age is "
+                \,"A little galaxy: "
                 \. (time - s:screen.time) . " seconds.")
 endfunction "}}}
 function! s:screen.nomap() "{{{
@@ -2432,16 +2550,6 @@ endfunction "}}}
 function! s:screen.re_hi() "{{{
    call clearmatches()
    hi! link Cursor CursorS
-endfunction "}}}
-function! s:screen.window(width,height) dict "{{{
-    let win = []
-    for i in range(a:height)
-        call add(win, repeat(" ", a:width))
-    endfor
-    let self.lines = win
-    let self.height = a:height
-    let self.width  = a:width
-    call s:screen.hi_sav()
 endfunction "}}}
 function! s:screen.clear() "{{{
     for i in range(len(self.lines))
@@ -2465,36 +2573,6 @@ function! s:screen.nohi() "{{{
     aug galaxy#screen_cursor_move
         au!
     aug END
-endfunction "}}}
-function! s:screen.hi_sav() "{{{
-
-   let list = [
-        \['GalaxyS0','bgdclr0','bgdclr0','n'],
-        \['GalaxyS1','bgdclr1','bgdclr1','n'],
-        \['GalaxyS2','bgdclr2','bgdclr2','n'],
-        \['GalaxyS3','bgdclr3','bgdclr3','n'],
-        \['GalaxyS4','bgdclr4','bgdclr4','n'],
-        \['GalaxyS5','bgdclr5','bgdclr5','n'],
-        \['GalaxyS6','bgdclr6','bgdclr6','n'],
-        \['GalaxyS7','bgdclr7','bgdclr7','n'],
-        \['GalaxyS8','bgdclr8','bgdclr8','n'],
-        \['GalaxyS9','bgdclr9','bgdclr9','n'],
-        \]
-   call s:hi_list(list)
-   syn clear
-   syn match GalaxyS0 /0/
-   syn match GalaxyS1 /1/
-   syn match GalaxyS2 /2/
-   syn match GalaxyS3 /3/
-   syn match GalaxyS4 /4/
-   syn match GalaxyS5 /5/
-   syn match GalaxyS6 /6/
-   syn match GalaxyS7 /7/
-   syn match GalaxyS8 /8/
-   syn match GalaxyS9 /9/
-   hi! link Cursor GalaxyS0
-   call matchadd("SpecialComment" , '\%'.self.height.'l\D')
-   call matchadd("Todo" , '\%'.self.height.'l\d')
 endfunction "}}}
 function! s:screen.line(p1,p2,c) dict "{{{
     let [x1,y1] = a:p1
@@ -2525,6 +2603,18 @@ function! s:screen.line(p1,p2,c) dict "{{{
         endfor
     endif
     
+endfunction "}}}
+let s:seed = localtime() * (localtime() + 10) * 2207
+function! s:random(num,...) "{{{
+    if exists("a:1") 
+        let min = a:num
+        let max = a:1
+    else
+        let min = 0
+        let max = a:num
+    endif
+    let s:seed = s:fmod((1097*s:seed+2713),10457)
+    return float2nr(s:fmod(abs(s:seed),max-min+1) + min)
 endfunction "}}}
 " HELP "{{{1
 "======================================================================
@@ -2881,8 +2971,8 @@ function! s:load_c255(...) "{{{
     if !exists("a:3") || a:3!="START"
         call s:retain_cache()
         redraw
-        echom "Scheme:[".s:scheme.name."] Loaded. "
-            \."Style:[".s:scheme.style."]."
+        call s:echo( "Scheme:[".s:scheme.name."] Loaded. "
+            \."Style:[".s:scheme.style."].")
     endif
 
     let g:colors_name = "galaxy"
@@ -2954,8 +3044,8 @@ function! s:load_c16(...) "{{{
     if !exists("a:3") || a:3!="START"
         call s:retain_cache()
         redraw
-        echom "Scheme:[".s:scheme.name."] Loaded. "
-            \."Style:[".s:scheme.Tstyle."]."
+        call s:echo( "Scheme:[".s:scheme.name."] Loaded. "
+            \."Style:[".s:scheme.Tstyle."].")
     endif
     let g:colors_name = "galaxy"
     let g:galaxy.scheme = s:scheme.name

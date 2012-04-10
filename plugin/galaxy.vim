@@ -27,21 +27,21 @@ endif
 command! -nargs=0  Galaxy         call galaxy#win()
 command! -nargs=1  GalaxyLoad     call galaxy#load(<q-args>)
 command! -nargs=0  GalaxyAuto     call galaxy#auto_gen()
-command! -nargs=0  GalaxyIndentHL call galaxy#toggle_indent_hl()
+command! -nargs=0  GalaxyIndent   call galaxy#toggle_indent_hl()
 command! -nargs=0  GalaxyScreen   call galaxy#screen.win()
-command! -nargs=0  GalaxySaver    call galaxy#screen.saver()
+command! -nargs=0  GalaxyLittle   call galaxy#screen.saver()
 
 if !hasmapto(':Galaxy<CR>')
     silent! nmap <unique> <silent> <Leader>gll :Galaxy<CR>
 endif
-if !hasmapto(':GalaxyIndentHL<CR>')
-    silent! nmap <unique> <silent> <Leader>glh :GalaxyIndentHL<CR>
+if !hasmapto(':GalaxyIndent<CR>')
+    silent! nmap <unique> <silent> <Leader>glh :GalaxyIndent<CR>
 endif
 if !hasmapto(':GalaxyScreen<CR>')
     silent! nmap <unique> <silent> <Leader>gls :GalaxyScreen<CR>
 endif
-if !hasmapto(':GalaxySaver<CR>')
-    silent! nmap <unique> <silent> <Leader>glv :GalaxySaver<CR>
+if !hasmapto(':GalaxyLittle<CR>')
+    silent! nmap <unique> <silent> <Leader>glv :GalaxyLittle<CR>
 endif
 let &cpo = s:save_cpo
 unlet s:save_cpo

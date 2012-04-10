@@ -22,13 +22,18 @@ CONTENTS                                         *galaxy-contents*
 ==============================================================================
 INTRO                                               *galaxy-intro*
 
-    *galaxy* is a colorscheme that makes scheming colors easier.
-    
-    To use:
-        :colorscheme galaxy
+    *Galaxy* is a colorscheme that makes colorscheming easier.
+     
+    Generating a scheme of color is as easy as typing it's name.
 
-    To choose:     
-        :Galaxy 
+    Also have  Terminal support / Stylish Statusline / Indent Highlight , 
+    and more...
+    
+    See Some Pictures:
+
+        [Normal Mode|http://img.ly/gAqu]
+        [Galaxy Window|http://img.ly/gAra]
+        [Galaxy Screen|http://img.ly/gArb]
 
     Post issues: https://github.com/Rykka/vim-galaxy
 
@@ -37,74 +42,86 @@ INTRO                                               *galaxy-intro*
 ------------------------------------------------------------------------------
 QUICKSTART                                          *galaxy-quickstart*
 
-    Load galaxy~
+    Start galaxy~
         :colorscheme galaxy
-        Put it in your vimrc to keep on using it.
+        Put it in your vimrc.
 
                                                     *galaxy-window*
     Choose Schemes~
         :Galaxy
         Default mapping is <leader>gll
+
         It's the Galaxy window , you can choose schemes in it.
         also you can set options and edit schemes.
+
 
                                                     *galaxy-load*
         You can also load designate scheme by scheme name.
         :GalaxyLoad {scheme}
 
-
                                                     *galaxy-screen*
-    See detail of Schemes~
+    See schemes details~
         :GalaxyScreen
         Default mapping is <leader>gls
-        You can see the highlighting details.
-        also you can set options and edit schemes.
 
-                                                    *galaxy-screensaver*
+        You can see the scheme's details.
+
+                                                    *galaxy-little*
     A little galaxy~
-        :GalaxySaver
+        :GalaxyLittle
         Default mapping is <leader>glv
 
+        It's just a little galaxy.
 
     Scheme Options~
+
+        You can set the options in the Galaxy or Screen Window.
+        Just click them.
+
+        They will be cached in your disk.
+        If have errors. check |g:galaxy_cache_file|
+
                                                     *galaxy_syntax*
-        By default. galaxy set the |g:galaxy_colorful_syntax| to 1.
-        Means syntax highlights will be more colorful.
-        You can set it to 0 to disable it.
+
+        Click on 'SYNTAX' will swith the richness of syntax colors.
+        More means syntax highlights will be more colorful.
+        While Less means less colorful
 
                                                     *galaxy-indent*
-        To highligh indents.
-        :GalaxyIndentHL (<leader>glh)
         
+        Click on 'INDENT_HL' will swith the auto indent highligh status.
+        if set to 'off', then will be no auto indent highlighting .
 
-        It's the default behavior in filetypes of "python,c,javascript".
-        You can set |g:galaxy_indent_hl_ftype| to make it active in more files.
-        
-        You can set option |galaxy-window| to change highlighting or not.
-        if set to 'off', then no auto highlighting for indent.
+        The |g:galaxy_indent_hl_ftype| is the ftype that auto highlights.
+        It's defualt value is "python,c,javascript".
+
+        To Manually highligh indents. You should press
+        :GalaxyIndent (<leader>glh)
 
         Other options are |g:galaxy_indent_hl_pos| |g:galaxy_show_trailing_ws|.
 
+    Styles~
                                                     *galaxy-style*
-    Styles of schemes~
-        You can set option |galaxy-window| to change the style.
 
-    Stautsline Hightlights~
+        Click on 'STYLE' will swith scheme style.
+
+    Stylish Stautsline ~
                                                     *galaxy-statusline*
-        By default, galaxy will provide you a colorful statusline.
-        You can set option |galaxy-window| to change it.
 
-        also you can set |g:galaxy_auto_statusline| to disable it.
+        By default, Galaxy will provide you a stylish statusline.
+        Click on 'STATUSLINE' will change statusline style.
 
         You can set |g:galaxy_statusline_left|, |galaxy_statusline_right|  to
         change the statusline content.
+
+        Also you can set |g:galaxy_auto_statusline| to disable it.
 
         Other options are |g:galaxy_statusline_blink|. See them for details.
 
     In Terminal~
                                                         *galaxy-terminal*
         256 terminal works fine.
-        8/16 terminal are using predefined colors.
+        8/16 terminal are using predefined colors which are 'white/dark'
 
 ------------------------------------------------------------------------------
 TROUBLE SHOOTING                                      *galaxy-fix-troubles*
@@ -112,7 +129,7 @@ TROUBLE SHOOTING                                      *galaxy-fix-troubles*
     NOTE    ColorV required.
             https://github.com/Rykka/ColorV
 
-    NOTE    Your current scheme is cached on your disk.
+    NOTE    Your current scheme and options are cached on your disk.
             set |g:galaxy_cache_file|  and |g:galaxy_scheme_file| with proper
             place if errors occurs.
             If you can not write/read cache.
@@ -126,21 +143,20 @@ TROUBLE SHOOTING                                      *galaxy-fix-troubles*
             Please report issues with "OS,vim version,&t_Co,&term"
             at https://github.com/Rykka/vim-galaxy/issues 
 
-    NOTE:   All options must be put before executing ':colorscheme galaxy'
+    NOTE:   If options doesnot work ,check if all options is put before
+            ':colorscheme galaxy'
 
 ------------------------------------------------------------------------------
 MORE SCHEMS                                            *galaxy-more-schemes*
 
-    If Built-in schemes didn't fit your need. You can easily create some.~
+    If Built-in schemes didn't fit your mind. You can easily create some.~
 
                                                         *galaxy-new*
     Generate new schemes~
         :GalaxyNew
-
-        Input your scheme's name.
-        Then a ColorV windows is opended for choosing background color.
-        Choose one and then press 'q' to quit the window. 
-        Your scheme is auto generated.
+        In Glaxy Window, you can type 'gn/gr'
+    
+    Just as easy as type a scheme name.
 
                                                         *galaxy-edit*
                                                         *galaxy-color*
@@ -157,6 +173,8 @@ MORE SCHEMS                                            *galaxy-more-schemes*
             'syn' for syntax colors. 
             'msg' for Mode/Warning/Error/... messages colors.
             'dif' for diff mode colors.
+        
+        See Screen for their details. :GalaxyScreen
 
     NOTE     'bgd' and 'fgd' colors are used with
              colorv#list_gen(hex,"Value")
@@ -187,8 +205,8 @@ INSTALL                                          *galaxy-install*
 1.Using [Vundle.vim](Recommend):~
     https://github.com/gmarik/vundle
     After installed vundle and git. Add this line to your vimrc  
-    `Bundle 'Rykka/vim-galaxy'` 
     `Bundle 'Rykka/ColorV'` 
+    `Bundle 'Rykka/vim-galaxy'` 
     Run `:BundleInstall` to install.
     And update them easily by `:BundleInstall!`
  
@@ -206,8 +224,8 @@ COMMANDS                                              *galaxy-commands*
     
     :Galaxy         (default: <leader>gll)  Open Galaxy window.
     :GalaxyScreen   (default: <leader>gls)  Open Galaxy Screen window.
-    :GalaxySaver    (default: <leader>glv)  A Galaxy ScreenSaver .
-    :GalaxyIndentHL (default: <leader>glh)  Highlight Indent in buffer.
+    :GalaxyLittle   (default: <leader>glv)  A little galaxy.
+    :GalaxyIndent   (default: <leader>glh)  Highlight Indent of current buffer.
     :GalaxyLoad {scheme}                    Load Galaxy scheme {scheme}.
     :GalaxyNew                              Create new scheme.
     :GalaxyAuto                             Generate schemes with color-list in
@@ -217,15 +235,16 @@ COMMANDS                                              *galaxy-commands*
 OPTIONS                                               *galaxy-options*
 
 
-                                                *g:galaxy_tcursor_color*
-    'g:galaxy_tcursor_color'                    (default:"DarkGray")
-    Set terminal cursor color to it after exit vim.
-    The |cterm-colors| names can be used.
+    NOTE:   All options must put BEFORE ':colorscheme galaxy'
 
-    Colorful indenting.~
+    Indenting.~
                                                 *g:galaxy_enable_indent_hl*
     'g:galaxy_enable_indent_hl'                 (default:1)
-    Enable highlight indent.
+    Enable auto highlight indent. 
+    Though you can always highlight indents manually.
+
+    This option is auto set by cache.
+    set it if you can not write |g:galaxy_cache_file|
 
                                                 *g:galaxy_indent_hl_pos*
     'g:galaxy_indent_hl_pos'                    (default:"start")
@@ -245,13 +264,23 @@ OPTIONS                                               *galaxy-options*
     e.g.: '^\t  \t'
 
 
-    StatusLine with different color between INSERT/NORMAL mode.~
-
+    StatusLine.~
 
                                                 *g:galaxy_auto_statusline*
     'g:galaxy_auto_statusline'                 (default:1)
-    Auto set statusline while switching scheme.
+    Auto set statusline while scheming.
     
+                                                *g:galaxy_statusline_blink*
+    'g:galaxy_statusline_blink'                 (default:1)
+    Enable statusline blink while InsertEnter and InsertLeave.
+
+                                                *g:galaxy_statusline_style*
+    'g:galaxy_statusline_style'                 (default:"Left")
+    "Left/Right/Test" style of statusline.
+
+    This option is auto set by cache.
+    set it if you can not write |g:galaxy_cache_file|
+
                                                 *g:galaxy_statusline_left*
     'g:galaxy_statusline_left' 
     default:
@@ -284,14 +313,36 @@ OPTIONS                                               *galaxy-options*
 
     NOTE:   You can change it with valid statusline string,
             Remember to quote it in "'" from avoid escaping ' ' with '\'.
-                    
-            galaxy#smode() and galaxy#enc() is a simple function showing some modes.
+    
+
+    galaxy#smode() and galaxy#enc() is simple function showing some modes.
 >
     function! galaxy#smode() "{{{
         let val= mode()
         if &paste | let val .=' P' | endif
         if &diff  | let val .=' D' | endif
         if &list  | let val .=' L' | endif
+        return val
+    endfunction "}}}
+
+    function! galaxy#enc() "{{{
+        let val = ""
+        if &ff != g:galaxy_default_ff
+            let val = " ".toupper(&ff[:0])
+        endif
+        if &enc == g:galaxy_default_enc
+            " pass
+        elseif &enc == "utf-8"
+            let val.= " U8"
+        elseif &enc == "utf-16"
+            let val.= " U16"
+        elseif &enc == "latin1"
+            let val.= " LA1"
+        elseif &enc =~ '^gb'
+            let val.= " GB"
+        else
+            let val.= " ".&enc
+        endif
         return val
     endfunction "}}}
 <
@@ -307,19 +358,18 @@ OPTIONS                                               *galaxy-options*
     The  'encoding' type which will not shown in statusline.
     used by galaxy#enc().
 
+    See |statusline| for more details.
                                                 
-          See |statusline| for more details.
-                                                
-                                                *g:galaxy_statusline_blink*
-    'g:galaxy_statusline_blink'                 (default:1)
-    Enable statusline blink while InsertEnter and InsertLeave.
 
-    Syntax Colors tuning.~
+    Syntax.~
                                                 *g:galaxy_colorful_syntax*
     'g:galaxy_colorful_syntax'                    (default:1)
     This will make syntax highlights more colorful.
     Set it to 0 to make syntax less colorful.
-
+    
+    This option is auto set by cache.
+    set it if you can not write |g:galaxy_cache_file|
+    
                                                 *g:galaxy_load_syn_dict*
     'g:galaxy_load_syn_dict'                    (default:1)
     Enable loading galaxy predefined syntax link of several filetypes.
@@ -329,11 +379,17 @@ OPTIONS                                               *galaxy-options*
     Enable loading galaxy predefined syntax tuning of several filetypes.
     currently only vim , highlight it's 'endfunction' part with 'Function'.
 
-    hl-Visual foreground.~
+    Hl-Visual.~
                                                 *g:galaxy_visual_hl_fg*
     'g:galaxy_visual_hl_fg'                    (default:0)
     If set to 1, highlight |Visual| section foreground with colors.
     By default is 0 , to make the |Visual| section transparent.
+
+    Terminal~
+                                                *g:galaxy_tcursor_color*
+    'g:galaxy_tcursor_color'                    (default:"DarkGray")
+    Set terminal cursor color to it after exit vim.
+    The |cterm-colors| names can be used.
 
     Storing and Caching.~
                                                 *g:galaxy_scheme_file*
@@ -356,13 +412,13 @@ DEVELOPER                                             *galaxy-developer*
 
     |Galaxy| is develped by Rykka |<Rykka10(at)gmail.com>|.
 
-    Thanks to lilydjwg for script to support Terminal cursor(Enter/Leave).
+    Also thanks to lilydjwg for script to support Terminal cursor(Enter/Leave).
    
 ------------------------------------------------------------------------------
 HISTORY                                               *galaxy-history*
 
 "2.0.0~
-" DONE: 2012-04-10 Add Galaxy Screen Saver.
+" DONE: 2012-04-10 Add Galaxy Little.
 " DONE: 2012-04-10 Add Galaxy Screen.
 " DONE: 2012-04-10 Now all scheme store in one file. 'g:galaxy_scheme_file'
 " DONE: 2012-04-10 Now some main options stores in cache.
@@ -455,7 +511,7 @@ HISTORY                                               *galaxy-history*
 ------------------------------------------------------------------------------
 LICENSE                                               *galaxy-license*
 
-    Copyright 2011 Rykka Krn. All rights reserved.
+    Copyright 2011-2012 Rykka.GreenForest. All rights reserved.
     MIT license  {{{
     Permission is hereby granted, free of charge, to any person obtaining
     a copy of this software and associated documentation files (the
