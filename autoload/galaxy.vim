@@ -2492,7 +2492,7 @@ function! s:screen.hi_sav() "{{{
     let hex0 = s:bgdclr0
     let h  = s:random(0,360)
     for c in range(1,4)
-        let hex1 = colorv#hsv2hex([h+90*c,80,100])
+        let hex1 = s:hmsgclr{c*2}
         let hexlist = colorv#list_gen2(hex0,hex1)
         for i in range(10)
             call s:hi_list([['Galaxy'.c.i, hexlist[i],hexlist[i],'n']])
