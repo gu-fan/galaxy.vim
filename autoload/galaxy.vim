@@ -406,16 +406,16 @@ let s:hl_styles.Colour = [
 " s:schemes "{{{2
 "                       bgd     fgd      syn      msg       dif
 let s:default_schemes=[
-        \["Black"    ,"000000","C1CBD6","9FB9D6","FF5959","4B6266"],
-        \["White"    ,"FFFFFF","000000","306399","FF7373","B0E1EB"],
-        \["Paper"    ,"EBE9E8","2B2C33","345B85","FF6666","D9A79E"],
-        \["Wine"     ,"0D0609","9C9B94","A37B5F","59FF6A","2D374A"],
-        \["Spring"   ,"D5E6A1","363836","496791","FF5B3E","CCBE8F"],
-        \["MoonNight","060F1A","B4B6B8","7FA5B8","DBBF42","598099"],
-        \["Factory"  ,"050505","A6A6A6","8296B3","4DDBAB","404259"],
-        \["Village"  ,"B1E6AC","362020","324F7D","DEFF59","CCBD66"],
+        \["Black"    ,"000000","C1CBD6","9FB9D6","FF5959","578A92"],
+        \["White"    ,"FFFFFF","000000","306399","FF7373","80AEB6"],
+        \["Paper"    ,"EBE9E8","2B2C33","345B85","FF6666","DBA399"],
+        \["Wine"     ,"0D0609","9C9B94","A37B5F","59FF6A","42516D"],
+        \["Spring"   ,"D5E6A1","363836","496791","FF5B3E","DBC683"],
+        \["MoonNight","060F1A","B4B6B8","7FA5B8","DBBF42","6D98B6"],
+        \["Factory"  ,"050505","A6A6A6","8296B3","4DDBAB","5F6192"],
+        \["Village"  ,"B1E6AC","362020","324F7D","DEFF59","DBCC78"],
         \["Slates"   ,"F2EFE4","232733","386599","FF7375","D9B2AD"],
-        \["InkGreen" ,"0A0D07","A9BA93","8682D1","FF7236","363E4D"],
+        \["InkGreen" ,"0A0D07","A9BA93","8682D1","FF7236","5F7192"],
         \]
 let s:intro_lines = 2
 let s:blt_in_lines=len(s:default_schemes)
