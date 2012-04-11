@@ -1,18 +1,19 @@
 ##INTRO##
 
-**Galaxy** is a colorscheme that simplifies colorscheming.
+**Galaxy** is a colorscheme with effort to simplifiy colorscheming.
     
     We all want a nice colorscheme to comfort our eyes (and display).
     But generating one is not that easy.
 
     When generating a colorschemes, you must dealing with lots of issues: 
     color issue, terminal issue, highlight group issue, syntax issue ...
-    This plugin simplifies these works. 
 
-    Generating a scheme with :GalaxyNew takes only two step:
-    1. Typing a name 
-    2. Pickup a color for BACKGROUND (with colorpicker of ColorV)
-    Then you got the scheme, you can edit it's colors and check it's details.
+    Galaxy.vim try to simplifiy these works. 
+
+    To Generate a scheme with :GalaxyNew takes only two step:
+    1. Type a name 
+    2. Pick a color for BACKGROUND (with colorpicker of ColorV)
+    Then you got a scheme, you can edit it's colors and view it's details.
     
     It contains several built-in schemes.
     Also have Scheme Manager, Scheme Detail Screen, Terminal support, Stylish
