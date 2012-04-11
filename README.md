@@ -21,17 +21,20 @@
     
 **Some Pictures:**
         
-    Normal Mode  :  http://img.ly/gAtY 
-![Normal Mode](http://s3.amazonaws.com/imgly_production/3953490/large.png)
+    Normal Mode  :  http://img.ly/gC2z 
+![Normal Mode](http://s3.amazonaws.com/imgly_production/3959479/large.png)
 
-    Galaxy Window:  http://img.ly/gAra 
-![Galaxy Window](http://s3.amazonaws.com/imgly_production/3953316/large.png)
+    Insert Mode  :  http://img.ly/gC2L
+![Insert Mode](http://s3.amazonaws.com/imgly_production/3959491/large.png)
+    
+    Galaxy Window:  http://img.ly/gC3R 
+![Galaxy Window](http://s3.amazonaws.com/imgly_production/3959559/large.png)
 
-    Galaxy Screen:  http://img.ly/gArb 
-![Galaxy Screen](http://s3.amazonaws.com/imgly_production/3953317/large.png)
+    Galaxy Screen:  http://img.ly/gC47 
+![Galaxy Screen](http://s3.amazonaws.com/imgly_production/3959575/large.png)
 
-    Little galaxy:  http://img.ly/gADh 
-![Galaxy Screen](http://s3.amazonaws.com/imgly_production/3954067/large.png)
+    Little galaxy:  http://img.ly/gC4t 
+![Galaxy Screen](http://s3.amazonaws.com/imgly_production/3959597/large.png)
 
     Post issues: https://github.com/Rykka/vim-galaxy
 

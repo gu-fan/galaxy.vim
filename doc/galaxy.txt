@@ -43,10 +43,11 @@ INTRO                                               *galaxy-intro*
 
     Some Pictures:~
 
-        Normal Mode  :  http://img.ly/gAtY 
-        Galaxy Window:  http://img.ly/gAra 
-        Galaxy Screen:  http://img.ly/gArb 
-        Little Galaxy:  http://img.ly/gADh
+        Normal Mode  :  http://img.ly/gC2z 
+        Insert Mode  :  http://img.ly/gC2L
+        Galaxy Window:  http://img.ly/gC3R 
+        Galaxy Screen:  http://img.ly/gC47 
+        Little Galaxy:  http://img.ly/gC4t
 
     Post issues: https://github.com/Rykka/vim-galaxy
 
