@@ -12,13 +12,13 @@
 ------------------------------------------------------------------------------
 CONTENTS                                         *galaxy-contents*
 1. Intro                                         |galaxy-intro|
+    Install                                      |galaxy-install|
     Quickstart                                   |galaxy-quickstart|
     More Schemes                                 |galaxy-more-schemes|
     Fix Troubles                                 |galaxy-fix-troubles|
-2. Install                                       |galaxy-install|
-3. Commands                                      |galaxy-commands|
+2. Commands                                      |galaxy-commands|
     Options                                      |galaxy-options|
-4. Developer                                     |galaxy-developer|
+3. Developer                                     |galaxy-developer|
 ==============================================================================
 INTRO                                               *galaxy-intro*
 
@@ -49,18 +49,35 @@ INTRO                                               *galaxy-intro*
         Galaxy Screen:  http://img.ly/gC47 
         Little Galaxy:  http://img.ly/gC4t
 
-    Post issues: https://github.com/Rykka/vim-galaxy
+    Post issues at https://github.com/Rykka/vim-galaxy
+
+------------------------------------------------------------------------------
+INSTALL                                          *galaxy-install*
 
     NOTE: ColorV required. https://github.com/Rykka/ColorV
+
+1.Using [Vundle.vim] https://github.com/gmarik/vundle 
+
+    Add two lines to your vimrc
+    `Bundle 'Rykka/ColorV'` 
+    `Bundle 'Rykka/vim-galaxy'` 
+ 
+2.Using [Vim.org] http://www.vim.org/scripts/script.php?script_id=3729
     
-------------------------------------------------------------------------------
-QUICKSTART                                          *galaxy-quickstart*
+    Download and Extract to your ~/.vim Folder
+    :helptags ~/.vim/doc
+
+    NOTE   Get Latest version
+           https://github.com/Rykka/ColorV/
+           https://github.com/Rykka/vim-galaxy/
+==============================================================================
+QUICKSTART                                              *galaxy-quickstart*
 
     Start galaxy~
         :colorscheme galaxy
         Put this in your vimrc.
 
-                                                    *galaxy-window*
+                                                        *galaxy-window*
     Schemes Manger~
         :Galaxy or <leader>gll
 
@@ -70,17 +87,17 @@ QUICKSTART                                          *galaxy-quickstart*
         You can also load a scheme by it's name.
         :GalaxyLoad {scheme}
 
-                                                    *galaxy-screen*
+                                                        *galaxy-screen*
     Schemes details~
         :GalaxyScreen or <leader>gls
 
         The scheme's details screen.
 
-                                                    *galaxy-little*
+                                                        *galaxy-little*
     A little galaxy~
         :GalaxyLittle or <leader>glv
 
-        Just a little galaxy.
+        A little galaxy.
 
     Scheme Options~
 
@@ -88,10 +105,10 @@ QUICKSTART                                          *galaxy-quickstart*
         These options will be cached in your disk.
         If errors occur, Check |g:galaxy_cache_file|
 
-                                                    *galaxy_syntax*
+                                                        *galaxy_syntax*
         'SYNTAX': swith the richness of syntax colors.
 
-                                                    *galaxy-indent*
+                                                        *galaxy-indent*
         'INDENT_HL': swith the auto indent highligh state.
 
         The |g:galaxy_indent_hl_ftype| is the ftype that auto highlights.
@@ -100,10 +117,10 @@ QUICKSTART                                          *galaxy-quickstart*
         To Manually highligh indents. You should press
         :GalaxyIndent (<leader>glh)
 
-                                                    *galaxy-style*
+                                                        *galaxy-style*
         'STYLE': swith scheme style.
 
-                                                    *galaxy-statusline*
+                                                        *galaxy-statusline*
 
         'STATUSLINE': switch statusline style.
 
@@ -113,30 +130,7 @@ QUICKSTART                                          *galaxy-quickstart*
         8/16 terminal uses predefined colors 'white/dark'
 
 ------------------------------------------------------------------------------
-TROUBLE SHOOTING                                      *galaxy-fix-troubles*
-
-    NOTE    ColorV required.
-            https://github.com/Rykka/ColorV
-
-    NOTE    Your current scheme and options are cached on your disk.
-            set |g:galaxy_cache_file|  and |g:galaxy_scheme_file| with proper
-            place if errors occurs.
-            If you can not write/read cache.
-            use ':GalaxyLoad {scheme}' to load designate scheme.
-
-    NOTE    If colors are not correct in your terminal.
-            You should check '&t_Co' option and the terminal supported colors.
-
-    NOTE    Terminal cursor is not fully tested in all OS.
-            And only support "xterm\rxvt\screen\TMUX" till now.
-            Please report issues with "OS,vim version,&t_Co,&term"
-            at https://github.com/Rykka/vim-galaxy/issues 
-
-    NOTE:   If options doesnot work ,check if all options is put before
-            ':colorscheme galaxy'
-
-------------------------------------------------------------------------------
-MORE SCHEMS                                            *galaxy-more-schemes*
+MORE SCHEMS                                             *galaxy-more-schemes*
 
     If Built-in schemes didn't fit your mind. You can easily create some.~
 
@@ -181,23 +175,29 @@ MORE SCHEMS                                            *galaxy-more-schemes*
         In Galaxy Window. 
         press 'dd'.
 
-==============================================================================
-INSTALL                                          *galaxy-install*
+------------------------------------------------------------------------------
+TROUBLE SHOOTING                                      *galaxy-fix-troubles*
 
-1.Using [Vundle.vim] https://github.com/gmarik/vundle 
+    NOTE    ColorV required.
+            https://github.com/Rykka/ColorV
 
-    Add two lines to your vimrc
-    `Bundle 'Rykka/ColorV'` 
-    `Bundle 'Rykka/vim-galaxy'` 
- 
-2.Using [Vim.org] http://www.vim.org/scripts/script.php?script_id=3729
-    
-    Download and Extract to your ~/.vim Folder
-    :helptags ~/.vim/doc
+    NOTE    Your current scheme and options are cached on your disk.
+            set |g:galaxy_cache_file|  and |g:galaxy_scheme_file| with proper
+            place if errors occurs.
+            If you can not write/read cache.
+            use ':GalaxyLoad {scheme}' to load designate scheme.
 
-    NOTE   Get Latest version
-           https://github.com/Rykka/ColorV/
-           https://github.com/Rykka/vim-galaxy/
+    NOTE    If colors are not correct in your terminal.
+            You should check '&t_Co' option and the terminal supported colors.
+
+    NOTE    Terminal cursor is not fully tested in all OS.
+            And only support "xterm\rxvt\screen\TMUX" till now.
+            Please report issues with "OS,vim version,&t_Co,&term"
+            at https://github.com/Rykka/vim-galaxy/issues 
+
+    NOTE:   If options doesnot work ,check if all options is put before
+            ':colorscheme galaxy'
+
 ==============================================================================
 COMMANDS                                              *galaxy-commands*
     

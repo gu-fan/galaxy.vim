@@ -36,11 +36,12 @@
     Little galaxy:  http://img.ly/gC4t 
 ![Galaxy Screen](http://s3.amazonaws.com/imgly_production/3959597/large.png)
 
-    Post issues: https://github.com/Rykka/vim-galaxy
 
-**NOTE:**   ColorV required. https://github.com/Rykka/ColorV
+Post issues at https://github.com/Rykka/vim-galaxy
 
 ##INSTALL:##
+
+**NOTE:**   ColorV required. https://github.com/Rykka/ColorV
 
 1. Using Vundle  https://github.com/gmarik/vundle 
 
