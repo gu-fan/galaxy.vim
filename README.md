@@ -51,7 +51,7 @@ Post issues at https://github.com/Rykka/vim-galaxy
 
 2. Using Vim.org http://www.vim.org/scripts/script.php?script_id=3729
 
-    Extract to your ~/.vim Folder.
+    Extract to your ~/.vim folder.
     `:helptags ~/.vim/doc`
     
 **NOTE**   Get Latest version
