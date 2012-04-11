@@ -62,7 +62,7 @@ INSTALL                                          *galaxy-install*
     `Bundle 'Rykka/ColorV'` 
     `Bundle 'Rykka/vim-galaxy'` 
  
-2.Using [Vim.org] http://www.vim.org/scripts/script.php?script_id=3729
+2. Using [Vim.org] http://www.vim.org/scripts/script.php?script_id=3729
     
     Extract to your ~/.vim Folder
     :helptags ~/.vim/doc
