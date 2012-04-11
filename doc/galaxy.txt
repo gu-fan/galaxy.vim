@@ -1,4 +1,4 @@
-*galaxy.txt*         Galaxy          Makes scheming colors easier.
+*galaxy.txt*         Galaxy                 simpler colorscheming.
 
   
                      ______      __                                    ~
@@ -23,7 +23,7 @@ CONTENTS                                         *galaxy-contents*
 INTRO                                               *galaxy-intro*
 
 
-    *Galaxy* is a colorscheme with effort to simplifiy colorscheming.
+    *Galaxy* is a colorscheme tries to make colorscheming simpler.
     
     We all want a nice colorscheme to comfort our eyes(and display).
     But generating one is not that easy.

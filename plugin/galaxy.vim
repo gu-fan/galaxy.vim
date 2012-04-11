@@ -1,9 +1,9 @@
 "=============================================================
 "  Script: Galaxy 
 "    File: plugin/galaxy.vim
-" Summary: A colorscheme that makes scheming colors easier.
+" Summary: A colorscheme tries to make colorscheming simpler.
 "  Author: Rykka <Rykka10(at)gmail.com>
-" Last Update: 2012-04-10
+" Last Update: 2012-04-12
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim

@@ -1,12 +1,12 @@
 "=============================================================
 "  Script: Galaxy
 "    File: autoload/galaxy.vim
-" Summary: A colorscheme that makes scheming colors easier.
+" Summary: A colorscheme tries to make colorscheming simpler.
 "  Author: Rykka <Rykka10(at)gmail.com>
 " License: The MIT Licence
 "          http://www.opensource.org/licenses/mit-license.php
 "          Copyright (c) 2011-2012 Rykka.ForestGreen
-" Last Update: 2012-04-11
+" Last Update: 2012-04-12
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim

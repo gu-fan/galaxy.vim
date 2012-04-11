@@ -1,6 +1,6 @@
 ##INTRO##
 
-**Galaxy** is a colorscheme with effort to simplifiy colorscheming.
+**Galaxy** is a colorscheme tries to make colorscheming simpler.
     
     We all want a nice colorscheme to comfort our eyes (and display).
     But generating one is not that easy.
@@ -8,7 +8,7 @@
     When generating a colorschemes, you must dealing with lots of issues: 
     color issue, terminal issue, highlight group issue, syntax issue ...
 
-    Galaxy.vim try to simplifiy these works. 
+    Galaxy try to simplifiy these works. 
 
     To Generate a scheme with :GalaxyNew takes only two step:
     1. Type a name 
