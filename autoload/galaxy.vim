@@ -6,7 +6,7 @@
 " License: The MIT Licence
 "          http://www.opensource.org/licenses/mit-license.php
 "          Copyright (c) 2011-2012 Rykka.ForestGreen
-" Last Update: 2012-04-12
+" Last Update: 2012-04-13
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim
@@ -42,17 +42,17 @@ call s:default("g:galaxy_default_ff",  "unix")
 call s:default("g:galaxy_default_enc", "utf-8")
 
 call s:default("g:galaxy_statusline_left", ""
-            \.'%* %{galaxy#smode()} '
+            \.'%* %{GalaxyMode()} '
             \.'%1*%(%2n.%)%2*%( %Y %)%3*%( %M%R %)%4*%( %k %)'
             \.'%5* %<%F %='
-            \.'%6*%(%{galaxy#enc()}%)%7*%4l %8*%3c %9* %P '
+            \.'%6*%(%{GalaxyEnc()}%)%7*%4l %8*%3c %9* %P '
             \)
 call s:default("g:galaxy_statusline_right", ""
             \.'%9*%(%2n.%)%8*%4l %7*%3c %6*%( %Y %)'
             \.'%5* %<%F %='
             \.'%4*%( %k %)'
-            \.'%3*%(%{galaxy#enc()}%)%2* %P %1*%( %M%R %)'
-            \.'%* %{galaxy#smode()} '
+            \.'%3*%(%{GalaxyEnc()}%)%2* %P %1*%( %M%R %)'
+            \.'%* %{GalaxyMode()} '
             \)
 
 call s:default("g:galaxy_statusline_test", ""
@@ -948,15 +948,18 @@ function! s:term_cursor() "{{{
         exec au_cmd
     aug END
 endfunction "}}}
-function! galaxy#smode() "{{{
+function! GalaxyMode() "{{{
     let val= mode()
     if &paste | let val .= ' P' | endif
     if &diff  | let val .= ' D' | endif
     if &list  | let val .= ' L' | endif
     return val
 endfunction "}}}
-function! galaxy#enc() "{{{
+function! GalaxyEnc() "{{{
     let val = ""
+    if exists("*SyntasticStatuslineFlag")
+        let val.=SyntasticStatuslineFlag()
+    endif
     if &ff != g:galaxy_default_ff
         let val = " ".toupper(&ff[:0])
     endif
@@ -2477,11 +2480,6 @@ let s:chars1 = "abcdefghij"
 let s:chars2 = "klmnopqrst"
 let s:chars3 = "uvwxyzABCD"
 let s:chars4 = "EFGHIJKLMN"
-" XXX:Multi Bytes string will cause line extending with substitute...
-" 3 Bytes
-" let s:chars1 = "₀₁₂₃₄₅₆₇₈₉"
-" '¹ ² ³' 2 Bytes
-" let s:chars2 = "⁰¹²³⁴⁵⁶⁷⁸⁹"
 function! s:screen.hi_sav() "{{{
 
     for i in range(10)

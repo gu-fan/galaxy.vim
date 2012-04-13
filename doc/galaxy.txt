@@ -320,18 +320,22 @@ OPTIONS                                               *galaxy-options*
             Remember to quote it in "'" from avoid escaping ' ' with '\'.
     
 
-    galaxy#smode() and galaxy#enc() is simple function showing some modes.
+    GalaxyMode() and GalaxyEnc() are simple function showing some flags.
+    You can change them in your vimrc.
 >
-    function! galaxy#smode() "{{{
+
+    function! GalaxyMode() "{{{
         let val= mode()
-        if &paste | let val .=' P' | endif
-        if &diff  | let val .=' D' | endif
-        if &list  | let val .=' L' | endif
+        if &paste | let val .= ' P' | endif
+        if &diff  | let val .= ' D' | endif
+        if &list  | let val .= ' L' | endif
         return val
     endfunction "}}}
-
-    function! galaxy#enc() "{{{
+    function! GalaxyEnc() "{{{
         let val = ""
+        if exists("*SyntasticStatuslineFlag")
+            let val.=SyntasticStatuslineFlag()
+        endif
         if &ff != g:galaxy_default_ff
             let val = " ".toupper(&ff[:0])
         endif
@@ -350,18 +354,19 @@ OPTIONS                                               *galaxy-options*
         endif
         return val
     endfunction "}}}
+
 <
     
                                                 *g:galaxy_default_ff*
     'g:galaxy_default_ff'                           (default:"unix")
     The  'fileformating' type which will not shown in statusline.
-    used by galaxy#enc().
+    used by GalaxyEnc().
 
 
                                                 *g:galaxy_default_enc*
     'g:galaxy_default_enc'                           (default:"utf-8")
     The  'encoding' type which will not shown in statusline.
-    used by galaxy#enc().
+    used by GalaxyEnc().
 
     See |statusline| for more details.
                                                 
