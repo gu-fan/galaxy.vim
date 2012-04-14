@@ -286,10 +286,10 @@ OPTIONS                                               *galaxy-options*
     default:
 >
     g:galaxy_statusline_left = 
-            \'%* %{galaxy#smode()} '
+            \.'%* %{GalaxyMode()} '
             \.'%1*%(%2n.%)%2*%( %Y %)%3*%( %M%R %)%4*%( %k %)'
-            \.'%9* %<%F %='
-            \.'%8*%(%{galaxy#enc()}%)%7*%4l %6*%3c %5* %P '
+            \.'%5* %<%F %='
+            \.'%6*%(%{GalaxyEnv()}%)%7*%4l %8*%3c %9* %P '
 <
 
                                                 *g:galaxy_statusline_right*
@@ -297,11 +297,11 @@ OPTIONS                                               *galaxy-options*
     default:
 >
     g:galaxy_statusline_right = 
-            \'%9*%(%2n.%)%8*%4l %7*%3c '
-            \.'%5* %<%F %=%6* %P '
-            \.'%4*%( %Y %)%3*%( %k %)'
-            \.'%2*%(%{galaxy#enc()}%)%1*%( %M%R %)'
-            \.'%* %{galaxy#smode()} '
+            \.'%9*%(%2n.%)%8*%4l %7*%3c %6*%( %Y %)'
+            \.'%5* %<%F %='
+            \.'%4*%( %k %)'
+            \.'%3*%(%{GalaxyEnv()}%)%2* %P %1*%( %M%R %)'
+            \.'%* %{GalaxyMode()} '
 <
 
                                                 *g:galaxy_statusline_test*
@@ -318,9 +318,20 @@ OPTIONS                                               *galaxy-options*
 
     NOTE:   You can change it with valid statusline string,
             Remember to quote it in "'" from avoid escaping ' ' with '\'.
+            See |statusline| for more details.
     
+    More statusline~
 
-    GalaxyMode() and GalaxyEnc() are simple function showing some flags.
+    The auto generated statusline are showing some extra modes.
+
+    GalaxyMode() with 'n/v/i' for normal/visual/insert modes see |mode()|, 
+                'L' for '&list', 'D' for '&diff', 'P' for '&paste'
+    GalaxyEnv()  with 'encoding','fileformating', also with
+                fugitive git branch |g:galaxy_env_fugitive|
+                syntastic syn check |g:galaxy_env_syntastic|
+                virtualenv check    |g:galaxy_env_virtualenv|
+    
+    GalaxyMode() and GalaxyEnv() are simple function showing flags.
     You can change them in your vimrc.
 >
 
@@ -331,11 +342,13 @@ OPTIONS                                               *galaxy-options*
         if &list  | let val .= ' L' | endif
         return val
     endfunction "}}}
-    function! GalaxyEnc() "{{{
+    function! GalaxyEnv() "{{{
         let val = ""
-        if exists("*SyntasticStatuslineFlag")
-            let val.=SyntasticStatuslineFlag()
-        endif
+
+        " ...
+        " some settings of syntastic/fugitive/virtualenv
+        " ...
+
         if &ff != g:galaxy_default_ff
             let val = " ".toupper(&ff[:0])
         endif
@@ -360,16 +373,32 @@ OPTIONS                                               *galaxy-options*
                                                 *g:galaxy_default_ff*
     'g:galaxy_default_ff'                           (default:"unix")
     The  'fileformating' type which will not shown in statusline.
-    used by GalaxyEnc().
-
+    used by GalaxyEnv().
 
                                                 *g:galaxy_default_enc*
     'g:galaxy_default_enc'                           (default:"utf-8")
     The  'encoding' type which will not shown in statusline.
-    used by GalaxyEnc().
+    used by GalaxyEnv().
 
-    See |statusline| for more details.
-                                                
+                                                *g:galaxy_env_fugitive*
+    'g:galaxy_env_fugitive'                     (default: if has fugitive 
+                                                then it's 1 else 0)
+    showing git branch in statusline, set it to 0 to disable it.
+    used by GalaxyEnv().
+
+                                                *g:galaxy_env_syntastic*
+    'g:galaxy_env_syntastic'                     (default: if has fugitive 
+                                                then it's 1 else 0)
+    showing syntastic checking in statusline, set it to 0 to disable it.
+    used by GalaxyEnv().
+
+                                                *g:galaxy_env_virtualenv*
+    'g:galaxy_env_virtualenv'                     (default: if has fugitive 
+                                                then it's 1 else 0)
+    showing current virtualenv in statusline, set it to 0 to disable it.
+    used by GalaxyEnv().
+
+    NOTE    You should activate virtualenv first then start vim/gvim in it.
 
     Syntax.~
                                                 *g:galaxy_colorful_syntax*

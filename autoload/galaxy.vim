@@ -29,7 +29,7 @@ call s:default("g:galaxy_show_trailing_ws", 1)
 call s:default("g:galaxy_indent_hl_ftype",  "python,c,javascript")
 call s:default("g:galaxy_load_syn_dict",    1)
 call s:default("g:galaxy_load_syn_tuning",  1)
-call s:default("g:galaxy_visual_hl_fg",     0)
+call s:default("g:galaxy_visual_hl_fg",     1)
 call s:default("g:galaxy_tcursor_color",    "DarkGray")
 
 call s:default("g:galaxy_colorful_syntax",  1)
@@ -265,6 +265,43 @@ let s:syn_hl_1=[
 
 " s:styles "{{{2
 let s:hl_styles = {}
+"{{{ Classic
+let s:hl_styles.Classic = [
+        \["Cursor",         "bgdclr1",  "msgclr7",  "n"     ],
+        \["CursorS",        "bgdclr1",  "msgclr7",  "n"     ],
+        \["CursorIM",       "nocolor",  "msgclr4",  "n"     ],
+        \["CursorLine",     "nocolor",  "bgdclr1",  "n"     ],
+        \["CursorColumn",   "CursorLine"    ],
+        \["Visual",         "nocolor",  "bgdclr4",  "n"     ],
+        \["VisualNOS",      "nocolor",  "bgdclr5",  "n"     ],
+        \["Search",         "fgdclr1",  "bgdclr3",  "n"     ],
+        \["IncSearch",      "bgdclr0",  "msgclr2",  "b"     ],
+        \["Wildmenu",       "msgclr1",  "bgdclr1",  "b"     ],
+        \["Pmenu",          "fgdclr2",  "bgdclr3",  "n"     ],
+        \["PmenuSel",       "fgdclr1",  "bgdclr1",  "rb"    ],
+        \["PmenuSbar",      "fgdclr1",  "fgdclr6",  "n"     ],
+        \["PmenuThumb",     "bgdclr0",  "fgdclr2",  "n"     ],
+        \["Folded",         "bgdclr8",  "bgdclr1",  "n"     ],
+        \["ColorColumn",    "Folded"        ],
+        \["FoldColumn",     "bgdclr5",  "bgdclr2",  "b"     ],
+        \["LineNr",         "bgdclr4",  "bgdclr1",  "n"     ],
+        \["SignColumn",     "msgclr2",  "bgdclr2",  "n"     ],
+        \["TabLine",        "fgdclr4",  "bgdclr4",  "n"     ],
+        \["TabLineSel",     "fgdclr1",  "bgdclr0",  "b"     ],
+        \["TabLineFill",    "bgdclr9",  "bgdclr0",  "n"     ],
+        \["StatusLine",     "synclr2",  "bgdclr3",  "b"     ],
+        \["StatusLineNC",   "fgdclr2",  "bgdclr3",  "b"     ],
+        \["VertSplit",      "StatusLineNC"  ],
+        \["User1",          "bgdclr5",  "synclr1",  "r"     ],
+        \["User2",          "bgdclr4",  "synclr3",  "r"     ],
+        \["User3",          "bgdclr4",  "synclr5",  "r"     ],
+        \["User4",          "bgdclr3",  "synclr7",  "r"     ],
+        \["User5",          "fgdclr2",  "bgdclr3",  "b"     ],
+        \["User6",          "fgdclr2",  "bgdclr4",  "b"     ],
+        \["User7",          "fgdclr3",  "bgdclr4",  "b"     ],
+        \["User8",          "fgdclr3",  "bgdclr5",  "b"     ],
+        \["User9",          "fgdclr4",  "bgdclr5",  "b"     ],
+        \] "}}}
 "{{{ Default
 let s:hl_styles.Default = [
         \["Cursor",         "bgdclr1",  "msgclr7",  "n"     ],
@@ -309,8 +346,8 @@ let s:hl_styles.Shadow = [
         \["CursorIM",       "nocolor",  "msgclr4",  "n"     ],
         \["CursorLine",     "nocolor",  "bgdclr1",  "n"     ],
         \["CursorColumn",   "CursorLine"    ],
-        \["Visual",         "nocolor",  "bgdclr3",  "n"     ],
-        \["VisualNOS",      "nocolor",  "bgdclr2",  "n"     ],
+        \["Visual",         "nocolor",  "bgdclr4",  "n"     ],
+        \["VisualNOS",      "nocolor",  "bgdclr3",  "n"     ],
         \["Search",         "fgdclr2",  "bgdclr3",  "n"     ],
         \["IncSearch",      "bgdclr0",  "msgclr2",  "b"     ],
         \["Wildmenu",       "fgdclr1",  "bgdclr2",  "rb"    ],
@@ -329,7 +366,7 @@ let s:hl_styles.Shadow = [
         \["StatusLine",     "bgdclr1",  "bgdclr9",  "b"     ],
         \["StatusLineNC",   "bgdclr9",  "bgdclr2",  "r"     ],
         \["VertSplit",      "StatusLineNC"  ],
-        \["User1",          "bgdclr9",  "msgclr1",  "b"     ],
+        \["User1",          "bgdclr4",  "msgclr1",  "b"     ],
         \["User2",          "bgdclr9",  "bgdclr4",  "b"     ],
         \["User3",          "bgdclr8",  "bgdclr4",  "b"     ],
         \["User4",          "bgdclr8",  "bgdclr3",  "b"     ],
@@ -370,11 +407,11 @@ let s:hl_styles.Flowery = [
         \["User2",          "bgdclr3",  "synclr3",  "b"     ],
         \["User3",          "bgdclr4",  "synclr5",  "b"     ],
         \["User4",          "bgdclr5",  "synclr7",  "b"     ],
-        \["User5",          "bgdclr2",  "bgdclr5",  "b"     ],
-        \["User6",          "bgdclr3",  "bgdclr6",  "b"     ],
-        \["User7",          "bgdclr4",  "bgdclr7",  "b"     ],
-        \["User8",          "bgdclr5",  "bgdclr8",  "b"     ],
-        \["User9",          "bgdclr6",  "bgdclr9",  "b"     ],
+        \["User5",          "bgdclr1",  "bgdclr5",  "b"     ],
+        \["User6",          "bgdclr2",  "bgdclr6",  "b"     ],
+        \["User7",          "bgdclr3",  "bgdclr7",  "b"     ],
+        \["User8",          "bgdclr4",  "bgdclr8",  "b"     ],
+        \["User9",          "bgdclr5",  "bgdclr9",  "b"     ],
         \] "}}}
 "{{{ Colour
 let s:hl_styles.Colour = [
@@ -388,9 +425,9 @@ let s:hl_styles.Colour = [
         \["Search",         "fgdclr1",  "bgdclr4",  "n"     ],
         \["IncSearch",      "bgdclr0",  "msgclr2",  "b"     ],
         \["Wildmenu",       "difclr0",  "fgdclr2",  "rb"    ],
-        \["Pmenu",          "bgdclr2",  "bgdclr2",  "n"     ],
-        \["PmenuSel",       "difclr1",  "bgdclr2",  "rb"    ],
-        \["PmenuSbar",      "bgdclr1",  "bgdclr0",  "n"     ],
+        \["Pmenu",          "fgdclr2",  "bgdclr2",  "n"     ],
+        \["PmenuSel",       "fgdclr0",  "bgdclr2",  "rb"    ],
+        \["PmenuSbar",      "fgdclr1",  "bgdclr0",  "n"     ],
         \["PmenuThumb",     "bgdclr2",  "bgdclr6",  "n"     ],
         \["Folded",         "bgdclr9",  "bgdclr4",  "n"     ],
         \["ColorColumn",    "Folded"        ],
@@ -842,6 +879,12 @@ function! s:statusline_aug() "{{{
                         " endif
                     elseif grp =~? '^User\d$'
                         if exists("s:scheme.style")
+                            if s:scheme.style =~? 'Classic'
+                                if grp =~ '[1234]'
+                                    let _item[1] = statline_bg
+                                    let _item[2] = "msgclr3"
+                                endif
+                            endif
                             if s:scheme.style =~? 'Colour'
                                 if grp =~ '[1234]'
                                     let _item[1] = statline_bg
@@ -969,13 +1012,45 @@ function! GalaxyMode() "{{{
     if &list  | let val .= ' L' | endif
     return val
 endfunction "}}}
+let s:env_loaded = 0
+function! s:load_env() "{{{
+    " load after all autoload/files loaded
+    if exists("*SyntasticStatuslineFlag") "{{{
+        let g:syntastic_stl_format = 'S:[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
+        call s:default("g:galaxy_env_syntastic", 1)
+    else
+        call s:default("g:galaxy_env_syntastic", 0)
+    endif "}}}
+    if exists("*fugitive#statusline") "{{{
+        call s:default("g:galaxy_env_fugitive", 1)
+    else
+        call s:default("g:galaxy_env_fugitive", 0)
+    endif "}}}
+    if has("python") "{{{
+        call s:default("g:galaxy_env_virtualenv", 1)
+    else
+        call s:default("g:galaxy_env_virtualenv", 0)
+    endif "}}}
+endfunction "}}}
 function! GalaxyEnv() "{{{
+    if s:env_loaded == 0
+        call s:load_env()
+        let s:env_loaded = 1
+    endif
+    
     let val = ""
-    if exists("*SyntasticStatuslineFlag")
-        let val.=SyntasticStatuslineFlag()
+    if g:galaxy_env_syntastic
+        let val.=" ".SyntasticStatuslineFlag()
+    endif
+    if g:galaxy_env_fugitive
+        let l = fugitive#statusline()
+        let val.= " ".substitute(l,',\=GIT(\([-:[:alnum:]]\+\))','G:[\1]','')
+    endif
+    if g:galaxy_env_virtualenv && exists("$VIRTUAL_ENV")
+        let val.= " V:[".fnamemodify($VIRTUAL_ENV,":t")."]"
     endif
     if &ff != g:galaxy_default_ff
-        let val = " ".toupper(&ff[:0])
+        let val.= " ".toupper(&ff[:0])
     endif
     if &enc == g:galaxy_default_enc
         " pass
@@ -990,7 +1065,11 @@ function! GalaxyEnv() "{{{
     else
         let val.= " ".&enc
     endif
-    return val
+    if empty(val)
+        return val
+    else
+        return val." "
+    endif
 endfunction "}}}
 
 " CLRS"{{{1
@@ -1871,9 +1950,9 @@ let s:screen.name = "GALAXY_SCREEN".g:galaxy.version
 let s:screen_lines = [
 \" GALAXY_SCREEN                                           v 2.0.0 ",
 \"                                                                 ",
-\"-SCHEME-------------BGD----FGD----SYN----MSG----DIF--------------",
+\" SCHEME             BGD    FGD    SYN    MSG    DIF              ",
 \" Black              FFFFFF FFFFFF FFFFFF FFFFFF FFFFFF           ",
-\"------------------------ GALAXY GENERATED COLORS ----------------",
+\"-------------------- GALAXY  GENERATED  COLORS   ----------------",
 \"                                                                 ",
 \"                                                                 ",
 \"                                                                 ",
@@ -2042,7 +2121,7 @@ function! s:screen.highlight() dict "{{{
     endfor
 
     call matchadd("Title"          , '\%1l'        , 5)
-    call matchadd("TODO"           , '\%3l'        , 4)
+    call matchadd("MoreMsg"     , '\%3l'        , 10)
     call matchadd("Comment"        , '\%'.self.row_op.'l'       , 4)
     call matchadd("SpecialComment" , '\%'.self.row_op.'l\w*:'   , 15)
 
@@ -3076,7 +3155,8 @@ function! galaxy#load(...) "{{{
     endif
 endfunction "}}}
 function! galaxy#next_style() "{{{
-    let l =  ["Default","Shadow","Flowery","Colour","Default"]
+    let k = keys(s:hl_styles)
+    let l = k +  [k[0]]
     let i = index(l, s:scheme.style)
     call galaxy#load("",l[i+1])
 endfunction "}}}
