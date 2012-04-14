@@ -327,9 +327,9 @@ OPTIONS                                               *galaxy-options*
     GalaxyMode() with 'n/v/i' for normal/visual/insert modes see |mode()|, 
                 'L' for '&list', 'D' for '&diff', 'P' for '&paste'
     GalaxyEnv()  with 'encoding','fileformating', also with
-                fugitive git branch |g:galaxy_env_fugitive|
-                syntastic syn check |g:galaxy_env_syntastic|
-                virtualenv check    |g:galaxy_env_virtualenv|
+                'G:[xxx]' fugitive git branch |g:galaxy_env_fugitive|
+                'S:[xxx]' syntastic syn check |g:galaxy_env_syntastic|
+                'V:[xxx]' virtualenv check    |g:galaxy_env_virtualenv|
     
     GalaxyMode() and GalaxyEnv() are simple function showing flags.
     You can change them in your vimrc.
