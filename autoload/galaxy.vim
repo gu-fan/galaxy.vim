@@ -43,8 +43,9 @@ call s:default("g:galaxy_default_enc", "utf-8")
 
 call s:default("g:galaxy_statusline_left", ""
             \.'%1* %{GalaxyMode()} '
-            \.'%2*%(%2n.%)%3*%( %Y %)%4*%( %M%R %)%5*%( %k %)'
-            \.'%5*%(%{GalaxyEnv()}%)'
+            \.'%2*%(%2n.%)%3*%( %Y %)%4*%( %M%R %)'
+            \.'%4*%(%{GalaxyEnv()}%)'
+            \.'%4*%( %k %)'
             \.'%* %<%F %='
             \.'%7* %4l %8*%3c %9* %P '
             \)
@@ -89,7 +90,7 @@ let s:galaxy.name  = "_GALAXY_".g:galaxy.version
 let s:seq_num = 0
 let s:scheme  = {}
 let s:scheme.name = "White"
-let s:scheme.style = "Default"
+let s:scheme.style = "Shadow"
 let s:scheme.colors = ["FFFFFF","000000","306399","FF0D0D","B0E1EB"]
 "               ui name style syntax status indent
 let s:cache_term = ["TEM_OPT","","","","",""]
@@ -295,43 +296,6 @@ let s:hl_styles.Classic = [
         \["User8",          "fgdclr3",  "bgdclr5",  "b"     ],
         \["User9",          "fgdclr4",  "bgdclr5",  "b"     ],
         \] "}}}
-" "{{{ Default
-" let s:hl_styles.Default = [
-"         \["Cursor",         "bgdclr1",  "msgclr7",  "n"     ],
-"         \["CursorS",        "bgdclr1",  "msgclr7",  "n"     ],
-"         \["CursorIM",       "nocolor",  "msgclr4",  "n"     ],
-"         \["CursorLine",     "nocolor",  "bgdclr1",  "n"     ],
-"         \["CursorColumn",   "CursorLine"    ],
-"         \["Visual",         "nocolor",  "bgdclr4",  "n"     ],
-"         \["VisualNOS",      "nocolor",  "bgdclr5",  "n"     ],
-"         \["Search",         "fgdclr1",  "bgdclr3",  "n"     ],
-"         \["IncSearch",      "bgdclr0",  "msgclr2",  "b"     ],
-"         \["Wildmenu",       "msgclr1",  "bgdclr1",  "b"     ],
-"         \["Pmenu",          "fgdclr2",  "bgdclr3",  "n"     ],
-"         \["PmenuSel",       "fgdclr1",  "bgdclr1",  "rb"    ],
-"         \["PmenuSbar",      "fgdclr1",  "fgdclr6",  "n"     ],
-"         \["PmenuThumb",     "bgdclr0",  "fgdclr2",  "n"     ],
-"         \["Folded",         "bgdclr8",  "bgdclr1",  "n"     ],
-"         \["ColorColumn",    "Folded"        ],
-"         \["FoldColumn",     "bgdclr5",  "bgdclr2",  "b"     ],
-"         \["LineNr",         "bgdclr4",  "bgdclr1",  "n"     ],
-"         \["SignColumn",     "msgclr2",  "bgdclr2",  "n"     ],
-"         \["TabLine",        "fgdclr4",  "bgdclr4",  "n"     ],
-"         \["TabLineSel",     "fgdclr1",  "bgdclr0",  "b"     ],
-"         \["TabLineFill",    "bgdclr9",  "bgdclr0",  "n"     ],
-"         \["StatusLine",     "bgdclr0",  "bgdclr6",  "b"     ],
-"         \["StatusLineNC",   "bgdclr4",  "bgdclr8",  "r"     ],
-"         \["VertSplit",      "StatusLineNC"  ],
-"         \["User1",          "bgdclr2",  "synclr1",  "b"     ],
-"         \["User2",          "bgdclr2",  "bgdclr6",  "b"     ],
-"         \["User3",          "bgdclr3",  "bgdclr7",  "b"     ],
-"         \["User4",          "bgdclr4",  "bgdclr8",  "b"     ],
-"         \["User5",          "bgdclr5",  "bgdclr9",  "b"     ],
-"         \["User6",          "bgdclr3",  "bgdclr7",  "b"     ],
-"         \["User7",          "bgdclr4",  "bgdclr7",  "b"     ],
-"         \["User8",          "bgdclr5",  "bgdclr8",  "b"     ],
-"         \["User9",          "bgdclr6",  "bgdclr9",  "b"     ],
-"         \] "}}}
 "{{{ Flowery
 let s:hl_styles.Flowery = [
         \["Cursor",         "bgdclr1",  "msgclr6",  "n"     ],
@@ -359,10 +323,10 @@ let s:hl_styles.Flowery = [
         \["StatusLine",     "fgdclr1",  "bgdclr2",  "b"     ],
         \["StatusLineNC",   "bgdclr5",  "bgdclr2",  "r"     ],
         \["VertSplit",      "StatusLineNC"  ],
-        \["User1",          "bgdclr1",  "msgclr1",  "b"     ],
-        \["User2",          "bgdclr1",  "msgclr3",  "b"     ],
-        \["User3",          "bgdclr1",  "msgclr5",  "b"     ],
-        \["User4",          "bgdclr1",  "msgclr7",  "b"     ],
+        \["User1",          "bgdclr4",  "msgclr1",  "b"     ],
+        \["User2",          "bgdclr4",  "msgclr3",  "b"     ],
+        \["User3",          "bgdclr4",  "msgclr5",  "b"     ],
+        \["User4",          "bgdclr4",  "msgclr7",  "b"     ],
         \["User5",          "bgdclr5",  "bgdclr1",  "b"     ],
         \["User6",          "bgdclr7",  "bgdclr2",  "b"     ],
         \["User7",          "bgdclr6",  "bgdclr2",  "b"     ],
@@ -406,6 +370,43 @@ let s:hl_styles.Shadow = [
         \["User8",          "bgdclr4",  "bgdclr8",  "b"     ],
         \["User9",          "bgdclr5",  "bgdclr9",  "b"     ],
         \] "}}}
+" "{{{ Default
+" let s:hl_styles.Default = [
+"         \["Cursor",         "bgdclr1",  "msgclr7",  "n"     ],
+"         \["CursorS",        "bgdclr1",  "msgclr7",  "n"     ],
+"         \["CursorIM",       "nocolor",  "msgclr4",  "n"     ],
+"         \["CursorLine",     "nocolor",  "bgdclr1",  "n"     ],
+"         \["CursorColumn",   "CursorLine"    ],
+"         \["Visual",         "nocolor",  "bgdclr4",  "n"     ],
+"         \["VisualNOS",      "nocolor",  "bgdclr5",  "n"     ],
+"         \["Search",         "fgdclr1",  "bgdclr3",  "n"     ],
+"         \["IncSearch",      "bgdclr0",  "msgclr2",  "b"     ],
+"         \["Wildmenu",       "msgclr1",  "bgdclr1",  "b"     ],
+"         \["Pmenu",          "fgdclr2",  "bgdclr3",  "n"     ],
+"         \["PmenuSel",       "fgdclr1",  "bgdclr1",  "rb"    ],
+"         \["PmenuSbar",      "fgdclr1",  "fgdclr6",  "n"     ],
+"         \["PmenuThumb",     "bgdclr0",  "fgdclr2",  "n"     ],
+"         \["Folded",         "bgdclr8",  "bgdclr1",  "n"     ],
+"         \["ColorColumn",    "Folded"        ],
+"         \["FoldColumn",     "bgdclr5",  "bgdclr2",  "b"     ],
+"         \["LineNr",         "bgdclr4",  "bgdclr1",  "n"     ],
+"         \["SignColumn",     "msgclr2",  "bgdclr2",  "n"     ],
+"         \["TabLine",        "fgdclr4",  "bgdclr4",  "n"     ],
+"         \["TabLineSel",     "fgdclr1",  "bgdclr0",  "b"     ],
+"         \["TabLineFill",    "bgdclr9",  "bgdclr0",  "n"     ],
+"         \["StatusLine",     "bgdclr0",  "bgdclr6",  "b"     ],
+"         \["StatusLineNC",   "bgdclr4",  "bgdclr8",  "r"     ],
+"         \["VertSplit",      "StatusLineNC"  ],
+"         \["User1",          "bgdclr2",  "synclr1",  "b"     ],
+"         \["User2",          "bgdclr2",  "bgdclr6",  "b"     ],
+"         \["User3",          "bgdclr3",  "bgdclr7",  "b"     ],
+"         \["User4",          "bgdclr4",  "bgdclr8",  "b"     ],
+"         \["User5",          "bgdclr5",  "bgdclr9",  "b"     ],
+"         \["User6",          "bgdclr3",  "bgdclr7",  "b"     ],
+"         \["User7",          "bgdclr4",  "bgdclr7",  "b"     ],
+"         \["User8",          "bgdclr5",  "bgdclr8",  "b"     ],
+"         \["User9",          "bgdclr6",  "bgdclr9",  "b"     ],
+"         \] "}}}
 " {{{ Colour
 " let s:hl_styles.Colour = [
 "         \["Cursor",         "bgdclr1",  "msgclr4",  "n"     ],
@@ -2699,7 +2700,7 @@ function! s:screen.line(p1,p2,c) dict "{{{
     endif
     
 endfunction "}}}
-let s:seed = localtime() * (localtime() + 10) * 2207
+let s:seed = localtime() * (localtime() + 10) * 2012
 function! s:random(num,...) "{{{
     if exists("a:1") 
         let min = a:num
@@ -2984,13 +2985,13 @@ function! s:get_scheme(name, style) "{{{
         let scheme.name = a:name
         let scheme.colors = scheme_dict[a:name]
     else
-        let scheme.name = "Black"
-        let scheme.colors = scheme_dict['Black']
+        let scheme.name = s:default_schemes[0][0]
+        let scheme.colors = scheme_dict[scheme.name]
     endif
     if has_key(s:hl_styles, a:style)
         let scheme.style = a:style
     else
-        let scheme.style = "Default"
+        let scheme.style = keys(s:hl_styles)[0]
     endif
 
     return scheme
