@@ -2025,6 +2025,7 @@ function! s:win_opt_set() "{{{
         let mod = 1
     elseif  key == "INDENT_HL"
         let g:galaxy_enable_indent_hl = !g:galaxy_enable_indent_hl
+        echom g:galaxy_enable_indent_hl
         call s:retain_cache()
         let mod = 1
     endif
@@ -2995,7 +2996,7 @@ function! s:retain_cache() "{{{
     let style = s:scheme.style
     let syntax = g:galaxy_colorful_syntax ? "More" : "Less"
     let status = g:galaxy_statusline_style
-    let indent = g:galaxy_enable_indent_hl ? "On " : "Off"
+    let indent = g:galaxy_enable_indent_hl ? "On" : "Off"
     if !has("gui_running")
         let s:_cache_term = ["TEM_OPT",name, style,syntax,status,indent ]
     else
