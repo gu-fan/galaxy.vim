@@ -24,20 +24,21 @@ function! s:default(option, value) "{{{
     return 1
 endfunction "}}}
 call s:default("g:galaxy_debug",            0)
-call s:default("g:galaxy_indent_hl_pos",    "start")
-call s:default("g:galaxy_show_trailing_ws", 1)
-call s:default("g:galaxy_indent_hl_ftype",  "python,c,javascript")
-call s:default("g:galaxy_load_syn_dict",    1)
-call s:default("g:galaxy_load_syn_tuning",  1)
 call s:default("g:galaxy_visual_hl_fg",     1)
 call s:default("g:galaxy_tcursor_color",    "DarkGray")
 
 call s:default("g:galaxy_colorful_syntax",  1)
-call s:default("g:galaxy_statusline_style", "Left")
+call s:default("g:galaxy_load_syn_dict",    1)
+call s:default("g:galaxy_load_syn_tuning",  1)
+
 call s:default("g:galaxy_enable_indent_hl", 1)
+call s:default("g:galaxy_indent_hl_pos",    "start")
+call s:default("g:galaxy_indent_hl_ftype",  "python,c,javascript")
+call s:default("g:galaxy_show_trailing_ws", 1)
 
 call s:default("g:galaxy_enable_statusline",1)
 call s:default("g:galaxy_statusline_blink", 1)
+call s:default("g:galaxy_statusline_style", "Left")
 call s:default("g:galaxy_default_ff",  "unix")
 call s:default("g:galaxy_default_enc", "utf-8")
 
@@ -317,7 +318,7 @@ let s:hl_styles.Classic = [
         \["User3",          "bgdclr8",  "synclr5",  "br"     ],
         \["User4",          "bgdclr9",  "synclr7",  "br"     ],
         \["User5",          "bgdclr0",  "synclr9",  "b"     ],
-        \["User6",          "bgdclr6",  "msgclr1",  "br"     ],
+        \["User6",          "bgdclr4",  "msgclr1",  "br"     ],
         \["User7",          "bgdclr3",  "msgclr3",  "br"     ],
         \["User8",          "bgdclr2",  "msgclr5",  "br"     ],
         \["User9",          "bgdclr6",  "msgclr7",  "br"     ],
@@ -879,22 +880,22 @@ function! galaxy#statusline(cur) "{{{
     let line =""
     if     a:cur == 1 && g:galaxy_statusline_style == "Left"
         let line.= s:clr(m5,mode)
-        let line.= s:clr(m1,env)
+        let line.= s:clr(m4,env)
         let line.= s:clr(d0,num)
         let line.= s:clr(n0,file)
-        let line.= s:clr(l1,pos)
-        let line.= s:clr(m2,ro)
-        let line.= s:clr(m3,ft)
-        let line.= s:clr(m4,stat)
+        let line.= s:clr(m1,ro)
+        let line.= s:clr(m2,ft)
+        let line.= s:clr(m3,stat)
+        let line.= s:clr(l4,pos)
     elseif a:cur == 0 && g:galaxy_statusline_style == "Left"
         let line.= s:clr(d2,mode)
         let line.= s:clr(d1,env)
         let line.= s:clr(d0,num)
         let line.= s:clr(n0,file)
-        let line.= s:clr(l1,pos)
-        let line.= s:clr(l2,ro)
-        let line.= s:clr(l3,ft)
-        let line.= s:clr(l4,stat)
+        let line.= s:clr(l1,ro)
+        let line.= s:clr(l2,ft)
+        let line.= s:clr(l3,stat)
+        let line.= s:clr(l4,pos)
     elseif a:cur == 1 && g:galaxy_statusline_style == "Right"
         let line.= s:clr(l2,num)
         let line.= s:clr(l1,pos2)
