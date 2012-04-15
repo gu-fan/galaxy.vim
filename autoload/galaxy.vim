@@ -463,7 +463,7 @@ let s:default_schemes=[
         \["Wine"     ,"0D0609","9C9B94","A37B5F","59FF6A","506792"],
         \["Spring"   ,"D5E6A1","363836","496791","FF5B3E","DBC683"],
         \["MoonNight","060F1A","B4B6B8","7FA5B8","DBBF42","6D98B6"],
-        \["Village"  ,"B1E6AC","362020","324F7D","187AA3","DBCC78"],
+        \["Village"  ,"B1E6AC","362020","324F7D","87A318","DBCC78"],
         \["Slates"   ,"F2EFE4","3E465C","386599","9958E1","D9B2AD"],
         \["InkGreen" ,"0A0D07","A9BA93","8682D1","FF7236","5E7091"],
         \]
@@ -981,7 +981,7 @@ function! s:statusline_aug() "{{{
                         endif
                         if s:scheme.style =~? 'Colour'
                             if grp =~ '[123456789]'
-                                let _item[1] = statline_bg
+                                let _item[1] = statline_fg
                                 let _item[2] = "msgclr4"
                             endif
                         endif
