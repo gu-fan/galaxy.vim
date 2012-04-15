@@ -886,7 +886,7 @@ function! galaxy#statusline(cur) "{{{
         let line.= s:clr(m1,ro)
         let line.= s:clr(m2,ft)
         let line.= s:clr(m3,stat)
-        let line.= s:clr(l4,pos)
+        let line.= s:clr(l2,pos)
     elseif a:cur == 0 && g:galaxy_statusline_style == "Left"
         let line.= s:clr(d2,mode)
         let line.= s:clr(d1,env)
@@ -895,7 +895,7 @@ function! galaxy#statusline(cur) "{{{
         let line.= s:clr(l1,ro)
         let line.= s:clr(l2,ft)
         let line.= s:clr(l3,stat)
-        let line.= s:clr(l4,pos)
+        let line.= s:clr(l2,pos)
     elseif a:cur == 1 && g:galaxy_statusline_style == "Right"
         let line.= s:clr(l2,num)
         let line.= s:clr(l1,pos2)
@@ -1133,18 +1133,6 @@ function! GalaxyEnv() "{{{
     if g:galaxy_env_virtualenv && exists("$VIRTUAL_ENV")
         let val.= " V:[".fnamemodify($VIRTUAL_ENV,":t")."]"
     endif
-    if &ff != g:galaxy_default_ff
-        let val.= " ".toupper(&ff[:0])
-    endif
-    if &enc == g:galaxy_default_enc
-        " pass
-    elseif &enc == "utf-8"  | let val.= " U8"
-    elseif &enc == "utf-16" | let val.= " U16"
-    elseif &enc == "utf-32" | let val.= " U32"
-    elseif &enc == "latin1" | let val.= " LA1"
-    elseif &enc =~ '^gb'    | let val.= " GB"
-    else                    | let val.= " ".&enc
-    endif
     if val =~ '^\s*$'
         return ""
     else
@@ -1169,6 +1157,18 @@ function! GalaxyStat() "{{{
     if &diff  | let val .= " Dif" | endif
     if &list  | let val .= " Lst" | endif
     if &bin   | let val .= " Bin" | endif
+    if &ff != g:galaxy_default_ff
+        let val.= " ".toupper(&ff[:2])
+    endif
+    if &enc == g:galaxy_default_enc
+        " pass
+    elseif &enc == "utf-8"  | let val.= " U8"
+    elseif &enc == "utf-16" | let val.= " U16"
+    elseif &enc == "utf-32" | let val.= " U32"
+    elseif &enc == "latin1" | let val.= " LA1"
+    elseif &enc =~ '^gb'    | let val.= " GB"
+    else                    | let val.= " ".&enc
+    endif
     if !empty(val)  | return val
     else            | return ""
     endif

@@ -122,12 +122,11 @@ QUICKSTART                                              *galaxy-quickstart*
         'STYLE': swith scheme style.
 
                                                         *galaxy-statusline*
-
         'STATUSLINE': switch statusline style.
 
     Terminal~
                                                         *galaxy-terminal*
-        Fully functional in 256 terminal.
+        Support 256 terminal.
         8/16 terminal uses predefined colors 'white/dark'
 
 ------------------------------------------------------------------------------
