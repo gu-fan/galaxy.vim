@@ -44,10 +44,10 @@
 
     Some Pictures:~
 
-        Normal Mode  :  http://img.ly/gC2z 
-        Insert Mode  :  http://img.ly/gC2L
-        Scheme Window:  http://img.ly/gC3R 
-        Screen Window:  http://img.ly/gC47 
+        Normal Mode (Env Flags)  :  http://img.ly/gRWB 
+        Insert Mode (Dif files)  :  http://img.ly/gRWq
+        Scheme Window:  http://img.ly/gRIG 
+        Screen Window:  http://img.ly/gRIw 
         Little Galaxy:  http://img.ly/gC4t
 
     Post issues at https://github.com/Rykka/vim-galaxy

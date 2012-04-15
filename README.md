@@ -22,17 +22,17 @@
     
 **Some Pictures:**
         
-    Normal Mode  :  http://img.ly/gC2z 
-![Normal Mode](http://s3.amazonaws.com/imgly_production/3959479/large.png)
+    Normal Mode (Env Flags)  :  http://img.ly/gRWB 
+![Normal Mode](http://s3.amazonaws.com/imgly_production/4020613/large.png)
 
-    Insert Mode  :  http://img.ly/gC2L
-![Insert Mode](http://s3.amazonaws.com/imgly_production/3959491/large.png)
+    Insert Mode (Dif files)  :  http://img.ly/gRWq
+![Insert Mode](http://s3.amazonaws.com/imgly_production/4020602/large.png)
     
-    Galaxy Window:  http://img.ly/gC3R 
-![Galaxy Window](http://s3.amazonaws.com/imgly_production/3959559/large.png)
+        Scheme Window:  http://img.ly/gRIG 
+![Galaxy Window](http://s3.amazonaws.com/imgly_production/4019750/large.png)
 
-    Galaxy Screen:  http://img.ly/gC47 
-![Galaxy Screen](http://s3.amazonaws.com/imgly_production/3959575/large.png)
+        Screen Window:  http://img.ly/gRIw 
+![Galaxy Screen](http://s3.amazonaws.com/imgly_production/4019740/large.png)
 
     Little galaxy:  http://img.ly/gC4t 
 ![Galaxy Screen](http://s3.amazonaws.com/imgly_production/3959597/large.png)
