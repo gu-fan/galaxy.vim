@@ -2,11 +2,11 @@
 "  Script: Galaxy
 "    File: autoload/galaxy.vim
 " Summary: A colorscheme tries to make colorscheming simpler.
-"  Author: Rykka <Rykka10(at)gmail.com>
+"  Author: Rykka G.Forest <Rykka10(at)gmail.com>
 " License: The MIT Licence
 "          http://www.opensource.org/licenses/mit-license.php
 "          Copyright (c) 2011-2012 Rykka.ForestGreen
-" Last Update: 2012-04-15
+" Last Update: 2012-04-16
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim
@@ -2290,8 +2290,6 @@ endfunction "}}}
 "============================================================================
 " A little galaxy system.
 " Credit me if you use it.
-" Author: Rykka Greenforest <Rykka10@gmail.com>
-" License: The MIT Licence 
 function! s:screen.saver() dict "{{{
     cal s:new_win(s:screen.name)
     call s:screen.clean()
@@ -2321,7 +2319,6 @@ function! s:screen.saver() dict "{{{
     endwhile
     call s:screen.re_hi()
 endfunction "}}}
-
 " Classes 
 function! s:stars() "{{{
     let starsys = {'objs':[],'maxobj':4}
@@ -2661,32 +2658,6 @@ function! s:event() "{{{
     return event
 endfunction "}}}
 
-function! s:wstridx(str,needle,...) "{{{
-    if exists("a:1")
-        let wstart = byteidx(a:str,a:1)
-    else
-        let wstart = 0
-    endif
-    for i in range( wstart, (len(split(a:str,'\zs'))-1) )
-        if  s:wstrpart(a:str,i,1) == a:needle
-            return i
-        endif
-    endfor
-    return -1
-endfunction "}}}
-function! s:wstrpart(str, idx,...) "{{{
-    let widx = byteidx(a:str,a:idx)
-    if widx == -1
-        return ""
-    endif
-    if exists("a:1")
-        let wend = byteidx(a:str,a:idx+a:1)
-        return strpart(a:str, widx, wend-widx)
-    else
-        return strpart(a:str, widx)
-    endif
-endfunction "}}}
-
 let s:chars0 = "0123456789"
 let s:chars1 = "abcdefghij"
 let s:chars2 = "klmnopqrst"
@@ -2756,6 +2727,7 @@ function! s:screen.nomap() "{{{
     sil! unmap <buffer> <Space>
     sil! unmap <buffer> <Kenter>
     sil! unmap <buffer> <2-Leftmouse>
+    map <silent><buffer>q   :call galaxy#screen.exit()<CR>
 endfunction "}}}
 function! s:screen.re_hi() "{{{
    call clearmatches()
@@ -2814,6 +2786,8 @@ function! s:screen.line(p1,p2,c) dict "{{{
     endif
     
 endfunction "}}}
+" HELP "{{{1
+"======================================================================
 let s:seed = localtime() * (localtime() + 10) * 2012
 function! s:random(num,...) "{{{
     if exists("a:1") 
@@ -2826,8 +2800,6 @@ function! s:random(num,...) "{{{
     let s:seed = s:fmod((1097*s:seed+2713),10457)
     return float2nr(s:fmod(abs(s:seed),max-min+1) + min)
 endfunction "}}}
-" HELP "{{{1
-"======================================================================
 function! s:echo(msg) "{{{
     redraw
     exe "echom \"[Galaxy] ".escape(a:msg,'"')."\""
