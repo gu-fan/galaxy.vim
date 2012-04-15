@@ -292,17 +292,16 @@ OPTIONS                                               *galaxy-options*
 
     The auto generated statusline are showing some extra modes.
 
-    GalaxyMode() with 'n/v/i' for normal/visual/insert modes,see |mode()|, 
-                'Lst' for '&list', 
-                'Dif' for '&diff', 
-                'Pst' for '&paste',
-                'Bin' for '&binary'
+    GalaxyStat() 'Lst' for '&list', 
+                 'Dif' for '&diff', 
+                 'Pst' for '&paste',
+                 'Bin' for '&binary'
     GalaxyEnv()  with 'encoding','fileformating', also with
                 'G:[xxx]' fugitive git branch |g:galaxy_env_fugitive|
                 'S:[xxx]' syntastic syn check |g:galaxy_env_syntastic|
                 'V:[xxx]' virtualenv check    |g:galaxy_env_virtualenv|
     
-    GalaxyStat() and GalaxyEnv() are simple function showing flags.
+    GalaxyStat() are simple function showing flags.
     You can change them in your vimrc.
 >
 
@@ -311,30 +310,17 @@ OPTIONS                                               *galaxy-options*
         if &diff  | let val .= " Dif" | endif
         if &list  | let val .= " Lst" | endif
         if &bin   | let val .= " Bin" | endif
-        return val
-    endfunction "}}}
-    function! GalaxyEnv() "{{{
-        let val = ""
-
-        " ...
-        " some settings of syntastic/fugitive/virtualenv
-        " ...
-
         if &ff != g:galaxy_default_ff
-            let val = " ".toupper(&ff[:0])
+            let val. = " ".toupper(&ff[:0])
         endif
         if &enc == g:galaxy_default_enc
             " pass
-        elseif &enc == "utf-8"
-            let val.= " U8"
-        elseif &enc == "utf-16"
-            let val.= " U16"
-        elseif &enc == "latin1"
-            let val.= " LA1"
-        elseif &enc =~ '^gb'
-            let val.= " GB"
-        else
-            let val.= " ".&enc
+        elseif &enc == "utf-8"  | let val.= " U8"
+        elseif &enc == "utf-16" | let val.= " U16"
+        elseif &enc == "utf-32" | let val.= " U32"
+        elseif &enc == "latin1" | let val.= " LA1"
+        elseif &enc =~ '^gb'    | let val.= " GB"
+        else                    | let val.= " ".&enc
         endif
         return val
     endfunction "}}}
@@ -344,30 +330,30 @@ OPTIONS                                               *galaxy-options*
                                                 *g:galaxy_default_ff*
     'g:galaxy_default_ff'                           (default:"unix")
     The default 'fileformating' type which will not shown in statusline.
-    used by GalaxyEnv().
+    used by GalaxyStat().
 
                                                 *g:galaxy_default_enc*
     'g:galaxy_default_enc'                           (default:"utf-8")
     The default 'encoding' type which will not shown in statusline.
-    used by GalaxyEnv().
+    used by GalaxyStat().
 
                                                 *g:galaxy_env_fugitive*
     'g:galaxy_env_fugitive'                     (default: if has fugitive 
                                                 then it's 1 else 0)
     showing git branch in statusline, set it to 0 to disable it.
-    used by GalaxyEnv().
+    used by GalaxyStat().
 
                                                 *g:galaxy_env_syntastic*
     'g:galaxy_env_syntastic'                     (default: if has fugitive 
                                                 then it's 1 else 0)
     showing syntastic checking in statusline, set it to 0 to disable it.
-    used by GalaxyEnv().
+    used by GalaxyStat().
 
                                                 *g:galaxy_env_virtualenv*
     'g:galaxy_env_virtualenv'                     (default: if has fugitive 
                                                 then it's 1 else 0)
     showing current virtualenv in statusline, set it to 0 to disable it.
-    used by GalaxyEnv().
+    used by GalaxyStat().
 
     NOTE    You should activate virtualenv first then start vim/gvim in it.
 
