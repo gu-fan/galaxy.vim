@@ -263,12 +263,10 @@ OPTIONS                                               *galaxy-options*
     The mixed white space and tab will be showing as Error. 
     e.g.: '^\t  \t'
 
-
     StatusLine.~
-
-                                                *g:galaxy_auto_statusline*
-    'g:galaxy_auto_statusline'                 (default:1)
-    Auto set statusline while scheming.
+                                                *g:g:galaxy_enable_statusline*
+    'g:g:galaxy_enable_statusline'                 (default:1)
+    Enable auto set statusline while scheming.
     
                                                 *g:galaxy_statusline_blink*
     'g:galaxy_statusline_blink'                 (default:1)
@@ -281,40 +279,11 @@ OPTIONS                                               *galaxy-options*
     This option is auto set by cache.
     set it if you can not write |g:galaxy_cache_file|
 
-                                                *g:galaxy_statusline_left*
-    'g:galaxy_statusline_left' 
-    default:
->
-    g:galaxy_statusline_left = 
-            \.'%* %{GalaxyMode()} '
-            \.'%1*%(%2n.%)%2*%( %Y %)%3*%( %M%R %)%4*%( %k %)'
-            \.'%5* %<%F %='
-            \.'%6*%(%{GalaxyEnv()}%)%7*%4l %8*%3c %9* %P '
-<
-
-                                                *g:galaxy_statusline_right*
-    'g:galaxy_statusline_right' 
-    default:
->
-    g:galaxy_statusline_right = 
-            \.'%9*%(%2n.%)%8*%4l %7*%3c %6*%( %Y %)'
-            \.'%5* %<%F %='
-            \.'%4*%( %k %)'
-            \.'%3*%(%{GalaxyEnv()}%)%2* %P %1*%( %M%R %)'
-            \.'%* %{GalaxyMode()} '
-<
-
-                                                *g:galaxy_statusline_test*
-    'g:galaxy_statusline_test' 
-    It's a test style of statusline.
-    default value is:
-    '%* 0 %1* 1 %2* 2 %3* 3 %4* 4 %5* 5 %6* 6 %7*  7 %8* 8 %9* 9'
-
-    NOTE:   hl-USER1 ~ hl-USER4 is more colorful,
+    NOTE:   hl-USER1 ~ hl-USER9 is more colorful,
             and will change while entering insert mode.
             set |g:galaxy_statusline_blink| to 0 to disable blink.
 
-            hl-USER5 ~ hl-USER9 is gradient in background color.
+            hl-USER11 ~ hl-USER19 (Galaxy defined) is gradient in background color.
 
     NOTE:   You can change it with valid statusline string,
             Remember to quote it in "'" from avoid escaping ' ' with '\'.
@@ -324,22 +293,25 @@ OPTIONS                                               *galaxy-options*
 
     The auto generated statusline are showing some extra modes.
 
-    GalaxyMode() with 'n/v/i' for normal/visual/insert modes see |mode()|, 
-                'L' for '&list', 'D' for '&diff', 'P' for '&paste'
+    GalaxyMode() with 'n/v/i' for normal/visual/insert modes,see |mode()|, 
+                'Lst' for '&list', 
+                'Dif' for '&diff', 
+                'Pst' for '&paste',
+                'Bin' for '&binary'
     GalaxyEnv()  with 'encoding','fileformating', also with
                 'G:[xxx]' fugitive git branch |g:galaxy_env_fugitive|
                 'S:[xxx]' syntastic syn check |g:galaxy_env_syntastic|
                 'V:[xxx]' virtualenv check    |g:galaxy_env_virtualenv|
     
-    GalaxyMode() and GalaxyEnv() are simple function showing flags.
+    GalaxyStat() and GalaxyEnv() are simple function showing flags.
     You can change them in your vimrc.
 >
 
-    function! GalaxyMode() "{{{
-        let val= mode()
-        if &paste | let val .= ' P' | endif
-        if &diff  | let val .= ' D' | endif
-        if &list  | let val .= ' L' | endif
+    function! GalaxyStat() "{{{
+        if &paste | let val .= " Pst" | endif
+        if &diff  | let val .= " Dif" | endif
+        if &list  | let val .= " Lst" | endif
+        if &bin   | let val .= " Bin" | endif
         return val
     endfunction "}}}
     function! GalaxyEnv() "{{{
@@ -372,12 +344,12 @@ OPTIONS                                               *galaxy-options*
     
                                                 *g:galaxy_default_ff*
     'g:galaxy_default_ff'                           (default:"unix")
-    The  'fileformating' type which will not shown in statusline.
+    The default 'fileformating' type which will not shown in statusline.
     used by GalaxyEnv().
 
                                                 *g:galaxy_default_enc*
     'g:galaxy_default_enc'                           (default:"utf-8")
-    The  'encoding' type which will not shown in statusline.
+    The default 'encoding' type which will not shown in statusline.
     used by GalaxyEnv().
 
                                                 *g:galaxy_env_fugitive*
@@ -457,6 +429,11 @@ DEVELOPER                                             *galaxy-developer*
 HISTORY                                               *galaxy-history*
 
 "2.0.0~
+" DONE: 2012-04-15 User1~19 color in styles for statusline
+" DONE: 2012-04-15 left/right statusline style
+"FIXED: 2012-04-15 stats not showing
+" DONE: 2012-04-15 Rewrite statusline , use autocmd group to change it's
+                   status.
 " DONE: 2012-04-10 Add Galaxy Little.
 " DONE: 2012-04-10 Add Galaxy Screen.
 " DONE: 2012-04-10 Now all scheme store in one file. 'g:galaxy_scheme_file'

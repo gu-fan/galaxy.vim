@@ -6,14 +6,14 @@
 " License: The MIT Licence
 "          http://www.opensource.org/licenses/mit-license.php
 "          Copyright (c) 2011-2012 Rykka.ForestGreen
-" Last Update: 2012-04-14
+" Last Update: 2012-04-15
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim
 " VARS "{{{1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:galaxy         = {}
-let g:galaxy.version = "2.0.0"
+let g:galaxy.version = "2.0.1"
 let g:galaxy.winpos  = "bot"
 " g:options "{{{2
 function! s:default(option, value) "{{{
@@ -36,33 +36,11 @@ call s:default("g:galaxy_colorful_syntax",  1)
 call s:default("g:galaxy_statusline_style", "Left")
 call s:default("g:galaxy_enable_indent_hl", 1)
 
+call s:default("g:galaxy_enable_statusline",1)
 call s:default("g:galaxy_statusline_blink", 1)
-call s:default("g:galaxy_auto_statusline",  1)
 call s:default("g:galaxy_default_ff",  "unix")
 call s:default("g:galaxy_default_enc", "utf-8")
 
-call s:default("g:galaxy_statusline_left", ""
-            \.'%1* %{GalaxyMode()} '
-            \.'%2*%(%2n.%)%3*%( %Y %)%4*%( %M%R %)'
-            \.'%4*%(%{GalaxyEnv()}%)'
-            \.'%4*%( %k %)'
-            \.'%* %<%F %='
-            \.'%7* %4l %8*%3c %9* %P '
-            \)
-call s:default("g:galaxy_statusline_right", ""
-            \.'%(%6*%2n.%)'
-            \.'%* %<%F %= '
-            \.'%(%4* %k %)'
-            \.'%(%4*%{GalaxyEnv()}%)'
-            \.'%(%3* %M%R %)%(%2* %Y %)'
-            \.'%7* %4l %8*%3c %9* %P '
-            \.'%1* %{GalaxyMode()} '
-            \)
-
-
-call s:default("g:galaxy_statusline_test", ""
-            \.'%* 0 %1* 1 %2* 2 %3* 3 %4* 4 %5* 5 %6* 6 %7*  7 %8* 8 %9* 9'
-            \)
 if has("win32") || has("win64")
     if exists('$HOME')
         call s:default("g:galaxy_cache_file", 
@@ -259,80 +237,6 @@ let s:syn_hl_1=[
 
 " s:styles "{{{2
 let s:hl_styles = {}
-"{{{ Classic
-let s:hl_styles.Classic = [
-        \["Cursor",         "bgdclr1",  "msgclr7",  "n"     ],
-        \["CursorS",        "bgdclr1",  "msgclr7",  "n"     ],
-        \["CursorIM",       "nocolor",  "msgclr4",  "n"     ],
-        \["CursorLine",     "nocolor",  "bgdclr1",  "n"     ],
-        \["CursorColumn",   "CursorLine"    ],
-        \["Visual",         "nocolor",  "bgdclr4",  "n"     ],
-        \["VisualNOS",      "nocolor",  "bgdclr5",  "n"     ],
-        \["Search",         "fgdclr1",  "bgdclr3",  "n"     ],
-        \["IncSearch",      "bgdclr0",  "msgclr2",  "b"     ],
-        \["Wildmenu",       "msgclr1",  "bgdclr1",  "b"     ],
-        \["Pmenu",          "fgdclr2",  "bgdclr3",  "n"     ],
-        \["PmenuSel",       "fgdclr1",  "bgdclr1",  "rb"    ],
-        \["PmenuSbar",      "bgdclr0",  "bgdclr4",  "n"     ],
-        \["PmenuThumb",     "bgdclr0",  "fgdclr3",  "n"     ],
-        \["Folded",         "bgdclr8",  "bgdclr1",  "n"     ],
-        \["ColorColumn",    "Folded"        ],
-        \["FoldColumn",     "bgdclr5",  "bgdclr2",  "b"     ],
-        \["LineNr",         "bgdclr4",  "bgdclr1",  "n"     ],
-        \["SignColumn",     "msgclr2",  "bgdclr2",  "n"     ],
-        \["TabLine",        "fgdclr4",  "bgdclr4",  "n"     ],
-        \["TabLineSel",     "fgdclr1",  "bgdclr0",  "b"     ],
-        \["TabLineFill",    "bgdclr9",  "bgdclr0",  "n"     ],
-        \["StatusLine",     "synclr2",  "bgdclr3",  "b"     ],
-        \["StatusLineNC",   "fgdclr2",  "bgdclr3",  "b"     ],
-        \["VertSplit",      "StatusLineNC"  ],
-        \["User1",          "bgdclr2",  "synclr1",  "r"     ],
-        \["User2",          "bgdclr2",  "synclr3",  "r"     ],
-        \["User3",          "bgdclr2",  "synclr5",  "r"     ],
-        \["User4",          "bgdclr2",  "synclr7",  "r"     ],
-        \["User5",          "fgdclr2",  "bgdclr3",  "b"     ],
-        \["User6",          "fgdclr2",  "bgdclr4",  "b"     ],
-        \["User7",          "fgdclr3",  "bgdclr4",  "b"     ],
-        \["User8",          "fgdclr3",  "bgdclr5",  "b"     ],
-        \["User9",          "fgdclr4",  "bgdclr5",  "b"     ],
-        \] "}}}
-"{{{ Flowery
-let s:hl_styles.Flowery = [
-        \["Cursor",         "bgdclr1",  "msgclr6",  "n"     ],
-        \["CursorS",        "bgdclr1",  "msgclr6",  "n"     ],
-        \["CursorIM",       "nocolor",  "msgclr4",  "n"     ],
-        \["CursorLine",     "nocolor",  "bgdclr1",  "n"     ],
-        \["CursorColumn",   "CursorLine"    ],
-        \["Visual",         "nocolor",  "bgdclr4",  "n"     ],
-        \["VisualNOS",      "nocolor",  "bgdclr3",  "n"     ],
-        \["Search",         "fgdclr2",  "bgdclr3",  "n"     ],
-        \["IncSearch",      "bgdclr0",  "msgclr2",  "b"     ],
-        \["Wildmenu",       "fgdclr1",  "bgdclr2",  "rb"    ],
-        \["Pmenu",          "fgdclr1",  "bgdclr4",  "n"     ],
-        \["PmenuSel",       "bgdclr8",  "bgdclr0",  "rb"    ],
-        \["PmenuSbar",      "fgdclr1",  "bgdclr5",  "n"     ],
-        \["PmenuThumb",     "bgdclr2",  "bgdclr4",  "n"     ],
-        \["Folded",         "bgdclr8",  "bgdclr2",  "n"     ],
-        \["ColorColumn",    "Folded"        ],
-        \["FoldColumn",     "bgdclr5",  "bgdclr1",  "b"     ],
-        \["LineNr",         "bgdclr1",  "bgdclr4",  "n"     ],
-        \["SignColumn",     "msgclr2",  "bgdclr1",  "n"     ],
-        \["TabLine",        "bgdclr0",  "bgdclr3",  "n"     ],
-        \["TabLineSel",     "fgdclr2",  "bgdclr0",  "b"     ],
-        \["TabLineFill",    "bgdclr0",  "bgdclr2",  "n"     ],
-        \["StatusLine",     "fgdclr1",  "bgdclr2",  "b"     ],
-        \["StatusLineNC",   "bgdclr5",  "bgdclr2",  "r"     ],
-        \["VertSplit",      "StatusLineNC"  ],
-        \["User1",          "bgdclr2",  "msgclr1",  "b"     ],
-        \["User2",          "bgdclr3",  "msgclr3",  "b"     ],
-        \["User3",          "bgdclr4",  "msgclr5",  "b"     ],
-        \["User4",          "bgdclr5",  "msgclr7",  "b"     ],
-        \["User5",          "bgdclr5",  "bgdclr1",  "b"     ],
-        \["User6",          "bgdclr7",  "bgdclr2",  "b"     ],
-        \["User7",          "bgdclr6",  "bgdclr2",  "b"     ],
-        \["User8",          "bgdclr5",  "bgdclr1",  "b"     ],
-        \["User9",          "bgdclr4",  "bgdclr1",  "b"     ],
-        \] "}}}
 "{{{ Shadow
 let s:hl_styles.Shadow = [
         \["Cursor",         "bgdclr1",  "msgclr8",  "n"     ],
@@ -349,26 +253,131 @@ let s:hl_styles.Shadow = [
         \["PmenuSbar",      "bgdclr6",  "bgdclr1",  "n"     ],
         \["PmenuThumb",     "bgdclr0",  "bgdclr5",  "n"     ],
         \["Wildmenu",       "bgdclr0",  "fgdclr0",  "rb"    ],
-        \["Folded",         "bgdclr7",  "bgdclr2",  "n"     ],
+        \["Folded",         "bgdclr8",  "bgdclr3",  "n"     ],
         \["ColorColumn",    "Folded"        ],
-        \["FoldColumn",     "bgdclr1",  "bgdclr2",  "b"     ],
-        \["LineNr",         "fgdclr3",  "bgdclr5",  "n"     ],
-        \["SignColumn",     "msgclr2",  "bgdclr2",  "n"     ],
+        \["FoldColumn",     "bgdclr7",  "bgdclr3",  "b"     ],
+        \["LineNr",         "fgdclr3",  "bgdclr4",  "n"     ],
+        \["SignColumn",     "msgclr2",  "bgdclr3",  "n"     ],
         \["TabLine",        "bgdclr9",  "bgdclr2",  "n"     ],
         \["TabLineSel",     "fgdclr1",  "bgdclr0",  "b"     ],
         \["TabLineFill",    "bgdclr0",  "bgdclr4",  "n"     ],
-        \["StatusLine",     "bgdclr0",  "bgdclr7",  "b"     ],
-        \["StatusLineNC",   "bgdclr4",  "bgdclr1",  "r"     ],
+        \["StatusLine",     "fgdclr0",  "bgdclr5",  "b"     ],
+        \["StatusLineNC",   "bgdclr1",  "bgdclr5",  "n"     ],
         \["VertSplit",      "StatusLineNC"  ],
         \["User1",          "bgdclr0",  "synclr1",  "b"     ],
-        \["User2",          "bgdclr1",  "synclr3",  "b"     ],
-        \["User3",          "bgdclr2",  "synclr5",  "b"     ],
-        \["User4",          "bgdclr3",  "synclr7",  "b"     ],
-        \["User5",          "bgdclr1",  "bgdclr5",  "b"     ],
-        \["User6",          "bgdclr2",  "bgdclr6",  "b"     ],
-        \["User7",          "bgdclr3",  "bgdclr7",  "b"     ],
-        \["User8",          "bgdclr4",  "bgdclr8",  "b"     ],
-        \["User9",          "bgdclr5",  "bgdclr9",  "b"     ],
+        \["User2",          "bgdclr0",  "synclr3",  "b"     ],
+        \["User3",          "bgdclr0",  "synclr5",  "b"     ],
+        \["User4",          "bgdclr0",  "synclr7",  "b"     ],
+        \["User5",          "bgdclr0",  "synclr9",  "b"     ],
+        \["User6",          "bgdclr0",  "msgclr1",  "b"     ],
+        \["User7",          "bgdclr0",  "msgclr3",  "b"     ],
+        \["User8",          "bgdclr0",  "msgclr5",  "b"     ],
+        \["User9",          "bgdclr0",  "msgclr7",  "b"     ],
+        \["User10",         "bgdclr0",  "msgclr9",  "b"     ],
+        \["User11",         "bgdclr9",  "bgdclr4",  "b"     ],
+        \["User12",         "bgdclr8",  "bgdclr3",  "b"     ],
+        \["User13",         "bgdclr7",  "bgdclr2",  "b"     ],
+        \["User14",         "bgdclr6",  "bgdclr1",  "b"     ],
+        \["User15",         "bgdclr9",  "bgdclr5",  "b"     ],
+        \["User16",         "bgdclr1",  "bgdclr6",  "b"     ],
+        \["User17",         "bgdclr2",  "bgdclr7",  "b"     ],
+        \["User18",         "bgdclr3",  "bgdclr8",  "b"     ],
+        \["User19",         "bgdclr4",  "bgdclr9",  "b"     ],
+        \] "}}}
+"{{{ Classic
+
+let s:hl_styles.Classic = [
+        \["Cursor",         "bgdclr1",  "msgclr7",  "n"     ],
+        \["CursorS",        "bgdclr1",  "msgclr7",  "n"     ],
+        \["CursorIM",       "nocolor",  "msgclr4",  "n"     ],
+        \["CursorLine",     "nocolor",  "bgdclr1",  "n"     ],
+        \["CursorColumn",   "CursorLine"    ],
+        \["Visual",         "nocolor",  "bgdclr4",  "n"     ],
+        \["VisualNOS",      "nocolor",  "bgdclr5",  "n"     ],
+        \["Search",         "fgdclr1",  "bgdclr3",  "n"     ],
+        \["IncSearch",      "bgdclr0",  "msgclr2",  "b"     ],
+        \["Wildmenu",       "msgclr1",  "bgdclr1",  "b"     ],
+        \["Pmenu",          "bgdclr8",  "bgdclr3",  "n"     ],
+        \["PmenuSel",       "fgdclr1",  "bgdclr1",  "rb"    ],
+        \["PmenuSbar",      "bgdclr0",  "bgdclr4",  "n"     ],
+        \["PmenuThumb",     "bgdclr7",  "bgdclr3",  "n"     ],
+        \["Folded",         "bgdclr8",  "bgdclr3",  "n"     ],
+        \["ColorColumn",    "Folded"        ],
+        \["FoldColumn",     "bgdclr7",  "bgdclr3",  "b"     ],
+        \["LineNr",         "fgdclr4",  "bgdclr3",  "n"     ],
+        \["SignColumn",     "msgclr2",  "bgdclr3",  "n"     ],
+        \["TabLine",        "fgdclr4",  "bgdclr4",  "n"     ],
+        \["TabLineSel",     "fgdclr1",  "bgdclr0",  "b"     ],
+        \["TabLineFill",    "bgdclr9",  "bgdclr0",  "n"     ],
+        \["StatusLine",     "fgdclr0",  "bgdclr5",  "b"     ],
+        \["StatusLineNC",   "bgdclr1",  "bgdclr5",  "n"     ],
+        \["VertSplit",      "StatusLineNC"  ],
+        \["User1",          "bgdclr6",  "synclr1",  "br"     ],
+        \["User2",          "bgdclr7",  "synclr3",  "br"     ],
+        \["User3",          "bgdclr8",  "synclr5",  "br"     ],
+        \["User4",          "bgdclr9",  "synclr7",  "br"     ],
+        \["User5",          "bgdclr0",  "synclr9",  "b"     ],
+        \["User6",          "bgdclr6",  "msgclr1",  "br"     ],
+        \["User7",          "bgdclr3",  "msgclr3",  "br"     ],
+        \["User8",          "bgdclr2",  "msgclr5",  "br"     ],
+        \["User9",          "bgdclr6",  "msgclr7",  "br"     ],
+        \["User10",         "bgdclr0",  "msgclr9",  "b"     ],
+        \["User11",         "bgdclr9",  "bgdclr4",  "b"     ],
+        \["User12",         "bgdclr8",  "bgdclr3",  "b"     ],
+        \["User13",         "bgdclr7",  "bgdclr2",  "b"     ],
+        \["User14",         "bgdclr6",  "bgdclr1",  "b"     ],
+        \["User15",         "bgdclr9",  "bgdclr5",  "b"     ],
+        \["User16",         "bgdclr0",  "bgdclr6",  "b"     ],
+        \["User17",         "bgdclr0",  "bgdclr7",  "b"     ],
+        \["User18",         "bgdclr0",  "bgdclr8",  "b"     ],
+        \["User19",         "bgdclr0",  "bgdclr9",  "b"     ],
+        \] "}}}
+"{{{ Colour
+let s:hl_styles.Colour = [
+        \["Cursor",         "bgdclr1",  "msgclr6",  "n"     ],
+        \["CursorS",        "bgdclr1",  "msgclr6",  "n"     ],
+        \["CursorIM",       "nocolor",  "msgclr4",  "n"     ],
+        \["CursorLine",     "nocolor",  "bgdclr1",  "n"     ],
+        \["CursorColumn",   "CursorLine"    ],
+        \["Visual",         "nocolor",  "bgdclr4",  "n"     ],
+        \["VisualNOS",      "nocolor",  "bgdclr3",  "n"     ],
+        \["Search",         "fgdclr2",  "bgdclr3",  "n"     ],
+        \["IncSearch",      "bgdclr0",  "msgclr2",  "b"     ],
+        \["Wildmenu",       "fgdclr1",  "bgdclr2",  "b"    ],
+        \["Pmenu",          "fgdclr1",  "bgdclr4",  "n"     ],
+        \["PmenuSel",       "bgdclr0",  "fgdclr0",  "b"    ],
+        \["PmenuSbar",      "fgdclr1",  "bgdclr5",  "n"     ],
+        \["PmenuThumb",     "bgdclr2",  "bgdclr4",  "n"     ],
+        \["Folded",         "bgdclr8",  "bgdclr3",  "n"     ],
+        \["ColorColumn",    "Folded"        ],
+        \["FoldColumn",     "bgdclr7",  "bgdclr3",  "b"     ],
+        \["LineNr",         "fgdclr2",  "bgdclr4",  "n"     ],
+        \["SignColumn",     "msgclr2",  "bgdclr3",  "n"     ],
+        \["TabLine",        "bgdclr3",  "fgdclr3",  "n"     ],
+        \["TabLineSel",     "fgdclr0",  "bgdclr0",  "b"     ],
+        \["TabLineFill",    "fgdclr9",  "fgdclr5",  "n"     ],
+        \["StatusLine",     "bgdclr0",  "fgdclr5",  "b"     ],
+        \["StatusLineNC",   "bgdclr5",  "fgdclr5",  "n"     ],
+        \["VertSplit",      "StatusLineNC"  ],
+        \["User1",          "bgdclr0",  "synclr1",  "b"     ],
+        \["User2",          "bgdclr0",  "synclr3",  "b"     ],
+        \["User3",          "bgdclr0",  "synclr5",  "b"     ],
+        \["User4",          "bgdclr0",  "synclr7",  "b"     ],
+        \["User5",          "bgdclr0",  "synclr9",  "b"     ],
+        \["User6",          "bgdclr0",  "msgclr1",  "b"     ],
+        \["User7",          "bgdclr0",  "msgclr3",  "b"     ],
+        \["User8",          "bgdclr0",  "msgclr5",  "b"     ],
+        \["User9",          "bgdclr0",  "msgclr7",  "b"     ],
+        \["User10",         "bgdclr0",  "msgclr0",  "b"     ],
+        \["User11",         "bgdclr3",  "fgdclr6",  "b"     ],
+        \["User12",         "bgdclr3",  "fgdclr7",  "b"     ],
+        \["User13",         "bgdclr3",  "fgdclr8",  "b"     ],
+        \["User14",         "bgdclr3",  "fgdclr9",  "b"     ],
+        \["User15",         "bgdclr3",  "fgdclr5",  "b"     ],
+        \["User16",         "bgdclr3",  "fgdclr4",  "b"     ],
+        \["User17",         "bgdclr3",  "fgdclr3",  "b"     ],
+        \["User18",         "bgdclr3",  "fgdclr2",  "b"     ],
+        \["User19",         "bgdclr3",  "fgdclr1",  "b"     ],
         \] "}}}
 " "{{{ Default
 " let s:hl_styles.Default = [
@@ -454,8 +463,7 @@ let s:default_schemes=[
         \["Wine"     ,"0D0609","9C9B94","A37B5F","59FF6A","506792"],
         \["Spring"   ,"D5E6A1","363836","496791","FF5B3E","DBC683"],
         \["MoonNight","060F1A","B4B6B8","7FA5B8","DBBF42","6D98B6"],
-        \["Factory"  ,"050505","A6A6A6","8296B3","4DDBAB","6D70B6"],
-        \["Village"  ,"B1E6AC","362020","324F7D","526600","DBCC78"],
+        \["Village"  ,"B1E6AC","362020","324F7D","187AA3","DBCC78"],
         \["Slates"   ,"F2EFE4","3E465C","386599","9958E1","D9B2AD"],
         \["InkGreen" ,"0A0D07","A9BA93","8682D1","FF7236","5E7091"],
         \]
@@ -852,75 +860,155 @@ function! s:clear_indent_hl() "{{{
 endfunction "}}}
 " STAT"{{{1
 "======================================================================
+function! galaxy#statusline(cur) "{{{
+    let [mode,num,file,env,stat,ro,ft,pos,pos2] = [
+            \'%2{GalaxyMode('.a:cur.')} ',  '%3n. ',
+            \' %<%F %= ',                   '%(%{GalaxyEnv()} %)',
+            \'%(%{GalaxyStat()} %)',         '%( %M%R %)',                
+            \'%( %Y %)',                    '%5l,%-3c %P ',  
+            \'%5l,%-3c %3p '
+            \]
+
+    " User-*
+    let n0 = 0       
+    let [c1,c2,c3,c4,c5] = [1 , 2, 3, 4, 5]
+    let [m1,m2,m3,m4,m5] = [6 , 7, 8, 9,10]
+    let [l1,l2,l3,l4,l0] = [11,12,13,14,15]
+    let [d1,d2,d3,d4,d0] = [16,17,18,19,15]
+
+    let line =""
+    if     a:cur == 1 && g:galaxy_statusline_style == "Left"
+        let line.= s:clr(m5,mode)
+        let line.= s:clr(m1,env)
+        let line.= s:clr(d0,num)
+        let line.= s:clr(n0,file)
+        let line.= s:clr(l1,pos)
+        let line.= s:clr(m2,ro)
+        let line.= s:clr(m3,ft)
+        let line.= s:clr(m4,stat)
+    elseif a:cur == 0 && g:galaxy_statusline_style == "Left"
+        let line.= s:clr(d2,mode)
+        let line.= s:clr(d1,env)
+        let line.= s:clr(d0,num)
+        let line.= s:clr(n0,file)
+        let line.= s:clr(l1,pos)
+        let line.= s:clr(l2,ro)
+        let line.= s:clr(l3,ft)
+        let line.= s:clr(l4,stat)
+    elseif a:cur == 1 && g:galaxy_statusline_style == "Right"
+        let line.= s:clr(l2,num)
+        let line.= s:clr(l1,pos2)
+        let line.= s:clr(n0,file)
+        let line.= s:clr(c1,env)
+        let line.= s:clr(c2,stat)
+        let line.= s:clr(c3,ro)
+        let line.= s:clr(c4,ft)
+        let line.= s:clr(c5,mode)
+    elseif a:cur == 0 && g:galaxy_statusline_style == "Right"
+        let line.= s:clr(l2,num)
+        let line.= s:clr(l1,pos2)
+        let line.= s:clr(n0,file)
+        let line.= s:clr(d1,env)
+        let line.= s:clr(d2,stat)
+        let line.= s:clr(d3,ro)
+        let line.= s:clr(d3,ft)
+        let line.= s:clr(d4,mode)
+    elseif g:galaxy_statusline_style == "Test"
+        let line.= s:clr( 0,"  0 ")
+        let line.= s:clr( 1,"  1 ")
+        let line.= s:clr( 2,"  2 ")
+        let line.= s:clr( 3,"  3 ")
+        let line.= s:clr( 4,"  4 ")
+        let line.= s:clr( 5,"  5 ")
+        let line.= s:clr( 6,"  6 ")
+        let line.= s:clr( 7,"  7 ")
+        let line.= s:clr( 8,"  8 ")
+        let line.= s:clr( 9,"  9 ")
+        let line.= s:clr(10," 10 ")
+        let line.= s:clr(11," 11 ")
+        let line.= s:clr(12," 12 ")
+        let line.= s:clr(13," 13 ")
+        let line.= s:clr(14," 14 ")
+        let line.= s:clr(15," 15 ")
+        let line.= s:clr(16," 16 ")
+        let line.= s:clr(17," 17 ")
+        let line.= s:clr(18," 18 ")
+        let line.= s:clr(19," 19 ")
+    endif
+    return line
+endfunction "}}}
+function! galaxy#update_line(nr) "{{{
+    let &l:stl= '%!galaxy#statusline('.a:nr.')'
+endfunction "}}}
 function! s:statusline_aug() "{{{
-    if version >= 700 "{{{
-        let s:list_insert_enter = []
-        let s:list_insert_leave = []
-        let hl_grp = ["StatusLine","User1","User2","User3",
-                    \"User4","User5","User6","User7","User8","User9",]
-        let hl_list = (s:hl_styles[s:scheme.style] + s:default_hl)
-        for grp in hl_grp
-            for item in hl_list
-                if item[0] == grp
-                    call add(s:list_insert_leave,item)
+    aug galaxy#winenter
+        au!
+        au! GUIEnter,BufWinEnter,WinEnter * call galaxy#update_line(1)
+        au! WinLeave                      * call galaxy#update_line(0)
+    aug END
 
-                    let _item = copy(item)
-                    if grp =~? '^StatusLine$'
-                        let statline_fg = item[1]
-                        let statline_bg = item[2]
+    " call galaxy#update_line(1)
+    let &stl = '%!galaxy#statusline(0)'
+
+    if version <= 700 ||  g:galaxy_statusline_blink != 1 
+        return
+    endif
+
+    let s:list_insert_enter = []
+    let s:list_insert_leave = []
+    let hl_grp = ["StatusLine","User1","User2","User3",
+                \"User4","User5","User6","User7","User8","User9",]
+    let hl_list = (s:hl_styles[s:scheme.style] + s:default_hl)
+    for grp in hl_grp
+        for item in hl_list
+            if item[0] == grp
+                call add(s:list_insert_leave,item)
+
+                let _item = copy(item)
+                if grp =~? '^StatusLine$'
+                    let statline_fg = item[1]
+                    let statline_bg = item[2]
+                    " if s:scheme.style =~? 'Classic'
+                    "     let [_item[2],_item[1]] = _item[1:2]
+                    " endif
+                elseif grp =~? '^User\d$'
+                    if exists("s:scheme.style")
                         if s:scheme.style =~? 'Classic'
-                            let [_item[2],_item[1]] = _item[1:2]
+                            if grp =~ '[123456789]'
+                                let _item[2] = statline_bg
+                                let _item[1] = "msgclr2"
+                            endif
                         endif
-                    elseif grp =~? '^User\d$'
-                        if exists("s:scheme.style")
-                            " if s:scheme.style =~? 'Classic'
-                            "     if grp =~ '[1234]'
-                            "         let _item[2] = statline_bg
-                            "         let _item[1] = "msgclr3"
-                            "     endif
-                            " endif
-                            if s:scheme.style =~? 'Colour'
-                                if grp =~ '[1234]'
-                                    let _item[1] = statline_bg
-                                    let _item[2] = "msgclr3"
-                                endif
+                        if s:scheme.style =~? 'Colour'
+                            if grp =~ '[123456789]'
+                                let _item[1] = statline_bg
+                                let _item[2] = "msgclr4"
                             endif
-                            if s:scheme.style =~? 'Flowery'
-                                if grp =~ '[1234]'
-                                    " let _item[1] = statline_bg
-                                    let _item[2] = "msgclr1"
-
-                                endif
-                            endif
-                            if s:scheme.style =~? 'Default'
-                                if grp =~ '[1234]'
-                                    let _item[1] = statline_bg
-                                    let _item[2] = "msgclr3"
-                                endif
-                            endif
-                            if s:scheme.style =~? 'Shadow'
-                                if grp =~ '[1234]'
-                                    " let _item[1] = statline_bg
-                                    let _item[2] = "msgclr5"
-                                endif
+                        endif
+                        if s:scheme.style =~? 'Shadow'
+                            if grp =~ '[123456789]'
+                                " let _item[1] = statline_bg
+                                let _item[2] = "msgclr6"
                             endif
                         endif
                     endif
-                    call add(s:list_insert_enter,_item)
-                    break
                 endif
-            endfor
+                call add(s:list_insert_enter,_item)
+                break
+            endif
         endfor
+    endfor
 
-        aug galaxy#insertenter
-            au!
-            au InsertEnter * call s:hi_list(s:list_insert_enter)
-            au InsertLeave * call s:hi_list(s:list_insert_leave)
-        aug END
-    endif "}}}
+    aug galaxy#insertenter
+        au!
+        au InsertEnter * call s:hi_list(s:list_insert_enter)
+        au InsertLeave * call s:hi_list(s:list_insert_leave)
+    aug END
 endfunction "}}}
 function! s:statusline_term16_aug() "{{{
-if version >= 700 "{{{
+    if version <= 700 ||  g:galaxy_statusline_blink != 1
+        return
+    endif
     if s:y <=50
         let s:list_insert_enter=[
             \["StatusLine",     "Gray",  "Blue",  "n"     ],
@@ -958,7 +1046,6 @@ if version >= 700 "{{{
         au InsertEnter * call s:hi_list(s:list_insert_enter)
         au InsertLeave * call s:hi_list(s:list_insert_leave)
     aug END
-endif "}}}
 endfunction "}}}
 function! s:term_cursor() "{{{
     if &t_Co <=16
@@ -1002,13 +1089,6 @@ function! s:term_cursor() "{{{
         exec au_cmd
     aug END
 endfunction "}}}
-function! GalaxyMode() "{{{
-    let val= mode()
-    if &paste | let val .= ' P' | endif
-    if &diff  | let val .= ' D' | endif
-    if &list  | let val .= ' L' | endif
-    return val
-endfunction "}}}
 let s:env_loaded = 0
 function! s:load_env() "{{{
     " load after all autoload/files loaded
@@ -1046,8 +1126,8 @@ function! GalaxyEnv() "{{{
         let l = fugitive#statusline()
         if !empty(l)
             let val.= " ".substitute(l,
-                        \',\=GIT(\([-:[:alnum:]]\+\))','G:[\1]','')
-        endif
+                        \'.*,\=GIT(\([-:[:alnum:]]\+\)).*','G:[\1]','')
+        endif 
     endif
     if g:galaxy_env_virtualenv && exists("$VIRTUAL_ENV")
         let val.= " V:[".fnamemodify($VIRTUAL_ENV,":t")."]"
@@ -1057,24 +1137,50 @@ function! GalaxyEnv() "{{{
     endif
     if &enc == g:galaxy_default_enc
         " pass
-    elseif &enc == "utf-8"
-        let val.= " U8"
-    elseif &enc == "utf-16"
-        let val.= " U16"
-    elseif &enc == "latin1"
-        let val.= " LA1"
-    elseif &enc =~ '^gb'
-        let val.= " GB"
-    else
-        let val.= " ".&enc
+    elseif &enc == "utf-8"  | let val.= " U8"
+    elseif &enc == "utf-16" | let val.= " U16"
+    elseif &enc == "utf-32" | let val.= " U32"
+    elseif &enc == "latin1" | let val.= " LA1"
+    elseif &enc =~ '^gb'    | let val.= " GB"
+    else                    | let val.= " ".&enc
     endif
     if val =~ '^\s*$'
         return ""
     else
-        return val." "
+        return val
     endif
 endfunction "}}}
-
+function! GalaxyMode(n) "{{{
+    if a:n == 0
+        return '~'
+    endif
+    let val= ''
+    let m = mode()
+    if     m == '' | let val = 'CV'
+    elseif m == '' | let val = 'CS'
+    else             | let val = m
+    endif
+    return val
+endfunction "}}}
+function! GalaxyStat() "{{{
+    let val = ""
+    if &paste | let val .= " Pst" | endif
+    if &diff  | let val .= " Dif" | endif
+    if &list  | let val .= " Lst" | endif
+    if &bin   | let val .= " Bin" | endif
+    if !empty(val)  | return val
+    else            | return ""
+    endif
+endfunction "}}}
+function! s:clr(clr,str) "{{{
+    if a:clr == 0
+        return '%*'.a:str
+    elseif a:clr >= 10
+        return '%#User'.a:clr.'#'.a:str
+    else
+        return '%'.a:clr.'*'.a:str
+    endif
+endfunction "}}}
 " CLRS"{{{1
 "======================================================================
 function! s:gen_base_colors(colors) "{{{
@@ -1082,14 +1188,21 @@ function! s:gen_base_colors(colors) "{{{
     let NOCYCLE = 0
     let [bgd, fgd, syn, msg, dif] = a:colors
     
-    " more darker/lighter than background color bgdclr0
-    if s:y < 50
+    "NOTE: more darker/lighter than background color bgdclr0
+    if s:y < 40
         let y_sign = 1
     else
         let y_sign = -1
     endif
 
-    let s:bgdclr_list=colorv#list_gen(bgd,"Value",10,y_sign*5,NOCYCLE)
+    " NOTE: add value adjust to dark background
+    let [h,s,v] = colorv#hex2hsv(bgd)
+    if (h >=200 && h <= 280 )
+        let bf = 1.5
+    else
+        let bf = 1
+    endif
+    let s:bgdclr_list=colorv#list_gen(bgd,"Value",10,y_sign*(5*bf),NOCYCLE)
     let s:fgdclr_list=colorv#list_gen(fgd,"Value",10,(-y_sign*5),NOCYCLE)
     let s:synclr_list=colorv#yiq_list_gen(syn,"Hue",10,35)
     let s:msgclr_list=colorv#yiq_list_gen(msg,"Hue",10,35)
@@ -3038,19 +3151,10 @@ function! s:load_c255(...) "{{{
                     \["VisualNOS",   "bgdclr2",  "bgdclr8",  "n"     ]])
     endif
     
-    " StatusLine
-    if g:galaxy_statusline_blink == 1
-        call s:statusline_aug()
-    endif
 
-    if g:galaxy_auto_statusline == 1
-        if g:galaxy_statusline_style == "Left"
-            let &statusline = g:galaxy_statusline_left
-        elseif g:galaxy_statusline_style == "Right"
-            let &statusline = g:galaxy_statusline_right
-        else
-            let &statusline = g:galaxy_statusline_test
-        endif
+    if g:galaxy_enable_statusline == 1
+        " StatusLine
+            call s:statusline_aug()
     endif
     
     " Indent Highlight
@@ -3107,19 +3211,10 @@ function! s:load_c16(...) "{{{
 
     call s:hi_Tlis(s:term_hl_list)
 
-    if g:galaxy_auto_statusline == 1
-        if g:galaxy_statusline_style == "Left"
-            let &statusline = g:galaxy_statusline_left
-        elseif g:galaxy_statusline_style == "Right"
-            let &statusline = g:galaxy_statusline_right
-        else
-            let &statusline = g:galaxy_statusline_test
-        endif
-    endif
-
-    if g:galaxy_statusline_blink == 1
+    if g:galaxy_enable_statusline == 1
         call s:statusline_term16_aug()
     endif
+
 
     if g:galaxy_enable_indent_hl == 1
         call s:indent_hl_aug()
