@@ -42,7 +42,6 @@ Post issues at https://github.com/Rykka/vim-galaxy
 
 ##INSTALL:##
 
-**NOTE:**   ColorV required. https://github.com/Rykka/ColorV
 
 1. Using Vundle  https://github.com/gmarik/vundle 
 
@@ -55,6 +54,8 @@ Post issues at https://github.com/Rykka/vim-galaxy
     Extract to your ~/.vim folder.
     `:helptags ~/.vim/doc`
     
+**NOTE**   ColorV required. https://github.com/Rykka/ColorV
+
 **NOTE**   Get Latest version
            https://github.com/Rykka/ColorV/
            https://github.com/Rykka/vim-galaxy/

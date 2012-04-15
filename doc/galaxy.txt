@@ -54,7 +54,6 @@
 ------------------------------------------------------------------------------
  1.1 INSTALL                                            *galaxy-install*
 
-    NOTE  ColorV required. https://github.com/Rykka/ColorV
 
 1.Using [Vundle.vim] https://github.com/gmarik/vundle 
 
@@ -66,6 +65,8 @@
     
     Extract to your ~/.vim folder
     :helptags ~/.vim/doc
+
+    NOTE   ColorV required. https://github.com/Rykka/ColorV
 
     NOTE   Get Latest version
            https://github.com/Rykka/ColorV/
