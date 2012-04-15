@@ -80,6 +80,7 @@ if has("gui_running")
 else
     let s:mode="cterm"
 endif
+let s:bgy = "dark"
 
 " constants "{{{
 let s:nocolor = "NONE"
@@ -313,16 +314,16 @@ let s:hl_styles.Classic = [
         \["StatusLine",     "fgdclr0",  "bgdclr5",  "b"     ],
         \["StatusLineNC",   "bgdclr1",  "bgdclr5",  "n"     ],
         \["VertSplit",      "StatusLineNC"  ],
-        \["User1",          "bgdclr6",  "synclr1",  "br"     ],
-        \["User2",          "bgdclr7",  "synclr3",  "br"     ],
-        \["User3",          "bgdclr8",  "synclr5",  "br"     ],
-        \["User4",          "bgdclr9",  "synclr7",  "br"     ],
-        \["User5",          "bgdclr0",  "synclr9",  "b"     ],
-        \["User6",          "bgdclr4",  "msgclr1",  "br"     ],
-        \["User7",          "bgdclr3",  "msgclr3",  "br"     ],
-        \["User8",          "bgdclr2",  "msgclr5",  "br"     ],
-        \["User9",          "bgdclr6",  "msgclr7",  "br"     ],
-        \["User10",         "bgdclr0",  "msgclr9",  "b"     ],
+        \["User1",          "bgdclr6",  "msgclr1",  "br"     ],
+        \["User2",          "bgdclr7",  "msgclr3",  "br"     ],
+        \["User3",          "bgdclr8",  "msgclr5",  "br"     ],
+        \["User4",          "bgdclr9",  "msgclr7",  "br"     ],
+        \["User5",          "bgdclr0",  "msgclr9",  "b"     ],
+        \["User6",          "bgdclr4",  "synclr1",  "br"     ],
+        \["User7",          "bgdclr3",  "synclr3",  "br"     ],
+        \["User8",          "bgdclr2",  "synclr5",  "br"     ],
+        \["User9",          "bgdclr6",  "synclr7",  "br"     ],
+        \["User10",         "bgdclr0",  "synclr9",  "b"     ],
         \["User11",         "bgdclr9",  "bgdclr4",  "b"     ],
         \["User12",         "bgdclr8",  "bgdclr3",  "b"     ],
         \["User13",         "bgdclr7",  "bgdclr2",  "b"     ],
@@ -863,14 +864,14 @@ endfunction "}}}
 "======================================================================
 function! galaxy#statusline(cur) "{{{
     let [mode,num,file,env,stat,ro,ft,pos,pos2] = [
-            \'%2{GalaxyMode('.a:cur.')} ',  '%3n. ',
-            \' %<%F %= ',                   '%(%{GalaxyEnv()} %)',
-            \'%(%{GalaxyStat()} %)',         '%( %M%R %)',                
-            \'%( %Y %)',                    '%5l,%-3c %P ',  
+            \'%2{galaxy#mode()} ',  '%3n. ',
+            \' %<%F %= ',                   '%(%{galaxy#env()} %)',
+            \'%(%{galaxy#stat()} %)',         '%( %M%R %)',                
+            \'%( %Y%( %{galaxy#fflag()}%) %)', '%5l,%-3c %P ',  
             \'%5l,%-3c %3p '
             \]
 
-    " User-*
+    " hl-User*
     let n0 = 0       
     let [c1,c2,c3,c4,c5] = [1 , 2, 3, 4, 5]
     let [m1,m2,m3,m4,m5] = [6 , 7, 8, 9,10]
@@ -880,22 +881,22 @@ function! galaxy#statusline(cur) "{{{
     let line =""
     if     a:cur == 1 && g:galaxy_statusline_style == "Left"
         let line.= s:clr(m5,mode)
+        let line.= s:clr(d2,num)
         let line.= s:clr(m4,env)
-        let line.= s:clr(d0,num)
         let line.= s:clr(n0,file)
         let line.= s:clr(m1,ro)
         let line.= s:clr(m2,ft)
         let line.= s:clr(m3,stat)
-        let line.= s:clr(l2,pos)
+        let line.= s:clr(l3,pos)
     elseif a:cur == 0 && g:galaxy_statusline_style == "Left"
-        let line.= s:clr(d2,mode)
+        let line.= s:clr(d3," ~ ")
+        let line.= s:clr(d2,num)
         let line.= s:clr(d1,env)
-        let line.= s:clr(d0,num)
         let line.= s:clr(n0,file)
         let line.= s:clr(l1,ro)
         let line.= s:clr(l2,ft)
         let line.= s:clr(l3,stat)
-        let line.= s:clr(l2,pos)
+        let line.= s:clr(l3,pos)
     elseif a:cur == 1 && g:galaxy_statusline_style == "Right"
         let line.= s:clr(l2,num)
         let line.= s:clr(l1,pos2)
@@ -913,7 +914,7 @@ function! galaxy#statusline(cur) "{{{
         let line.= s:clr(d2,stat)
         let line.= s:clr(d3,ro)
         let line.= s:clr(d3,ft)
-        let line.= s:clr(d4,mode)
+        let line.= s:clr(d4," ~ ")
     elseif g:galaxy_statusline_style == "Test"
         let line.= s:clr( 0,"  0 ")
         let line.= s:clr( 1,"  1 ")
@@ -957,47 +958,34 @@ function! s:statusline_aug() "{{{
 
     let s:list_insert_enter = []
     let s:list_insert_leave = []
-    let hl_grp = ["StatusLine","User1","User2","User3",
-                \"User4","User5","User6","User7","User8","User9",]
-    let hl_list = (s:hl_styles[s:scheme.style] + s:default_hl)
-    for grp in hl_grp
-        for item in hl_list
-            if item[0] == grp
-                call add(s:list_insert_leave,item)
+    for item in s:hl_styles[s:scheme.style]
+        if item[0] =~ '^User\d\+$'
+            call add(s:list_insert_leave,item)
 
-                let _item = copy(item)
-                if grp =~? '^StatusLine$'
-                    let statline_fg = item[1]
-                    let statline_bg = item[2]
-                    " if s:scheme.style =~? 'Classic'
-                    "     let [_item[2],_item[1]] = _item[1:2]
-                    " endif
-                elseif grp =~? '^User\d$'
-                    if exists("s:scheme.style")
-                        if s:scheme.style =~? 'Classic'
-                            if grp =~ '[123456789]'
-                                let _item[2] = statline_bg
-                                let _item[1] = "msgclr2"
-                            endif
-                        endif
-                        if s:scheme.style =~? 'Colour'
-                            if grp =~ '[123456789]'
-                                let _item[1] = statline_fg
-                                let _item[2] = "msgclr4"
-                            endif
-                        endif
-                        if s:scheme.style =~? 'Shadow'
-                            if grp =~ '[123456789]'
-                                " let _item[1] = statline_bg
-                                let _item[2] = "msgclr6"
-                            endif
-                        endif
-                    endif
+            let d = substitute(item[0],'User\(\d\+\)','\1','')
+
+            let _item = copy(item)
+            if     s:scheme.style =~? 'Classic'
+                if (d>=1 && d<=4) || (d>=6 && d<=9)
+                    let _item[2] = "bgdclr0"
+                    let _item[1] = "msgclr2"
+                elseif d==5 || d==10
+                    let _item[1] = "bgdclr0"
+                    let _item[2] = "msgclr2"
                 endif
-                call add(s:list_insert_enter,_item)
-                break
+            elseif s:scheme.style =~? 'Colour'
+                if  d>=1 && d<=10
+                    let _item[1] = "bgdclr0"
+                    let _item[2] = "msgclr5"
+                endif
+            elseif s:scheme.style =~? 'Shadow'
+                if  d>=1 && d<=10
+                    let _item[1] = "bgdclr0"
+                    let _item[2] = "msgclr8"
+                endif
             endif
-        endfor
+            call add(s:list_insert_enter,_item)
+        endif
     endfor
 
     aug galaxy#insertenter
@@ -1010,36 +998,38 @@ function! s:statusline_term16_aug() "{{{
     if version <= 700 ||  g:galaxy_statusline_blink != 1
         return
     endif
-    if s:y <=50
+    if s:bgy == "dark"
         let s:list_insert_enter=[
-            \["StatusLine",     "Gray",  "Blue",  "n"     ],
-            \["User1",          "Red",  "Blue",  "n"     ],
-            \["User2",          "Magenta",  "Blue",  "n"     ],
-            \["User3",          "Cyan",  "Blue",  "n"     ],
-            \["User4",          "Green",  "Blue",  "n"     ],
-            \["User5",          "Blue",  "Blue",  "n"     ],
-            \["User6",          "Yellow",  "Blue",  "n"     ],
+            \["StatusLine" , "Gray"    , "Blue" , "n" ],
+            \["User1"      , "Red"     , "Blue" , "n" ],
+            \["User2"      , "Magenta" , "Blue" , "n" ],
+            \["User3"      , "Cyan"    , "Blue" , "n" ],
+            \["User4"      , "Green"   , "Blue" , "n" ],
+            \["User5"      , "Blue"    , "Blue" , "n" ],
+            \["User6"      , "Yellow"  , "Blue" , "n" ],
+            \["User7"      , "Gray"    , "Blue" , "n" ],
+            \["User8"      , "Yellow"  , "Blue" , "n" ],
+            \["User9"      , "Yellow"  , "Blue" , "n" ],
             \]
     else
         let s:list_insert_enter=[
-            \["StatusLine",     "Black",  "Yellow",  "n"     ],
-            \["User1",          "Red",  "Yellow",  "n"     ],
-            \["User2",          "Magenta",  "Yellow",  "n"     ],
-            \["User3",          "Cyan",  "Yellow",  "n"     ],
-            \["User4",          "Green",  "Yellow",  "n"     ],
-            \["User5",          "Blue",  "Yellow",  "n"     ],
-            \["User6",          "Yellow",  "Yellow",  "n"     ],
+            \["StatusLine" , "Black"   , "Yellow" , "n" ],
+            \["User1"      , "Red"     , "Yellow" , "n" ],
+            \["User2"      , "Magenta" , "Yellow" , "n" ],
+            \["User3"      , "Cyan"    , "Yellow" , "n" ],
+            \["User4"      , "Green"   , "Yellow" , "n" ],
+            \["User5"      , "Blue"    , "Yellow" , "n" ],
+            \["User6"      , "Black"   , "Yellow" , "n" ],
+            \["User7"      , "Blue"    , "Yellow" , "n" ],
+            \["User8"      , "Black"   , "Yellow" , "n" ],
+            \["User9"      , "Black"   , "Yellow" , "n" ],
             \]
     endif
         let s:list_insert_leave =[]
-        let hl_grp = ["StatusLine","User1","User2","User3",
-                    \"User4","User5","User6"]
         for item in s:term_hl_list
-            for grp in hl_grp
-                if item[0] == grp
-                    call add(s:list_insert_leave,item)
-                endif
-            endfor
+            if item[0] =~ '^User\d\+$\|StatusLine'
+                call add(s:list_insert_leave, item)
+            endif
         endfor
 
     aug galaxy#insertenter
@@ -1050,7 +1040,7 @@ function! s:statusline_term16_aug() "{{{
 endfunction "}}}
 function! s:term_cursor() "{{{
     if &t_Co <=16
-        if s:y < 50
+        if s:bgy=="dark"
             let color_normal="Cyan"
             let color_insert="Red"
         else
@@ -1094,23 +1084,27 @@ let s:env_loaded = 0
 function! s:load_env() "{{{
     " load after all autoload/files loaded
     if exists("*SyntasticStatuslineFlag") "{{{
-        let g:syntastic_stl_format = 'S:[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
         call s:default("g:galaxy_env_syntastic", 1)
+        let g:syntastic_stl_format = '[%E{Err:%fe #%e}%B{, }%W{Warn:%fw #%w}]'
     else
-        call s:default("g:galaxy_env_syntastic", 0)
+        " call s:default("g:galaxy_env_syntastic", 0)
+        let g:galaxy_env_syntastic = 0
     endif "}}}
     if exists("*fugitive#statusline") "{{{
         call s:default("g:galaxy_env_fugitive", 1)
     else
-        call s:default("g:galaxy_env_fugitive", 0)
+        " call s:default("g:galaxy_env_fugitive", 0)
+        let g:galaxy_env_fugitive = 0_
     endif "}}}
     if has("python") "{{{
         call s:default("g:galaxy_env_virtualenv", 1)
     else
-        call s:default("g:galaxy_env_virtualenv", 0)
+        " call s:default("g:galaxy_env_virtualenv", 0)
+        let g:galaxy_env_virtualenv = 0
     endif "}}}
 endfunction "}}}
-function! GalaxyEnv() "{{{
+function! galaxy#env() "{{{
+
     if s:env_loaded == 0
         call s:load_env()
         let s:env_loaded = 1
@@ -1120,18 +1114,21 @@ function! GalaxyEnv() "{{{
     if g:galaxy_env_syntastic
         let s = SyntasticStatuslineFlag()
         if !empty(s)
-            let val.=" ".s
+            let val.=" S:".s
         endif
     endif
     if g:galaxy_env_fugitive
         let l = fugitive#statusline()
         if !empty(l)
             let val.= " ".substitute(l,
-                        \'.*,\=GIT(\([-:[:alnum:]]\+\)).*','G:[\1]','')
+                        \'.*GIT(\([-:[:alnum:]]\+\)).*','G:[\1]','')
         endif 
     endif
     if g:galaxy_env_virtualenv && exists("$VIRTUAL_ENV")
-        let val.= " V:[".fnamemodify($VIRTUAL_ENV,":t")."]"
+        let v = fnamemodify($VIRTUAL_ENV,":t")
+        if !empty(v)
+            let val.= " V:[".v."]"
+        endif
     endif
     if val =~ '^\s*$'
         return ""
@@ -1139,10 +1136,7 @@ function! GalaxyEnv() "{{{
         return val
     endif
 endfunction "}}}
-function! GalaxyMode(n) "{{{
-    if a:n == 0
-        return '~'
-    endif
+function! galaxy#mode() "{{{
     let val= ''
     let m = mode()
     if     m == '' | let val = 'CV'
@@ -1151,24 +1145,32 @@ function! GalaxyMode(n) "{{{
     endif
     return val
 endfunction "}}}
-function! GalaxyStat() "{{{
+function! galaxy#fflag() "{{{
+    let val = ""
+
+    if &ff != g:galaxy_default_ff
+        let val.= " ".toupper(&ff[:3])
+    endif
+    let enc = &enc
+    if enc == g:galaxy_default_enc
+        " pass
+    elseif enc == "utf-8"  | let val.= " U8"
+    elseif enc == "utf-16" | let val.= " 16"
+    elseif enc == "utf-32" | let val.= " 32"
+    elseif enc == "latin1" | let val.= " L1"
+    elseif enc =~ '^gb'    | let val.= " GB"
+    else                   | let val.= " ".&enc
+    endif
+    if !empty(val)  | return val
+    else            | return ""
+    endif
+endfunction "}}}
+function! galaxy#stat() "{{{
     let val = ""
     if &paste | let val .= " Pst" | endif
     if &diff  | let val .= " Dif" | endif
     if &list  | let val .= " Lst" | endif
     if &bin   | let val .= " Bin" | endif
-    if &ff != g:galaxy_default_ff
-        let val.= " ".toupper(&ff[:2])
-    endif
-    if &enc == g:galaxy_default_enc
-        " pass
-    elseif &enc == "utf-8"  | let val.= " U8"
-    elseif &enc == "utf-16" | let val.= " U16"
-    elseif &enc == "utf-32" | let val.= " U32"
-    elseif &enc == "latin1" | let val.= " LA1"
-    elseif &enc =~ '^gb'    | let val.= " GB"
-    else                    | let val.= " ".&enc
-    endif
     if !empty(val)  | return val
     else            | return ""
     endif
@@ -1189,14 +1191,12 @@ function! s:gen_base_colors(colors) "{{{
     let NOCYCLE = 0
     let [bgd, fgd, syn, msg, dif] = a:colors
     
-    "NOTE: more darker/lighter than background color bgdclr0
-    if s:y < 40
-        let y_sign = 1
-    else
-        let y_sign = -1
+    " NOTE: more darker/lighter than background color bgdclr0
+    if s:bgy=="dark" | let y_sign = 1
+    else             | let y_sign = -1
     endif
 
-    " NOTE: add value adjust to dark background
+    " NOTE: add value to adjust dark background of blue and purple
     let [h,s,v] = colorv#hex2hsv(bgd)
     if (h >=200 && h <= 280 )
         let bf = 1.5
@@ -1338,9 +1338,9 @@ function! s:hi_list(list) "{{{
         endif
     endfor
 endfunction "}}}
-function! s:set_background(L) "{{{
+function! s:set_background() "{{{
     " XXX: there maybe errors of &background in terminal
-    if a:L<=50
+    if s:bgy=="dark"
         if exists("g:colors_name")
             unlet g:colors_name
         endif
@@ -3121,8 +3121,12 @@ function! s:load_c255(...) "{{{
     call s:debug("init:".string(cache)." ".string(scheme))
     
     " get lumination and set background
-    let s:y = colorv#hex2yiq(scheme.colors[0])[0]
-    call s:set_background(s:y)
+    let [y,i,q] = colorv#hex2yiq(scheme.colors[0])
+    if y <= 40  | let s:bgy="dark"
+    else        | let s:bgy="light"
+    endif
+
+    call s:set_background()
 
     "generate base colors:bgd/fgd/syn/msg/dif
     call s:gen_base_colors(scheme.colors)
@@ -3155,7 +3159,7 @@ function! s:load_c255(...) "{{{
 
     if g:galaxy_enable_statusline == 1
         " StatusLine
-            call s:statusline_aug()
+        call s:statusline_aug()
     endif
     
     " Indent Highlight
@@ -3190,10 +3194,13 @@ function! s:load_c16(...) "{{{
     let scheme = s:get_scheme(name,style)
     let s:scheme = scheme
 
-    let s:y = colorv#hex2yiq(s:scheme.colors[0])[0]
+    let [y,i,q] = colorv#hex2yiq(s:scheme.colors[0])[0]
+    if y <= 40  | let s:bgy="dark"
+    else        | let s:bgy="light"
+    endif
     
     if &t_Co == 16
-        if s:y <=50
+        if s:bgy == "dark"
             call s:set_dark16_var()
             let s:scheme.Tstyle = "Dark16"
         else
@@ -3201,7 +3208,7 @@ function! s:load_c16(...) "{{{
             let s:scheme.Tstyle = "Light16"
         endif
     else
-        if s:y <=50
+        if s:bgy == "dark"
             call s:set_dark8_var()
             let s:scheme.Tstyle = "Dark8"
         else
