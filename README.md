@@ -22,10 +22,10 @@
     
 **Some Pictures:**
         
-    Normal Mode (Env Flags)  :  http://img.ly/gRWB 
+    Normal Mode (with Env Flags)  :  http://img.ly/gRWB 
 ![Normal Mode](http://s3.amazonaws.com/imgly_production/4020613/large.png)
 
-    Insert Mode (Dif files)  :  http://img.ly/gRWq
+    Insert Mode (while Dif files)  :  http://img.ly/gRWq
 ![Insert Mode](http://s3.amazonaws.com/imgly_production/4020602/large.png)
     
         Scheme Window:  http://img.ly/gRIG 
@@ -33,9 +33,6 @@
 
         Screen Window:  http://img.ly/gRIw 
 ![Galaxy Screen](http://s3.amazonaws.com/imgly_production/4019740/large.png)
-
-    Little galaxy:  http://img.ly/gC4t 
-![Galaxy Screen](http://s3.amazonaws.com/imgly_production/3959597/large.png)
 
 
 Post issues at https://github.com/Rykka/vim-galaxy

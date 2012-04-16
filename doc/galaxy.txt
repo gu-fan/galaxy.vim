@@ -48,7 +48,6 @@
         Insert Mode (Dif files)  :  http://img.ly/gRWq
         Scheme Window:  http://img.ly/gRIG 
         Screen Window:  http://img.ly/gRIw 
-        Little Galaxy:  http://img.ly/gC4t
 
     Post issues at https://github.com/Rykka/vim-galaxy
 ------------------------------------------------------------------------------
@@ -99,7 +98,7 @@
     A little galaxy~
         :GalaxyLittle or <leader>glv
 
-        A little galaxy.
+        Just a little galaxy.
 
     Scheme Options~
 
