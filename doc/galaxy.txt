@@ -34,9 +34,9 @@
     
     It classifies highlights in 'bgd','fgd','syn','msg','dif' group,
     and automatically generate these highlight colors with these 5 group's 
-    basic colors. And do other stuffs to finish highlight.
+    basic colors. And do other stuffs to finish highlighting.
 
-    So for one scheme, only 5 colors are needed.
+    So, for one scheme, only 5 colors are needed.
 
     It contains several built-in schemes.
     Also Scheme Window, Screen Window, Terminal Support, Stylish Statusline,
