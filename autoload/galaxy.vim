@@ -792,7 +792,7 @@ function! s:load_indent_hl_syn() "{{{
 endfunction "}}}
 function! s:indent_hl() "{{{
 " this function should be called everytime when toggle indent hl
-    if exists("s:scheme.style") && s:scheme.style =~? 'COLOUR\|ABOUND'
+    if exists("s:scheme.style") && s:scheme.style =~? 'Colour'
         let s:indent_hl_list=[
                     \["galaxyIndent0", "nocolor",  "difclr2",  "n"     ],
                     \["galaxyIndent1", "nocolor",  "difclr3",  "n"     ],
@@ -816,7 +816,7 @@ function! s:indent_hl() "{{{
                     \]
     endif
     call s:hi_list(s:indent_hl_list)
-    hi link galaxyIndentErr ErrorMsg
+    hi link galaxyIndentErr Error
 endfunction "}}}
 function! s:indent_hl_aug() "{{{
     if g:galaxy_enable_indent_hl == 1

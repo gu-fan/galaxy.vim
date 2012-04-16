@@ -2,22 +2,22 @@
 
 **Galaxy** is a colorscheme tries to make colorscheming simpler.
     
-    We all want a nice colorscheme to comfort our eyes (and display).
+    A nice colorscheme is good for our eyes (and display).
     But generating one is not that easy.
-
     When generating a colorschemes, you must dealing with lots of issues: 
-    color issue, terminal issue, highlight group issue, syntax issue ...
+    colors, highlight groups, syntaxs, terminals...
 
-    Galaxy try to simplifiy these works. 
-
-    To Generate a scheme with :GalaxyNew takes only two step:
-    1. Type a name 
-    2. Pick a color for BACKGROUND (with colorpicker of ColorV)
-    Then you got a scheme, you can edit it's colors and view it's details.
+    Galaxy tries to simplifiy these works. 
     
+    It classifies highlights in 'bgd','fgd','syn','msg','dif' group,
+    and automatically generate these highlight colors with these 5 group's 
+    basic colors. And do other stuffs to finish highlight.
+
+    So for one scheme, only 5 colors are needed.
+
     It contains several built-in schemes.
-    Also have Scheme Manager, Scheme Detail Screen, Terminal support, Stylish
-    Statusline, Indent Highlight and more...
+    Also Scheme Window, Screen Window, Terminal Support, Stylish Statusline,
+    Indent Highlight and more...
 
     
 **Some Pictures:**
