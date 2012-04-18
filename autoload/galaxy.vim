@@ -1120,7 +1120,7 @@ function! galaxy#env() "{{{
         let l = fugitive#statusline()
         if !empty(l)
             let val.= " ".substitute(l,
-                        \'\v.*GIT(:\w+)=\(([[:alnum:]]+)\).*','G:[\2\1]','')
+                        \'\v.*GIT(:\w+)=\((\w+)\).*','G:[\2\1]','')
         endif 
     endif
     if g:galaxy_env_virtualenv && exists("$VIRTUAL_ENV")
