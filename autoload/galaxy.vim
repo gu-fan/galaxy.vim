@@ -6,7 +6,7 @@
 " License: The MIT Licence
 "          http://www.opensource.org/licenses/mit-license.php
 "          Copyright (c) 2011-2012 Rykka.ForestGreen
-" Last Update: 2012-04-16
+" Last Update: 2012-04-19
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim
@@ -255,10 +255,10 @@ let s:hl_styles.Shadow = [
         \["PmenuSbar",      "bgdclr6",  "bgdclr1",  "n"     ],
         \["PmenuThumb",     "bgdclr0",  "bgdclr5",  "n"     ],
         \["Wildmenu",       "bgdclr0",  "fgdclr0",  "rb"    ],
-        \["Folded",         "bgdclr8",  "bgdclr3",  "n"     ],
-        \["ColorColumn",    "Folded"        ],
-        \["FoldColumn",     "bgdclr7",  "bgdclr3",  "b"     ],
-        \["LineNr",         "fgdclr3",  "bgdclr4",  "n"     ],
+        \["Folded",         "bgdclr5",  "bgdclr1",  "n"     ],
+        \["FoldColumn",     "bgdclr7",  "bgdclr2",  "b"     ],
+        \["ColorColumn",    "FoldColumn"        ],
+        \["LineNr",         "fgdclr3",  "bgdclr3",  "n"     ],
         \["SignColumn",     "msgclr2",  "bgdclr3",  "n"     ],
         \["TabLine",        "bgdclr9",  "bgdclr2",  "n"     ],
         \["TabLineSel",     "fgdclr1",  "bgdclr0",  "b"     ],
@@ -303,9 +303,9 @@ let s:hl_styles.Classic = [
         \["PmenuSel",       "fgdclr1",  "bgdclr1",  "rb"    ],
         \["PmenuSbar",      "bgdclr0",  "bgdclr4",  "n"     ],
         \["PmenuThumb",     "bgdclr7",  "bgdclr3",  "n"     ],
-        \["Folded",         "bgdclr8",  "bgdclr3",  "n"     ],
-        \["ColorColumn",    "Folded"        ],
+        \["Folded",         "bgdclr8",  "bgdclr1",  "n"     ],
         \["FoldColumn",     "bgdclr7",  "bgdclr3",  "b"     ],
+        \["ColorColumn",    "FoldColumn"        ],
         \["LineNr",         "fgdclr4",  "bgdclr3",  "n"     ],
         \["SignColumn",     "msgclr2",  "bgdclr3",  "n"     ],
         \["TabLine",        "fgdclr4",  "bgdclr4",  "n"     ],
@@ -350,9 +350,9 @@ let s:hl_styles.Colour = [
         \["PmenuSel",       "bgdclr0",  "fgdclr0",  "b"    ],
         \["PmenuSbar",      "fgdclr1",  "bgdclr5",  "n"     ],
         \["PmenuThumb",     "bgdclr2",  "bgdclr4",  "n"     ],
-        \["Folded",         "bgdclr8",  "bgdclr3",  "n"     ],
-        \["ColorColumn",    "Folded"        ],
+        \["Folded",         "bgdclr8",  "bgdclr1",  "n"     ],
         \["FoldColumn",     "bgdclr7",  "bgdclr3",  "b"     ],
+        \["ColorColumn",    "FoldColumn"        ],
         \["LineNr",         "fgdclr2",  "bgdclr4",  "n"     ],
         \["SignColumn",     "msgclr2",  "bgdclr3",  "n"     ],
         \["TabLine",        "bgdclr3",  "fgdclr3",  "n"     ],
@@ -773,11 +773,11 @@ function! s:load_indent_hl_syn() "{{{
     "            But with contains, Indent0 did not shown.
     for in_str in [repeat(' ', &sw), '\t']
         exe 'syn match galaxyIndent0'.' #^'.in_str.p_txt
-                    \.' contains=vimLineComment containedin=ALL'
+                    \.' contains=vimLineComment containedin=ALL display'
 
         for i in range(1,7)
             exe 'syn match galaxyIndent'.i.' #\%(^\1\{'.i.'}\)\@<=\('.in_str.'\)'.p_txt
-                    \.' contains=vimLineComment containedin=ALL'
+                    \.' contains=vimLineComment containedin=ALL display'
         endfor
     endfor
 
@@ -836,11 +836,11 @@ endfunction "}}}
 function! galaxy#toggle_indent_hl(...) "{{{
     if !exists("b:galaxy_indent_hl")
                 \ || b:galaxy_indent_hl == 0
-                \ || (exists("a:1") && a:1 == "ON")
+                \ || (a:0 && a:1 == "ON")
         call s:load_indent_hl_syn()
         call s:indent_hl()
         let b:galaxy_indent_hl = 1
-    elseif b:galaxy_indent_hl == 1 || (exists("a:1") && a:1 == "OFF")
+    elseif b:galaxy_indent_hl == 1 || (a:0 && a:1 == "OFF")
         silent! call s:clear_indent_syn()
         silent! call s:clear_indent_hl()
         let b:galaxy_indent_hl = 0
@@ -863,15 +863,14 @@ endfunction "}}}
 " STAT"{{{1
 "======================================================================
 function! galaxy#statusline(cur) "{{{
-    let [mode,num,file,env,stat,ro,ft,pos,pos2] = [
-            \'%2{galaxy#mode()} ',  '%3n. ',
-            \' %<%F %= ',                   '%(%{galaxy#env()} %)',
-            \'%(%{galaxy#stat()} %)',         '%( %M%R %)',                
-            \'%( %Y%( %{galaxy#fflag()}%) %)', '%5l,%-3c %P ',  
-            \'%5l,%-3c %3p '
+    let [mode,num,file,env,stat,ro,ft,pos,pos2,mode2] = [
+            \'%2{galaxy#mode()} ',  '%3n. ', ' %<%F %= ',
+            \'%(%{galaxy#env()} %)', '%(%{galaxy#stat()} %)',
+            \'%( %M%R %)',  '%( %Y%( %{galaxy#fflag()}%) %)', 
+            \'%5l,%-3c %P ', '%5l,%-3c %3p ', '%2{winnr()} '
             \]
 
-    " hl-User*
+    " num of hl-User*
     let n0 = 0       
     let [c1,c2,c3,c4,c5] = [1 , 2, 3, 4, 5]
     let [m1,m2,m3,m4,m5] = [6 , 7, 8, 9,10]
@@ -889,7 +888,7 @@ function! galaxy#statusline(cur) "{{{
         let line.= s:clr(m3,stat)
         let line.= s:clr(l3,pos)
     elseif a:cur == 0 && g:galaxy_statusline_style == "Left"
-        let line.= s:clr(d3," ~ ")
+        let line.= s:clr(d3,mode2)
         let line.= s:clr(d2,num)
         let line.= s:clr(d1,env)
         let line.= s:clr(n0,file)
@@ -914,7 +913,7 @@ function! galaxy#statusline(cur) "{{{
         let line.= s:clr(d2,stat)
         let line.= s:clr(d3,ro)
         let line.= s:clr(d3,ft)
-        let line.= s:clr(d4," ~ ")
+        let line.= s:clr(d4,mode2)
     elseif g:galaxy_statusline_style == "Test"
         let line.= s:clr( 0,"  0 ")
         let line.= s:clr( 1,"  1 ")
@@ -1085,7 +1084,7 @@ function! s:load_env() "{{{
     " load after all autoload/files loaded
     if exists("*SyntasticStatuslineFlag") "{{{
         call s:default("g:galaxy_env_syntastic", 1)
-        let g:syntastic_stl_format = '[%E{Err:%fe #%e}%B{, }%W{Warn:%fw #%w}]'
+        let g:syntastic_stl_format = '[%E{E:%e}%B{, }%W{W:%w}]'
     else
         " call s:default("g:galaxy_env_syntastic", 0)
         let g:galaxy_env_syntastic = 0
@@ -1121,7 +1120,7 @@ function! galaxy#env() "{{{
         let l = fugitive#statusline()
         if !empty(l)
             let val.= " ".substitute(l,
-                        \'.*GIT(\([-:[:alnum:]]\+\)).*','G:[\1]','')
+                        \'\v.*GIT(:\w+)=\(([[:alnum:]]+)\).*','G:[\2\1]','')
         endif 
     endif
     if g:galaxy_env_virtualenv && exists("$VIRTUAL_ENV")
@@ -1205,9 +1204,9 @@ function! s:gen_base_colors(colors) "{{{
     endif
     let s:bgdclr_list=colorv#list_gen(bgd,"Value",10,y_sign*(5*bf),NOCYCLE)
     let s:fgdclr_list=colorv#list_gen(fgd,"Value",10,(-y_sign*5),NOCYCLE)
-    let s:synclr_list=colorv#yiq_list_gen(syn,"Hue",10,35)
-    let s:msgclr_list=colorv#yiq_list_gen(msg,"Hue",10,35)
-    let s:difclr_list=colorv#yiq_list_gen(dif,"Hue",10,35)
+    let s:synclr_list=colorv#list_yiq_gen(syn,"Hue",10,35)
+    let s:msgclr_list=colorv#list_yiq_gen(msg,"Hue",10,35)
+    let s:difclr_list=colorv#list_yiq_gen(dif,"Hue",10,35)
 
     for c in ["bgd","fgd","syn","msg","dif"]
         for i in range(len(s:{c}clr_list))
@@ -1787,7 +1786,7 @@ function! galaxy#gen_callback(color,name,...) "{{{
     let scheme = {name : colors}
     call extend(s:f_scheme_dict, scheme, "force")
 
-    if exists("a:1") && a:1 =="SILENT"
+    if a:0 && a:1 =="SILENT"
         return
     endif
 
@@ -1924,7 +1923,7 @@ function! s:cursor_text_hi()  "{{{
     endif
 endfunction "}}}
 function! s:new_win(name,...) "{{{
-    let opt = exists("a:1") ? a:1 : g:galaxy.winpos
+    let opt = a:0 ? a:1 : g:galaxy.winpos
     let spLoc= opt=="top" ? "topleft " : "botright "
     let spSize= 20
     let spDirc= ""
@@ -1986,7 +1985,7 @@ function! s:win_opt_set() "{{{
 
     let word = expand('<cWORD>')
     " check if it is whitespace
-    if empty(word) || getline(line('.'))[col('.')-1] =~ '\s'
+    if empty(word) || getline('.')[col('.')-1] =~ '\s'
         return
     endif
     let key = split(word,':')[0]
@@ -2568,7 +2567,7 @@ function! s:particlesys() "{{{
     return particlesys
 endfunction "}}}
 function! s:object(...) "{{{
-    let rect           = exists("a:1") ? a:1 : [["6"]]
+    let rect           = a:0 ? a:1 : [["6"]]
     let object         = s:particle()
     unl object.rect
     let object.rect    = rect
@@ -2601,7 +2600,7 @@ function! s:object(...) "{{{
     return object
 endfunction "}}}
 function! s:particle(...) "{{{
-    let rect             = exists("a:1") ? a:1 : "6"
+    let rect             = a:0 ? a:1 : "6"
     let particle         = {}
     let particle.pos     = [1.0,1.0]
     let particle.rect    = rect
@@ -2791,7 +2790,7 @@ endfunction "}}}
 "======================================================================
 let s:seed = localtime() * (localtime() + 10) * 2012
 function! s:random(num,...) "{{{
-    if exists("a:1") 
+    if a:0 
         let min = a:num
         let max = a:1
     else
@@ -2917,21 +2916,8 @@ function! s:fmod(x,y) "{{{
 
 endfunction "}}}
 function! s:float(x) "{{{
-    if type(a:x) == type([])
-    if !empty(a:x)
-        let x=[]
-        for i in a:x
-                let z = s:float(i)
-                call add(x,z)
-            endfor
-            return x
-        else
-            throw "Empty List for s:float()"
-        endif
-    else
-        let x= type(a:x) == type("0.5") ? str2float(a:x) : type(a:x) == type(1) ? a:x+0.0 : a:x
-        return x
-    endif
+    let x = type(a:x)==type("") ? str2float(a:x) : a:x+0.0
+    return x
 endfunction "}}}
 " LOAD "{{{1
 "======================================================================
@@ -3085,8 +3071,8 @@ function! s:get_scheme(name, style) "{{{
 endfunction "}}}
 function! s:load_c255(...) "{{{
     let cache = s:take_cache()
-    let name  = (exists("a:1") && a:1 !~ '^\s*$') ? a:1 : cache[1]
-    let style = (exists("a:2") && a:2 !~ '^\s*$') ? a:2 : cache[2]
+    let name  = (a:0 && a:1 !~ '^\s*$') ? a:1 : cache[1]
+    let style = (a:0>1 && a:2 !~ '^\s*$') ? a:2 : cache[2]
     call s:set_option(cache)
     let scheme = s:get_scheme(name,style)
     let s:scheme = scheme
@@ -3146,7 +3132,7 @@ function! s:load_c255(...) "{{{
     endif
     
     " silent start
-    if !exists("a:3") || a:3!="START"
+    if !a:0>2 || a:3!="START"
         call s:retain_cache()
         redraw
         call s:echo( "Scheme:[".s:scheme.name."] Loaded. "
@@ -3160,8 +3146,8 @@ function! s:load_c16(...) "{{{
     " Only for Terminal 8 and 16
 
     let cache = s:take_cache()
-    let name = (exists("a:1") && a:1 !~ '^\s*$') ? a:1 : cache[1]
-    let style = (exists("a:2") && a:2 !~ '^\s*$') ? a:2 : cache[2]
+    let name = (a:0 && a:1 !~ '^\s*$') ? a:1 : cache[1]
+    let style = (a:0>1 && a:2 !~ '^\s*$') ? a:2 : cache[2]
     call s:set_option(cache)
 
     let scheme = s:get_scheme(name,style)
@@ -3213,7 +3199,7 @@ function! s:load_c16(...) "{{{
         call s:syntax_tuning()
     endif
 
-    if !exists("a:3") || a:3!="START"
+    if !a:0>2 || a:3!="START"
         call s:retain_cache()
         redraw
         call s:echo( "Scheme:[".s:scheme.name."] Loaded. "
@@ -3224,9 +3210,9 @@ function! s:load_c16(...) "{{{
 endfunction "}}}
 
 function! galaxy#load(...) "{{{
-    let name = exists("a:1") ? a:1 : ""
-    let style = exists("a:2") ? a:2 : ""
-    let option = exists("a:3") ? a:3 : ""
+    let name = a:0 ? a:1 : ""
+    let style = a:0>1 ? a:2 : ""
+    let option = a:0>2 ? a:3 : ""
     if !has("gui_running") && (&t_Co<=16)
         call s:load_c16(name,style,option)
     else
