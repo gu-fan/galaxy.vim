@@ -2942,7 +2942,6 @@ function! s:load_file_schemes() "{{{
     let s:f_scheme_dict = {}
     let file = expand(g:galaxy_scheme_file)
     if !filereadable(file)
-        call s:error("Could not read scheme files. ".v:exception)
         return
     endif
     let list = readfile(file)
