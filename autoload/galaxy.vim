@@ -6,7 +6,7 @@
 " License: The MIT Licence
 "          http://www.opensource.org/licenses/mit-license.php
 "          Copyright (c) 2011-2012 Rykka.ForestGreen
-" Last Update: 2012-04-19
+" Last Update: 2012-04-21
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim
@@ -33,7 +33,7 @@ call s:default("g:galaxy_load_syn_tuning",  1)
 
 call s:default("g:galaxy_enable_indent_hl", 1)
 call s:default("g:galaxy_indent_hl_pos",    "start")
-call s:default("g:galaxy_indent_hl_ftype",  "python,c,javascript")
+call s:default("g:galaxy_indent_hl_ftype",  "python")
 call s:default("g:galaxy_show_trailing_ws", 1)
 
 call s:default("g:galaxy_enable_statusline",1)
@@ -152,9 +152,9 @@ let s:default_hl=[
             \["ModeMsg",        "bgdclr0",  "msgclr8",  "b"     ],
             \["MatchParen",     "bgdclr0",  "bgdclr6",  "b"     ],
             \["Error",          "nocolor",  "difclr5",  "b"     ],
-            \["SpellBad",       "nocolor",  "difclr1",  "n"     ],
+            \["SpellBad",       "nocolor",  "difclr1",  "c"     ],
             \["SpellCap",       "SpellBad"      ],
-            \["SpellLocal",     "nocolor",  "difclr5",  "n"     ],
+            \["SpellLocal",     "nocolor",  "difclr5",  "c"     ],
             \["SpellRare",      "SpellLocal"    ],
             \["Todo",           "msgclr5",  "bgdclr2",  "b"     ],
             \["Title",          "msgclr0",  "nocolor",  "b"     ],
@@ -457,7 +457,7 @@ let s:hl_styles.Colour = [
 "         \] "}}}
 
 " s:schemes "{{{2
-"                       bgd     fgd      syn      msg       dif
+"         scheme        bgd     fgd      syn      msg       dif
 let s:default_schemes=[
         \["Black"    ,"000000","ADB2B8","7E9EC2","FF9999","578A92"],
         \["White"    ,"FFFFFF","000000","306399","FF7373","80AEB6"],
@@ -1084,21 +1084,18 @@ function! s:load_env() "{{{
     " load after all autoload/files loaded
     if exists("*SyntasticStatuslineFlag") "{{{
         call s:default("g:galaxy_env_syntastic", 1)
-        let g:syntastic_stl_format = '[%E{E:%e}%B{, }%W{W:%w}]'
+        let g:syntastic_stl_format = '[%E{%eE #1:%fe}%B{, }%W{%wW #1:%fw}]'
     else
-        " call s:default("g:galaxy_env_syntastic", 0)
         let g:galaxy_env_syntastic = 0
     endif "}}}
     if exists("*fugitive#statusline") "{{{
         call s:default("g:galaxy_env_fugitive", 1)
     else
-        " call s:default("g:galaxy_env_fugitive", 0)
         let g:galaxy_env_fugitive = 0_
     endif "}}}
     if has("python") "{{{
         call s:default("g:galaxy_env_virtualenv", 1)
     else
-        " call s:default("g:galaxy_env_virtualenv", 0)
         let g:galaxy_env_virtualenv = 0
     endif "}}}
 endfunction "}}}
@@ -1119,7 +1116,7 @@ function! galaxy#env() "{{{
     if g:galaxy_env_fugitive
         let l = fugitive#statusline()
         if !empty(l)
-            let val.= " ".substitute(l,
+            let val.= " ".substitute(l, 
                         \'\v.*GIT(:\w+)=\((\w+)\).*','G:[\2\1]','')
         endif 
     endif
@@ -2703,6 +2700,13 @@ function! s:screen.plot(x,y,c) dict "{{{
         return
     endif
     let line = self.lines[y-1]
+    " "NOTE: idx = x-1 ; 
+    " "  join is 20% faster than substitute. but a bit slow with a condition
+    " if x == 1
+    "     let self.lines[y-1] = a:c . line[ x :]
+    " else
+    "     let self.lines[y-1] = line[: x-2 ] . a:c . line[ x :]
+    " endif
     let self.lines[y-1] = substitute(line,'\%'.x.'c.',a:c,'')
 endfunction "}}}
 function! s:screen.window(width,height) dict "{{{

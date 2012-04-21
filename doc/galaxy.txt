@@ -252,8 +252,9 @@
     NOTE   Tab indent '\t' will be always highlighted entirely.
     
                                                 *g:galaxy_indent_hl_ftype*
-    'g:galaxy_indent_hl_ftype'                   ("python,c,javascript")
+    'g:galaxy_indent_hl_ftype'                   ("python")
     Enable auto indent highlight with filetype.
+    you can add filetype seperate with ','.
 
                                                 *g:galaxy_show_trailing_ws*
     'g:galaxy_show_trailing_ws'                 (default:1)
