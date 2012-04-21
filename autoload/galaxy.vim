@@ -1123,7 +1123,7 @@ function! galaxy#env() "{{{
     if g:galaxy_env_virtualenv && exists("$VIRTUAL_ENV")
         let v = fnamemodify($VIRTUAL_ENV,":t")
         if !empty(v)
-            let val.= " V:[".v."]"
+            let val.= " V:[".v[:10]."]"
         endif
     endif
     if val =~ '^\s*$'

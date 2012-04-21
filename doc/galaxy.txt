@@ -393,6 +393,10 @@
 ------------------------------------------------------------------------------
  3.1 HISTORY                                            *galaxy-history*
 
+" DONE: 2012-04-19 no more message report at start while no user scheme.
+" DONE: 2012-04-18 fugitive/syntasitc/virtualenv flag format update.
+"FIXED: 2012-04-18 error default style loading.
+
 "2.0.0~
 " DONE: 2012-04-15 User1~19 color in styles for statusline
 " DONE: 2012-04-15 left/right statusline style
