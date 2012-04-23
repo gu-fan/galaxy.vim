@@ -465,8 +465,8 @@ let s:default_schemes=[
         \["Wine"     ,"0D0609","9C9B94","A37B5F","59FF6A","506792"],
         \["Spring"   ,"D5E6A1","363836","496791","FF5B3E","DBC683"],
         \["MoonNight","060F1A","B4B6B8","7FA5B8","DBBF42","6D98B6"],
-        \["Village"  ,"B1E6AC","362020","324F7D","1F7499","DBCC78"],
-        \["Slates"   ,"F2EFE4","3E465C","386599","9958E1","D9B2AD"],
+        \["Cloudy"   ,"ACE5DB","332D24","324F7D","992626","DBCC78"],
+        \["Flax"     ,"F2EFE4","3E465C","386599","9958E1","D9B2AD"],
         \["InkGreen" ,"0A0D07","A9BA93","8682D1","FF7236","5E7091"],
         \]
 let s:intro_lines = 2
@@ -1517,7 +1517,7 @@ function! s:win_edt_scheme_cv() "{{{
             return
         elseif col >= 20+i*7 && col <= 25+i*7
             call s:input_cv_call(colors[i],s:hlp_txt[i]
-                    \,"galaxy#edit_callback",['g:ColorV.HEX'])
+                    \,"galaxy#edit_callback",['g:colorv.HEX'])
             let s:edit_idx = i
             return
         endif
@@ -1581,7 +1581,7 @@ function! s:win_new_scheme_cv() "{{{
     let s:gen_name = name
     let randhex = printf("%06.6s",printf("%X",s:random(0,16777215)))
     cal s:input_cv_call(randhex,"2. Choose Background"
-                \,"galaxy#gen_callback",['g:ColorV.HEX','s:gen_name'])
+                \,"galaxy#gen_callback",['g:colorv.HEX','s:gen_name'])
 endfunction "}}}
 function! s:win_new_scheme_rd() "{{{
     cal s:echo("One steps to generate a random scheme.")
@@ -2216,7 +2216,7 @@ function! s:screen.edit() dict "{{{
             if col >= 20+i*7-1 && col <= 25+i*7
                 let s:edit_idx = i
                 call s:input_cv_call(colors[i],s:hlp_txt[i]
-                        \,"galaxy#edit_callback",['g:ColorV.HEX'])
+                        \,"galaxy#edit_callback",['g:colorv.HEX'])
                 return
             endif
         endfor
