@@ -6,7 +6,7 @@
 " License: The MIT Licence
 "          http://www.opensource.org/licenses/mit-license.php
 "          Copyright (c) 2011-2012 Rykka.ForestGreen
-" Last Update: 2012-04-23
+" Last Update: 2012-04-24
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim
@@ -150,14 +150,14 @@ let s:default_hl=[
             \["MoreMsg",        "bgdclr0",  "msgclr4",  "b"     ],
             \["Question",       "bgdclr0",  "msgclr6",  "b"     ],
             \["ModeMsg",        "bgdclr0",  "msgclr8",  "b"     ],
-            \["MatchParen",     "bgdclr0",  "bgdclr6",  "b"     ],
+            \["MatchParen",     "bgdclr0",  "bgdclr7",  "b"     ],
             \["Error",          "nocolor",  "difclr5",  "b"     ],
             \["SpellBad",       "nocolor",  "difclr1",  "c"     ],
             \["SpellCap",       "SpellBad"      ],
             \["SpellLocal",     "nocolor",  "difclr5",  "c"     ],
             \["SpellRare",      "SpellLocal"    ],
-            \["Todo",           "msgclr5",  "bgdclr2",  "b"     ],
-            \["Title",          "msgclr0",  "nocolor",  "b"     ],
+            \["Todo",           "msgclr5",  "bgdclr3",  "b"     ],
+            \["Title",          "synclr0",  "nocolor",  "b"     ],
             \["Conceal",        "bgdclr2",  "nocolor",  "n"     ],
             \["Comment",        "bgdclr6",  "nocolor",  "n"     ],
             \["NonText",        "Comment"       ],
@@ -168,41 +168,41 @@ let s:default_hl=[
             \["DiffChange",     "fgdclr2",  "difclr6",  "n"     ],
             \["DiffText",       "fgdclr2",  "difclr3",  "n"     ],
             \] "}}}
-" syn 0 "{{{
+" syn 0 LESS "{{{
 let s:syn_hl_0=[
             \["Keyword",        "synclr9",  "nocolor",  "b"     ],
             \["Statement",      "synclr9",  "nocolor",  "n"     ],
-            \["Conditional",    "synclr9",  "nocolor",  "i"     ],
-            \["Repeat",         "synclr9",  "nocolor",  "i"     ],
+            \["Conditional",    "synclr9",  "nocolor",  "n"     ],
+            \["Repeat",         "synclr9",  "nocolor",  "n"     ],
             \["Label",          "synclr9",  "nocolor",  "b"     ],
             \["PreProc",        "synclr1",  "nocolor",  "n"     ],
             \["Include",        "synclr1",  "nocolor",  "b"     ],
             \["Define",         "synclr1",  "nocolor",  "b"     ],
             \["PreCondit",      "Define"        ],
-            \["Macro",          "synclr1",  "nocolor",  "ib"    ],
+            \["Macro",          "synclr1",  "nocolor",  "b"     ],
             \["Special",        "synclr2",  "bgdclr0",  "n"     ],
             \["Delimiter",      "synclr2",  "nocolor",  "b"     ],
-            \["SpecialChar",    "synclr2",  "nocolor",  "i"     ],
-            \["Debug",          "synclr2",  "nocolor",  "bi"    ],
+            \["SpecialChar",    "synclr2",  "nocolor",  ""      ],
+            \["Debug",          "synclr2",  "nocolor",  "b"     ],
             \["SpecialKey",     "SpecialChar"   ],
             \["Tag",            "Special"       ],
             \["Type",           "synclr3",  "nocolor",  "n"     ],
             \["Typedef",        "synclr3",  "nocolor",  "b"     ],
-            \["StorageClass",   "synclr3",  "nocolor",  "i"     ],
-            \["Structure",      "synclr3",  "nocolor",  "ib"     ],
+            \["StorageClass",   "synclr3",  "nocolor",  "n"     ],
+            \["Structure",      "synclr3",  "nocolor",  "b"     ],
             \["Directory",      "Type"          ],
             \["Identifier",     "synclr5",  "nocolor",  "b"     ],
             \["Constant",       "synclr5",  "nocolor",  "n"     ],
             \["Boolean",        "synclr5",  "nocolor",  "n"     ],
-            \["Float",          "synclr5",  "nocolor",  "i"     ],
+            \["Float",          "synclr5",  "nocolor",  "n"     ],
+            \["Character",      "synclr5",  "nocolor",  "n"     ],
             \["String",         "synclr7",  "nocolor",  "n"     ],
-            \["Character",      "synclr7",  "nocolor",  "i"     ],
             \["Function",       "synclr7",  "nocolor",  "b"     ],
             \["Keyword",        "synclr9",  "nocolor",  "b"     ],
             \["Operator",       "synclr9",  "nocolor",  "n"     ],
-            \["Exception",      "synclr9",  "nocolor",  "bi"    ],
+            \["Exception",      "synclr9",  "nocolor",  "b"     ],
             \] "}}}
-" syn 1 "{{{
+" syn 1 MORE "{{{
 let s:syn_hl_1=[
             \["Keyword",        "synclr0",  "nocolor",  "b"     ],
             \["Statement",      "synclr0",  "nocolor",  "n"     ],
@@ -229,12 +229,12 @@ let s:syn_hl_1=[
             \["Constant",       "synclr5",  "nocolor",  "n"     ],
             \["Boolean",        "synclr5",  "nocolor",  "n"     ],
             \["Float",          "synclr5",  "nocolor",  "i"     ],
+            \["Character",      "synclr6",  "nocolor",  "i"     ],
             \["String",         "synclr7",  "nocolor",  "n"     ],
-            \["Character",      "synclr7",  "nocolor",  "i"     ],
             \["Function",       "synclr7",  "nocolor",  "b"     ],
             \["Keyword",        "synclr9",  "nocolor",  "b"     ],
             \["Operator",       "synclr9",  "nocolor",  "n"     ],
-            \["Exception",      "synclr9",  "nocolor",  "bi"    ],
+            \["Exception",      "synclr8",  "nocolor",  "bi"    ],
             \] "}}}
 
 " s:styles "{{{2
@@ -459,15 +459,15 @@ let s:hl_styles.Colour = [
 " s:schemes "{{{2
 "         scheme        bgd     fgd      syn      msg       dif
 let s:default_schemes=[
-        \["Black"    ,"000000","ADB2B8","7E9EC2","FF9999","578A92"],
         \["White"    ,"FFFFFF","000000","306399","FF7373","80AEB6"],
-        \["Paper"    ,"EBE9E8","2B2C33","345B85","FF6666","DBA399"],
-        \["Wine"     ,"0D0609","9C9B94","A37B5F","59FF6A","506792"],
-        \["Spring"   ,"D5E6A1","363836","496791","FF5B3E","DBC683"],
+        \["Paper"    ,"EBE9E8","2B2C33","345B85","11ADAD","DBA399"],
+        \["Grape"    ,"0D0609","9C9B94","A37B5F","59FF6A","506792"],
+        \["Spring"   ,"D5E6A1","363836","496791","3DAD00","DBC683"],
         \["MoonNight","060F1A","B4B6B8","7FA5B8","DBBF42","6D98B6"],
-        \["Cloudy"   ,"ACE5DB","332D24","324F7D","992626","DBCC78"],
+        \["Cloudy"   ,"ACE5DB","332D24","324F7D","CC2929","DBCC78"],
         \["Flax"     ,"F2EFE4","3E465C","386599","9958E1","D9B2AD"],
         \["InkGreen" ,"0A0D07","A9BA93","8682D1","FF7236","5E7091"],
+        \["Black"    ,"000000","ADB2B8","7E9EC2","FF9999","578A92"],
         \]
 let s:intro_lines = 2
 let s:blt_in_lines=len(s:default_schemes)
@@ -731,12 +731,12 @@ let s:syn_hi_term_dict.vimwiki2 = [
             \["VimwikiHeader6       ", "Yellow",  "bg",  "b"      ],
             \]
 let s:syn_hi_gui_dict.vimwiki2 = [
-            \["VimwikiHeader1       ", "msgclr0",  "nocolor",  "b" ],
-            \["VimwikiHeader2       ", "msgclr2",  "nocolor",  "b" ],
-            \["VimwikiHeader3       ", "msgclr4",  "nocolor",  "b" ],
-            \["VimwikiHeader4       ", "msgclr6",  "nocolor",  "b" ],
-            \["VimwikiHeader5       ", "msgclr7",  "nocolor",  "b" ],
-            \["VimwikiHeader6       ", "msgclr8",  "nocolor",  "b" ],
+            \["VimwikiHeader1       ", "synclr0",  "nocolor",  "b" ],
+            \["VimwikiHeader2       ", "synclr2",  "nocolor",  "b" ],
+            \["VimwikiHeader3       ", "synclr4",  "nocolor",  "b" ],
+            \["VimwikiHeader4       ", "synclr6",  "nocolor",  "b" ],
+            \["VimwikiHeader5       ", "synclr7",  "nocolor",  "b" ],
+            \["VimwikiHeader6       ", "synclr8",  "nocolor",  "b" ],
             \]
 let s:synlink_dict.xml = [
             \["xmlProcessingDelim   ","PreProc       "            ],

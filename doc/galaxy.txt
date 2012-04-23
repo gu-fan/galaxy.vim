@@ -65,11 +65,11 @@
     Extract to your ~/.vim folder
     :helptags ~/.vim/doc
 
-    NOTE   ColorV required. https://github.com/Rykka/ColorV
+    NOTE   ColorV required if downloaded from github.
 
     NOTE   Get Latest version
-           https://github.com/Rykka/ColorV/
-           https://github.com/Rykka/vim-galaxy/
+           ColorV: https://github.com/Rykka/ColorV/
+           Galaxy: https://github.com/Rykka/vim-galaxy/
  
 ==============================================================================
  1.2 QUICKSTART                                         *galaxy-quickstart*
@@ -85,7 +85,7 @@
         The Galaxy Scheme Window
         You can choose schemes, set options, edit schemes in it.
 
-        You can also load a scheme by it's name.
+        Load a scheme by it's name.
         :GalaxyLoad {scheme}
 
                                                         *galaxy-screen*
@@ -104,36 +104,35 @@
 
         Set the options in the Galaxy Window by clicking.
         These options will be cached in your disk.
-        If errors occur, Check |g:galaxy_cache_file|
-
-                                                        *galaxy_syntax*
-        'SYNTAX': swith the richness of syntax colors.
-
-                                                        *galaxy-indent*
-        'INDENT_HL': swith the auto indent highligh state.
-
-        The |g:galaxy_indent_hl_ftype| is the ftype that auto highlights.
-        It's defualt value is "python,c,javascript".
-
-        To Manually highligh indents. You should press
-        :GalaxyIndent (<leader>glh)
-
-        see |galaxy-option-indenthl| for more info.
+        If error occurs, Check |g:galaxy_cache_file|
 
                                                         *galaxy-style*
         'STYLE': swith scheme style.
-        'Shadow\Colour\Classic' 
+
+                                                        *galaxy_syntax*
+        'SYNTAX': swith distinguishness level of highlights in syntax group.
 
                                                         *galaxy-statusline*
         'STATUSLINE': switch statusline style.
         see |galaxy-option-statusline| for more info.
+
+                                                        *galaxy-indent*
+        'INDENT_HL': swith auto indent highligh state.
+
+        The |g:galaxy_indent_hl_ftype| set ftype that auto indent-highlight.
+        It's defualt value is "python".
+
+        To highligh indents manually.
+        :GalaxyIndent (<leader>glh)
+
+        see |galaxy-option-indenthl| for more info.
 
     Terminal~
                                                         *galaxy-terminal*
         Support 256 terminal.
         8/16 terminal uses predefined colors 'white/dark'
 ------------------------------------------------------------------------------
- 1.3 MORE SCHEMS                                        *galaxy-more-schemes*
+ 1.3 MORE SCHEMES                                       *galaxy-more-schemes*
 
     You can easily create and edit.~
 
