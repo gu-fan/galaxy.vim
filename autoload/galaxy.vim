@@ -6,7 +6,7 @@
 " License: The MIT Licence
 "          http://www.opensource.org/licenses/mit-license.php
 "          Copyright (c) 2011-2012 Rykka.ForestGreen
-" Last Update: 2012-04-21
+" Last Update: 2012-04-23
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim
@@ -117,12 +117,12 @@ let s:tips_list=[
             \'Load: 2-Click/Space/<CR>',
             \'New: gn/gr        Del: dd/D',
             \'Select:Click      Edit: e',
-            \'Screen:sc         Saver:sv',
+            \'Screen:sc         Galaxy:sv',
             \'Help: F1/H        Quit: q/Q',
             \]
 let s:head_tip = [
             \"      Screen:sc   Load:<Click>  Edit:e  New:gn  Tips:?",
-            \"      Saver:sv    Load:<Space>  Edit:e  New:gr  Tips:?",
+            \"      Galaxy:sv    Load:<Space>  Edit:e  New:gr  Tips:?",
             \"      Screen:sc   Load:<Enter>  Edit:e  New:gn  Help:H",
             \]
 let s:hlp_txt=[
