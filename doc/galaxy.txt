@@ -1,4 +1,4 @@
-*galaxy.txt*         Galaxy                 simpler colorscheming.
+*galaxy.txt*    Simpler colorscheming.
 
   
                      ______      __                                    ~
@@ -23,7 +23,7 @@
  1. INTRO                                               *galaxy-intro*
 
 
-    *Galaxy* is a colorscheme  tries to make colorscheming simpler.
+    *Galaxy* is a colorscheme tries to make colorscheming simpler.
     
     A nice colorscheme is good for our eyes (and display).
     But generating one is not that easy.
