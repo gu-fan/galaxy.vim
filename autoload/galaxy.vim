@@ -460,12 +460,12 @@ let s:hl_styles.Colour = [
 "         scheme        bgd     fgd      syn      msg       dif
 let s:default_schemes=[
         \["White"    ,"FFFFFF","303133","306399","FF7373","80AEB6"],
-        \["Paper"    ,"EBE9E8","252633","345B85","11ADAD","DBA399"],
+        \["Paper"    ,"EBE9E8","3C3E47","345B85","11ADAD","DBA399"],
         \["Grape"    ,"0D0609","BC8F8F","A37B5F","59FF6A","506792"],
         \["Spring"   ,"D5E6A1","2C3832","496791","3DAD00","DBC683"],
         \["MoonNight","060F1A","A3B8CC","7FA5B8","DBBF42","6D98B6"],
         \["Cloudy"   ,"ACE5DB","2E3331","324F7D","CC2929","DBCC78"],
-        \["Flax"     ,"F2EFE4","2D303D","386599","9958E1","D9B2AD"],
+        \["Flax"     ,"F2EFE4","524E4D","386599","9958E1","D9B2AD"],
         \["InkGreen" ,"0A0D07","A4B88A","8682D1","FF7236","5E7091"],
         \["Black"    ,"000000","AEB3B8","7E9EC2","FF9999","578A92"],
         \]
