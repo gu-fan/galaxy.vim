@@ -108,16 +108,28 @@
 
                                                         *galaxy-style*
         'STYLE': swith scheme style.
+        The Scheme Style. 
 
                                                         *galaxy_syntax*
         'SYNTAX': swith distinguishness level of highlights in syntax group.
 
+        'LESS' means less distinguishness.
+        'MORE' means more distinguishness, more attrs, like 'italic' ...
+        Use |:GalaxyScreen| to see details.
+
                                                         *galaxy-statusline*
         'STATUSLINE': switch statusline style.
+
+        Showing the mode flag in the 'LEFT' or 'RIGHT'. 
+
+        The mode flag indicates mode of current statusline,
+        And  for non-current line, it shows the window number.
+        '{n}ctrl-w_w' could be used to swich to that window.
+
         see |galaxy-option-statusline| for more info.
 
                                                         *galaxy-indent*
-        'INDENT_HL': swith auto indent highligh state.
+        'INDENT_HL': toggle auto indent highlighting to 'On' or 'Off'.
 
         The |g:galaxy_indent_hl_ftype| set ftype that auto indent-highlight.
         It's defualt value is "python".
@@ -233,9 +245,9 @@
 
 
     NOTE   All options must put BEFORE ':colorscheme galaxy'
+------------------------------------------------------------------------------
+  INDENT                                        *galaxy-option-indenthl*
 
-                                                *galaxy-option-indenthl*
-    Indenting.~
                                                 *g:galaxy_enable_indent_hl*
     'g:galaxy_enable_indent_hl'                 (default:1)
     Enable auto highlight indent. 
@@ -261,16 +273,17 @@
     if indent_highlight is ON.   
     The mixed white space and tab will be showing as Error. 
     e.g.: '^\t  \t'
+------------------------------------------------------------------------------
+  STATUSLINE                                    *galaxy-option-statusline*
 
-                                                *galaxy-option-statusline*
-    Statusline.~
                                                 *g:galaxy_enable_statusline*
     'g:galaxy_enable_statusline'                 (default:1)
     Enable auto set statusline while scheming.
     
-                                                *g:galaxy_statusline_blink*
-    'g:galaxy_statusline_blink'                 (default:1)
-    Enable statusline blink while InsertEnter and InsertLeave.
+                                                *g:galaxy_statusline_hl_insert*
+    'g:galaxy_statusline_hl_insert'                 (default:1)
+    Enable some statusline flags change highlighting
+    when InsertEnter and InsertLeave.
 
                                                 *g:galaxy_statusline_style*
     'g:galaxy_statusline_style'                 (default:"Left")
@@ -278,17 +291,12 @@
     This option is auto set by cache.
     set it if you can not write |g:galaxy_cache_file|
 
-    NOTE    hl-USER1 ~ hl-USER9 is colorful,
-            and will change background while entering insert mode.
-            set |g:galaxy_statusline_blink| to 0 to disable blink.
-
-            (Galaxy defined) hl-USER11 ~ hl-USER19  is gradient in background color.
-                                                    
     Statusline Flags~
+                                                 *galaxy-statusline-flags*
+    
+    The statusline are showing some extra flags.
 
-    The auto generated statusline are showing some extra flags.
-
-        Option flags.
+       'option' flags.
        'list'   'Lst'  
        'diff'   'Dif'  
        'paste'  'Pst'  
@@ -308,7 +316,7 @@
         "mac"         "MAC"
         "dos"         "DOS"
 
-        Some enviroment stats.
+        Enviroment flags.
         'G:[xxx]' fugitive git branch |g:galaxy_env_fugitive|
         'S:[xxx]' syntastic syn check |g:galaxy_env_syntastic|
         'V:[xxx]' virtualenv check    |g:galaxy_env_virtualenv|
@@ -337,13 +345,13 @@
                                                 then it's 1 else 0)
     showing current virtualenv in statusline, set it to 0 to disable it.
     NOTE    You should activate virtualenv first then start vim/gvim in it.
+------------------------------------------------------------------------------
+  SYNTAX                                        *galaxy-option-syntax*
 
-                                                *galaxy-option-syntax*
-    Syntax.~
                                                 *g:galaxy_colorful_syntax*
     'g:galaxy_colorful_syntax'                    (default:1)
-    This will make syntax highlights more colorful.
-    Set it to 0 to make syntax less colorful.
+    This will change syntax highlights distinguishness level.
+    Set it to 0 to make syntax less distinguishness.
     This option is auto set by cache.
     set it if you can not write |g:galaxy_cache_file|
     
@@ -355,6 +363,8 @@
     'g:galaxy_load_syn_tuning'                    (default:1)
     Enable loading galaxy predefined syntax tuning of several filetypes.
     currently only vim , highlight it's 'endfunction' part with 'Function'.
+------------------------------------------------------------------------------
+  MISC                                          *galaxy-option-misc*
 
     Hl-Visual.~
                                                 *g:galaxy_visual_hl_fg*

@@ -37,7 +37,7 @@ call s:default("g:galaxy_indent_hl_ftype",  "python")
 call s:default("g:galaxy_show_trailing_ws", 1)
 
 call s:default("g:galaxy_enable_statusline",1)
-call s:default("g:galaxy_statusline_blink", 1)
+call s:default("g:galaxy_statusline_hl_insert", 1)
 call s:default("g:galaxy_statusline_style", "Left")
 call s:default("g:galaxy_default_ff",  "unix")
 call s:default("g:galaxy_default_enc", "utf-8")
@@ -951,7 +951,7 @@ function! s:statusline_aug() "{{{
     let &stl = '%!galaxy#statusline(0)'
     call galaxy#update_line(1)
 
-    if version <= 700 ||  g:galaxy_statusline_blink != 1 
+    if version <= 700 ||  g:galaxy_statusline_hl_insert != 1 
         return
     endif
 
@@ -994,7 +994,7 @@ function! s:statusline_aug() "{{{
     aug END
 endfunction "}}}
 function! s:statusline_term16_aug() "{{{
-    if version <= 700 ||  g:galaxy_statusline_blink != 1
+    if version <= 700 ||  g:galaxy_statusline_hl_insert != 1
         return
     endif
     if s:bgy == "dark"
