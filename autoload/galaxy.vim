@@ -460,12 +460,12 @@ let s:hl_styles.Colour = [
 "         scheme        bgd     fgd      syn      msg       dif
 let s:default_schemes=[
         \["White"    ,"FFFFFF","303133","306399","CC2929","80AEB6"],
-        \["Paper"    ,"EBE9E8","3C3E47","345B85","C21B1B","DBA399"],
+        \["Paper"    ,"EBE9E8","34363D","345B85","C21B1B","DBA399"],
         \["Grape"    ,"0D0609","B38888","A37B5F","CC2929","506792"],
         \["Spring"   ,"D5E6A1","2C3832","496791","B80F28","DBC683"],
         \["MoonNight","060F1A","9BAFC2","7FA5B8","EB2F3F","6D98B6"],
         \["Cloudy"   ,"ACE5DB","2E3331","324F7D","CC2929","DBCC78"],
-        \["Flax"     ,"F2EFE4","524E4D","386599","CC292E","D9B2AD"],
+        \["Flax"     ,"F2EFE4","333030","386599","CC292E","D9B2AD"],
         \["InkGreen" ,"0A0D07","9BAD82","7F7BC7","FF3636","5E7091"],
         \["Cream"    ,"FFF9C2","1F1F1F","386599","CC3D42","D9B2AD"],
         \["Black"    ,"000000","9B9FA3","718DAD","FF4040","578A92"],
