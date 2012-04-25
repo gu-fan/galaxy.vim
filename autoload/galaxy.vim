@@ -1956,6 +1956,7 @@ function! s:check_win(name) "{{{
 endfunction "}}}
 function! galaxy#exit_win() "{{{
     if s:get_bufwin(s:galaxy.name)
+        call colorv#clear_prev()
         close
     endif
 endfunction "}}}
@@ -2166,6 +2167,7 @@ function! s:screen.map() dict "{{{
 endfunction "}}}
 function! s:screen.exit() dict "{{{
     if s:get_bufwin(s:screen.name)
+        call colorv#clear_prev()
         close
     endif
 endfunction "}}}
