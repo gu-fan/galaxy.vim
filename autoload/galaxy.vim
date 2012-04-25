@@ -6,7 +6,7 @@
 " License: The MIT Licence
 "          http://www.opensource.org/licenses/mit-license.php
 "          Copyright (c) 2011-2012 Rykka.ForestGreen
-" Last Update: 2012-04-25
+" Last Update: 2012-04-26
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim
@@ -1092,7 +1092,7 @@ function! s:load_env() "{{{
     if exists("*fugitive#statusline") "{{{
         call s:default("g:galaxy_env_fugitive", 1)
     else
-        let g:galaxy_env_fugitive = 0_
+        let g:galaxy_env_fugitive = 0
     endif "}}}
     if has("python") "{{{
         call s:default("g:galaxy_env_virtualenv", 1)
