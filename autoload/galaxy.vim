@@ -1884,7 +1884,7 @@ function! s:win_hi() "{{{
     call matchadd("TODO"            , '\%1l\%>65c[?H]', 10)
     call matchadd("Comment"         , '\%2l'          , 4)
     call matchadd("SpecialComment"  , '\%<3l\w*:'     , 15)
-    call matchadd("WarningMsg"           , '\%3l'          , 10)
+    call matchadd("WarningMsg"      , '\%3l'          , 10)
     call matchadd("Title"           , '\%>54c\%<56c<<', 15)
     aug galaxy#cursor_move
         au! CursorMoved,CursorMovedI <buffer>  call s:cursor_text_hi()
@@ -2236,7 +2236,7 @@ function! s:screen.highlight() dict "{{{
     endfor
 
     call matchadd("Title"          , '\%1l'        , 5)
-    call matchadd("MoreMsg"     , '\%3l'        , 10)
+    call matchadd("MoreMsg"        , '\%3l'        , 10)
     call matchadd("Comment"        , '\%'.self.row_op.'l'       , 4)
     call matchadd("SpecialComment" , '\%'.self.row_op.'l\w*:'   , 15)
 
