@@ -6,7 +6,7 @@
 " License: The MIT Licence
 "          http://www.opensource.org/licenses/mit-license.php
 "          Copyright (c) 2011-2012 Rykka.ForestGreen
-" Last Update: 2012-04-24
+" Last Update: 2012-04-25
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim
@@ -467,6 +467,7 @@ let s:default_schemes=[
         \["Cloudy"   ,"ACE5DB","2E3331","324F7D","CC2929","DBCC78"],
         \["Flax"     ,"F2EFE4","524E4D","386599","CC292E","D9B2AD"],
         \["InkGreen" ,"0A0D07","9BAD82","7F7BC7","FF3636","5E7091"],
+        \["Cream"    ,"FFF9C2","1F1F1F","386599","CC3D42","D9B2AD"],
         \["Black"    ,"000000","9B9FA3","718DAD","FF4040","578A92"],
         \]
 let s:intro_lines = 2
