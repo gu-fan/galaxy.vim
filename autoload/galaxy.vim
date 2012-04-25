@@ -255,7 +255,7 @@ let s:hl_styles.Shadow = [
         \["PmenuSbar",      "bgdclr6",  "bgdclr1",  "n"     ],
         \["PmenuThumb",     "bgdclr0",  "bgdclr5",  "n"     ],
         \["Wildmenu",       "bgdclr0",  "fgdclr0",  "rb"    ],
-        \["Folded",         "bgdclr7",  "bgdclr1",  "n"     ],
+        \["Folded",         "bgdclr8",  "bgdclr1",  "n"     ],
         \["FoldColumn",     "bgdclr7",  "bgdclr3",  "n"     ],
         \["ColorColumn",    "FoldColumn"        ],
         \["LineNr",         "bgdclr8",  "bgdclr2",  "n"     ],
@@ -302,7 +302,7 @@ let s:hl_styles.Colour = [
         \["PmenuSel",       "bgdclr0",  "fgdclr0",  "b"    ],
         \["PmenuSbar",      "fgdclr1",  "bgdclr5",  "n"     ],
         \["PmenuThumb",     "bgdclr2",  "bgdclr4",  "n"     ],
-        \["Folded",         "fgdclr3",  "bgdclr1",  "n"     ],
+        \["Folded",         "bgdclr9",  "bgdclr1",  "n"     ],
         \["FoldColumn",     "fgdclr9",  "fgdclr4",  "n"     ],
         \["ColorColumn",    "FoldColumn"        ],
         \["LineNr",         "bgdclr2",  "fgdclr3",  "n"     ],
@@ -460,15 +460,15 @@ let s:hl_styles.Colour = [
 "         scheme        bgd     fgd      syn      msg       dif
 let s:default_schemes=[
         \["White"    ,"FFFFFF","303133","306399","CC2929","80AEB6"],
-        \["Paper"    ,"EBE9E8","34363D","345B85","C21B1B","DBA399"],
-        \["Grape"    ,"0D0609","B38888","A37B5F","CC2929","506792"],
-        \["Spring"   ,"D5E6A1","2C3832","496791","B80F28","DBC683"],
-        \["MoonNight","060F1A","9BAFC2","7FA5B8","EB2F3F","6D98B6"],
-        \["Cloudy"   ,"ACE5DB","2E3331","324F7D","CC2929","DBCC78"],
-        \["Flax"     ,"F2EFE4","333030","386599","CC292E","D9B2AD"],
-        \["InkGreen" ,"0A0D07","9BAD82","7F7BC7","FF3636","5E7091"],
-        \["Cream"    ,"FFF9C2","1F1F1F","386599","CC3D42","D9B2AD"],
-        \["Black"    ,"000000","9B9FA3","718DAD","FF4040","578A92"],
+        \["Paper"    ,"EBE9E8","212533","345B85","C21B1B","DBA399"],
+        \["Grape"    ,"0D0609","B895AA","A37B5F","CC2929","506792"],
+        \["Spring"   ,"D5E6A1","171F1B","496791","B80F28","DBC683"],
+        \["MoonNight","060F1A","CACCA7","7FA5B8","EB2F3F","6D98B6"],
+        \["Cloudy"   ,"ACE5DB","191D29","324F7D","CC2929","DBCC78"],
+        \["Flax"     ,"F2EFE4","291D1D","386599","CC292E","D9B2AD"],
+        \["InkGreen" ,"0A0D07","8CA383","7F7BC7","FF3636","5E7091"],
+        \["Cream"    ,"FFF9C2","33142A","386599","CC3D42","D9B2AD"],
+        \["Black"    ,"000000","AEB3B8","718DAD","FF4040","578A92"],
         \]
 let s:intro_lines = 2
 let s:blt_in_lines=len(s:default_schemes)
@@ -1861,6 +1861,7 @@ function! s:win_map() "{{{
     nma <silent><buffer> gn :call <SID>win_new_scheme_cv()<cr>
     nma <silent><buffer> gr :call <SID>win_new_scheme_rd()<cr>
     nma <silent><buffer> e  :call <SID>win_edt_scheme_cv()<cr>
+    nma <silent><buffer> <leader>ce  :call <SID>win_edt_scheme_cv()<cr>
     nma <silent><buffer> dd :call <SID>win_del_scheme()<cr>
 
     nno <silent><buffer> <Tab> W
