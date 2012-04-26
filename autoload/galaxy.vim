@@ -2006,6 +2006,8 @@ function! s:win_opt_set() "{{{
         call s:win_new_scheme_cv()
     elseif  key == "Tips"
         call s:echo_tips()
+    elseif  key == "Help"
+        h galaxy-quickstart
     endif
 
     if      key == "STYLE"
@@ -2161,6 +2163,8 @@ function! s:screen.map() dict "{{{
     map <silent><buffer> <Space> :call galaxy#screen.edit()<CR>
     map <silent><buffer> <2-Leftmouse> :call galaxy#screen.edit()<CR>
 
+    nno <silent><buffer> <Tab> W
+    nno <silent><buffer> <S-Tab> B
     map <silent><buffer> sv :call galaxy#screen.saver()<CR>
 
 endfunction "}}}
