@@ -462,7 +462,7 @@ let s:default_schemes=[
         \["White"    ,"FFFFFF","303133","306399","CC2929","80AEB6"],
         \["Paper"    ,"EBE9E8","212533","345B85","C21B1B","DBA399"],
         \["Grape"    ,"0D0609","B895AA","A37B5F","CC2929","506792"],
-        \["Spring"   ,"D5E6A1","171F1B","496791","B80F28","DBC683"],
+        \["Spring"   ,"CBE5A1","171F1B","496791","B80F28","DBC683"],
         \["MoonNight","060F1A","CACCA7","7FA5B8","EB2F3F","6D98B6"],
         \["Cloudy"   ,"ACE5DB","191D29","324F7D","CC2929","DBCC78"],
         \["Flax"     ,"F2EFE4","291D1D","386599","CC292E","D9B2AD"],
@@ -2236,7 +2236,7 @@ function! s:screen.highlight() dict "{{{
     endfor
 
     call matchadd("Title"          , '\%1l'        , 5)
-    call matchadd("MoreMsg"        , '\%3l'        , 10)
+    call matchadd("WarningMsg"     , '\%3l'        , 10)
     call matchadd("Comment"        , '\%'.self.row_op.'l'       , 4)
     call matchadd("SpecialComment" , '\%'.self.row_op.'l\w*:'   , 15)
 
