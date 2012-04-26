@@ -1390,10 +1390,8 @@ function! galaxy#win() "{{{
         execute 'resize' win_h
     endif
 
-    " redraw
     call galaxy#load("","","s")
     cal s:win_hi()
-    " redraw
 
     call s:echo(len(s:A_scheme_dict)." schemes loaded."
                     \."Now is [".s:scheme.name."].")
@@ -2083,7 +2081,6 @@ let s:screen_lines = [
 \"-----------------------------------------------------------------",
 \" STYLE: Default     SYNTAX:Less   STATUSLINE:Left    INDENT_HL:On",
 \"-----------------------------------------------------------------",
-\"                                                                 ",
 \"                                                                 ",
 \" SYNTAX HIGHLIGHTING GROUP:                                      ",
 \"-----------------------------------------------------------------",
@@ -3158,7 +3155,7 @@ function! s:load_c255(...) "{{{
 
     call s:retain_cache()
     " silent start
-    if a:0>2 && a:3!="s"
+    if a:0>2 && a:3=="s"
         "pass
     else
         call s:echo( "Scheme:[".s:scheme.name."] Loaded. "
@@ -3227,7 +3224,7 @@ function! s:load_c16(...) "{{{
     let g:galaxy.scheme = s:scheme.name
 
     call s:retain_cache()
-    if a:0>2 && a:3!="s"
+    if a:0>2 && a:3=="s"
         "pass
     else
         call s:echo( "Scheme:[".s:scheme.name."] Loaded. "
@@ -3249,10 +3246,10 @@ function! galaxy#next_style() "{{{
     let k = keys(s:hl_styles)
     let l = k +  [k[0]]
     let i = index(l, s:scheme.style)
-    call galaxy#load("",l[i+1])
+    call galaxy#load("",l[i+1],"s")
 endfunction "}}}
 function! galaxy#init() "{{{
-    call galaxy#load("","","START")
+    call galaxy#load("","","s")
 
     aug galaxy#cache
         au! VIMLEAVEPre * call galaxy#save_cache()
