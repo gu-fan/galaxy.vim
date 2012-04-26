@@ -26,7 +26,7 @@
 ![Normal Mode](http://s3.amazonaws.com/imgly_production/4154624/large.png)
 
         Screen & Scheme  : http://img.ly/hqOb
-![Insert Mode](http://s3.amazonaws.com/imgly_production/4154631/large.png)
+![Screen Scheme](http://s3.amazonaws.com/imgly_production/4154631/large.png)
     
 
 Post issues at https://github.com/Rykka/vim-galaxy
