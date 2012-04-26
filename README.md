@@ -22,18 +22,12 @@
     
 **Some Pictures:**
         
-    Normal Mode (with Env Flags)  :  http://img.ly/gRWB 
-![Normal Mode](http://s3.amazonaws.com/imgly_production/4020613/large.png)
+        Normal (Git Dif) : http://img.ly/hqO4
+![Normal Mode](http://s3.amazonaws.com/imgly_production/4154624/large.png)
 
-    Insert Mode (while Dif files)  :  http://img.ly/gRWq
-![Insert Mode](http://s3.amazonaws.com/imgly_production/4020602/large.png)
+        Screen & Scheme  : http://img.ly/hqOb
+![Insert Mode](http://s3.amazonaws.com/imgly_production/4154631/large.png)
     
-        Scheme Window:  http://img.ly/gRIG 
-![Galaxy Window](http://s3.amazonaws.com/imgly_production/4019750/large.png)
-
-        Screen Window:  http://img.ly/gRIw 
-![Galaxy Screen](http://s3.amazonaws.com/imgly_production/4019740/large.png)
-
 
 Post issues at https://github.com/Rykka/vim-galaxy
 
@@ -51,7 +45,7 @@ Post issues at https://github.com/Rykka/vim-galaxy
     Extract to your ~/.vim folder.
     `:helptags ~/.vim/doc`
     
-**NOTE**   ColorV required. https://github.com/Rykka/ColorV
+**NOTE**   ColorV required if downloaded from github.
 
 **NOTE**   Get Latest version
            https://github.com/Rykka/ColorV/
