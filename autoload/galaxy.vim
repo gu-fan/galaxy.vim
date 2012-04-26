@@ -2300,8 +2300,7 @@ function! s:screen.saver() dict "{{{
     
     let eh = s:event()
     let stars = s:stars()
-    let stars.maxobj = s:random(1,3)
-    let stars.center = [ width/2, height/2]
+    let stars.pos = [ width/2, height/2]
     let s:screen.run = 1
     let s:screen.time = localtime()
     while s:screen.run == 1
@@ -2319,7 +2318,7 @@ function! s:screen.saver() dict "{{{
 endfunction "}}}
 " Classes 
 function! s:stars() "{{{
-    let starsys = {'objs':[],'maxobj':4}
+    let starsys = {'objs':[]}
     let starsys.center = [10,10]
     let starsys.spd = [0.0,0.0]
     let starsys.pos = [0.0,0.0]
@@ -2329,15 +2328,18 @@ function! s:stars() "{{{
 
     let starsys.proj          = s:dparticlesys()
     let starsys.proj.obj.rect = [["0"]]
-    let starsys.proj.maxobj   = 70
-    let starsys.proj.fadef    = 0.31
+    let starsys.proj.maxobj   = s:random(40,70)
+    let starsys.proj.radius   = s:random(15,50)
+    let starsys.proj.fadef    = 0.36
     let starsys.proj.spdf     = 0.04
     let starsys.proj.rndmf    = 3
     let starsys.proj.rndxf    = 7
     let starsys.size          = 3
     let starsys.randobjs      = []
-    let starsys.maxrandobj    = 3
+    let starsys.maxrandobj    = 2
+    let starsys.maxobj        = 0
     let starsys.tick          = 0
+    let starsys.proj.emission_rate  = 1.33
 
     function! starsys.init() dict "{{{
         for i in range(self.maxobj)
@@ -2348,11 +2350,11 @@ function! s:stars() "{{{
         let proj = s:particlesys()
         let c  = s:random(0,0)
         let proj.charn = c
-        let proj.obj.rect = [[s:chars{c}[1]]]
+        let proj.obj.rect = [[s:chars{c}[4]]]
         let proj.angle = len(self.objs) * 6.283184 / self.maxobj
-        let proj.rotate_spd = s:random(-16,16) / 100.0
+        let proj.rotate_spd = s:random(-15,15) / 200.0
         if proj.rotate_spd <= 0.01  && proj.rotate_spd >= -0.01
-            let proj.rotate_spd =  0.04
+            let proj.rotate_spd =  0.01
         endif
         let proj.radius  = s:random(17,30) + 0.0
         let proj.fadef = 0.39
@@ -2381,26 +2383,27 @@ function! s:stars() "{{{
             let x  = [s:screen.width,r]
             let p  = [1, v]
         endif
+        " let x = [s:screen.width/2,s:screen.height/2]
         let c  = s:random(1,4)
         let randproj.charn = c
-        let randproj.obj.rect = [[s:chars{c}[9]]]
+        let randproj.obj.rect = [[s:chars{c}[4]]]
         let randproj.life = 10
-        let randproj.fadespd = 0.04
+        let randproj.fadespd = 0.05
         let randproj.rndmf = 7
         let randproj.rndxf = 9
         let randproj.pos = x
-        let randproj.spd = [(p[0]-x[0])*0.04,(p[1]-x[1])*0.04] 
+        let randproj.spd = [(p[0]-x[0])*0.03,(p[1]-x[1])*0.03] 
         let randproj.maxobj = 40
         let randproj.spdf = 0.04
-        let randproj.fadef = 0.03
-        let randproj.emission_rate = 3
+        let randproj.fadef = 0.13
+        let randproj.emission_rate = 0.2
         call add(self.randobjs,randproj)
     endfunction "}}}
     function! starsys.update() dict "{{{
 
-        let self.angle += self.rspd
-        let self.pos[0] = self.center[0] + self.radius * cos(self.angle)
-        let self.pos[1] = self.center[1] + self.radius * sin(self.angle)
+        " let self.angle += self.rspd
+        " let self.pos[0] = self.center[0] + self.radius * cos(self.angle)
+        " let self.pos[1] = self.center[1] + self.radius * sin(self.angle)
 
         let self.tick += 1
         if self.tick >= 165 && len(self.randobjs) < self.maxrandobj
@@ -2408,13 +2411,16 @@ function! s:stars() "{{{
             let self.tick = 0
         endif
         for obj in self.randobjs
-            let obj.pos[0] += obj.spd[0]
-            let obj.pos[1] += obj.spd[1]
             let obj.life   -= obj.fadespd
-            cal obj.update()
-            if obj.life <= 0 
-                call remove(self.randobjs,index(self.randobjs,obj))
+            if obj.life >= 0 
+                let obj.pos[0] += obj.spd[0]
+                let obj.pos[1] += obj.spd[1]
+            else
+                if obj.life <= -5
+                    call remove(self.randobjs,index(self.randobjs,obj))
+                endif
             endif
+            cal obj.update()
         endfor
 
         let self.proj.pos[0] = self.pos[0] - self.size/2
@@ -2446,26 +2452,29 @@ function! s:dparticlesys() "{{{
     let dparticlesys = s:particlesys()
     let dparticlesys.obj   = s:object([["1"]])
     let dparticlesys.radius = 12
-    let dparticlesys.emission_rate  = 1
+    let dparticlesys.emission_rate  = 0.4
     function! dparticlesys.add() dict "{{{
-        let par = [[0.0,0.0],[0.0,0.0],[9.0,0.0]]
+        let par = [0.0,0.0, 0.0,0.0, 9.0,0.0, 0]
         let angle  = ( 0.017453 ) * s:random(0,360)
         let a = self.radius * sin(angle)
         let b = self.radius * cos(angle)
-        let par[0][0] = self.spd[0]/3.0 - b * 0.07
-        let par[0][1] = self.spd[1]/3.0 - a * 0.07
-        let par[1][0] = self.pos[0] + b
-        let par[1][1] = self.pos[1] + a
+        let par[0] = self.spd[0]/3.0 - b * 0.07
+        let par[1] = self.spd[1]/3.0 - a * 0.07
+        let par[2] = self.pos[0] + b
+        let par[3] = self.pos[1] + a
         let c = s:random(self.rndmf,self.rndxf)
-        let par[2][0] = c
-        let par[2][1] = c / 5.1 * self.fadef
+        let par[4] = c
+        let par[5] = c / 5.1 * self.fadef
+        let par[6] = s:random(0,4)
         call add(self.pars, par)
     endfunction "}}}
     function! dparticlesys.update() dict "{{{
-        for i in range(self.emission_rate)
+        let self.emit += self.emission_rate
+        for i in range(float2nr(self.emit))
             if len(self.pars) < self.maxobj
                 call self.add()
             endif
+            let self.emit -= 1
         endfor
         
         let self.obj.pos[0] = self.pos[0] - self.size/2
@@ -2473,26 +2482,27 @@ function! s:dparticlesys() "{{{
         cal self.obj.update()
 
         for par in self.pars
-            let par[1][0] += par[0][0]
-            let par[1][1] += par[0][1]
-            let par[2][0] -= par[2][1]
-            if par[2][0] <= 0 
-                    \|| par[1][0] > s:screen.width || par[1][0] < 0
-                    \|| par[1][1] > s:screen.height || par[1][1] < 0
+            let par[2] += par[0]
+            let par[3] += par[1]
+            let par[4] -= par[5]
+            if par[4] <= 0 
+                    \|| par[2] > s:screen.width || par[2] < 0
+                    \|| par[3] > s:screen.height || par[3] < 0
                 let angle  = ( 0.017453 ) * s:random(0,360)
                 let a = self.radius * sin(angle)
                 let b = self.radius * cos(angle)
-                let par[0][0] = self.spd[0]/3.0 - b * 0.08
-                let par[0][1] = self.spd[1]/3.0 - a * 0.08
-                let par[1][0] = self.pos[0] + b
-                let par[1][1] = self.pos[1] + a
+                let par[0] = self.spd[0]/3.0 - b * 0.08
+                let par[1] = self.spd[1]/3.0 - a * 0.08
+                let par[2] = self.pos[0] + b
+                let par[3] = self.pos[1] + a
                 let c = s:random(self.rndmf,self.rndxf)
-                let par[2][0] = c
-                let par[2][1] = c / 5.1 * self.fadef
+                let par[4] = c
+                let par[5] = c / 5.1 * self.fadef
+                let par[6] = s:random(0,4)
             endif
 
-            let c = s:chars{self.charn}[float2nr(par[2][0])]
-            call s:screen.plot(float2nr(par[1][0]),float2nr(par[1][1]), c)
+            let c = s:chars{par[6]}[float2nr(par[4])]
+            call s:screen.plot(float2nr(par[2]),float2nr(par[3]), c)
         endfor
 
     endfunction "}}}
@@ -2511,29 +2521,33 @@ function! s:particlesys() "{{{
     let particlesys.rndxf = 6
     let particlesys.obj   = s:object([["6"]])
     let particlesys.size  = 2
-    let particlesys.emission_rate  = 1
+    let particlesys.emission_rate  = 0.01
+    let particlesys.emit  = 0
     function! particlesys.init() dict "{{{
-        for i in range(5)
+        for i in range(1)
             call self.add()
         endfor
     endfunction "}}}
     function! particlesys.add() dict "{{{
         let c = s:random(self.rndmf,self.rndxf)
-        let par = [[0.0,0.0],[0.0,0.0],[10.0,0.0]]
-        let par[0][0] = s:random(-35,35) * self.spdf - self.spd[0]/3.0
-        let par[0][1] = s:random(-35,35) * self.spdf - self.spd[1]/3.0
-        let par[1][0] = self.pos[0]
-        let par[1][1] = self.pos[1]
-        let par[2][0] = c
-        let par[2][1] = c /5.1 * self.fadef
+        let par = [0.0,0.0,0.0,0.0,10.0,0.0,0]
+        let par[0] = s:random(-35,35) * self.spdf - self.spd[0]/3.0
+        let par[1] = s:random(-35,35) * self.spdf - self.spd[1]/3.0
+        let par[2] = self.pos[0]
+        let par[3] = self.pos[1]
+        let par[4] = c
+        let par[5] = c /5.1 * self.fadef
+        let par[6] = self.charn
         call add(self.pars, par)
     endfunction "}}}
     function! particlesys.update() dict "{{{
         
-        for i in range(self.emission_rate)
+        let self.emit +=self.emission_rate
+        for i in range(float2nr(self.emit))
             if len(self.pars) < self.maxobj
                 call self.add()
             endif
+            let self.emit -= 1
         endfor
 
         let self.obj.pos[0] = self.pos[0] - self.size/2
@@ -2541,23 +2555,23 @@ function! s:particlesys() "{{{
         cal self.obj.update()
 
         for par in self.pars
-            let par[1][0] += par[0][0]
-            let par[1][1] += par[0][1]
-            let par[2][0] -= par[2][1]
-            if par[2][0] <= 0 
-                    \|| par[1][0] > s:screen.width || par[1][0] < 0
-                    \|| par[1][1] > s:screen.height || par[1][1] < 0
-                let par[0][0] = s:random(-35,35) * self.spdf - self.spd[0]/3.0
-                let par[0][1] = s:random(-35,35) * self.spdf - self.spd[1]/3.0
-                let par[1][0] = self.pos[0]
-                let par[1][1] = self.pos[1]
+            let par[2] += par[0]
+            let par[3] += par[1]
+            let par[4] -= par[5]
+            if par[4] <= 0 
+                    \|| par[2] > s:screen.width || par[2] < 0
+                    \|| par[3] > s:screen.height || par[3] < 0
+                let par[0] = s:random(-35,35) * self.spdf - self.spd[0]/3.0
+                let par[1] = s:random(-35,35) * self.spdf - self.spd[1]/3.0
+                let par[2] = self.pos[0]
+                let par[3] = self.pos[1]
                 let c = s:random(self.rndmf,self.rndxf)
-                let par[2][0] = c
-                let par[2][1] = c /5.1 * self.fadef
+                let par[4] = c
+                let par[5] = c /5.1 * self.fadef
             endif
 
-            let c = s:chars{self.charn}[float2nr(par[2][0])]
-            call s:screen.plot(float2nr(par[1][0]),float2nr(par[1][1]), c)
+            let c = s:chars{par[6]}[float2nr(par[4])]
+            call s:screen.plot(float2nr(par[2]),float2nr(par[3]), c)
         endfor
 
     endfunction "}}}
