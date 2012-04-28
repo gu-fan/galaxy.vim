@@ -6,7 +6,7 @@
 " License: The MIT Licence
 "          http://www.opensource.org/licenses/mit-license.php
 "          Copyright (c) 2011-2012 Rykka.ForestGreen
-" Last Update: 2012-04-26
+" Last Update: 2012-04-28
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim
@@ -460,15 +460,15 @@ let s:hl_styles.Colour = [
 "         scheme        bgd     fgd      syn      msg       dif
 let s:default_schemes=[
         \["White"    ,"FFFFFF","303133","306399","CC2929","80AEB6"],
-        \["Paper"    ,"EBE9E8","212533","345B85","C21B1B","DBA399"],
+        \["Paper"    ,"EBE9E8","171D33","345B85","C21B1B","DBA399"],
         \["Grape"    ,"0D0609","B895AA","A37B5F","CC2929","506792"],
         \["Spring"   ,"CBE5A1","171F1B","496791","B80F28","DBC683"],
         \["MoonNight","060F1A","CACCA7","7FA5B8","EB2F3F","6D98B6"],
         \["Cloudy"   ,"ACE5DB","191D29","324F7D","CC2929","DBCC78"],
-        \["Flax"     ,"F2EFE4","291D1D","386599","CC292E","D9B2AD"],
+        \["Flax"     ,"F2EFE4","1D2921","386599","CC292E","D9B2AD"],
         \["InkGreen" ,"0A0D07","8CA383","7F7BC7","FF3636","5E7091"],
-        \["Cream"    ,"FFF9C2","33142A","386599","CC3D42","D9B2AD"],
-        \["Black"    ,"000000","AEB3B8","718DAD","FF4040","578A92"],
+        \["Cream"    ,"FFFACC","2C1733","386599","CC3D42","D9B2AD"],
+        \["Black"    ,"000000","A5A9AD","718DAD","FF4040","578A92"],
         \]
 let s:intro_lines = 2
 let s:blt_in_lines=len(s:default_schemes)
