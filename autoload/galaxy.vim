@@ -6,7 +6,7 @@
 " License: The MIT Licence
 "          http://www.opensource.org/licenses/mit-license.php
 "          Copyright (c) 2011-2012 Rykka.ForestGreen
-" Last Update: 2012-04-28
+" Last Update: 2012-05-03
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim
@@ -170,11 +170,11 @@ let s:default_hl=[
             \] "}}}
 " syn 0 LESS "{{{
 let s:syn_hl_0=[
-            \["Keyword",        "synclr9",  "nocolor",  "b"     ],
-            \["Statement",      "synclr9",  "nocolor",  "n"     ],
-            \["Conditional",    "synclr9",  "nocolor",  "n"     ],
-            \["Repeat",         "synclr9",  "nocolor",  "n"     ],
-            \["Label",          "synclr9",  "nocolor",  "b"     ],
+            \["Keyword",        "synclr0",  "nocolor",  "b"     ],
+            \["Statement",      "synclr0",  "nocolor",  "n"     ],
+            \["Conditional",    "synclr0",  "nocolor",  "n"     ],
+            \["Repeat",         "synclr0",  "nocolor",  "n"     ],
+            \["Label",          "synclr0",  "nocolor",  "b"     ],
             \["PreProc",        "synclr1",  "nocolor",  "n"     ],
             \["Include",        "synclr1",  "nocolor",  "b"     ],
             \["Define",         "synclr1",  "nocolor",  "b"     ],
@@ -188,14 +188,14 @@ let s:syn_hl_0=[
             \["Tag",            "Special"       ],
             \["Type",           "synclr3",  "nocolor",  "n"     ],
             \["Typedef",        "synclr3",  "nocolor",  "b"     ],
-            \["StorageClass",   "synclr3",  "nocolor",  "n"     ],
-            \["Structure",      "synclr3",  "nocolor",  "b"     ],
+            \["StorageClass",   "synclr4",  "nocolor",  "n"     ],
+            \["Structure",      "synclr4",  "nocolor",  "b"     ],
             \["Directory",      "Type"          ],
             \["Identifier",     "synclr5",  "nocolor",  "b"     ],
             \["Constant",       "synclr5",  "nocolor",  "n"     ],
             \["Boolean",        "synclr5",  "nocolor",  "n"     ],
             \["Float",          "synclr5",  "nocolor",  "n"     ],
-            \["Character",      "synclr5",  "nocolor",  "n"     ],
+            \["Character",      "synclr6",  "nocolor",  "n"     ],
             \["String",         "synclr7",  "nocolor",  "n"     ],
             \["Function",       "synclr7",  "nocolor",  "b"     ],
             \["Keyword",        "synclr9",  "nocolor",  "b"     ],
