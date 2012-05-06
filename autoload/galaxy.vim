@@ -490,11 +490,11 @@ let s:term_hl=[
             \["PmenuSel",       "bgrd_t",  "msg1_t",  "n"    ],
             \["PmenuSbar",      "Pmenu"                      ],
             \["PmenuThumb",     "fgrd_t",  "msg2_t",  "n"    ],
-            \["DiffAdd",        "nocolor", "dif0_t",  "n"    ],
-            \["DiffChange",     "nocolor", "dif1_t",  "n"    ],
-            \["DiffDelete",     "msg0_t",  "bgrd_t",  "b"    ],
-            \["DiffText",       "nocolor", "dif2_t",  "n"    ],
-            \["Folded",         "bgrd_t",  "dif1_t",  "n"    ],
+            \["DiffAdd",        "bgrd_t",  "dif0_t",  "n"    ],
+            \["DiffChange",     "bgrd_t",  "dif1_t",  "n"    ],
+            \["DiffDelete",     "fgrd_t",  "bgrd_t",  "b"    ],
+            \["DiffText",       "bgrd_t",  "dif2_t",  "n"    ],
+            \["Folded",         "bgrd_t",  "cntr_t",  "n"    ],
             \["FoldColumn",     "dif2_t",  "fdep_t",  "n"    ],
             \["LineNr",         "Folded"                     ],
             \["SignColumn",     "msg1_t",  "fdep_t",  "n"    ],
@@ -604,11 +604,11 @@ function! s:set_light16_var() "{{{
 endfunction "}}}
 function! s:set_light8_var() "{{{
     " let s:t_Co   = 8
-    let s:fgrd_t   = "black"
-    let s:bgrd_t   = "lightgrey"
-    let s:cntr_t   = "darkcyan"
-    let s:fdep_t   = "black"
-    let s:udep_t   = "darkblue"
+    let s:fgrd_t = "black"
+    let s:bgrd_t = "lightgrey"
+    let s:cntr_t = "darkcyan"
+    let s:fdep_t = "black"
+    let s:udep_t = "darkblue"
     let s:syn0_t = "darkblue"
     let s:syn1_t = "darkyellow"
     let s:syn2_t = "darkmagenta"
@@ -638,10 +638,9 @@ function! s:set_dark16_var() "{{{
     let s:dif2_t = "darkmagenta"
 endfunction "}}}
 function! s:set_dark8_var() "{{{
-    " let s:t_Co=8
     let s:fgrd_t="lightgrey"
     let s:bgrd_t="black"
-    let s:cntr_t="darkgrey"
+    let s:cntr_t="darkcyan"
     let s:fdep_t="white"
     let s:udep_t="blue"
     let s:syn0_t="darkcyan"
