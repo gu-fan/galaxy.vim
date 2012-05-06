@@ -895,20 +895,20 @@ function! galaxy#statusline(cur) "{{{
     if     a:cur == 1 && g:galaxy_statusline_style == "Left"
         let line.= s:clr(m5,mode)
         let line.= s:clr(m4,num)
-        let line.= s:clr(m3,env)
+        let line.= s:clr(m3,ft)
+        let line.= s:clr(m2,env)
+        let line.= s:clr(m1,stat)
+        let line.= s:clr(c1,ro)
         let line.= s:clr(n0,file)
-        let line.= s:clr(m1,ro)
-        let line.= s:clr(m2,ft)
-        let line.= s:clr(m3,stat)
         let line.= s:clr(l2,pos)
     elseif a:cur == 0 && g:galaxy_statusline_style == "Left"
-        let line.= s:clr(d3,mode2)
-        let line.= s:clr(d2,num)
+        let line.= s:clr(d4,mode2)
+        let line.= s:clr(d3,num)
+        let line.= s:clr(d2,ft)
         let line.= s:clr(d1,env)
+        let line.= s:clr(d0,stat)
+        let line.= s:clr(d0,ro)
         let line.= s:clr(n0,file)
-        let line.= s:clr(l1,ro)
-        let line.= s:clr(l1,ft)
-        let line.= s:clr(l2,stat)
         let line.= s:clr(l2,pos)
     elseif a:cur == 1 && g:galaxy_statusline_style == "Right"
         let line.= s:clr(l2,num)
@@ -1192,6 +1192,7 @@ function! galaxy#stat() "{{{
     if &diff  | let val .= " Dif" | endif
     if &list  | let val .= " Lst" | endif
     if &bin   | let val .= " Bin" | endif
+    if !empty(&keymap) | let val .= " K:" . &keymap[0] | endif
     if !empty(val)  | return val
     else            | return ""
     endif
