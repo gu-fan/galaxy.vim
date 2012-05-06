@@ -6,7 +6,7 @@
 " License: The MIT Licence
 "          http://www.opensource.org/licenses/mit-license.php
 "          Copyright (c) 2011-2012 Rykka.ForestGreen
-" Last Update: 2012-05-03
+" Last Update: 2012-05-06
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim
@@ -240,9 +240,10 @@ let s:syn_hl_1=[
 " s:styles "{{{2
 let s:hl_styles = {}
 "{{{ Shadow
+" CursorS is for Screen cursor recover.
 let s:hl_styles.Shadow = [
-        \["Cursor",         "bgdclr1",  "msgclr8",  "n"     ],
-        \["CursorS",        "bgdclr1",  "msgclr8",  "n"     ],
+        \["Cursor",         "bgdclr1",  "fgdclr1",  "n"     ],
+        \["CursorS",        "bgdclr1",  "fgdclr1",  "n"     ],
         \["CursorIM",       "nocolor",  "msgclr4",  "n"     ],
         \["CursorLine",     "nocolor",  "difclr3",  "n"     ],
         \["CursorColumn",   "CursorLine"    ],
@@ -288,8 +289,8 @@ let s:hl_styles.Shadow = [
         \] "}}}
 "{{{ Colour
 let s:hl_styles.Colour = [
-        \["Cursor",         "bgdclr1",  "msgclr6",  "n"     ],
-        \["CursorS",        "bgdclr1",  "msgclr6",  "n"     ],
+        \["Cursor",         "bgdclr1",  "fgdclr1",  "n"     ],
+        \["CursorS",        "bgdclr1",  "fgdclr1",  "n"     ],
         \["CursorIM",       "nocolor",  "msgclr4",  "n"     ],
         \["CursorLine",     "nocolor",  "bgdclr1",  "n"     ],
         \["CursorColumn",   "CursorLine"    ],
@@ -473,111 +474,123 @@ let s:default_schemes=[
 let s:intro_lines = 2
 let s:blt_in_lines=len(s:default_schemes)
 " }}}
-" s:term_list "{{{
-let s:term_hl_list=[
-            \["Normal",         "fg_t",  "bg_t",  "n"      ],
-            \["Cursor",         "fg_t",  "bg_t",  "r"      ],
-            \["CursorLine",     "black",  "dif2_t",  "n"   ],
-            \["CursorColumn",   "CursorLine"               ],
-            \["Visual",         "nocolor",  "fd_t",  "n"   ],
-            \["VisualNOS",      "Visual"                   ],
-            \["Search",         "nocolor",  "dif2_t",  "n" ],
-            \["IncSearch",      "nocolor",  "msg1_t",  "n" ],
-            \["Wildmenu",       "msg1_t",  "fg_t",  "r"    ],
-            \["Pmenu",          "fg_t",  "cn_t",  "n"      ],
-            \["PmenuSel",       "bg_t",  "msg1_t",  "n"    ],
-            \["PmenuSbar",      "Pmenu"                    ],
-            \["PmenuThumb",     "fg_t",  "msg2_t",  "n"    ],
-            \["DiffAdd",        "nocolor",  "dif0_t",  "n" ],
-            \["DiffChange",     "nocolor",  "dif1_t",  "n" ],
-            \["DiffDelete",     "msg0_t",  "bg_t",  "b"    ],
-            \["DiffText",       "nocolor",  "dif2_t",  "n" ],
-            \["Folded",         "bg_t",  "fd_t",  "n"      ],
-            \["FoldColumn",     "dif2_t",  "fd_t",  "n"    ],
-            \["LineNr",         "Folded"                   ],
-            \["SignColumn",     "msg1_t",  "fd_t",  "n"    ],
-            \["ColorColumn",    "Folded"                   ],
-            \["tabline",        "bg_t",  "fd_t",  "n"      ],
-            \["tablinesel",     'syn0_t',  "bg_t",  "n"    ],
-            \["tablinefill",    "cn_t",  "fg_t",  "n"      ],
-            \["StatusLine",     "dif2_t",  "fg_t",  "n"    ],
-            \["StatusLineNC",   "bg_t",  "fg_t",  "n"      ],
-            \["VertSplit",      "StatusLineNC"             ],
-            \["User1",          "msg0_t",  "fg_t",  "n"    ],
-            \["User2",          "msg1_t",  "fg_t",  "n"    ],
-            \["User3",          "msg2_t",  "fg_t",  "n"    ],
-            \["User4",          "dif0_t",  "fg_t",  "n"    ],
-            \["User5",          "dif1_t",  "fg_t",  "n"    ],
-            \["User6",          "dif2_t",  "fg_t",  "n"    ],
-            \["User7",          "dif2_t",  "fg_t",  "n"    ],
-            \["User8",          "dif2_t",  "fg_t",  "n"    ],
-            \["User9",          "dif2_t",  "fg_t",  "n"    ],
-            \["MoreMsg",        "dif2_t",  "bg_t",  "n"    ],
-            \["Question",       "msg1_t",  "bg_t",  "n"    ],
-            \["ModeMsg",        "dif0_t",  "bg_t",  "n"    ],
-            \["MatchParen",     "bg_t",  "syn1_t",  "n"    ],
-            \["WarningMsg",     "cn_t",  "msg1_t",  "n"    ],
-            \["SpellLocal",     "WarningMsg"               ],
-            \["SpellRare",      "WarningMsg"               ],
-            \["ErrorMsg",       "fg_t",  "msg0_t",  "n"    ],
-            \["Error",          "ErrorMsg"                 ],
-            \["SpellBad",       "Error"                    ],
-            \["SpellCap",       "SpellBad"                 ],
-            \["Todo",           "fg_t",  "dif0_t",  "n"    ],
-            \["Title",          "msg0_t",  "nocolor",  "n" ],
-            \["Conceal",        "cn_t",  "bg",  "n"        ],
-            \["Comment",        "cn_t",  "bg",  "n"        ],
-            \["NonText",        "Comment"                  ],
-            \["Ignore",         "Comment"                  ],
-            \["SpecialComment", "syn0_t",  "bg",  "n"      ],
-            \["Underlined",     "ud_t",  "bg",  "n"        ],
-            \["Keyword",        "syn0_t",  "bg",  "n"      ],
-            \["Statement",      "syn0_t",  "bg",  "n"      ],
-            \["Conditional",    "Statement"                ],
-            \["Repeat",         "Statement"                ],
-            \["Function",       "syn0_t",  "bg",  "n"      ],
-            \["Structure",      "syn0_t",  "bg",  "n"      ],
-            \["Exception",      "syn2_t",  "bg",  "r"      ],
-            \["Debug",          "Exception"                ],
-            \["SpecialChar",    "syn2_t",  "bg",  "n"      ],
-            \["SpecialKey",     "SpecialChar"              ],
-            \["Tag",            "SpecialChar"              ],
-            \["PreProc",        "syn2_t",  "bg",  "n"      ],
-            \["Include",         "PreProc"                 ],
-            \["Define",         "PreProc"                  ],
-            \["Macro",          "PreProc"                  ],
-            \["PreCondit",      "PreProc"                  ],
-            \["Special",        "syn2_t",  "bg",  "n"      ],
-            \["Delimiter",      "Special"                  ],
-            \["Type",           "syn3_t",  "bg",  "n"      ],
-            \["Operator",       "Type"                     ],
-            \["Directory",      "Type"                     ],
-            \["Identifier",     "syn3_t",  "bg",  "n"      ],
-            \["StorageClass",   "Identifier"               ],
-            \["Constant",       "syn3_t",  "bg",  "n"      ],
-            \["Boolean",        "Constant"                 ],
-            \["Float",          "Constant"                 ],
-            \["Number",         "Constant"                 ],
-            \["String",         "syn1_t",  "bg",  "n"      ],
-            \["Character",      "syn1_t",  "bg",  "n"      ],
-            \["Label",          "syn1_t",  "bg",  "r"      ],
+" s:term_ "{{{
+let s:term_hl=[
+            \["Normal",         "fgrd_t",  "bgrd_t",  "n"     ],
+            \["Cursor",         "fgrd_t",  "bgrd_t",  "r"    ],
+            \["CursorS",        "fgrd_t",  "bgrd_t",  "r"    ],
+            \["CursorLine",     "nocolor", "dif2_t",  "n"     ],
+            \["CursorColumn",   "CursorLine"                 ],
+            \["Visual",         "bgrd_t",  "fdep_t",  "n"    ],
+            \["VisualNOS",      "Visual"                     ],
+            \["Search",         "nocolor",  "dif2_t",  "n"   ],
+            \["IncSearch",      "nocolor",  "msg1_t",  "n"   ],
+            \["Wildmenu",       "msg1_t",  "fgrd_t",  "r"    ],
+            \["Pmenu",          "fgrd_t",  "cntr_t",  "n"    ],
+            \["PmenuSel",       "bgrd_t",  "msg1_t",  "n"    ],
+            \["PmenuSbar",      "Pmenu"                      ],
+            \["PmenuThumb",     "fgrd_t",     "msg2_t",  "n" ],
+            \["DiffAdd",        "nocolor",  "dif0_t",  "n"   ],
+            \["DiffChange",     "nocolor",  "dif1_t",  "n"   ],
+            \["DiffDelete",     "msg0_t",  "bgrd_t",  "b"    ],
+            \["DiffText",       "nocolor",  "dif2_t",  "n"   ],
+            \["Folded",         "bgrd_t",  "dif1_t",  "n"    ],
+            \["FoldColumn",     "dif2_t",  "fdep_t",  "n"    ],
+            \["LineNr",         "Folded"                     ],
+            \["SignColumn",     "msg1_t",  "fdep_t",  "n"    ],
+            \["ColorColumn",    "Folded"                     ],
+            \["tabline",        "bgrd_t",  "fdep_t",  "n"    ],
+            \["tablinesel",     'syn0_t',  "bgrd_t",  "n"    ],
+            \["tablinefill",    "cntr_t",  "fgrd_t",  "n"    ],
+            \["StatusLine",     "bgrd_t",  "fgrd_t",  "b"    ],
+            \["StatusLineNC",   "dif2_t",  "fgrd_t",  "n"    ],
+            \["VertSplit",      "StatusLineNC"               ],
+            \["User1",          "fgrd_t",  "msg0_t",  "n"    ],
+            \["User2",          "fgrd_t",  "msg1_t",  "n"    ],
+            \["User3",          "fgrd_t",  "msg2_t",  "n"    ],
+            \["User4",          "fgrd_t",  "msg0_t",  "n"    ],
+            \["User5",          "fgrd_t",  "msg1_t",  "n"    ],
+            \["User6",          "fgrd_t",  "msg0_t",  "n"    ],
+            \["User7",          "fgrd_t",  "msg2_t",  "n"    ],
+            \["User8",          "fgrd_t",  "msg1_t",  "n"    ],
+            \["User9",          "fgrd_t",  "msg2_t",  "n"    ],
+            \["User10",         "fgrd_t",  "msg0_t",  "n"    ],
+            \["User11",         "dif2_t",  "fgrd_t",  "n"    ],
+            \["User12",         "dif2_t",  "fgrd_t",  "n"    ],
+            \["User13",         "dif2_t",  "fgrd_t",  "n"    ],
+            \["User14",         "dif2_t",  "fgrd_t",  "n"    ],
+            \["User15",         "dif2_t",  "fgrd_t",  "n"    ],
+            \["User16",         "dif2_t",  "fgrd_t",  "n"    ],
+            \["User17",         "dif2_t",  "fgrd_t",  "n"    ],
+            \["User18",         "dif2_t",  "fgrd_t",  "n"    ],
+            \["User19",         "dif2_t",  "fgrd_t",  "n"    ],
+            \["MoreMsg",        "dif2_t",  "bgrd_t",  "n"    ],
+            \["Question",       "msg1_t",  "bgrd_t",  "n"    ],
+            \["ModeMsg",        "dif0_t",  "bgrd_t",  "n"    ],
+            \["MatchParen",     "bgrd_t",  "syn1_t",  "n"    ],
+            \["WarningMsg",     "cntr_t",  "msg1_t",  "n"    ],
+            \["SpellLocal",     "WarningMsg"                 ],
+            \["SpellRare",      "WarningMsg"                 ],
+            \["ErrorMsg",       "fgrd_t",  "msg0_t",  "n"    ],
+            \["Error",          "ErrorMsg"                   ],
+            \["SpellBad",       "Error"                      ],
+            \["SpellCap",       "SpellBad"                   ],
+            \["Todo",           "fgrd_t",  "dif0_t",  "n"    ],
+            \["Title",          "msg0_t",  "nocolor",  "n"   ],
+            \["Conceal",        "cntr_t",  "bgrd_t",  "n"    ],
+            \["Comment",        "cntr_t",  "bgrd_t",  "n"    ],
+            \["NonText",        "Comment"                    ],
+            \["Ignore",         "Comment"                    ],
+            \["SpecialComment", "syn0_t",  "bgrd_t",  "n"    ],
+            \["Underlined",     "udep_t",  "bgrd_t",  "n"    ],
+            \["Keyword",        "syn0_t",  "bgrd_t",  "n"    ],
+            \["Statement",      "syn0_t",  "bgrd_t",  "n"    ],
+            \["Conditional",    "Statement"                  ],
+            \["Repeat",         "Statement"                  ],
+            \["Function",       "syn0_t",  "bgrd_t",  "n"    ],
+            \["Structure",      "syn0_t",  "bgrd_t",  "n"    ],
+            \["Exception",      "syn2_t",  "bgrd_t",  "r"    ],
+            \["Debug",          "Exception"                  ],
+            \["SpecialChar",    "syn2_t",  "bgrd_t",  "n"    ],
+            \["SpecialKey",     "SpecialChar"                ],
+            \["Tag",            "SpecialChar"                ],
+            \["PreProc",        "syn2_t",  "bgrd_t",  "n"    ],
+            \["Include",         "PreProc"                   ],
+            \["Define",         "PreProc"                    ],
+            \["Macro",          "PreProc"                    ],
+            \["PreCondit",      "PreProc"                    ],
+            \["Special",        "syn2_t",  "bgrd_t",  "n"    ],
+            \["Delimiter",      "Special"                    ],
+            \["Type",           "syn3_t",  "bgrd_t",  "n"    ],
+            \["Operator",       "Type"                       ],
+            \["Directory",      "Type"                       ],
+            \["Identifier",     "syn3_t",  "bgrd_t",  "n"    ],
+            \["StorageClass",   "Identifier"                 ],
+            \["Constant",       "syn3_t",  "bgrd_t",  "n"    ],
+            \["Boolean",        "Constant"                   ],
+            \["Float",          "Constant"                   ],
+            \["Number",         "Constant"                   ],
+            \["String",         "syn1_t",  "bgrd_t",  "n"    ],
+            \["Character",      "syn1_t",  "bgrd_t",  "n"    ],
+            \["Label",          "syn1_t",  "bgrd_t",  "r"    ],
             \]
+"bold name
 let s:b8_name=[
             \"DarkGrey","Blue","Green","Cyan","Red","Magenta","Yellow",
             \"White",
 \]
 
-let s:n8_num=[0,4,2,6,1,5,8,7]
+let s:n8_num=[0,4,2,6,1,5,3,7]
 let s:n8_name=[
             \"Black","DarkBlue","DarkGreen","DarkCyan","DarkRed","DarkMagenta","DarkYellow",
             \"LightGrey",
             \]
 function! s:set_light16_var() "{{{
-    let s:fg_t   = "black"
-    let s:bg_t   = "lightgrey"
-    let s:cn_t   = "darkgrey"
-    let s:fd_t   = "darkgrey"
-    let s:ud_t   = "darkblue"
+    let s:fgrd_t = "black"
+    let s:bgrd_t = "lightgrey"
+    let s:cntr_t = "darkgrey"
+    let s:fdep_t = "darkgrey"
+    let s:udep_t = "darkblue"
     let s:syn0_t = "darkcyan"
     let s:syn1_t = "darkgreen"
     let s:syn2_t = "darkmagenta"
@@ -590,12 +603,12 @@ function! s:set_light16_var() "{{{
     let s:dif2_t = "darkyellow"
 endfunction "}}}
 function! s:set_light8_var() "{{{
-    let s:t_Co   = 8
-    let s:fg_t   = "black"
-    let s:bg_t   = "lightgrey"
-    let s:cn_t   = "darkcyan"
-    let s:fd_t   = "black"
-    let s:ud_t   = "darkblue"
+    " let s:t_Co   = 8
+    let s:fgrd_t   = "black"
+    let s:bgrd_t   = "lightgrey"
+    let s:cntr_t   = "darkcyan"
+    let s:fdep_t   = "black"
+    let s:udep_t   = "darkblue"
     let s:syn0_t = "darkblue"
     let s:syn1_t = "darkyellow"
     let s:syn2_t = "darkmagenta"
@@ -608,11 +621,11 @@ function! s:set_light8_var() "{{{
     let s:dif2_t = "darkgreen"
 endfunction "}}}
 function! s:set_dark16_var() "{{{
-    let s:fg_t   = "lightgrey"
-    let s:bg_t   = "black"
-    let s:cn_t   = "darkgrey"
-    let s:fd_t   = "darkgrey"
-    let s:ud_t   = "blue"
+    let s:fgrd_t   = "lightgrey"
+    let s:bgrd_t   = "black"
+    let s:cntr_t   = "darkgrey"
+    let s:fdep_t   = "darkgrey"
+    let s:udep_t   = "blue"
     let s:syn0_t = "darkcyan"
     let s:syn1_t = "darkgreen"
     let s:syn2_t = "darkyellow"
@@ -625,12 +638,12 @@ function! s:set_dark16_var() "{{{
     let s:dif2_t = "darkmagenta"
 endfunction "}}}
 function! s:set_dark8_var() "{{{
-    let s:t_Co=8
-    let s:fg_t="lightgrey"
-    let s:bg_t="black"
-    let s:cn_t="darkgrey"
-    let s:fd_t="white"
-    let s:ud_t="blue"
+    " let s:t_Co=8
+    let s:fgrd_t="lightgrey"
+    let s:bgrd_t="black"
+    let s:cntr_t="darkgrey"
+    let s:fdep_t="white"
+    let s:udep_t="blue"
     let s:syn0_t="darkcyan"
     let s:syn1_t="darkgreen"
     let s:syn2_t="darkyellow"
@@ -952,7 +965,7 @@ function! s:statusline_aug() "{{{
     let &stl = '%!galaxy#statusline(0)'
     call galaxy#update_line(1)
 
-    if version <= 700 ||  g:galaxy_statusline_hl_insert != 1 
+    if g:galaxy_statusline_hl_insert != 1 
         return
     endif
 
@@ -960,9 +973,13 @@ function! s:statusline_aug() "{{{
     let s:list_insert_leave = []
     for item in s:hl_styles[s:scheme.style]
         if item[0] =~ '^User\d\+$'
-            call add(s:list_insert_leave,item)
 
             let d = substitute(item[0],'User\(\d\+\)','\1','')
+            if d>10
+                continue
+            else
+                call add(s:list_insert_leave,item)
+            endif
 
             let _item = copy(item)
             if     s:scheme.style =~? 'Classic'
@@ -987,20 +1004,30 @@ function! s:statusline_aug() "{{{
             call add(s:list_insert_enter,_item)
         endif
     endfor
-
+    
+    " store it for not executing s:hl_list() every time
+    let s:hl_cmd_ie = s:hi_list(s:list_insert_enter)
+    let s:hl_cmd_il = s:hi_list(s:list_insert_leave)
     aug galaxy#insertenter
         au!
-        au InsertEnter * call s:hi_list(s:list_insert_enter)
-        au InsertLeave * call s:hi_list(s:list_insert_leave)
+        au InsertEnter * for cmd in s:hl_cmd_ie| exec cmd |endfor
+        au InsertLeave * for cmd in s:hl_cmd_il| exec cmd |endfor
     aug END
 endfunction "}}}
 function! s:statusline_term16_aug() "{{{
-    if version <= 700 ||  g:galaxy_statusline_hl_insert != 1
+    aug galaxy#winenter
+        au!
+        au! BufWinEnter,WinEnter          * call galaxy#update_line(1)
+        au! WinLeave                      * call galaxy#update_line(0)
+    aug END
+
+    let &stl = '%!galaxy#statusline(0)'
+    call galaxy#update_line(1)
+    if  g:galaxy_statusline_hl_insert != 1
         return
     endif
     if s:bgy == "dark"
         let s:list_insert_enter=[
-            \["StatusLine" , "Gray"    , "Blue" , "n" ],
             \["User1"      , "Red"     , "Blue" , "n" ],
             \["User2"      , "Magenta" , "Blue" , "n" ],
             \["User3"      , "Cyan"    , "Blue" , "n" ],
@@ -1013,7 +1040,6 @@ function! s:statusline_term16_aug() "{{{
             \]
     else
         let s:list_insert_enter=[
-            \["StatusLine" , "Black"   , "Yellow" , "n" ],
             \["User1"      , "Red"     , "Yellow" , "n" ],
             \["User2"      , "Magenta" , "Yellow" , "n" ],
             \["User3"      , "Cyan"    , "Yellow" , "n" ],
@@ -1026,16 +1052,18 @@ function! s:statusline_term16_aug() "{{{
             \]
     endif
         let s:list_insert_leave =[]
-        for item in s:term_hl_list
-            if item[0] =~ '^User\d\+$\|StatusLine'
+        for item in s:term_hl
+            if item[0] =~ '^User\d\+$'
                 call add(s:list_insert_leave, item)
             endif
         endfor
 
+    let s:hl_cmd_ie =  s:hi_list(s:list_insert_enter)
+    let s:hl_cmd_il =  s:hi_list(s:list_insert_leave)
     aug galaxy#insertenter
         au!
-        au InsertEnter * call s:hi_list(s:list_insert_enter)
-        au InsertLeave * call s:hi_list(s:list_insert_leave)
+        au InsertEnter * for cmd in s:hl_cmd_ie| exec cmd |endfor
+        au InsertLeave * for cmd in s:hl_cmd_il| exec cmd |endfor
     aug END
 endfunction "}}}
 function! s:term_cursor() "{{{
@@ -1048,37 +1076,33 @@ function! s:term_cursor() "{{{
             let color_insert="Darkred"
         endif
     else
-        let color_normal="#".s:synclr_list[3]
+        let color_normal="#".s:fgdclr_list[1]
         let color_insert="#".s:msgclr_list[0]
     endif
     let color_exit=g:galaxy_tcursor_color
-    "by lilydjwg
-    let au_cmd=""
-    if &term =~ 'xterm\|rxvt'
-        exe 'silent !echo -ne "\e]12;' . escape(color_normal, '#'). '\007"'
-        let &t_SI="\e]12;" . color_insert . "\007"
-        let &t_EI="\e]12;" . color_normal . "\007"
-
-        let au_cmd='autocmd VimLeave * :silent !echo -ne "\e]12;"' . escape(color_exit, '#') . '"\007"'
-    elseif &term =~ "screen"
-        if !exists('$SUDO_UID')
-            if exists('$TMUX')
-                exe 'silent !echo -ne "\033Ptmux;\033\e]12;"' . escape(color_normal, '#') . '"\007\033\\"'
-                let &t_SI="\033Ptmux;\033\e]12;" . color_insert . "\007\033\\"
-                let &t_EI="\033Ptmux;\033\e]12;" . color_normal . "\007\033\\"
-                let au_cmd='autocmd VimLeave * :silent !echo -ne "\033Ptmux;\033\e]12;"' . shellescape(color_exit, 1) . '"\007\033\\"'
-            else
-                exe 'silent !echo -ne "\033P\e]12;"' . escape(color_normal, '#') . '"\007\033\\"'
-                let &t_SI="\033P\e]12;" . color_insert . "\007\033\\"
-                let &t_EI="\033P\e]12;" . color_normal . "\007\033\\"
-                let au_cmd='autocmd VimLeave * :silent !echo -ne "\033P\e]12;"' . escape(color_exit, '#')  . '"\007\033\\"'
-            endif
-        endif
-    endif
+    "  XXX:
+    "  shell cmd must using shellescape. 
+    "  option could  using no escape.
+    let &t_SI = s:term_ce(color_insert)
+    let &t_EI = s:term_ce(color_normal)
     aug galaxy#term_cursor
         au!
-        exec au_cmd
+        exe "au VimEnter * sil !printf '". s:term_ce(shellescape(color_normal,1)) ."'"
+        exe "au VimLeave * sil !printf '". s:term_ce(shellescape(color_exit,1)) ."'"
     aug END
+endfunction "}}}
+function! s:term_ce(text) "{{{
+    " terminal cursor control sequences
+    " http://en.wikipedia.org/wiki/ANSI_escape_sequences
+    " http://invisible-island.net/xterm/ctlseqs/ctlseqs.html
+    if  &term =~ "screen" && exists('$TMUX') && !exists('$SUDO_UID')
+        " for tmux, should substitude every inside '\033' to '\033\033'
+        return "\033Ptmux;\033\033]12;".a:text."\007\033\\"
+    elseif &term =~ "screen"  && !exists('$SUDO_UID')
+        return "\033P\033]12;".a:text."\007\033\\"
+    else
+        return "\033]12;".a:text."\007"
+    endif
 endfunction "}}}
 let s:env_loaded = 0
 function! s:load_env() "{{{
@@ -1227,92 +1251,77 @@ function! s:gen_base_colors(colors) "{{{
 
 
 endfunction "}}}
-function! s:hi_Tlis(list) "{{{
+function! s:hi_list(list) "{{{ 
     let list=a:list
+    let hl_list = []
     for item in list
         if len(item) == 4
             let [hl_grp,hl_fg,hl_bg,hl_fm]=item
+            let [fm_txt,bg_txt,fg_txt,sp_txt] = ["","","",""]
+            if s:mode == "cterm" && &t_Co <= 16
+                let fm_txt = empty(hl_fm) ? "" : "NONE"
+                let fm_txt .= hl_fm=~'r' ? ",reverse"     : ""
 
-            let fm_txt = empty(hl_fm) ? "" : "NONE"
-            let fm_txt .= hl_fm=~'r' ? ",reverse"     : ""
+                let fg_txt = empty(hl_fg) ? hl_fg :
+                            \ exists("s:".hl_fg) ? s:{hl_fg} : s:fgrd_t
+                let bg_txt = empty(hl_bg) ? hl_bg :
+                            \ exists("s:".hl_bg) ? s:{hl_bg} : s:bgrd_t
 
-            let fg_txt = empty(hl_fg) ? hl_fg :
-                        \ exists("s:".hl_fg) ? s:{hl_fg} : s:fg_t
-            let bg_txt = empty(hl_bg) ? hl_bg :
-                        \ exists("s:".hl_bg) ? s:{hl_bg} : s:bg_t
-
-            " term 8 need set cterm to bold.
-            if exists("s:t_Co") && s:t_Co==8 "{{{
-                for i in range(8)
-                    " for t8 color name
-                    if fg_txt =~? '\<'.s:b8_name[i].'\>'
-                        let fg_txt=s:n8_num[i]
-                        let fm_txt.=",bold"
-                    endif
-                    if bg_txt =~? '\<'.s:b8_name[i].'\>'
-                        let bg_txt=s:n8_num[i]
-                    endif
-                endfor
-            endif "}}}
-
-            let bg_txt = empty(bg_txt) ? "" : s:mode."bg=".bg_txt." "
-            let fg_txt = empty(fg_txt) ? "" : s:mode."fg=".fg_txt." "
-            let fm_txt = empty(fm_txt) ? "" : s:mode."=".fm_txt
-            if !empty(fg_txt) || !empty(bg_txt) || !empty(fm_txt)
-                        \|| !empty(sp_txt)
-                exec "hi! ".hl_grp." ".fg_txt.bg_txt.fm_txt
-            endif
-
-        elseif len(item) == 2
-            let [hl_from,hl_to]=item
-            exec "hi! link ".hl_from." ".hl_to
-        endif
-    endfor
-endfunction "}}}
-function! s:hi_list(list) "{{{
-    for item in a:list
-        if len(item) == 4
-            let [hl_grp,hl_fg,hl_bg,hl_fm] = item
-            
-            " "" "msgclr0" "5A3F00"
-            let fg_txt = hl_fg =~ '\x\{6}' || empty(hl_fg) ? hl_fg :
-                    \ exists("s:".hl_fg) ? s:{hl_fg} : s:fgdclr0
-            let bg_txt = hl_bg =~ '\x\{6}' || empty(hl_bg) ? hl_bg :
-                    \ exists("s:".hl_bg) ? s:{hl_bg} : s:bgdclr0
-
-            if s:mode=="gui"
-                let fg_txt = fg_txt =~ '^\x\{6}$' ? "#".fg_txt : fg_txt
-                let bg_txt = bg_txt =~ '^\x\{6}$' ? "#".bg_txt : bg_txt
+                " term 8 need set cterm to bold.
+                if &t_Co<=8 "{{{
+                    for i in range(8)
+                        " for t8 color name
+                        if fg_txt =~? '\<'.s:b8_name[i].'\>'
+                            let fg_txt=s:n8_num[i]
+                            let fm_txt.=",bold"
+                        endif
+                        if bg_txt =~? '\<'.s:b8_name[i].'\>'
+                            let bg_txt=s:n8_num[i]
+                        endif
+                    endfor
+                endif "}}}
             else
-                let fg_txt= fg_txt =~ '\x\{6}$' ? 
-                            \colorv#hex2term(fg_txt,"CHECK") : fg_txt
-                let bg_txt= bg_txt =~ '\x\{6}$' ? 
-                            \colorv#hex2term(bg_txt,"CHECK") : bg_txt
+                let [hl_grp,hl_fg,hl_bg,hl_fm] = item
+                
+                "  'msgclr0' '5A3F00'
+                let fg_txt = hl_fg =~ '\x\{6}' || empty(hl_fg) ? hl_fg :
+                        \ exists("s:".hl_fg) ? s:{hl_fg} : s:fgdclr0
+                let bg_txt = hl_bg =~ '\x\{6}' || empty(hl_bg) ? hl_bg :
+                        \ exists("s:".hl_bg) ? s:{hl_bg} : s:bgdclr0
+
+                if s:mode=="gui"
+                    let fg_txt = fg_txt =~ '^\x\{6}$' ? "#".fg_txt : fg_txt
+                    let bg_txt = bg_txt =~ '^\x\{6}$' ? "#".bg_txt : bg_txt
+                else
+                    " terminal 256
+                    let fg_txt= fg_txt =~ '\x\{6}$' ? 
+                                \colorv#hex2term(fg_txt,"CHECK") : fg_txt
+                    let bg_txt= bg_txt =~ '\x\{6}$' ? 
+                                \colorv#hex2term(bg_txt,"CHECK") : bg_txt
+                endif
+
+                let fm_txt = empty(hl_fm) ? "" : "NONE"
+                let fm_txt .= hl_fm=~'u' ? ",underline"   : ""
+                let fm_txt .= hl_fm=~'r' ? ",reverse"     : ""
+                let fm_txt .= hl_fm=~'b' ? ",bold"        : ""
+
+                " set undercurl color in gui (guisp)
+                let sp_txt = ""
+                if hl_fm=~'c' && s:mode=="gui"
+                    let fm_txt .= ",undercurl"
+                    let sp_txt = '#'.s:msgclr4
+                elseif hl_fm=~'c' && s:mode=="cterm"
+                    let fm_txt .= ",underline"
+                endif
+
+                " not working in term
+                if hl_fm=~'i' && s:mode=="gui"
+                    let fm_txt .= ",italic"
+                endif
+                if hl_fm=~'s' && s:mode=="gui"
+                    let fm_txt .= ",standout"
+                endif
             endif
-
-            let fm_txt = empty(hl_fm) ? "" : "NONE"
-            let fm_txt .= hl_fm=~'u' ? ",underline"   : ""
-            let fm_txt .= hl_fm=~'r' ? ",reverse"     : ""
-            let fm_txt .= hl_fm=~'b' ? ",bold"        : ""
-
-            " set undercurl color in gui (guisp)
-            let sp_txt = ""
-            if hl_fm=~'c' && s:mode=="gui"
-                let fm_txt .= ",undercurl"
-                let sp_txt = '#'.s:msgclr4
-            elseif hl_fm=~'c' && s:mode=="cterm"
-                let fm_txt .= ",underline"
-            endif
-
-            " not working in term
-            if hl_fm=~'i' && s:mode=="gui"
-                let fm_txt .= ",italic"
-            endif
-            if hl_fm=~'s' && s:mode=="gui"
-                let fm_txt .= ",standout"
-            endif
-
-
             let bg_txt = empty(bg_txt) ? "" : " ".s:mode."bg=".bg_txt
             let fg_txt = empty(fg_txt) ? "" : " ".s:mode."fg=".fg_txt
             let sp_txt = empty(sp_txt) ? "" : " ".s:mode."sp=".sp_txt
@@ -1320,20 +1329,25 @@ function! s:hi_list(list) "{{{
 
             if !empty(fg_txt) || !empty(bg_txt) 
                 \|| !empty(fm_txt) || !empty(sp_txt)
+                let cmd =  "hi! ".hl_grp.fg_txt.bg_txt.sp_txt.fm_txt
                 try
-                    exec "hi! ".hl_grp.fg_txt.bg_txt.sp_txt.fm_txt
+                    exec cmd
                 catch /^Vim\%((\a\+)\)\=:E/	 
-                    call s:debug("hi ".v:exception
-                                \.hl_grp.fg_txt.bg_txt.sp_txt.fm_txt)
+                    call s:debug(hl_grp.v:exception)
                 endtry
+                call s:debug(cmd)
             endif
-            call s:debug(hl_grp." ".fg_txt)
+            call add(hl_list, cmd)
 
         elseif len(item) == 2
             let [hl_from,hl_to]=item
-            exec "hi! link ".hl_from." ".hl_to
+            let cmd =  "hi! link ".hl_from." ".hl_to
+            exec cmd
+            call s:debug(cmd)
+            call add(hl_list, cmd)
         endif
     endfor
+    return hl_list
 endfunction "}}}
 function! s:set_background() "{{{
     " XXX: there maybe errors of &background in terminal
@@ -2099,7 +2113,7 @@ let s:screen_lines = [
 \" DEFAULT HIGHLIGHTING GROUP:                                     ",
 \"-----------------------------------------------------------------",
 \" Cursor           Folded          TabLine          User1         ",
-\" CursorLine       ColorColumn     TabLineSel       User2         ",
+\"                  ColorColumn     TabLineSel       User2         ",
 \" CursorIM         FoldColumn      TabLineFill      User3         ",
 \" CursorLine       LineNr                           User4         ",
 \" CursorColumn     SignColumn      StatusLine       User5         ",
@@ -2110,7 +2124,7 @@ let s:screen_lines = [
 \" Search           PmenuSbar                                      ",
 \" IncSearch        PmenuThumb                                     ",
 \"                                                                 ",
-\" MISC HIGHLIGHTING GROUP  ( * is defined by Galaxy )             ",
+\" MISC HIGHLIGHTING GROUP  ( * defined by GALAXY )                ",
 \"-----------------------------------------------------------------",
 \" Normal           ErrorMsg        Conceal          SpellBad      ",
 \" Italic     *     WarningMsg      NonText          SpellCap      ",
@@ -2232,7 +2246,9 @@ function! s:screen.highlight() dict "{{{
 
     for line in getline(20,'$')
         for word in split(line)
-            sil! execute "syn keyword ".word." ".word
+            if word =~# '\<\u\U\+'
+                sil! execute "syn keyword ".word." ".word
+            endif
         endfor
     endfor
 
@@ -3174,7 +3190,7 @@ function! s:load_c16(...) "{{{
     let scheme = s:get_scheme(name,style)
     let s:scheme = scheme
 
-    let [y,i,q] = colorv#hex2yiq(s:scheme.colors[0])[0]
+    let [y,i,q] = colorv#hex2yiq(s:scheme.colors[0])
     if y <= 40  | let s:bgy="dark"
     else        | let s:bgy="light"
     endif
@@ -3197,7 +3213,10 @@ function! s:load_c16(...) "{{{
         endif
     endif
 
-    call s:hi_Tlis(s:term_hl_list)
+    " for sreen/galaxy only
+    call s:gen_base_colors(scheme.colors)
+
+    call s:hi_list(s:term_hl)
 
     if g:galaxy_enable_statusline == 1
         call s:statusline_term16_aug()
