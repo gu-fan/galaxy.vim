@@ -1,9 +1,9 @@
 "=============================================================
 "  Script: Galaxy 
 "    File: colors/galaxy.vim
-" Summary: A colorscheme tries to make colorscheming simpler.
-"  Author: Rykka <Rykka10(at)gmail.com>
-" Last Update: 2012-04-12
+" Summary: A colorscheme to make colorscheming simpler 
+"  Author: Rykka G.Forest <Rykka10(at)gmail.com>
+" Last Update: 2012-05-07
 "=============================================================
 if v:version < 700
     echom "[Galaxy] Stoped as your vim version < 7.0."

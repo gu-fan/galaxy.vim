@@ -1,7 +1,7 @@
 "=============================================================
 "  Script: Galaxy
 "    File: autoload/galaxy.vim
-" Summary: A colorscheme tries to make colorscheming simpler.
+" Summary: A colorscheme to make colorscheming simpler 
 "  Author: Rykka G.Forest <Rykka10(at)gmail.com>
 " License: The MIT Licence
 "          http://www.opensource.org/licenses/mit-license.php
