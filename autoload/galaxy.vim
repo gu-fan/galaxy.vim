@@ -802,7 +802,18 @@ function! s:load_indent_hl_syn() "{{{
 endfunction "}}}
 function! s:indent_hl() "{{{
 " this function should be called everytime when toggle indent hl
-    if exists("s:scheme.style") && s:scheme.style =~? 'Colour'
+    if s:mode == "cterm" && &t_Co<=16
+        let s:indent_hl_list=[
+                    \["galaxyIndent0", "nocolor",  "dif0_t",  "n"     ],
+                    \["galaxyIndent1", "nocolor",  "dif1_t",  "n"     ],
+                    \["galaxyIndent2", "nocolor",  "dif2_t",  "n"     ],
+                    \["galaxyIndent3", "nocolor",  "dif0_t",  "n"     ],
+                    \["galaxyIndent4", "nocolor",  "dif1_t",  "n"     ],
+                    \["galaxyIndent5", "nocolor",  "dif2_t",  "n"     ],
+                    \["galaxyIndent6", "nocolor",  "dif0_t",  "n"     ],
+                    \["galaxyIndent7", "nocolor",  "dif1_t",  "n"     ],
+                    \]
+    elseif exists("s:scheme.style") && s:scheme.style =~? 'Colour'
         let s:indent_hl_list=[
                     \["galaxyIndent0", "nocolor",  "difclr2",  "n"     ],
                     \["galaxyIndent1", "nocolor",  "difclr3",  "n"     ],
@@ -3034,7 +3045,7 @@ function! s:get_scheme(name, style) "{{{
 
     return scheme
 endfunction "}}}
-function! s:load_c255(...) "{{{
+function! s:load(...) "{{{
     let cache = s:take_cache()
     let name  = (a:0 && a:1 !~ '^\s*$') ? a:1 : cache[1]
     let style = (a:0>1 && a:2 !~ '^\s*$') ? a:2 : cache[2]
@@ -3042,7 +3053,7 @@ function! s:load_c255(...) "{{{
     let scheme = s:get_scheme(name,style)
     let s:scheme = scheme
 
-    call s:debug("init:".string(cache)." ".string(scheme))
+    call s:debug("load:".string(cache)." ".string(scheme))
     
     " get lumination and set background
     let [y,i,q] = colorv#hex2yiq(scheme.colors[0])
@@ -3055,16 +3066,40 @@ function! s:load_c255(...) "{{{
     "generate base colors:bgd/fgd/syn/msg/dif
     call s:gen_base_colors(scheme.colors)
 
-    " predefined highlights
-    call s:hi_list(s:default_hl)
-    if g:galaxy_colorful_syntax == 1
-        call s:hi_list(s:syn_hl_1)
+    if s:mode=="cterm" && &t_Co <=16
+        if &t_Co == 16
+            if s:bgy == "dark"
+                call s:set_dark16_var()
+                let s:scheme.Tstyle = "Dark16"
+            else
+                call s:set_light16_var()
+                let s:scheme.Tstyle = "Light16"
+            endif
+        else
+            if s:bgy == "dark"
+                call s:set_dark8_var()
+                let s:scheme.Tstyle = "Dark8"
+            else
+                call s:set_light8_var()
+                let s:scheme.Tstyle = "Light8"
+            endif
+        endif
+        call s:hi_list(s:term_hl)
     else
-        call s:hi_list(s:syn_hl_0)
+        " predefined highlights
+        call s:hi_list(s:default_hl)
+        if g:galaxy_colorful_syntax == 1
+            call s:hi_list(s:syn_hl_1)
+        else
+            call s:hi_list(s:syn_hl_0)
+        endif
+        " predefined scheme style highlights
+        cal s:hi_list(s:hl_styles[scheme.style])
+        if g:galaxy_visual_hl_fg == 1
+            call s:hi_list([["Visual",   "bgdclr1",  "bgdclr9",  "n"     ],
+                        \["VisualNOS",   "bgdclr2",  "bgdclr8",  "n"     ]])
+        endif
     endif
-
-    " predefined scheme style highlights
-    cal s:hi_list(s:hl_styles[scheme.style])
     
     " predefined filetype syntax highlights
     if g:galaxy_load_syn_dict==1
@@ -3074,10 +3109,6 @@ function! s:load_c255(...) "{{{
     endif
     if g:galaxy_load_syn_tuning==1
         call s:syntax_tuning()
-    endif
-    if g:galaxy_visual_hl_fg == 1
-        call s:hi_list([["Visual",   "bgdclr1",  "bgdclr9",  "n"     ],
-                    \["VisualNOS",   "bgdclr2",  "bgdclr8",  "n"     ]])
     endif
     
 
@@ -3109,87 +3140,12 @@ function! s:load_c255(...) "{{{
     endif
 
 endfunction "}}}
-function! s:load_c16(...) "{{{
-    " Only for Terminal 8 and 16
-
-    let cache = s:take_cache()
-    let name = (a:0 && a:1 !~ '^\s*$') ? a:1 : cache[1]
-    let style = (a:0>1 && a:2 !~ '^\s*$') ? a:2 : cache[2]
-    call s:set_option(cache)
-
-    let scheme = s:get_scheme(name,style)
-    let s:scheme = scheme
-
-    let [y,i,q] = colorv#hex2yiq(s:scheme.colors[0])
-    if y <= 40  | let s:bgy="dark"
-    else        | let s:bgy="light"
-    endif
-    
-    if &t_Co == 16
-        if s:bgy == "dark"
-            call s:set_dark16_var()
-            let s:scheme.Tstyle = "Dark16"
-        else
-            call s:set_light16_var()
-            let s:scheme.Tstyle = "Light16"
-        endif
-    else
-        if s:bgy == "dark"
-            call s:set_dark8_var()
-            let s:scheme.Tstyle = "Dark8"
-        else
-            call s:set_light8_var()
-            let s:scheme.Tstyle = "Light8"
-        endif
-    endif
-
-    " for sreen/galaxy only
-    call s:gen_base_colors(scheme.colors)
-
-    call s:hi_list(s:term_hl)
-
-    if g:galaxy_enable_statusline == 1
-        call s:statusline_aug()
-    endif
-
-
-    if g:galaxy_enable_indent_hl == 1
-        call s:indent_hl_aug()
-    endif
-
-    call s:term_cursor()
-
-    if g:galaxy_load_syn_dict==1
-        for list in values(s:synlink_dict) + values(s:syn_hi_term_dict)
-            call s:hi_list(list)
-        endfor
-    endif
-
-    if g:galaxy_load_syn_tuning==1
-        call s:syntax_tuning()
-    endif
-
-    let g:colors_name = "galaxy"
-    let g:galaxy.scheme = s:scheme.name
-
-    call s:retain_cache()
-    if a:0>2 && a:3=="s"
-        "pass
-    else
-        call s:echo( "Scheme:[".s:scheme.name."] Loaded. "
-            \."Style:[".s:scheme.style."].")
-    endif
-endfunction "}}}
 
 function! galaxy#load(...) "{{{
     let name = a:0 ? a:1 : ""
     let style = a:0>1 ? a:2 : ""
     let option = a:0>2 ? a:3 : ""
-    if s:mode=="cterm" && (&t_Co<=16)
-        call s:load_c16(name,style,option)
-    else
-        call s:load_c255(name,style,option)
-    endif
+    call s:load(name,style,option)
 endfunction "}}}
 function! galaxy#next_style() "{{{
     let k = keys(s:hl_styles)
