@@ -6,7 +6,7 @@
 " License: The MIT Licence
 "          http://www.opensource.org/licenses/mit-license.php
 "          Copyright (c) 2011-2012 Rykka.ForestGreen
-" Last Update: 2012-05-06
+" Last Update: 2012-05-07
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim
@@ -474,7 +474,8 @@ let s:default_schemes=[
 let s:intro_lines = 2
 let s:blt_in_lines=len(s:default_schemes)
 " }}}
-" s:term_ "{{{
+" term_ "{{{
+" s:term hl"{{{
 let s:term_hl=[
             \["Normal",         "fgrd_t",  "bgrd_t",  "n"    ],
             \["Cursor",         "fgrd_t",  "bgrd_t",  "r"    ],
@@ -487,9 +488,9 @@ let s:term_hl=[
             \["IncSearch",      "nocolor", "msg1_t",  "n"    ],
             \["Wildmenu",       "msg1_t",  "fgrd_t",  "r"    ],
             \["Pmenu",          "fgrd_t",  "cntr_t",  "n"    ],
-            \["PmenuSel",       "bgrd_t",  "msg1_t",  "n"    ],
+            \["PmenuSel",       "bgrd_t",  "msg1_t",  "b"    ],
             \["PmenuSbar",      "Pmenu"                      ],
-            \["PmenuThumb",     "fgrd_t",  "msg2_t",  "n"    ],
+            \["PmenuThumb",     "fgrd_t",  "cntr_t",  "r"    ],
             \["DiffAdd",        "bgrd_t",  "dif0_t",  "n"    ],
             \["DiffChange",     "bgrd_t",  "dif1_t",  "n"    ],
             \["DiffDelete",     "fgrd_t",  "bgrd_t",  "b"    ],
@@ -515,24 +516,24 @@ let s:term_hl=[
             \["User8",          "fgrd_t",  "msg1_t",  "n"    ],
             \["User9",          "fgrd_t",  "msg2_t",  "n"    ],
             \["User10",         "fgrd_t",  "msg0_t",  "n"    ],
-            \["User11",         "dif2_t",  "fgrd_t",  "n"    ],
-            \["User12",         "dif2_t",  "fgrd_t",  "n"    ],
-            \["User13",         "dif2_t",  "fgrd_t",  "n"    ],
-            \["User14",         "dif2_t",  "fgrd_t",  "n"    ],
-            \["User15",         "dif2_t",  "fgrd_t",  "n"    ],
-            \["User16",         "dif2_t",  "fgrd_t",  "n"    ],
-            \["User17",         "dif2_t",  "fgrd_t",  "n"    ],
-            \["User18",         "dif2_t",  "fgrd_t",  "n"    ],
-            \["User19",         "dif2_t",  "fgrd_t",  "n"    ],
-            \["MoreMsg",        "dif2_t",  "bgrd_t",  "n"    ],
-            \["Question",       "msg1_t",  "bgrd_t",  "n"    ],
-            \["ModeMsg",        "dif0_t",  "bgrd_t",  "n"    ],
+            \["User11",         "dif1_t",  "fgrd_t",  "n"    ],
+            \["User12",         "dif1_t",  "fgrd_t",  "n"    ],
+            \["User13",         "dif1_t",  "fgrd_t",  "n"    ],
+            \["User14",         "dif1_t",  "fgrd_t",  "n"    ],
+            \["User15",         "dif1_t",  "fgrd_t",  "n"    ],
+            \["User16",         "dif1_t",  "fgrd_t",  "n"    ],
+            \["User17",         "dif1_t",  "fgrd_t",  "n"    ],
+            \["User18",         "dif1_t",  "fgrd_t",  "n"    ],
+            \["User19",         "dif1_t",  "fgrd_t",  "n"    ],
             \["MatchParen",     "bgrd_t",  "syn1_t",  "n"    ],
-            \["WarningMsg",     "cntr_t",  "msg1_t",  "n"    ],
+            \["MoreMsg",        "syn0_t",  "bgrd_t",  "r"    ],
+            \["Question",       "syn1_t",  "bgrd_t",  "r"    ],
+            \["ModeMsg",        "syn2_t",  "bgrd_t",  "r"    ],
+            \["WarningMsg",     "msg1_t",  "bgrd_t",  "r"    ],
             \["SpellLocal",     "WarningMsg"                 ],
             \["SpellRare",      "WarningMsg"                 ],
-            \["ErrorMsg",       "fgrd_t",  "msg0_t",  "n"    ],
-            \["Error",          "ErrorMsg"                   ],
+            \["ErrorMsg",       "msg0_t",  "bgrd_t",  "r"    ],
+            \["Error",          "msg0_t",  "bgrd_t",  "b"    ],
             \["SpellBad",       "Error"                      ],
             \["SpellCap",       "SpellBad"                   ],
             \["Todo",           "fgrd_t",  "dif0_t",  "n"    ],
@@ -541,50 +542,46 @@ let s:term_hl=[
             \["Comment",        "cntr_t",  "bgrd_t",  "n"    ],
             \["NonText",        "Comment"                    ],
             \["Ignore",         "Comment"                    ],
-            \["SpecialComment", "syn0_t",  "bgrd_t",  "n"    ],
             \["Underlined",     "udep_t",  "bgrd_t",  "n"    ],
+            \["SpecialComment", "syn0_t",  "bgrd_t",  "n"    ],
             \["Keyword",        "syn0_t",  "bgrd_t",  "b"    ],
             \["Statement",      "syn0_t",  "bgrd_t",  "n"    ],
             \["Conditional",    "Statement"                  ],
             \["Repeat",         "Statement"                  ],
+            \["Label",          "syn0_t",  "bgrd_t",  "b"    ],
             \["Function",       "syn0_t",  "bgrd_t",  "n"    ],
             \["Structure",      "syn0_t",  "bgrd_t",  "b"    ],
-            \["Exception",      "syn2_t",  "bgrd_t",  "r"    ],
+            \["Type",           "syn1_t",  "bgrd_t",  "n"    ],
+            \["Operator",       "Type"                       ],
+            \["Directory",      "Type"                       ],
+            \["Identifier",     "syn1_t",  "bgrd_t",  "n"    ],
+            \["StorageClass",   "Identifier"                 ],
+            \["Constant",       "syn1_t",  "bgrd_t",  "b"    ],
+            \["Boolean",        "syn1_t",  "bgrd_t",  "n"    ],
+            \["Float",          "Boolean"                    ],
+            \["Number",         "Boolean"                    ],
+            \["String",         "syn2_t",  "bgrd_t",  "n"    ],
+            \["Character",      "syn2_t",  "bgrd_t",  "b"    ],
+            \["Exception",      "syn3_t",  "bgrd_t",  "r"    ],
             \["Debug",          "Exception"                  ],
-            \["SpecialChar",    "syn2_t",  "bgrd_t",  "n"    ],
+            \["SpecialChar",    "syn3_t",  "bgrd_t",  "n"    ],
             \["SpecialKey",     "SpecialChar"                ],
             \["Tag",            "SpecialChar"                ],
-            \["PreProc",        "syn2_t",  "bgrd_t",  "n"    ],
-            \["Include",         "PreProc"                   ],
+            \["PreProc",        "syn3_t",  "bgrd_t",  "n"    ],
+            \["Include",        "PreProc"                    ],
             \["Define",         "PreProc"                    ],
             \["Macro",          "PreProc"                    ],
             \["PreCondit",      "PreProc"                    ],
-            \["Special",        "syn2_t",  "bgrd_t",  "n"    ],
+            \["Special",        "syn3_t",  "bgrd_t",  "n"    ],
             \["Delimiter",      "Special"                    ],
-            \["Type",           "syn3_t",  "bgrd_t",  "n"    ],
-            \["Operator",       "Type"                       ],
-            \["Directory",      "Type"                       ],
-            \["Identifier",     "syn3_t",  "bgrd_t",  "n"    ],
-            \["StorageClass",   "Identifier"                 ],
-            \["Constant",       "syn3_t",  "bgrd_t",  "b"    ],
-            \["Boolean",        "syn3_t",  "bgrd_t",  "n"    ],
-            \["Float",          "Boolean"                    ],
-            \["Number",         "Boolean"                    ],
-            \["String",         "syn1_t",  "bgrd_t",  "n"    ],
-            \["Character",      "syn1_t",  "bgrd_t",  "b"    ],
-            \["Label",          "syn1_t",  "bgrd_t",  "r"    ],
             \]
+"}}}
 "bold name
 let s:b8_name=[
             \"DarkGrey","Blue","Green","Cyan","Red","Magenta","Yellow",
             \"White",
 \]
-
 let s:n8_num=[0,4,2,6,1,5,3,7]
-let s:n8_name=[
-            \"Black","DarkBlue","DarkGreen","DarkCyan","DarkRed","DarkMagenta","DarkYellow",
-            \"LightGrey",
-            \]
 function! s:set_light16_var() "{{{
     let s:fgrd_t = "black"
     let s:bgrd_t = "lightgrey"
@@ -621,11 +618,11 @@ function! s:set_light8_var() "{{{
     let s:dif2_t = "darkgreen"
 endfunction "}}}
 function! s:set_dark16_var() "{{{
-    let s:fgrd_t   = "lightgrey"
-    let s:bgrd_t   = "black"
-    let s:cntr_t   = "darkgrey"
-    let s:fdep_t   = "darkgrey"
-    let s:udep_t   = "blue"
+    let s:fgrd_t = "lightgrey"
+    let s:bgrd_t = "black"
+    let s:cntr_t = "darkgrey"
+    let s:fdep_t = "darkgrey"
+    let s:udep_t = "blue"
     let s:syn0_t = "darkcyan"
     let s:syn1_t = "darkgreen"
     let s:syn2_t = "darkyellow"
@@ -951,18 +948,16 @@ function! galaxy#statusline(cur) "{{{
     endif
     return line
 endfunction "}}}
-function! galaxy#update_line(nr) "{{{
-    let &l:stl= '%!galaxy#statusline('.a:nr.')'
-endfunction "}}}
 function! s:statusline_aug() "{{{
-    aug galaxy#winenter
-        au!
-        au! BufWinEnter,WinEnter          * call galaxy#update_line(1)
-        au! WinLeave                      * call galaxy#update_line(0)
-    aug END
 
-    let &stl = '%!galaxy#statusline(0)'
-    call galaxy#update_line(1)
+    set  stl=%!galaxy#statusline(0)
+    setl stl=%!galaxy#statusline(1)
+
+    aug galaxy#win_enter
+        au!
+        au! BufWinEnter,WinEnter          * setl stl=%!galaxy#statusline(1)
+        au! WinLeave                      * set  stl <
+    aug END
 
     if g:galaxy_statusline_hl_insert != 1 
         return
@@ -970,9 +965,9 @@ function! s:statusline_aug() "{{{
 
     let s:list_insert_enter = []
     let s:list_insert_leave = []
-    for item in s:hl_styles[s:scheme.style]
+    let hl_list = (s:mode=="cterm" && &t_Co<=16) ? s:term_hl : s:hl_styles[s:scheme.style]
+    for item in hl_list
         if item[0] =~ '^User\d\+$'
-
             let d = substitute(item[0],'User\(\d\+\)','\1','')
             if d>10
                 continue
@@ -981,112 +976,47 @@ function! s:statusline_aug() "{{{
             endif
 
             let _item = copy(item)
-            if     s:scheme.style =~? 'Classic'
-                if (d>=1 && d<=4) || (d>=6 && d<=9)
-                    let _item[2] = "bgdclr0"
-                    let _item[1] = "msgclr2"
-                elseif d==5 || d==10
-                    let _item[1] = "bgdclr0"
-                    let _item[2] = "msgclr2"
-                endif
-            elseif s:scheme.style =~? 'Colour'
-                if  d>=1 && d<=10
-                    let _item[1] = "bgdclr0"
-                    let _item[2] = "msgclr5"
-                endif
-            elseif s:scheme.style =~? 'Shadow'
-                if  d>=1 && d<=10
-                    let _item[1] = "bgdclr0"
-                    let _item[2] = "msgclr8"
-                endif
+            if s:mode=="cterm" &&  &t_Co <= 16
+                let _item[1] = "bgdr_t"
+                let _item[2] = "msg0_t"
+            else
+                let _item[1] = "bgdclr0"
+                let _item[2] = "msgclr8"
             endif
             call add(s:list_insert_enter,_item)
         endif
     endfor
     
-    " store it for not executing s:hl_list() every time
+    "NOTE: store it for not executing s:hl_list() every time
     let s:hl_cmd_ie = s:hi_list(s:list_insert_enter)
     let s:hl_cmd_il = s:hi_list(s:list_insert_leave)
-    aug galaxy#insertenter
-        au!
-        au InsertEnter * for cmd in s:hl_cmd_ie| exec cmd |endfor
-        au InsertLeave * for cmd in s:hl_cmd_il| exec cmd |endfor
-    aug END
-endfunction "}}}
-function! s:statusline_term16_aug() "{{{
-    aug galaxy#winenter
-        au!
-        au! BufWinEnter,WinEnter          * call galaxy#update_line(1)
-        au! WinLeave                      * call galaxy#update_line(0)
-    aug END
-
-    let &stl = '%!galaxy#statusline(0)'
-    call galaxy#update_line(1)
-    if  g:galaxy_statusline_hl_insert != 1
-        return
-    endif
-    if s:bgy == "dark"
-        let s:list_insert_enter=[
-            \["User1"      , "Red"     , "Blue" , "n" ],
-            \["User2"      , "Magenta" , "Blue" , "n" ],
-            \["User3"      , "Cyan"    , "Blue" , "n" ],
-            \["User4"      , "Green"   , "Blue" , "n" ],
-            \["User5"      , "Blue"    , "Blue" , "n" ],
-            \["User6"      , "Yellow"  , "Blue" , "n" ],
-            \["User7"      , "Gray"    , "Blue" , "n" ],
-            \["User8"      , "Yellow"  , "Blue" , "n" ],
-            \["User9"      , "Yellow"  , "Blue" , "n" ],
-            \]
-    else
-        let s:list_insert_enter=[
-            \["User1"      , "Red"     , "Yellow" , "n" ],
-            \["User2"      , "Magenta" , "Yellow" , "n" ],
-            \["User3"      , "Cyan"    , "Yellow" , "n" ],
-            \["User4"      , "Green"   , "Yellow" , "n" ],
-            \["User5"      , "Blue"    , "Yellow" , "n" ],
-            \["User6"      , "Black"   , "Yellow" , "n" ],
-            \["User7"      , "Blue"    , "Yellow" , "n" ],
-            \["User8"      , "Black"   , "Yellow" , "n" ],
-            \["User9"      , "Black"   , "Yellow" , "n" ],
-            \]
-    endif
-        let s:list_insert_leave =[]
-        for item in s:term_hl
-            if item[0] =~ '^User\d\+$'
-                call add(s:list_insert_leave, item)
-            endif
-        endfor
-
-    let s:hl_cmd_ie =  s:hi_list(s:list_insert_enter)
-    let s:hl_cmd_il =  s:hi_list(s:list_insert_leave)
-    aug galaxy#insertenter
+    aug galaxy#insert_enter
         au!
         au InsertEnter * for cmd in s:hl_cmd_ie| exec cmd |endfor
         au InsertLeave * for cmd in s:hl_cmd_il| exec cmd |endfor
     aug END
 endfunction "}}}
 function! s:term_cursor() "{{{
-    if &t_Co <=16
+    if s:mode== "cterm" && &t_Co <=16
         if s:bgy=="dark"
-            let color_normal="Cyan"
+            let color_normal="LightGrey"
             let color_insert="Red"
         else
-            let color_normal="Darkblue"
-            let color_insert="Darkred"
+            let color_normal="Black"
+            let color_insert="red"
         endif
     else
         let color_normal="#".s:fgdclr_list[1]
         let color_insert="#".s:msgclr_list[0]
     endif
     let color_exit=g:galaxy_tcursor_color
-    "  XXX:
-    "  shell cmd must using shellescape. 
-    "  option could  using no escape.
+    "  XXX:  shell cmd must using shellescape. 
+    "  option could without escape.
     let &t_SI = s:term_ce(color_insert)
     let &t_EI = s:term_ce(color_normal)
+    exe "sil !printf '". s:term_ce(shellescape(color_normal,1)) ."'"
     aug galaxy#term_cursor
         au!
-        exe "au VimEnter * sil !printf '". s:term_ce(shellescape(color_normal,1)) ."'"
         exe "au VimLeave * sil !printf '". s:term_ce(shellescape(color_exit,1)) ."'"
     aug END
 endfunction "}}}
@@ -1243,7 +1173,7 @@ function! s:gen_base_colors(colors) "{{{
             " Hex copy
             let s:h{c}clr{i}  = s:{c}clr{i}
             " convert to term code
-            if !has("gui_running")
+            if s:mode=="cterm"
                 let s:{c}clr{i}  = colorv#hex2term(s:{c}clr{i},"CHECK")
             endif
         endfor
@@ -3018,7 +2948,7 @@ function! s:retain_cache() "{{{
     let syntax = g:galaxy_colorful_syntax ? "More" : "Less"
     let status = g:galaxy_statusline_style
     let indent = g:galaxy_enable_indent_hl ? "On" : "Off"
-    if !has("gui_running")
+    if s:mode=="cterm"
         let s:_cache_term = ["TEM_OPT",name, style,syntax,status,indent ]
     else
         let s:_cache_gui  = ["GUI_OPT",name, style,syntax,status,indent ]
@@ -3056,7 +2986,7 @@ function! galaxy#load_cache() "{{{
         call s:debug("Could not load cache. ".v:exception)
     endtry
 
-    if !has("gui_running")
+    if s:mode=="cterm"
         return s:cache_term
     else
         return s:cache_gui
@@ -3070,7 +3000,7 @@ function! galaxy#save_cache() "{{{
     let indent = g:galaxy_enable_indent_hl ? "On " : "Off"
     let file = expand(g:galaxy_cache_file)
 
-    if !has("gui_running")
+    if s:mode=="cterm"
         let s:cache_term = ["TEM_OPT",name, style,syntax,status,indent ]
     else
         let s:cache_gui  = ["GUI_OPT",name, style,syntax,status,indent ]
@@ -3162,7 +3092,7 @@ function! s:load_c255(...) "{{{
     endif
 
     " restore cursor in term
-    if !has("gui_running")
+    if s:mode=="cterm"
         call s:term_cursor()
     endif
     
@@ -3219,7 +3149,7 @@ function! s:load_c16(...) "{{{
     call s:hi_list(s:term_hl)
 
     if g:galaxy_enable_statusline == 1
-        call s:statusline_term16_aug()
+        call s:statusline_aug()
     endif
 
 
@@ -3255,7 +3185,7 @@ function! galaxy#load(...) "{{{
     let name = a:0 ? a:1 : ""
     let style = a:0>1 ? a:2 : ""
     let option = a:0>2 ? a:3 : ""
-    if !has("gui_running") && (&t_Co<=16)
+    if s:mode=="cterm" && (&t_Co<=16)
         call s:load_c16(name,style,option)
     else
         call s:load_c255(name,style,option)
