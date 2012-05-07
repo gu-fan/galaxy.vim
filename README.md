@@ -29,7 +29,7 @@
 ![Screen Scheme](http://s3.amazonaws.com/imgly_production/4154631/large.png)
     
 
-Post issues at https://github.com/Rykka/vim-galaxy
+Post issues at https://github.com/Rykka/galaxy.vim
 
 ##INSTALL:##
 
@@ -37,8 +37,8 @@ Post issues at https://github.com/Rykka/vim-galaxy
 1. Using Vundle  https://github.com/gmarik/vundle 
 
     Add two lines to your vimrc
-    `Bundle 'Rykka/ColorV'` 
-    `Bundle 'Rykka/vim-galaxy'` 
+    `Bundle 'Rykka/colorv.vim'` 
+    `Bundle 'Rykka/galaxy.vim'` 
 
 2. Using Vim.org http://www.vim.org/scripts/script.php?script_id=3729
 
@@ -48,5 +48,5 @@ Post issues at https://github.com/Rykka/vim-galaxy
 **NOTE**   ColorV required if downloaded from github.
 
 **NOTE**   Get Latest version
-           https://github.com/Rykka/ColorV/
-           https://github.com/Rykka/vim-galaxy/
+           https://github.com/Rykka/colorv.vim/
+           https://github.com/Rykka/galaxy.vim/

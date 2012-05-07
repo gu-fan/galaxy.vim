@@ -48,7 +48,7 @@
         Screen & Scheme  : http://img.ly/hqOb
 
 
-    Post issues at https://github.com/Rykka/vim-galaxy
+    Post issues at https://github.com/Rykka/galaxy.vim
 ------------------------------------------------------------------------------
  1.1 INSTALL                                            *galaxy-install*
 
@@ -56,8 +56,8 @@
 1.Using [Vundle.vim] https://github.com/gmarik/vundle 
 
     Add two lines to your vimrc
-    `Bundle 'Rykka/ColorV'` 
-    `Bundle 'Rykka/vim-galaxy'` 
+    `Bundle 'Rykka/colorv.vim'` 
+    `Bundle 'Rykka/galaxy.vim'` 
  
 2. Using [Vim.org] http://www.vim.org/scripts/script.php?script_id=3729
     
@@ -67,8 +67,8 @@
     NOTE   ColorV required if downloaded from github.
 
     NOTE   Get Latest version
-           ColorV: https://github.com/Rykka/ColorV/
-           Galaxy: https://github.com/Rykka/vim-galaxy/
+           https://github.com/Rykka/colorv.vim/
+           https://github.com/Rykka/galaxy.vim/
  
 ==============================================================================
  1.2 QUICKSTART                                         *galaxy-quickstart*
