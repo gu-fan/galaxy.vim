@@ -6,7 +6,7 @@
 " License: The MIT Licence
 "          http://www.opensource.org/licenses/mit-license.php
 "          Copyright (c) 2011-2012 Rykka.ForestGreen
-" Last Update: 2012-05-07
+" Last Update: 2012-05-13
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim
@@ -1796,7 +1796,7 @@ function! s:valid_name(name) "{{{
     return name
 endfunction "}}}
 function! s:win_setl() "{{{
-    setl winfixwidth noea
+    setl winfixwidth winfixheight noea
     setl nocursorline nocursorcolumn
     setl buftype=nofile bufhidden=delete
     setl nolist noswapfile nobuflisted
@@ -2801,13 +2801,12 @@ function! s:error(msg) "{{{
     echohl Normal
 endfunction "}}}
 function! s:debug(msg) "{{{
-    if g:galaxy_debug!=1
-        return
+    if g:galaxy_debug==1
+        redraw
+        echohl KeyWord
+        echom "[Galaxy Debug] ".escape(a:msg,'"')
+        echohl Normal
     endif
-    redraw
-    echohl Errormsg
-    echom "[Galaxy] ".escape(a:msg,'"')
-    echohl Normal
 endfunction "}}}
 
 function! s:get_cword_pos() "{{{
@@ -2831,7 +2830,6 @@ function! s:get_cWORD_pos() "{{{
     else
         return [f+1, f+len]
     endif
-
 endfunction "}}}
 function! s:line(text,pos) "{{{
     let suf_len= s:line_width-a:pos-len(a:text)+1
