@@ -6,7 +6,7 @@
 " License: The MIT Licence
 "          http://www.opensource.org/licenses/mit-license.php
 "          Copyright (c) 2011-2012 Rykka.ForestGreen
-" Last Update: 2012-05-13
+" Last Update: 2012-05-14
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim
@@ -142,7 +142,7 @@ let s:default_hl=[
             \["Italic",         "nocolor",  "nocolor",  "i"     ],
             \["Bold",           "nocolor",  "nocolor",  "b"     ],
             \["BoldItalic",     "nocolor",  "nocolor",  "ib"    ],
-            \["Underlined",     "nocolor",  "nocolor",  "u"     ],
+            \["Underlined",     "synclr1",  "nocolor",  "u"     ],
             \["Undercurl",      "nocolor",  "nocolor",  "c"     ],
             \["Reverse",        "nocolor",  "nocolor",  "r"     ],
             \["ErrorMsg",       "bgdclr0",  "msgclr0",  "b"     ],
