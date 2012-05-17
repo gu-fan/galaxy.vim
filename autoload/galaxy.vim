@@ -6,7 +6,7 @@
 " License: The MIT Licence
 "          http://www.opensource.org/licenses/mit-license.php
 "          Copyright (c) 2011-2012 Rykka.ForestGreen
-" Last Update: 2012-05-14
+" Last Update: 2012-05-17
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim
@@ -1079,7 +1079,12 @@ function! galaxy#env() "{{{
         endif
     endif
     if g:galaxy_env_fugitive
-        let l = fugitive#statusline()
+        try 
+            " it will throw errors when editing a not init file in a repo
+            let l = fugitive#statusline()
+        catch
+            let l = ""
+        endtry
         if !empty(l)
             let val.= " ".substitute(l, 
                         \'\v.*GIT(:\w+)=\((\w+)\).*','G:[\2\1]','')
