@@ -6,7 +6,7 @@
 " License: The MIT Licence
 "          http://www.opensource.org/licenses/mit-license.php
 "          Copyright (c) 2011-2012 Rykka.ForestGreen
-" Last Update: 2012-05-17
+" Last Update: 2012-05-30
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim
@@ -961,13 +961,13 @@ function! galaxy#statusline(cur) "{{{
 endfunction "}}}
 function! s:statusline_aug() "{{{
 
-    set  stl=%!galaxy#statusline(0)
-    setl stl=%!galaxy#statusline(1)
+    sand set  stl=%!galaxy#statusline(0)
+    sand setl stl=%!galaxy#statusline(1)
 
     aug galaxy#win_enter
         au!
         au! BufWinEnter,WinEnter          * setl stl=%!galaxy#statusline(1)
-        au! WinLeave                      * set  stl <
+        au! WinLeave                      * setl stl <
     aug END
 
     if g:galaxy_statusline_hl_insert != 1 
