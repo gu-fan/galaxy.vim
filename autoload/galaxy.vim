@@ -961,8 +961,8 @@ function! galaxy#statusline(cur) "{{{
 endfunction "}}}
 function! s:statusline_aug() "{{{
 
-    sand set  stl=%!galaxy#statusline(0)
-    sand setl stl=%!galaxy#statusline(1)
+    set  stl=%!galaxy#statusline(0)
+    setl stl=%!galaxy#statusline(1)
 
     aug galaxy#win_enter
         au!
