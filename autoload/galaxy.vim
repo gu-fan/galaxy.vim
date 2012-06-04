@@ -6,7 +6,7 @@
 " License: The MIT Licence
 "          http://www.opensource.org/licenses/mit-license.php
 "          Copyright (c) 2011-2012 Rykka.ForestGreen
-" Last Update: 2012-06-04
+" Last Update: 2012-06-05
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim
@@ -66,7 +66,10 @@ endif
 let s:galaxy  = {}
 let s:galaxy.name  = "_GALAXY_".g:galaxy.version
 
-let s:d_scheme_dict = exists("s:d_scheme_dict") ? s:d_scheme_dict : {}
+if !exists("s:d_scheme_dict")
+    call s:load_default_schemes()
+endif
+
 let s:seq_num = 0
 let s:scheme  = {}
 let s:scheme.name = "White"
