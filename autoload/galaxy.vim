@@ -2002,9 +2002,9 @@ endfunction "}}}
 function! s:set_option(opt) "{{{
     let [ui,name,style,syntax,status,indent] = a:opt
     let g:galaxy_colorful_syntax = syntax=="Less" ? 0 : 1
-    let g:galaxy_statusline_style = status=="Left" ?
-                \"Left"  : status== "Right" ? 
-                \"Right" : "Test"
+    let g:galaxy_statusline_style = status=="Test" ?
+                \"Test"  : status== "Right" ? 
+                \"Right" : "Left"
     let g:galaxy_enable_indent_hl = indent=="On" ? 1 : 0
 endfunction "}}}
 function! s:get_opt_line() "{{{
