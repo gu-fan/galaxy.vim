@@ -66,9 +66,6 @@ endif
 let s:galaxy  = {}
 let s:galaxy.name  = "_GALAXY_".g:galaxy.version
 
-if !exists("s:d_scheme_dict")
-    call s:load_default_schemes()
-endif
 
 let s:seq_num = 0
 let s:scheme  = {}
@@ -1333,6 +1330,9 @@ function! galaxy#win() "{{{
     let lines[1] = s:get_opt_line()   
 
     " Load scheme dicts
+    if !exists("s:d_scheme_dict")
+        call s:load_default_schemes()
+    endif
     cal s:load_file_schemes()
     " Set default first , items(dict) is an unordered list
     for [name, colors] in sort(items(s:d_scheme_dict)) + 
