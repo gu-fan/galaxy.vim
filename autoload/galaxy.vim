@@ -6,7 +6,7 @@
 " License: The MIT Licence
 "          http://www.opensource.org/licenses/mit-license.php
 "          Copyright (c) 2011-2012 Rykka.ForestGreen
-" Last Update: 2012-06-05
+" Last Update: 2012-06-07
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim
@@ -3003,7 +3003,16 @@ function! galaxy#load_cache() "{{{
     catch /^Vim\%((\a\+)\)\=:E/
         call s:debug("Could not load cache. ".v:exception)
     endtry
-
+    " GLOBAL VAR could not used.
+    " because loading galaxy before loading the viminfo?
+    if !exists("g:GALAXY_CACHE")
+        echoe "No cache on LOADING"
+        let g:GALAXY_CACHE = {}
+        let g:GALAXY_CACHE.TERM = ["TEM_OPT","","","","",""]
+        let g:GALAXY_CACHE.GUI  = ["GUI_OPT","","","","",""]
+    endif
+    let s:cache_term = g:GALAXY_CACHE.TERM
+    let s:cache_gui = g:GALAXY_CACHE.GUI
     if s:mode=="cterm"
         return s:cache_term
     else
@@ -3018,11 +3027,23 @@ function! galaxy#save_cache() "{{{
     let indent = g:galaxy_enable_indent_hl ? "On " : "Off"
     let file = expand(g:galaxy_cache_file)
 
+    " if !exists("g:GALAXY_CACHE")
+    "     echoe "No cache on SAVING"
+    "     let g:GALAXY_CACHE = {}
+    "     let g:GALAXY_CACHE.TERM = ["TEM_OPT","","","","",""]
+    "     let g:GALAXY_CACHE.GUI  = ["GUI_OPT","","","","",""]
+    " endif
+
+
     if s:mode=="cterm"
         let s:cache_term = ["TEM_OPT",name, style,syntax,status,indent ]
+        " let g:GALAXY_CACHE.TERM = s:cache_term
     else
         let s:cache_gui  = ["GUI_OPT",name, style,syntax,status,indent ]
+        " let g:GALAXY_CACHE.GUI = s:cache_gui
     endif
+
+
     let lines = [join(s:cache_term,"\t") , join(s:cache_gui,"\t")]
     try
         call writefile(lines, file)
@@ -3161,6 +3182,9 @@ function! galaxy#next_style() "{{{
     call galaxy#load("",l[i+1],"s")
 endfunction "}}}
 function! galaxy#init() "{{{
+    if &viminfo!~'!'
+        set viminfo+=!
+    endif
     call galaxy#load("","","s")
 
     aug galaxy#cache
