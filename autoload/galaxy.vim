@@ -5,7 +5,7 @@
 "  Author: Rykka G.Forest <Rykka10(at)gmail.com>
 " License: The MIT Licence
 "          http://www.opensource.org/licenses/mit-license.php
-"          Copyright (c) 2011-2012 Rykka.ForestGreen
+"          Copyright (c) 2011-2012 Rykka G.Forest
 " Last Update: 2012-06-07
 "=============================================================
 let s:save_cpo = &cpo
