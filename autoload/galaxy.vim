@@ -923,7 +923,7 @@ function! galaxy#statusline(cur) "{{{
         let line.= s:clr(d4,pos)
     elseif a:cur == 1 && g:galaxy_statusline_style == "Right"
         let line.= s:clr(c2,num)
-        let line.= s:clr(l1,pos2)
+        let line.= s:clr(d1,pos2)
         let line.= s:clr(n0,file)
         let line.= s:clr(c1,env)
         let line.= s:clr(c2,stat)
@@ -932,7 +932,7 @@ function! galaxy#statusline(cur) "{{{
         let line.= s:clr(c5,mode)
     elseif a:cur == 0 && g:galaxy_statusline_style == "Right"
         let line.= s:clr(d2,num)
-        let line.= s:clr(l1,pos2)
+        let line.= s:clr(d1,pos2)
         let line.= s:clr(n0,file)
         let line.= s:clr(d1,env)
         let line.= s:clr(d2,stat)
