@@ -6,7 +6,7 @@
 " License: The MIT Licence
 "          http://www.opensource.org/licenses/mit-license.php
 "          Copyright (c) 2011-2012 Rykka.ForestGreen
-" Last Update: 2012-06-05
+" Last Update: 2012-06-07
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim
@@ -884,42 +884,45 @@ function! s:clear_indent_hl() "{{{
 endfunction "}}}
 " STAT"{{{1
 "======================================================================
-function! galaxy#statusline(cur) "{{{
-    let [mode,num,file,env,stat,ro,ft,pos,pos2,mode2] = [
+let s:galaxy.status_str = [
             \'%2{galaxy#mode()} ',  '%3n. ', ' %<%F %= ',
             \'%(%{galaxy#env()} %)', '%(%{galaxy#stat()} %)',
             \'%( %M%R %)',  '%( %Y%( %{galaxy#fflag()}%) %)', 
-            \'%5l,%-3c %P ', '%3p%%%5l,%-3c ', '%2{winnr()} '
+            \'%5l,%-3c %P ', '%5l,%-3c %3p%% ', '%2{winnr()} '
             \]
+let s:galaxy.status_hl = [0,
+            \1 , 2, 3, 4, 5,
+            \6 , 7, 8, 9,10,
+            \11,12,13,14,15,
+            \16,17,18,19,15,
+            \]
+function! galaxy#statusline(cur) "{{{
+    let [mode,num,file,env,stat,ro,ft,pos,pos2,mode2] = s:galaxy.status_str
 
     " num of hl-User*
-    let n0 = 0       
-    let [c1,c2,c3,c4,c5] = [1 , 2, 3, 4, 5]
-    let [m1,m2,m3,m4,m5] = [6 , 7, 8, 9,10]
-    let [l1,l2,l3,l4,l0] = [11,12,13,14,15]
-    let [d1,d2,d3,d4,d0] = [16,17,18,19,15]
+    let [n0,c1,c2,c3,c4,c5,m1,m2,m3,m4,m5,l1,l2,l3,l4,l0, d1,d2,d3,d4,d0]=s:galaxy.status_hl
 
     let line =""
     if     a:cur == 1 && g:galaxy_statusline_style == "Left"
-        let line.= s:clr(m5,mode)
-        let line.= s:clr(m4,num)
-        let line.= s:clr(m3,ft)
+        let line.= s:clr(m3,mode)
+        let line.= s:clr(l1,num)
+        let line.= s:clr(n0,file)
+        let line.= s:clr(m1,ft)
         let line.= s:clr(m2,env)
-        let line.= s:clr(m1,stat)
-        let line.= s:clr(c1,ro)
-        let line.= s:clr(n0,file)
-        let line.= s:clr(l2,pos)
+        let line.= s:clr(m3,stat)
+        let line.= s:clr(m4,ro)
+        let line.= s:clr(d4,pos)
     elseif a:cur == 0 && g:galaxy_statusline_style == "Left"
-        let line.= s:clr(d4,mode2)
-        let line.= s:clr(d3,num)
-        let line.= s:clr(d2,ft)
-        let line.= s:clr(d1,env)
-        let line.= s:clr(d0,stat)
-        let line.= s:clr(d0,ro)
+        let line.= s:clr(d3,mode2)
+        let line.= s:clr(l1,num)
         let line.= s:clr(n0,file)
-        let line.= s:clr(l2,pos)
+        let line.= s:clr(d0,ft)
+        let line.= s:clr(d1,env)
+        let line.= s:clr(d2,stat)
+        let line.= s:clr(d3,ro)
+        let line.= s:clr(d4,pos)
     elseif a:cur == 1 && g:galaxy_statusline_style == "Right"
-        let line.= s:clr(l2,num)
+        let line.= s:clr(c2,num)
         let line.= s:clr(l1,pos2)
         let line.= s:clr(n0,file)
         let line.= s:clr(c1,env)
@@ -928,7 +931,7 @@ function! galaxy#statusline(cur) "{{{
         let line.= s:clr(c4,ft)
         let line.= s:clr(c5,mode)
     elseif a:cur == 0 && g:galaxy_statusline_style == "Right"
-        let line.= s:clr(l2,num)
+        let line.= s:clr(d2,num)
         let line.= s:clr(l1,pos2)
         let line.= s:clr(n0,file)
         let line.= s:clr(d1,env)
