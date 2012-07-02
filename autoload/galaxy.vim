@@ -6,7 +6,7 @@
 " License: The MIT Licence
 "          http://www.opensource.org/licenses/mit-license.php
 "          Copyright (c) 2011-2012 Rykka G.Forest
-" Last Update: 2012-06-07
+" Last Update: 2012-07-03
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim
@@ -160,10 +160,10 @@ let s:default_hl=[
             \["Todo",           "msgclr5",  "bgdclr3",  "b"     ],
             \["Title",          "synclr0",  "nocolor",  "b"     ],
             \["Conceal",        "bgdclr2",  "nocolor",  "n"     ],
-            \["Comment",        "bgdclr6",  "nocolor",  "n"     ],
+            \["Comment",        "bgdclr7",  "nocolor",  "n"     ],
             \["NonText",        "Comment"       ],
             \["Ignore",         "Comment"       ],
-            \["SpecialComment", "bgdclr7",  "nocolor",  "b"     ],
+            \["SpecialComment", "bgdclr8",  "nocolor",  "b"     ],
             \["DiffDelete",     "bgdclr0",  "bgdclr4",  "n"     ],
             \["DiffAdd",        "fgdclr2",  "difclr0",  "n"     ],
             \["DiffChange",     "fgdclr2",  "difclr6",  "n"     ],
@@ -748,6 +748,10 @@ let s:syn_hi_gui_dict.vimwiki2 = [
             \["VimwikiHeader4       ", "synclr6",  "nocolor",  "b" ],
             \["VimwikiHeader5       ", "synclr7",  "nocolor",  "b" ],
             \["VimwikiHeader6       ", "synclr8",  "nocolor",  "b" ],
+            \]
+let s:syn_hi_gui_dict.riv = [
+            \["rstFileLink        ", "synclr8",  "nocolor",  "u" ],
+            \["rstLinkHover       ", "nocolor",  "difclr3",  "u" ],
             \]
 let s:synlink_dict.xml = [
             \["xmlProcessingDelim   ","PreProc       "            ],
@@ -1341,7 +1345,11 @@ function! galaxy#win() "{{{
     for [name, colors] in sort(items(s:d_scheme_dict)) + 
                          \sort(items(s:f_scheme_dict))
         if name == s:scheme.name
-            let lines +=[printf("%-15.15s", name)."    ".join(colors)." <<"]
+            if has("signs")
+                let lines +=[printf("%-15.15s", name)."    ".join(colors)]
+            else
+                let lines +=[printf("%-15.15s", name)."    ".join(colors)." <<"]
+            endif
         else
             let lines +=[printf("%-15.15s", name)."    ".join(colors)]
         endif
@@ -1359,10 +1367,17 @@ function! galaxy#win() "{{{
 
     call galaxy#load("","","s")
     cal s:win_hi()
+    if has("signs")
+        exe "sign place 1 line=1 name=galaxy_sign buffer=".bufnr('')
+    endif
 
     call s:echo(len(s:A_scheme_dict)." schemes loaded."
                     \."Now is [".s:scheme.name."].")
 endfunction "}}}
+if has("signs")
+    sign define galaxy_scheme text=>> texthl=IncSearch
+    sign define galaxy_sign   text=_ 
+endif
 function! s:win_load_scheme() "{{{
     let row=line('.')
     if row <= s:intro_lines
@@ -1370,20 +1385,28 @@ function! s:win_load_scheme() "{{{
     else
         let name = s:name_in_row(row)
         let colors = s:colors_in_row(row)
-        let line = [printf("%-15.15s", name)."    ".join(colors)." <<"]
-        let old_name = s:scheme.name
-        let old_row =  search('\<'.old_name.'\>','w')
-        if old_row
-            let old_colors = s:colors_in_row(old_row)
-            let old_line = [printf("%-15.15s", old_name)."    "
-                        \.join(old_colors)]
+
+        if has("signs")
+            sign unplace 2
+            exe "sign place 2 line=".row." name=galaxy_scheme buffer=".bufnr('')
+        else
+            let line = [printf("%-15.15s", name)."    ".join(colors)." <<"]
+            " remove the '<<' in old line
+            let old_name = s:scheme.name
+            let old_row =  search('\<'.old_name.'\>','w')
+            if old_row
+                let old_colors = s:colors_in_row(old_row)
+                let old_line = [printf("%-15.15s", old_name)."    "
+                            \.join(old_colors)]
+                setl ma
+                call setline(old_row,old_line)
+                setl noma
+            endif
             setl ma
-            call setline(old_row,old_line)
+                call setline(row,line)
             setl noma
         endif
-        setl ma
-            call setline(row,line)
-        setl noma
+
         call galaxy#load(name)
         0 call search('\<'.name.'\>','w')
         
