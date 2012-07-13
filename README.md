@@ -25,8 +25,8 @@
         Normal (Git Dif) : http://img.ly/hqO4
 ![Normal Mode](http://s3.amazonaws.com/imgly_production/4154624/original.png)
 
-        Screen & Scheme  : http://img.ly/hqOb
-![Screen Scheme](http://s3.amazonaws.com/imgly_production/4154631/original.png)
+        Screen : http://img.ly/hqOb
+![Screen Scheme](http://i.minus.com/ibw29hqWVjSNo0.png)
     
 
 Post issues at https://github.com/Rykka/galaxy.vim

@@ -45,7 +45,7 @@
     Some Pictures:~
 
         Normal (Git Dif) : http://img.ly/hqO4
-        Screen & Scheme  : http://img.ly/hqOb
+        Screen : http://minus.com/lbw29hqWVjSNo0
 
 
     Post issues at https://github.com/Rykka/galaxy.vim
