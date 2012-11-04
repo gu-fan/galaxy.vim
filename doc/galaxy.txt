@@ -375,6 +375,10 @@
     By default is 0 , to make the |Visual| section transparent.
 
     Terminal~
+                                                *g:galaxy_term_cursor_hl*
+    'g:galaxy_term_cursor_hl'                    (default: 0)
+    Set to 1 to enable term cursor highlighting
+
                                                 *g:galaxy_tcursor_color*
     'g:galaxy_tcursor_color'                    (default:"DarkGray")
     Set terminal cursor color to it after exit vim.

@@ -6,7 +6,7 @@
 " License: The MIT Licence
 "          http://www.opensource.org/licenses/mit-license.php
 "          Copyright (c) 2011-2012 Rykka G.Forest
-" Last Update: 2012-07-03
+" Last Update: 2012-11-05
 "=============================================================
 let s:save_cpo = &cpo
 set cpo&vim
@@ -24,6 +24,7 @@ function! s:default(option, value) "{{{
     return 1
 endfunction "}}}
 call s:default("g:galaxy_debug",            0)
+call s:default("g:galaxy_term_cursor_hl",   0)
 call s:default("g:galaxy_visual_hl_fg",     1)
 call s:default("g:galaxy_tcursor_color",    "DarkGray")
 
@@ -3156,7 +3157,7 @@ function! s:load(...) "{{{
     endif
 
     " restore cursor in term
-    if s:mode=="cterm"
+    if s:mode=="cterm" && g:galaxy_term_cursor_hl
         call s:term_cursor()
     endif
     
